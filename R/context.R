@@ -31,8 +31,7 @@ context_data_frames <- function() {
 }
 
 context_doc_contents <- function() {
-  ad <- rstudioapi::getActiveDocumentContext()
-  cont <- ad$contents
+  cont <- ide_active_document_contents()
   cont_paste <- paste0(cont, collapse = " \n ")
   paste0("Current code: \n ", cont_paste, "\n ------- \n")
 }

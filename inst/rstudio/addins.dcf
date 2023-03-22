@@ -1,0 +1,5 @@
+Name: tidychat
+Description: Executes the tidy_chat() command
+Binding: new_addin
+Interactive: false
+
