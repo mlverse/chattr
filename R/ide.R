@@ -5,7 +5,7 @@ ide_current <- function() {
 }
 
 ide_paste_text <- function(x) {
-  if(ide_current == "rstudio") {
+  if(ide_current() == "rstudio") {
     rstudioapi::insertText(x)
   }
   invisible()
@@ -13,7 +13,7 @@ ide_paste_text <- function(x) {
 
 ide_active_document_contents <- function() {
   cont <- NULL
-  if(ide_current == "rstudio") {
+  if(ide_current() == "rstudio") {
     ad <- rstudioapi::getActiveDocumentContext()
     cont <- ad$contents
   }
