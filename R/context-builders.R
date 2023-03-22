@@ -13,7 +13,7 @@ context_data_frames <- function() {
 
   dfs <- env_vars[env_dfs]
 
-  if(length(dfs)) {
+  if (length(dfs)) {
     dfs <- dfs %>%
       map_chr(~ {
         fields <- paste(colnames(.x[[1]]), collapse = ", ")
