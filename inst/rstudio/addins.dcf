@@ -3,3 +3,7 @@ Description: Executes the tidy_chat() command
 Binding: tidy_chat
 Interactive: false
 
+Name: prompt
+Description: New Addin Description
+Binding: tidychat_prompt
+Interactive: false

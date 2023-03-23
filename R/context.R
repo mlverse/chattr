@@ -2,8 +2,11 @@ context_data_files <- function() {
   all_files <- fs::dir_ls(recurse = TRUE)
   csv <- all_files[grepl(".csv", all_files)]
   parquet <- all_files[grepl(".parquet", all_files)]
-  ret <- c(csv, parquet)
-  paste("Data files available:", paste(ret, collapse = ", "))
+  files <- c(csv, parquet)
+  ret <- NULL
+  if(length(files)) {
+    ret <- paste("Data files available:", paste(files, collapse = ", "))
+  }
 }
 
 context_data_frames <- function() {
@@ -41,13 +44,24 @@ context_doc_contents <- function(prompt = NULL) {
     if(length(fm_locations) == 2) {
       content <- content[(fm_locations[2] + 1):length(content)]
     }
+
+    #content <- content[content != "```"]
+    #content <- content[!grepl("```\\{", content)]
+
+    #content[content == "```"] <- paste0(content[content == "```"], "\n\n")
+    #content[grepl("```\\{", content)] <- paste0("\n", content[grepl("```\\{", content)])
+
+    content[content == "```"] <- "\n"
+    content[grepl("```\\{", content)] <- "\n"
+
+    content <- content[!grepl("#\\|", content)]
   }
 
   if(is.null(prompt)) {
     ln <- content[length(content)]
     content <- c(
       content[1:(length(content) - 1)],
-      "----",
+      "--------",
       ln
     )
   }
