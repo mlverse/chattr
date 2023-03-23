@@ -1,3 +1,3 @@
 #' @import httr2
-#' @importFrom purrr map_chr map_lgl map
+#' @importFrom purrr map_chr map_lgl map imap
 NULL

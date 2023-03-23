@@ -16,21 +16,26 @@ context_data_frames <- function() {
 
   dfs <- env_vars[env_dfs]
 
+  ret <- NULL
   if (length(dfs)) {
-    dfs <- dfs %>%
-      map_chr(~ {
-        fields <- paste(colnames(.x[[1]]), collapse = ", ")
-        paste(" - Data:", names(.x), ";", "Fields:", fields)
-      }) %>%
-      paste(separator = " \n ") %>%
-      paste(collapse = "") %>%
-      paste0(
-        "Data frames currently in R memory: \n ", .
-      )
-  } else {
-    dfs <- NULL
+    ret <- dfs %>%
+      map(~ {
+        cr <- .x
+
+        fields <- cr[[1]] %>%
+          imap(~ list(field = .y, type = class(.x)[1])) %>%
+          set_names(NULL)
+
+        list(
+          name = names(cr),
+          fields = fields
+        )
+      })
+    ret <- jsonlite::toJSON(list(ret)) %>%
+      paste0("Data frames currently in R memory: \n", .)
   }
-  dfs
+
+  ret
 }
 
 context_doc_contents <- function(prompt = NULL) {
