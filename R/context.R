@@ -33,7 +33,15 @@ context_data_frames <- function() {
 context_doc_contents <- function() {
   cont <- ide_active_document_contents()
   cont_paste <- paste0(cont, collapse = " \n ")
-  paste0("Current code: \n ", cont_paste, "\n ------- \n")
+  paste0("Current code: \n ", cont_paste)
+}
+
+context_doc_last_line <- function() {
+  cont <- ide_active_document_contents()
+  ln <- cont[length(cont)]
+  if(substr(ln, 1, 2) == "# ") ln <- substr(ln, 3, nchar(ln))
+  if(substr(ln, 1, 1) == "#") ln <- substr(ln, 2, nchar(ln))
+  ln
 }
 
 context_loaded_packages <- function() {
