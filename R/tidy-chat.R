@@ -7,7 +7,9 @@ tidy_chat <- function(prompt = NULL) {
     max_tokens = 1000
   )
 
-  ide_paste_text(paste0(comp_text, "\n\n\n"))
+  text_output <- paste0("\n\n", comp_text, "\n\n")
+
+  ide_paste_text(text_output)
 }
 
 #' Previews the prompt
@@ -18,21 +20,13 @@ tidychat_prompt <- function(prompt = NULL) {
 }
 
 build_prompt <- function(prompt = NULL) {
-  doc_contents <- context_doc_contents()
-
-  if(is.null(prompt)) {
-    prompt <- context_doc_last_line()
-  }
-
   c(
     "Use tidyverse, readr, ggplot2, dplyr, tidyr",
     "Expecting only code, no comments please",
-    "If the user requests comments, prefix comments with the pound sign",
+    # "If the user requests comments, prefix comments with the pound sign",
     context_data_files(),
     context_data_frames(),
-    doc_contents
+    context_doc_contents(prompt)
   ) %>%
-    paste0("- ", ., collapse = " \n") %>%
-    paste0("\n---------\n") %>%
-    paste0(prompt)
+    paste0("- ", ., collapse = " \n")
 }

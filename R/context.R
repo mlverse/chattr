@@ -30,9 +30,29 @@ context_data_frames <- function() {
   dfs
 }
 
-context_doc_contents <- function() {
-  cont <- ide_active_document_contents()
-  cont_paste <- paste0(cont, collapse = " \n ")
+context_doc_contents <- function(prompt = NULL) {
+  content <- ide_active_document_contents()
+
+  current_ui <- ui_current()
+
+  if(current_ui == "markdown") {
+    # assuming rmarkdown or quarto removes frontmatter
+    fm_locations <- which(content == "---")
+    if(length(fm_locations) == 2) {
+      content <- content[(fm_locations[2] + 1):length(content)]
+    }
+  }
+
+  if(is.null(prompt)) {
+    ln <- content[length(content)]
+    content <- c(
+      content[1:(length(content) - 1)],
+      "----",
+      ln
+    )
+  }
+
+  cont_paste <- paste0(content, collapse = " \n ")
   paste0("Current code: \n ", cont_paste)
 }
 
