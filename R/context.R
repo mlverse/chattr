@@ -51,16 +51,28 @@ context_doc_contents <- function(prompt = NULL) {
     #content[content == "```"] <- paste0(content[content == "```"], "\n\n")
     #content[grepl("```\\{", content)] <- paste0("\n", content[grepl("```\\{", content)])
 
-    content[content == "```"] <- "\n"
-    content[grepl("```\\{", content)] <- "\n"
+    ln <- content[length(content)]
+
+    # Extracting code only
+    code_tags <- which(grepl("```", content))
+
+    content <- code_tags %>%
+      matrix(nrow = 2) %>%
+      as.data.frame() %>%
+      map(~content[.x[1]:.x[2]]) %>%
+      purrr::flatten() %>%
+      as.character()
 
     content <- content[!grepl("#\\|", content)]
+
+    #content[content == "```"] <- ""
+    #content[grepl("```\\{", content)] <- ""
+
   }
 
   if(is.null(prompt)) {
-    ln <- content[length(content)]
     content <- c(
-      content[1:(length(content) - 1)],
+      content,
       "--------",
       ln
     )

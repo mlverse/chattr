@@ -7,6 +7,12 @@ tidy_chat <- function(prompt = NULL) {
     max_tokens = 1000
   )
 
+  # if(ui_current() == "markdown") {
+  #   comp_text <- paste0(
+  #     "```{r}\n", comp_text, "\n```"
+  #   )
+  # }
+
   text_output <- paste0("\n\n", comp_text, "\n\n")
 
   ide_paste_text(text_output)
@@ -22,8 +28,8 @@ tidychat_prompt <- function(prompt = NULL) {
 build_prompt <- function(prompt = NULL) {
   c(
     "Use tidyverse, readr, ggplot2, dplyr, tidyr",
-    "Expecting only code, no comments please",
-    # "If the user requests comments, prefix comments with the pound sign",
+    "Expecting only code, avoid comments please",
+    "If comments are necessary, prefix comments with the pound sign",
     context_data_files(),
     context_data_frames(),
     context_doc_contents(prompt)
