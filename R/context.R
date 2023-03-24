@@ -1,3 +1,6 @@
+# Functions that retrieve the current values of the environment and document
+# being worked on
+
 context_data_files <- function() {
   all_files <- fs::dir_ls(recurse = TRUE)
   csv <- all_files[grepl(".csv", all_files)]
@@ -32,9 +35,6 @@ context_data_frames <- function() {
       list() %>%
       jsonlite::toJSON() %>%
       paste0("Data frames currently in R memory: \n", .)
-
-    # ret <- jsonlite::toJSON(list(ret)) %>%
-    #  paste0("Data frames currently in R memory: \n", .)
   }
 
   ret
@@ -52,12 +52,6 @@ context_doc_contents <- function(prompt = NULL) {
       content <- content[(fm_locations[2] + 1):length(content)]
     }
 
-    # content <- content[content != "```"]
-    # content <- content[!grepl("```\\{", content)]
-
-    # content[content == "```"] <- paste0(content[content == "```"], "\n\n")
-    # content[grepl("```\\{", content)] <- paste0("\n", content[grepl("```\\{", content)])
-
     ln <- content[length(content)]
 
     # Extracting code only
@@ -72,8 +66,6 @@ context_doc_contents <- function(prompt = NULL) {
 
     content <- content[!grepl("#\\|", content)]
 
-    # content[content == "```"] <- ""
-    # content[grepl("```\\{", content)] <- ""
   }
 
   if (is.null(prompt)) {

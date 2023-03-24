@@ -1,3 +1,6 @@
+# Functions to handle the integration with the different IDE's
+# currently only handles RStudio
+
 ide_current <- function() {
   ret <- NULL
   if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) ret <- "rstudio"
