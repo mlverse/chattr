@@ -4,8 +4,8 @@ context_data_files <- function() {
   parquet <- all_files[grepl(".parquet", all_files)]
   files <- c(csv, parquet)
   ret <- NULL
-  if(length(files)) {
-    ret <- paste("Data files available:", paste(files, collapse = ", "))
+  if (length(files)) {
+    ret <- paste("Data files available:\n", paste(files, collapse = ", "))
   }
 }
 
@@ -20,19 +20,21 @@ context_data_frames <- function() {
   if (length(dfs)) {
     ret <- dfs %>%
       map(~ {
-        cr <- .x
-
-        fields <- cr[[1]] %>%
-          imap(~ list(field = .y, type = class(.x)[1])) %>%
-          set_names(NULL)
+        fields <- .x[[1]] %>%
+          map(~ list(type = class(.x)[1])) %>%
+          set_names(colnames(.x[[1]]))
 
         list(
-          name = names(cr),
+          name = names(.x),
           fields = fields
         )
-      })
-    ret <- jsonlite::toJSON(list(ret)) %>%
+      }) %>%
+      list() %>%
+      jsonlite::toJSON() %>%
       paste0("Data frames currently in R memory: \n", .)
+
+    # ret <- jsonlite::toJSON(list(ret)) %>%
+    #  paste0("Data frames currently in R memory: \n", .)
   }
 
   ret
@@ -43,18 +45,18 @@ context_doc_contents <- function(prompt = NULL) {
 
   current_ui <- ui_current()
 
-  if(current_ui == "markdown") {
+  if (current_ui == "markdown") {
     # assuming rmarkdown or quarto removes frontmatter
     fm_locations <- which(content == "---")
-    if(length(fm_locations) == 2) {
+    if (length(fm_locations) == 2) {
       content <- content[(fm_locations[2] + 1):length(content)]
     }
 
-    #content <- content[content != "```"]
-    #content <- content[!grepl("```\\{", content)]
+    # content <- content[content != "```"]
+    # content <- content[!grepl("```\\{", content)]
 
-    #content[content == "```"] <- paste0(content[content == "```"], "\n\n")
-    #content[grepl("```\\{", content)] <- paste0("\n", content[grepl("```\\{", content)])
+    # content[content == "```"] <- paste0(content[content == "```"], "\n\n")
+    # content[grepl("```\\{", content)] <- paste0("\n", content[grepl("```\\{", content)])
 
     ln <- content[length(content)]
 
@@ -64,18 +66,17 @@ context_doc_contents <- function(prompt = NULL) {
     content <- code_tags %>%
       matrix(nrow = 2) %>%
       as.data.frame() %>%
-      map(~content[.x[1]:.x[2]]) %>%
+      map(~ content[.x[1]:.x[2]]) %>%
       purrr::flatten() %>%
       as.character()
 
     content <- content[!grepl("#\\|", content)]
 
-    #content[content == "```"] <- ""
-    #content[grepl("```\\{", content)] <- ""
-
+    # content[content == "```"] <- ""
+    # content[grepl("```\\{", content)] <- ""
   }
 
-  if(is.null(prompt)) {
+  if (is.null(prompt)) {
     content <- c(
       content,
       "--------",
@@ -90,8 +91,8 @@ context_doc_contents <- function(prompt = NULL) {
 context_doc_last_line <- function() {
   cont <- ide_active_document_contents()
   ln <- cont[length(cont)]
-  if(substr(ln, 1, 2) == "# ") ln <- substr(ln, 3, nchar(ln))
-  if(substr(ln, 1, 1) == "#") ln <- substr(ln, 2, nchar(ln))
+  if (substr(ln, 1, 2) == "# ") ln <- substr(ln, 3, nchar(ln))
+  if (substr(ln, 1, 1) == "#") ln <- substr(ln, 2, nchar(ln))
   ln
 }
 

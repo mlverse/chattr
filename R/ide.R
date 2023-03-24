@@ -1,11 +1,11 @@
 ide_current <- function() {
   ret <- NULL
-  if(!is.na(Sys.getenv("RSTUDIO", unset = NA))) ret <- "rstudio"
+  if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) ret <- "rstudio"
   ret
 }
 
 ide_paste_text <- function(x) {
-  if(ide_current() == "rstudio") {
+  if (ide_current() == "rstudio") {
     rstudioapi::insertText(x)
   }
   invisible()
@@ -13,7 +13,7 @@ ide_paste_text <- function(x) {
 
 ide_active_document_contents <- function() {
   cont <- NULL
-  if(ide_current() == "rstudio") {
+  if (ide_current() == "rstudio") {
     ad <- rstudioapi::getActiveDocumentContext()
     cont <- ad$contents
     cont <- cont[cont != ""]
@@ -21,13 +21,13 @@ ide_active_document_contents <- function() {
   cont
 }
 
-ui_current <- function(){
+ui_current <- function() {
   ret <- NULL
   current_ide <- ide_current()
-  if(current_ide == "rstudio") {
-    if(sys.nframe() > 0) {
+  if (current_ide == "rstudio") {
+    if (sys.nframe() > 0) {
       cont <- ide_active_document_contents()
-      if(cont[1] == "---") {
+      if (cont[1] == "---") {
         ret <- "markdown"
       } else {
         ret <- "script"
@@ -36,4 +36,3 @@ ui_current <- function(){
   }
   ret
 }
-

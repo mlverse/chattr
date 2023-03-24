@@ -1,6 +1,19 @@
-openai_start_request <- function(endpoint) {
-  request(paste0("https://api.openai.com/v1/", endpoint)) %>%
-    req_auth_bearer_token(config::get("key"))
+openai_get_completion <- function(prompt = NULL,
+                                  model = NULL,
+                                  ...) {
+  if(grepl("gpt", model)) {
+    openai_get_chat_completion_text(
+      prompt = prompt,
+      model = model,
+      ... = ...
+    )
+  } else {
+    openai_get_completion(
+      prompt = prompt,
+      model = model,
+      ... = ...
+    )
+  }
 }
 
 openai_get_completion_text <- function(prompt = NULL,
@@ -43,4 +56,9 @@ openai_get_chat_completion_text <- function(prompt = NULL,
     req_perform()
 
   resp_body_json(comp)$choices[[1]]$message$content
+}
+
+openai_start_request <- function(endpoint) {
+  request(paste0("https://api.openai.com/v1/", endpoint)) %>%
+    req_auth_bearer_token(config::get("key"))
 }
