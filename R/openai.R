@@ -52,29 +52,26 @@ openai_get_chat_completion_text <- function(prompt = NULL,
 }
 
 openai_perform <- function(endpoint, req_body) {
-  openai_start_request(enpoint) %>%
+  "https://api.openai.com/v1/" %>%
+    paste0(endpoint) %>%
+    request() %>%
+    req_auth_bearer_token(openai_token()) %>%
     req_body_json(req_body) %>%
     req_perform() %>%
     resp_body_json()
-}
-
-openai_start_request <- function(endpoint) {
-  request(paste0("https://api.openai.com/v1/", endpoint)) %>%
-    req_auth_bearer_token(openai_token())
 }
 
 openai_token <- function() {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
 
   ret <- NULL
-  if(!is.na(env_key)) ret <- env_key
-  if(is.null(ret)) ret <- config::get("open-ai-api-key")
+  if (!is.na(env_key)) ret <- env_key
+  if (is.null(ret)) ret <- config::get("open-ai-api-key")
 
-  if(is.null(ret)) {
+  if (is.null(ret)) {
     stop("No token found
        - Add your key to the \"OPENAI_API_KEY\" environment variable
-       - or - Add  \"open-ai-api-key\" to a `config` YAML file"
-      )
+       - or - Add  \"open-ai-api-key\" to a `config` YAML file")
   }
 
   ret

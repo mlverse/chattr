@@ -44,6 +44,7 @@ context_doc_contents <- function(prompt = NULL) {
   content <- ide_active_document_contents()
 
   current_ui <- ui_current()
+  ret <- NULL
 
   if (current_ui == "markdown") {
     # assuming rmarkdown or quarto removes frontmatter
@@ -54,7 +55,7 @@ context_doc_contents <- function(prompt = NULL) {
 
     ln <- content[length(content)]
 
-    # Extracting code only
+    # Extracting code chunks
     code_tags <- which(grepl("```", content))
 
     content <- code_tags %>%
@@ -66,18 +67,27 @@ context_doc_contents <- function(prompt = NULL) {
 
     content <- content[!grepl("#\\|", content)]
 
+    if (is.null(prompt)) {
+      content <- c(
+        content,
+        "--------",
+        ln
+      )
+    }
+
+    cont_paste <- paste0(content, collapse = " \n ")
+    ret <- paste0("Current code: \n ", cont_paste)
   }
 
-  if (is.null(prompt)) {
-    content <- c(
-      content,
-      "--------",
-      ln
-    )
+  if(current_ui == "console") {
+    ret <- paste0(
+      "Output is for console, do not encase code in code chunks",
+      "\n--------\n",
+      prompt
+      )
   }
 
-  cont_paste <- paste0(content, collapse = " \n ")
-  paste0("Current code: \n ", cont_paste)
+  ret
 }
 
 context_doc_last_line <- function() {

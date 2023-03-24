@@ -23,11 +23,11 @@ tidy_chat <- function(prompt = NULL) {
 #' @param prompt Request to send to LLM. Defaults to NULL
 #' @export
 tidychat_prompt <- function(prompt = NULL) {
-  cat(build_prompt())
+  cat(build_prompt(prompt))
 }
 
 build_prompt <- function(prompt = NULL) {
-  td <- tidychat_get_defaults()
+  td <- tidychat_defaults()
 
   ret <- c(
     td$prompt,
