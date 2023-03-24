@@ -10,7 +10,7 @@ tidy_chat <- function(prompt = NULL) {
   if (td$provider == "openai") {
     comp_text <- openai_get_completion(
       prompt = prompt,
-      model = model,
+      model = td$model,
       max_tokens = 1000
     )
   }
@@ -37,7 +37,10 @@ tidychat_defaults <- function(prompt = NULL,
                               include_doc_contents = NULL,
                               provider = NULL,
                               model = NULL) {
-  if (is.null(model)) {
+
+  td <- tidychat_get_defaults()
+
+  if (is.null(model) & is.null(td$model)) {
     tidychat_use_openai_35_turbo()
   } else {
     tidychat_set_defaults(
@@ -49,6 +52,12 @@ tidychat_defaults <- function(prompt = NULL,
       model = model
     )
   }
+
+  tidychat_get_defaults()
+}
+
+tidychat_get_defaults <- function() {
+  tidychat_env$model_defaults
 }
 
 tidychat_set_defaults <- function(prompt = NULL,
@@ -57,16 +66,17 @@ tidychat_set_defaults <- function(prompt = NULL,
                                   include_doc_contents = NULL,
                                   provider = NULL,
                                   model = NULL) {
-  tidychat_env$model_defaults <- list(
-    prompt = prompt,
-    include_data_files = include_data_files,
-    include_data_frames = include_data_frames,
-    include_doc_contents = include_doc_contents,
-    provider = provider,
-    model = model
-  )
 
-  tidychat_env$model_defaults
+  td <- tidychat_get_defaults()
+
+  tidychat_env$model_defaults <- list(
+    prompt = prompt %||% td$prompt,
+    include_data_files = include_data_files %||% td$include_data_files,
+    include_data_frames = include_data_frames %||% td$include_data_frames,
+    include_doc_contents = include_doc_contents %||% td$include_doc_contents,
+    provider = provider %||% td$provider,
+    model = model %||% td$model
+  )
 }
 
 #' @export
@@ -99,24 +109,15 @@ tidychat_use_openai_davinci_3 <- function() {
   )
 }
 
-build_prompt <- function(prompt = NULL,
-                         additional_prompts = NULL,
-                         include_data_files = NULL,
-                         include_data_frames = NULL,
-                         include_doc_contents = NULL) {
+build_prompt <- function(prompt = NULL) {
 
-  td <- tidychat_defaults()
-
-  additional_prompts <- additional_prompts %||% td$prompt
-  include_data_files <- include_data_files %||% td$include_data_files
-  include_data_frames <- include_data_frames %||% td$include_data_frames
-  include_doc_contents <- include_doc_contents %||% td$include_doc_contents
+  td <- tidychat_get_defaults()
 
   ret <- c(
-    additional_prompts,
-    if(include_data_files) context_data_files(),
-    if(include_data_frames) context_data_frames(),
-    if(include_doc_contents) {
+    td$prompt,
+    if(td$include_data_files) context_data_files(),
+    if(td$include_data_frames) context_data_frames(),
+    if(td$include_doc_contents) {
       context_doc_contents(prompt)
     } else {
       prompt

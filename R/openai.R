@@ -8,7 +8,7 @@ openai_get_completion <- function(prompt = NULL,
       ... = ...
     )
   } else {
-    openai_get_completion(
+    openai_get_completion_text(
       prompt = prompt,
       model = model,
       ... = ...
