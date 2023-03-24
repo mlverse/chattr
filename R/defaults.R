@@ -55,6 +55,7 @@ tidychat_use_openai_35_turbo <- function() {
   tidychat_set_defaults(
     prompt = c(
       "Use tidyverse, readr, ggplot2, dplyr, tidyr",
+      "For models, use tidymodels packages: recipes, parsnip, yardstick, workflows",
       "Expecting only code, avoid comments unless requested by user"
     ),
     include_data_files = TRUE,
