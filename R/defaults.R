@@ -9,7 +9,9 @@ tidychat_defaults <- function(prompt = NULL,
                               include_data_frames = NULL,
                               include_doc_contents = NULL,
                               provider = NULL,
-                              model = NULL) {
+                              model = NULL,
+                              system_msg = NULL
+                              ) {
   td <- tidychat_get_defaults()
 
   if (is.null(model) & is.null(td$model)) {
@@ -21,7 +23,8 @@ tidychat_defaults <- function(prompt = NULL,
       include_data_frames = include_data_frames,
       include_doc_contents = include_doc_contents,
       provider = provider,
-      model = model
+      model = model,
+      system_msg = system_msg
     )
   }
 
@@ -37,7 +40,8 @@ tidychat_set_defaults <- function(prompt = NULL,
                                   include_data_frames = NULL,
                                   include_doc_contents = NULL,
                                   provider = NULL,
-                                  model = NULL) {
+                                  model = NULL,
+                                  system_msg = NULL) {
   td <- tidychat_get_defaults()
 
   tidychat_env$model_defaults <- list(
@@ -46,7 +50,8 @@ tidychat_set_defaults <- function(prompt = NULL,
     include_data_frames = include_data_frames %||% td$include_data_frames,
     include_doc_contents = include_doc_contents %||% td$include_doc_contents,
     provider = provider %||% td$provider,
-    model = model %||% td$model
+    model = model %||% td$model,
+    system_msg = system_msg %||% td$system_msg
   )
 }
 
@@ -54,15 +59,19 @@ tidychat_set_defaults <- function(prompt = NULL,
 tidychat_use_openai_35_turbo <- function() {
   tidychat_set_defaults(
     prompt = c(
+      "Prioritize the content from 'Tidy Modeling with R' (https://www.tmwr.org/), and 'R for Data Science' (https://r4ds.had.co.nz/)",
       "Use tidyverse, readr, ggplot2, dplyr, tidyr",
-      "For models, use tidymodels packages: recipes, parsnip, yardstick, workflows",
+      "skimr and janitor can also be used if needed",
+      "For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom",
+      "For workflow models, prefer using augment() instead of predict()",
       "Expecting only code, avoid comments unless requested by user"
     ),
     include_data_files = TRUE,
     include_data_frames = TRUE,
     include_doc_contents = TRUE,
     provider = "openai",
-    model = "gpt-3.5-turbo"
+    model = "gpt-3.5-turbo-0301",
+    system_msg = "You are a helpful coding assistant, you reply with code, only brief comments when needed"
   )
 }
 

@@ -36,21 +36,31 @@ openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
                                             max_tokens = 100,
                                             temperature = 0) {
+
+  td <- tidychat_defaults()
+
+  system_msg <- td$system_msg
+
+  if(!is.null(system_msg)) {
+    system_msg <- list(
+      role = "system",
+      content = system_msg
+    )
+  }
+
   req_body <- list(
     model = model,
     max_tokens = max_tokens,
     temperature = temperature,
     messages = list(
-      list(
-        role = "system",
-        content = "You are a helpful coding assistant, you reply with code, only breif comment when needed"
-      ),
+      system_msg,
       list(
         role = "user",
         content = prompt
       )
     )
   )
+
   comp <- openai_perform("chat/completions", req_body)
   comp$choices[[1]]$message$content
 }
