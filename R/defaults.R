@@ -15,7 +15,31 @@ tidychat_defaults <- function(prompt = NULL,
   td <- tidychat_get_defaults()
 
   if (is.null(model) & is.null(td$model)) {
-    tidychat_use_openai_35_turbo()
+
+    yaml_file <- "config.yml"
+    if(!file.exists(yaml_file)) yaml_file <- "config.yaml"
+    if(!file.exists(yaml_file)) yaml_file <- NULL
+
+    if(!is.null(yaml_file)) {
+      yaml_defaults <- config::get("tidychat")
+    }
+
+    if(!is.null(yaml_defaults)) {
+      prompt <- yaml_defaults$prompt
+      if(length(prompt) > 0) prompt <- strsplit(prompt, split = "\n")[[1]]
+      tidychat_set_defaults(
+        prompt = prompt,
+        include_data_files = yaml_defaults$include_data_files,
+        include_data_frames = yaml_defaults$include_data_frames,
+        include_doc_contents = yaml_defaults$include_doc_contents,
+        provider = yaml_defaults$provider,
+        model = yaml_defaults$model,
+        system_msg = yaml_defaults$system_msg
+      )
+    } else {
+      tidychat_use_openai_35_turbo()
+    }
+
   } else {
     tidychat_set_defaults(
       prompt = prompt,
