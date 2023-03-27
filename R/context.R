@@ -24,17 +24,30 @@ context_data_frames <- function() {
     ret <- dfs %>%
       map(~ {
         fields <- .x[[1]] %>%
-          map(~ list(type = class(.x)[1])) %>%
-          set_names(colnames(.x[[1]]))
+          imap(~ paste0(.y, " (", class(.x)[1], ")"))
 
-        list(
-          name = names(.x),
-          fields = fields
-        )
+        fields <- paste0("      ", fields, collapse = " \n")
+
+        paste0(" - data.frame: \n   - name: ", names(.x), "\n   - fields:\n", fields)
       }) %>%
-      list() %>%
-      jsonlite::toJSON() %>%
-      paste0("Data frames currently in R memory: \n", .)
+      paste0(collapse = "\n")
+
+    ret <- paste0("Data frames currently in R memory: \n", ret)
+
+    # ret <- dfs %>%
+    #   map(~ {
+    #     fields <- .x[[1]] %>%
+    #       map(~ list(type = class(.x)[1])) %>%
+    #       set_names(colnames(.x[[1]]))
+    #
+    #     list(
+    #       name = names(.x),
+    #       fields = fields
+    #     )
+    #   }) %>%
+    #   list() %>%
+    #   jsonlite::toJSON() %>%
+    #   paste0("Data frames currently in R memory: \n", .)
   }
 
   ret
