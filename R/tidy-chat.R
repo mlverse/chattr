@@ -33,13 +33,16 @@ build_prompt <- function(prompt = NULL) {
     td$prompt,
     if (td$include_data_files) context_data_files(),
     if (td$include_data_frames) context_data_frames(),
-    if (td$include_doc_contents) {
-      context_doc_contents(prompt)
-    } else {
-      prompt
-    }
-  ) %>%
+    if (td$include_doc_contents) context_doc_contents(prompt)
+    ) %>%
     paste0("- ", ., collapse = " \n")
+
+  if(!td$include_doc_contents) {
+    if(is.null(prompt)) {
+      prompt <- context_doc_last_line()
+    }
+    ret <- paste0(ret, "\n ------ \n", prompt)
+  }
 
   ret
 }

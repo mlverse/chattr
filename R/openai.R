@@ -42,6 +42,10 @@ openai_get_chat_completion_text <- function(prompt = NULL,
     temperature = temperature,
     messages = list(
       list(
+        role = "system",
+        content = "You are a helpful coding assistant, you reply with code, only breif comment when needed"
+      ),
+      list(
         role = "user",
         content = prompt
       )

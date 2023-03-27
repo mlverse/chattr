@@ -8,7 +8,7 @@ context_data_files <- function() {
   files <- c(csv, parquet)
   ret <- NULL
   if (length(files)) {
-    ret <- paste("Data files available:\n", paste(files, collapse = ", "))
+    ret <- paste("Data files available: ", paste(files, collapse = ", "))
   }
 }
 
@@ -24,15 +24,16 @@ context_data_frames <- function() {
     ret <- dfs %>%
       map(~ {
         fields <- .x[[1]] %>%
-          imap(~ paste0(.y, " (", class(.x)[1], ")"))
+          imap(~ paste0(.y))
+          #imap(~ paste0(.y, " (", class(.x)[1], ")"))
 
-        fields <- paste0("      ", fields, collapse = " \n")
+        fields <- paste0(fields, collapse = ", ")
 
-        paste0(" - data.frame: \n   - name: ", names(.x), "\n   - fields:\n", fields)
+        paste0("  * ", names(.x), " (", fields, ")")
       }) %>%
-      paste0(collapse = "\n")
+      paste0(collapse = " \n")
 
-    ret <- paste0("Data frames currently in R memory: \n", ret)
+    ret <- paste0("Data frames currently in R memory (and columns): \n", ret)
 
     # ret <- dfs %>%
     #   map(~ {
