@@ -2,44 +2,46 @@
 
 openai_get_completion <- function(prompt = NULL,
                                   model = NULL,
-                                  ...) {
+                                  system_msg = NULL,
+                                  model_arguments = NULL
+                                  ) {
   if (grepl("gpt", model)) {
     openai_get_chat_completion_text(
       prompt = prompt,
       model = model,
-      ... = ...
+      system_msg = system_msg,
+      model_arguments = model_arguments
     )
   } else {
     openai_get_completion_text(
       prompt = prompt,
       model = model,
-      ... = ...
+      model_arguments = model_arguments
     )
   }
 }
 
 openai_get_completion_text <- function(prompt = NULL,
                                        model = "text-davinci-003",
-                                       max_tokens = 100,
-                                       temperature = 0) {
-  req_body <- list(
-    model = model,
-    prompt = prompt,
-    max_tokens = max_tokens,
-    temperature = temperature
-  )
+                                       model_arguments = NULL
+                                       ) {
+  req_body <- c(
+    list(
+      model = model,
+      prompt = prompt
+      ),
+    model_arguments
+    )
+
   comp <- openai_perform("completions", req_body)
   comp$choices[[1]]$text
 }
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            max_tokens = 100,
-                                            temperature = 0) {
-
-  td <- tidychat_defaults()
-
-  system_msg <- td$system_msg
+                                            system_msg = NULL,
+                                            model_arguments = NULL
+                                            ) {
 
   if(!is.null(system_msg)) {
     system_msg <- list(
@@ -48,17 +50,18 @@ openai_get_chat_completion_text <- function(prompt = NULL,
     )
   }
 
-  req_body <- list(
-    model = model,
-    max_tokens = max_tokens,
-    temperature = temperature,
-    messages = list(
-      system_msg,
-      list(
-        role = "user",
-        content = prompt
+  req_body <- c(
+    list(
+      model = model,
+      messages = list(
+        system_msg,
+        list(
+          role = "user",
+          content = prompt
+        )
       )
-    )
+    ),
+    model_arguments
   )
 
   comp <- openai_perform("chat/completions", req_body)
@@ -66,13 +69,17 @@ openai_get_chat_completion_text <- function(prompt = NULL,
 }
 
 openai_perform <- function(endpoint, req_body) {
-  "https://api.openai.com/v1/" %>%
-    paste0(endpoint) %>%
-    request() %>%
-    req_auth_bearer_token(openai_token()) %>%
-    req_body_json(req_body) %>%
-    req_perform() %>%
-    resp_body_json()
+  if(tidychat_debug_get()) {
+    print(req_body)
+  } else {
+    "https://api.openai.com/v1/" %>%
+      paste0(endpoint) %>%
+      request() %>%
+      req_auth_bearer_token(openai_token()) %>%
+      req_body_json(req_body) %>%
+      req_perform() %>%
+      resp_body_json()
+  }
 }
 
 openai_token <- function() {
