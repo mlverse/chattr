@@ -10,7 +10,8 @@ tidy_chat <- function(prompt = NULL) {
     comp_text <- openai_get_completion(
       prompt = prompt,
       model = td$model,
-      system_msg = td$system_msg
+      system_msg = td$system_msg,
+      model_arguments = td$model_arguments
     )
   }
 
@@ -27,8 +28,13 @@ tidychat_prompt <- function(prompt = NULL) {
 }
 
 #' @export
-tidychat_debug_set <- function(debug = FALSE) {
-  tidychat_env$debug = debug
+tidychat_debug_set_true <- function() {
+  tidychat_env$debug <- TRUE
+}
+
+#' @export
+tidychat_debug_set_false <- function() {
+  tidychat_env$debug <- FALSE
 }
 
 #' @export

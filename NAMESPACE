@@ -2,11 +2,10 @@
 
 export(tidy_chat)
 export(tidychat_debug_get)
-export(tidychat_debug_set)
+export(tidychat_debug_set_false)
+export(tidychat_debug_set_true)
 export(tidychat_defaults)
 export(tidychat_prompt)
-export(tidychat_use_openai_35_turbo)
-export(tidychat_use_openai_davinci_3)
 import(httr2)
 importFrom(purrr,imap)
 importFrom(purrr,map)

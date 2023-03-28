@@ -11,7 +11,8 @@ tidychat_defaults <- function(prompt = NULL,
                               provider = NULL,
                               model = NULL,
                               system_msg = NULL,
-                              yaml_file = "config.yml"
+                              yaml_file = "config.yml",
+                              model_arguments = NULL
                               ) {
   td <- tidychat_get_defaults()
   yaml_defaults <- NULL
@@ -24,6 +25,8 @@ tidychat_defaults <- function(prompt = NULL,
 
     yaml_defaults <- config::get("tidychat", file = yaml_file)
 
+    print(paste0("Defaults source: ", yaml_file))
+
     if(!is.null(yaml_defaults)) {
       prompt <- yaml_defaults$prompt
       if(length(prompt) > 0) prompt <- strsplit(prompt, split = "\n")[[1]]
@@ -34,7 +37,8 @@ tidychat_defaults <- function(prompt = NULL,
         include_doc_contents = yaml_defaults$include_doc_contents,
         provider = yaml_defaults$provider,
         model = yaml_defaults$model,
-        system_msg = yaml_defaults$system_msg
+        system_msg = yaml_defaults$system_msg,
+        model_arguments = yaml_defaults$model_arguments
       )
     }
 
@@ -46,7 +50,8 @@ tidychat_defaults <- function(prompt = NULL,
       include_doc_contents = include_doc_contents,
       provider = provider,
       model = model,
-      system_msg = system_msg
+      system_msg = system_msg,
+      model_arguments = model_arguments
     )
   }
 
@@ -63,7 +68,9 @@ tidychat_set_defaults <- function(prompt = NULL,
                                   include_doc_contents = NULL,
                                   provider = NULL,
                                   model = NULL,
-                                  system_msg = NULL) {
+                                  system_msg = NULL,
+                                  model_arguments = NULL
+                                  ) {
   td <- tidychat_get_defaults()
 
   tidychat_env$model_defaults <- list(
@@ -73,41 +80,7 @@ tidychat_set_defaults <- function(prompt = NULL,
     include_doc_contents = include_doc_contents %||% td$include_doc_contents,
     provider = provider %||% td$provider,
     model = model %||% td$model,
-    system_msg = system_msg %||% td$system_msg
-  )
-}
-
-#' @export
-tidychat_use_openai_35_turbo <- function() {
-  tidychat_set_defaults(
-    prompt = c(
-      "Prioritize the content from 'Tidy Modeling with R' (https://www.tmwr.org/), and 'R for Data Science' (https://r4ds.had.co.nz/)",
-      "Use tidyverse, readr, ggplot2, dplyr, tidyr",
-      "skimr and janitor can also be used if needed",
-      "For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom",
-      "For workflow models, prefer using augment() instead of predict()",
-      "Expecting only code, avoid comments unless requested by user"
-    ),
-    include_data_files = TRUE,
-    include_data_frames = TRUE,
-    include_doc_contents = TRUE,
-    provider = "openai",
-    model = "gpt-3.5-turbo-0301",
-    system_msg = "You are a helpful coding assistant, you reply with code, only brief comments when needed"
-  )
-}
-
-#' @export
-tidychat_use_openai_davinci_3 <- function() {
-  tidychat_set_defaults(
-    prompt = c(
-      "Use tidyverse, readr, ggplot2, dplyr, tidyr",
-      "Expecting only code, avoid comments unless requested by user"
-    ),
-    include_data_files = TRUE,
-    include_data_frames = TRUE,
-    include_doc_contents = TRUE,
-    provider = "openai",
-    model = "text-davinci-003"
+    system_msg = system_msg %||% td$system_msg,
+    model_arguments = model_arguments %||% td$model_arguments
   )
 }
