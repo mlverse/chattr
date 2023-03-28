@@ -1,0 +1,101 @@
+---
+title: "Hospitals"
+format: html
+---
+
+```{r}
+#| include: false
+devtools::load_all()
+```
+
+import the counties csv file
+
+ 
+```{r}
+counties <- read.csv("data/county-hospital.csv") 
+```
+ 
+Summarize the data 
+
+```{r}
+summary(counties)
+```
+
+Calculate the mean of the population column 
+
+```{r}
+mean(counties$Population)
+```
+
+create a plot comparing the number of hospitals and population
+
+ in each county 
+
+```{r}
+library(ggplot2)
+ggplot(counties, aes(x = Population, y = Hospitals)) +
+ geom_point() +
+ labs(x = "Population", y = "Hospitals")
+```
+
+create a model the predicts the number of hospitals based on population
+
+ 
+ 
+```{r}
+# create a linear model
+model <- lm(Hospitals ~ Population, data = counties)
+
+# print the model
+model
+
+# plot the model
+ggplot(counties, aes(x = Population, y = Hospitals)) + 
+ geom_point() + 
+ geom_smooth(method = "lm", se = FALSE) +
+ labs(x = "Population", y = "Hospitals")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+tidychat_defaults()$model
+```
+
+
+

@@ -10,19 +10,19 @@ tidychat_defaults <- function(prompt = NULL,
                               include_doc_contents = NULL,
                               provider = NULL,
                               model = NULL,
-                              system_msg = NULL
+                              system_msg = NULL,
+                              yaml_file = "config.yml"
                               ) {
   td <- tidychat_get_defaults()
+  yaml_defaults <- NULL
 
   if (is.null(model) & is.null(td$model)) {
 
-    yaml_file <- "config.yml"
-    if(!file.exists(yaml_file)) yaml_file <- "config.yaml"
-    if(!file.exists(yaml_file)) yaml_file <- NULL
-
-    if(!is.null(yaml_file)) {
-      yaml_defaults <- config::get("tidychat")
+    if(!is.null(yaml_file) & !file.exists(yaml_file)) {
+      yaml_file <- system.file("configs/gpt3.5.yml", package = "tidychat")
     }
+
+    yaml_defaults <- config::get("tidychat", file = yaml_file)
 
     if(!is.null(yaml_defaults)) {
       prompt <- yaml_defaults$prompt
@@ -36,8 +36,6 @@ tidychat_defaults <- function(prompt = NULL,
         model = yaml_defaults$model,
         system_msg = yaml_defaults$system_msg
       )
-    } else {
-      tidychat_use_openai_35_turbo()
     }
 
   } else {

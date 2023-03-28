@@ -1,0 +1,12 @@
+default:
+  tidychat:
+    prompt: |
+      Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
+      Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
+      Expecting only code, avoid comments unless requested by user
+    provider: openai
+    model: gpt-3.5-turbo
+    include_data_files: TRUE
+    include_data_frames: TRUE
+    include_doc_contents: TRUE
+    system_msg: You are a helpful coding assistant, you reply with code, only brief comments when needed

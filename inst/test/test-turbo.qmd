@@ -1,0 +1,55 @@
+---
+title: "Hospitals"
+format: html
+---
+
+```{r}
+#| include: false
+devtools::load_all()
+```
+
+import the counties csv file
+
+```{r}
+library(readr)
+counties <- read_csv("data/county-hospital.csv")
+```
+
+create a plot comparing the number of hospitals and population
+
+```{r}
+library(ggplot2)
+
+ggplot(counties, aes(x = population, y = hospitals)) +
+  geom_point() +
+  labs(x = "Population", y = "Number of Hospitals")
+```
+create a model the predicts the number of hospitals based on population
+
+```{r}
+library(tidymodels)
+
+# Split data into training and testing sets
+set.seed(123)
+county_split <- initial_split(counties, prop = 0.7, strata = "state")
+county_train <- training(county_split)
+county_test <- testing(county_split)
+
+# Create a linear regression model
+lm_spec <- linear_reg() %>% 
+  set_engine("lm")
+
+# Train the model
+lm_fit <- lm_spec %>% 
+  fit(hospitals ~ population, data = county_train)
+
+# Make predictions on the test set
+lm_pred <- predict(lm_fit, county_test)
+
+# Evaluate the model
+rmse(lm_pred, county_test$hospitals)
+```
+
+
+
+

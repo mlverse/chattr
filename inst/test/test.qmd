@@ -1,0 +1,28 @@
+---
+title: "Hospitals"
+format: html
+---
+
+```{r}
+#| include: false
+devtools::load_all()
+#tidychat_defaults()$model
+```
+
+import the counties csv file
+
+```{r}
+library(readr)
+counties <- read_csv("data/county-hospital.csv")
+```
+
+Create a model of hospitals vs population 
+
+```{r}
+library(tidyverse)
+model <- lm(hospitals ~ population, data = counties)
+summary(model)
+```
+
+
+
