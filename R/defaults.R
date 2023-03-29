@@ -38,7 +38,7 @@ tidychat_defaults <- function(prompt = NULL,
   td <- tidychat_get_defaults()
   yaml_defaults <- NULL
 
-  if (is.null(model) & is.null(td$model)) {
+  if (is.null(td$model)) {
     if (!is.null(yaml_file) & !file.exists(yaml_file)) {
       yaml_file <- system.file("configs/gpt3.5.yml", package = "tidychat")
     }
@@ -59,18 +59,18 @@ tidychat_defaults <- function(prompt = NULL,
         model_arguments = yaml_defaults$model_arguments
       )
     }
-  } else {
-    tidychat_set_defaults(
-      prompt = prompt,
-      include_data_files = include_data_files,
-      include_data_frames = include_data_frames,
-      include_doc_contents = include_doc_contents,
-      provider = provider,
-      model = model,
-      system_msg = system_msg,
-      model_arguments = model_arguments
-    )
   }
+
+  tidychat_set_defaults(
+    prompt = prompt,
+    include_data_files = include_data_files,
+    include_data_frames = include_data_frames,
+    include_doc_contents = include_doc_contents,
+    provider = provider,
+    model = model,
+    system_msg = system_msg,
+    model_arguments = model_arguments
+  )
 
   tidychat_get_defaults()
 }
