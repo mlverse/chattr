@@ -3,8 +3,7 @@
 openai_get_completion <- function(prompt = NULL,
                                   model = NULL,
                                   system_msg = NULL,
-                                  model_arguments = NULL
-                                  ) {
+                                  model_arguments = NULL) {
   if (grepl("gpt", model)) {
     openai_get_chat_completion_text(
       prompt = prompt,
@@ -23,15 +22,14 @@ openai_get_completion <- function(prompt = NULL,
 
 openai_get_completion_text <- function(prompt = NULL,
                                        model = "text-davinci-003",
-                                       model_arguments = NULL
-                                       ) {
+                                       model_arguments = NULL) {
   req_body <- c(
     list(
       model = model,
       prompt = prompt
-      ),
+    ),
     model_arguments
-    )
+  )
 
   comp <- openai_perform("completions", req_body)
   comp$choices[[1]]$text
@@ -40,10 +38,8 @@ openai_get_completion_text <- function(prompt = NULL,
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
                                             system_msg = NULL,
-                                            model_arguments = NULL
-                                            ) {
-
-  if(!is.null(system_msg)) {
+                                            model_arguments = NULL) {
+  if (!is.null(system_msg)) {
     system_msg <- list(
       role = "system",
       content = system_msg
@@ -69,7 +65,7 @@ openai_get_chat_completion_text <- function(prompt = NULL,
 }
 
 openai_perform <- function(endpoint, req_body) {
-  if(tidychat_debug_get()) {
+  if (tidychat_debug_get()) {
     print(req_body)
   } else {
     "https://api.openai.com/v1/" %>%

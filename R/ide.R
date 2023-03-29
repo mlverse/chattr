@@ -29,8 +29,8 @@ ui_current <- function() {
   current_ide <- ide_current()
   if (current_ide == "rstudio") {
     cont <- rstudioapi::getActiveDocumentContext()
-    if(cont$id == "#console") ret <- "console"
-    if(is.null(ret)) {
+    if (cont$id == "#console") ret <- "console"
+    if (is.null(ret)) {
       if (cont$contents[1] == "---") {
         ret <- "markdown"
       } else {

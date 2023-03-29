@@ -36,11 +36,11 @@ county_train <- training(county_split)
 county_test <- testing(county_split)
 
 # Create a linear regression model
-lm_spec <- linear_reg() %>% 
+lm_spec <- linear_reg() %>%
   set_engine("lm")
 
 # Train the model
-lm_fit <- lm_spec %>% 
+lm_fit <- lm_spec %>%
   fit(hospitals ~ population, data = county_train)
 
 # Make predictions on the test set

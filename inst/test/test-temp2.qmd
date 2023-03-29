@@ -1,0 +1,65 @@
+---
+title: "Hospitals"
+format: html
+---
+
+This is what happens when you set the temperature to 2 :P
+
+```{r}
+#| include: false
+devtools::load_all()
+tidychat_debug_set_false()
+```
+
+import the counties csv file
+
+```{r}
+library(readr)
+
+counties <- read_csv("data/county-hospital.csv")
+```
+create a model the predicts the number of hospitals based on population
+
+The first step to modeling is to split our data into a training and testing split in order to assess the models fit.
+```{r}
+library(tidymodels)
+                             
+county_split <- initial_split(counties)
+strat_lng_rsmp <- vfold_holdout(
+                           vaccinations_split , 
+                           strata        = "state", 
+                  rat prod(cm_poisd_entvals.vec(ll82_bio_boken.roll_n14_sliceX_60309993923756.rate.nopause.197_PM029.mpeg4_key000021.simple.samz_A_b1FccVL_nAzQMCOkBmblyint.ro_noise_shcropwithfailroll_TS02_RGB)r for TS50 [(gr_ind.hdf5##=164584485764867)#TensorStore<poogle.realm-691-b0upd317AdpmTM:))
+
+county_split_idx <- training(county_split) 
+
+train_energyy_treh tolt pro(ind(nn_textid_onmn_pi_ab.eSQpgki~bidirected.moite_untime.ny..u)]])
+                             
+pd_chi_flat_prep_all_min_sd_bd_wo_fs_cir_values_df249h09.copy(reverse(exprsess=data.framesmpling((stripss=s.test(behn.dm_aikeyoneMMsrblk[[dom.wrqjqbig86)cnum(C30:MClWhfng(WW8$k.b@ty(L7:=stmmhripseq011.lobase1 bgi.Gould.et.oneinn[bault(U,T=p_NIp.dpnbRe_sub, FkeepX_feems_file.widthly=((adj/flemintligbl(J)]])) total=dataam.notnan"))
+
+-test_pake_y_va=enmedianphers[
+predict(groups.da.fpisdmin<in[C.Sote(L(RISCTNMFIX.loc v doil.chicollowielions_Q(T0[nive}] groups{xrange =.-3...])*321/[90yr_ref_se=.filer.mulund))
+distribution.group_height(QDCC18k.+ini_if_dictud_ur_rrisedser.gr(gollnc(imargintsetuptro]])
+
+refresh(type.[59(row24,len(Loup.
+mer=tate(interpline==below7mm(non_peduler_ut.st(drop(pointme49])), matrix=r(with(urps_train))[Un).
+adsling_inc(Gema)][[935testati.pasedpc], 84 tElat_pa_dev_o_p)_RR[Ga_dem_trans(LWh);
+bd.seqW|om8)$color)]
+dir.stcconfwh-lf/delta==casdate.time_direct(invutyy))
+ads_np_id(O_pr_des)-k(k:k+n_pro))
+roads.ad_ac_res_contrseq_gem_node[x+s*r])++)
+scaled_center -- scaling_T)] --> gm = tree_group("252fhI248n6FTjUlvEp04MBVxpme371ScrictionAwk#")+sigrok(gen_ext(agenth.238.rNAFPur_of_minfind_mark],jrao.tr_control.__modules(sd_phy(df)cvsed))))
+
+                         
+node26_axkpjWucjl8_AIvjeOAhe9_xt_matrix_CR39_WxrVA_mxGRqd.dp41.NzoohRTtmBCmq_base(input(induc(br((MMvqycblac6,kDoaukaek=h/20))->me.top(fome_fn(input_forcentices_su.VEE(ligra_log_rit_t_of_fieldX.waecpr)))=eneoneLys=max2[e-floomillog_ex(pre
+#[f))(((chrose.eval(dest(unin(row-st_f1t_sup,carcon(ibaj].quan=true,hident,predis.to(gr_imageslim32
+5,102783:+EM790,taheth.mu)),boild_biny(exthon.finsiso-*(wen_rowlymos(wfp_[peakPl_memtin(p_c_asclamain.filinqtgor_finale_stats))).hap_formind_pr_grical(nc=True)$min)){
+cale(score_clean_select=output_boost(tempushommon_avgcal.median,on(.aphgnit.matrix_sepness@39"trx_me'ne-x),( = ])
+ynaged48<-50.flerist34_eq.arbvH_sk_geneierax_saust(index(nxresh,G_netlc()))
+tau_JNF_adr_gttd_midge_sc_zoom.mu(out.$rndref & GP.extant_optrep.lmag_numST.valuesmap=old_image[yseqdf(cor(ts_rank(gp_del_stead(in[,fa(di=cashrambk=-qi_lantyy],mn(pl_den=max39__EtDTKDsiwp+FF022173lmics_apprix_acc-T('ansvec_libmot)));
+tau38v_adjust_sp_emp_f(loc_wfker_abinv)),(
+                           allow  which(~                      non.over.to.sep.en 
+transmission(nmes_control,"LinStrategic")qui.x]=rep(slkinctrl_cont(trainlr_fu.sort_ret.linearea([[59",]])
+qty.k(h)
+wn
+
+

@@ -25,7 +25,7 @@ context_data_frames <- function() {
       map(~ {
         fields <- .x[[1]] %>%
           imap(~ paste0(.y))
-          #imap(~ paste0(.y, " (", class(.x)[1], ")"))
+        # imap(~ paste0(.y, " (", class(.x)[1], ")"))
 
         fields <- paste0(fields, collapse = ", ")
 
@@ -34,21 +34,6 @@ context_data_frames <- function() {
       paste0(collapse = " \n")
 
     ret <- paste0("Data frames currently in R memory (and columns): \n", ret)
-
-    # ret <- dfs %>%
-    #   map(~ {
-    #     fields <- .x[[1]] %>%
-    #       map(~ list(type = class(.x)[1])) %>%
-    #       set_names(colnames(.x[[1]]))
-    #
-    #     list(
-    #       name = names(.x),
-    #       fields = fields
-    #     )
-    #   }) %>%
-    #   list() %>%
-    #   jsonlite::toJSON() %>%
-    #   paste0("Data frames currently in R memory: \n", .)
   }
 
   ret
@@ -93,12 +78,12 @@ context_doc_contents <- function(prompt = NULL) {
     ret <- paste0("Current code: \n ", cont_paste)
   }
 
-  if(current_ui == "console") {
+  if (current_ui == "console") {
     ret <- paste0(
       "Output is for console, do not encase code in code chunks",
       "\n--------\n",
       prompt
-      )
+    )
   }
 
   ret

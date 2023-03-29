@@ -20,30 +20,6 @@ tidy_chat <- function(prompt = NULL) {
   ide_paste_text(text_output)
 }
 
-#' Previews the prompt
-#' @param prompt Request to send to LLM. Defaults to NULL
-#' @export
-tidychat_prompt <- function(prompt = NULL) {
-  cat(build_prompt(prompt))
-}
-
-#' @export
-tidychat_debug_set_true <- function() {
-  tidychat_env$debug <- TRUE
-}
-
-#' @export
-tidychat_debug_set_false <- function() {
-  tidychat_env$debug <- FALSE
-}
-
-#' @export
-tidychat_debug_get <- function() {
-  debug <- tidychat_env$debug
-  if(is.null(debug)) debug <- FALSE
-  tidychat_env$debug <- debug
-  debug
-}
 
 build_prompt <- function(prompt = NULL) {
   td <- tidychat_defaults()
@@ -53,11 +29,12 @@ build_prompt <- function(prompt = NULL) {
     if (td$include_data_files) context_data_files(),
     if (td$include_data_frames) context_data_frames(),
     if (td$include_doc_contents) context_doc_contents(prompt)
-    ) %>%
-    paste0("- ", ., collapse = " \n")
+  )
 
-  if(!td$include_doc_contents) {
-    if(is.null(prompt)) {
+  ret <- paste0("- ", ret, collapse = " \n")
+
+  if (!td$include_doc_contents) {
+    if (is.null(prompt)) {
       prompt <- context_doc_last_line()
     }
     ret <- paste0(ret, "\n ------ \n", prompt)

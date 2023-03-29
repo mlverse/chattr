@@ -3,6 +3,7 @@ title: "Hospitals"
 format: html
 ---
 
+
 ```{r}
 #| include: false
 devtools::load_all()
@@ -16,7 +17,9 @@ library(readr)
 
 counties <- read_csv("data/county-hospital.csv")
 ```
+
 create a model the predicts the number of hospitals based on population
+
 
 ```{r}
 library(tidymodels)
@@ -43,24 +46,19 @@ county_wf <- workflow() %>%
   add_model(county_lm)
 
 # Train the model on the training data
-county_fit <- county_wf %>% 
+county_fit <- county_wf %>%
   fit(data = county_train)
 
 # Make predictions on the testing data
-county_pred <- county_fit %>% 
-  predict(new_data = county_test)
+county_pred <- county_fit %>%
+  augment(new_data = county_test)
 
 # Evaluate the model's performance
-county_rmse <- county_pred %>% 
-  metrics(truth = hospitals, estimate = .pred) %>% 
+county_rmse <- county_pred %>%
+  metrics(truth = hospitals, estimate = .pred) %>%
   filter(.metric == "rmse")
 
 county_rmse
 ```
 ```
-
-
-
-
-
 

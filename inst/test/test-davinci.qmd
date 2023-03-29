@@ -12,7 +12,7 @@ import the counties csv file
 
  
 ```{r}
-counties <- read.csv("data/county-hospital.csv") 
+counties <- read.csv("data/county-hospital.csv")
 ```
  
 Summarize the data 
@@ -34,8 +34,8 @@ create a plot comparing the number of hospitals and population
 ```{r}
 library(ggplot2)
 ggplot(counties, aes(x = Population, y = Hospitals)) +
- geom_point() +
- labs(x = "Population", y = "Hospitals")
+  geom_point() +
+  labs(x = "Population", y = "Hospitals")
 ```
 
 create a model the predicts the number of hospitals based on population
@@ -50,10 +50,10 @@ model <- lm(Hospitals ~ Population, data = counties)
 model
 
 # plot the model
-ggplot(counties, aes(x = Population, y = Hospitals)) + 
- geom_point() + 
- geom_smooth(method = "lm", se = FALSE) +
- labs(x = "Population", y = "Hospitals")
+ggplot(counties, aes(x = Population, y = Hospitals)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Population", y = "Hospitals")
 ```
 
 
