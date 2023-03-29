@@ -35,18 +35,4 @@ remotes::install_github("edgararuiz/tidychat")
 
 ## Use
 
-At this time, development has been focused on using LLM with a Quarto document. 
-To best use try the current mechanics out, install the `tidychat`, and then bind 
-the **Execute Prompt** addin (included in `tidychat`) to an available key shortcut.
-
-```{r}
-library(tidychat)
-```
-
-In a Quarto document, you can write the prompt to the LLM as a regular line. When
-the addin is executed, `tidychat` assumes that the last line in the document is
-the desired prompt, and will construct the final prompt as that.
-
-
-
-
+Please refer to the video I shared on Slack to see how to use it.

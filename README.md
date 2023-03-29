@@ -34,41 +34,4 @@ remotes::install_github("edgararuiz/tidychat")
 
 ## Use
 
-At this time, development has been focused on using LLM with a Quarto
-document. To best use try the current mechanics out, install the
-`tidychat`, and then bind the **Execute Prompt** addin (included in
-`tidychat`) to an available key shortcut.
-
-``` r
-library(tidychat)
-```
-
-In a Quarto document, you can write the prompt to the LLM as a regular
-line. When the addin is executed, `tidychat` assumes that the last line
-in the document is the desired prompt, and will construct the final
-prompt as that.
-
-For example, this is the last line in this document
-
-``` markdown
-- Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference 
-- Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference 
-- Use tidyverse packages: readr, ggplot2, dplyr, tidyr 
-- skimr and janitor can also be used if needed 
-- For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom 
-- Expecting only code, avoid comments unless requested by user 
-- Data files available:  inst/test/data/county-hospital.csv 
-- Current code: 
- ```{r} 
- remotes::install_github("edgararuiz/tidychat") 
-```
-
-```` markdown
-```{r}
-library(tidychat) 
-```
-````
-
-------------------------------------------------------------------------
-
-For example, this is the last line in this document \`\`\`
+Please refer to the video I shared on Slack to see how to use it.
