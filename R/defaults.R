@@ -45,8 +45,6 @@ tidychat_defaults <- function(prompt = NULL,
 
     yaml_defaults <- config::get("tidychat", file = yaml_file)
 
-    print(paste0("Defaults source: ", yaml_file))
-
     if (!is.null(yaml_defaults)) {
       prompt <- yaml_defaults$prompt
       if (length(prompt) > 0) prompt <- strsplit(prompt, split = "\n")[[1]]

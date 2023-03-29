@@ -1,9 +1,9 @@
-Name: tidychat
-Description: Executes the tidy_chat() command
+Name: Execute prompt
+Description: Sends the prompt to the LLM
 Binding: tidy_chat
 Interactive: false
 
-Name: prompt
-Description: New Addin Description
+Name: Preview prompt
+Description: Displays the prompt without being sent to the LLM
 Binding: tidychat_prompt
 Interactive: false
