@@ -1,10 +1,8 @@
 tidychat_use_nomicai_gpt3 <- function() {
-  gpt_location <- fs::path_expand("~/gpt4all/chat")
-  terminal_start()
-  Sys.sleep(1)
-  terminal_send(paste0("cd ", gpt_location))
-  Sys.sleep(1)
-  terminal_send(paste0("./", gpt_exec()))
+  tidychat_defaults(
+    yaml_file = system.file("configs/nomic.yml", package = "tidychat")
+  )
+  gpt_start()
 }
 
 nomicai_chat <- function(prompt = NULL) {
@@ -14,6 +12,20 @@ nomicai_chat <- function(prompt = NULL) {
   } else {
     stop("Model does not seem to be running in terminal yet")
   }
+}
+
+gpt_start <- function() {
+  gpt_location <- fs::path_expand("~/gpt4all/chat")
+  terminal_start()
+  Sys.sleep(1)
+  terminal_send(paste0("cd ", gpt_location))
+  Sys.sleep(1)
+  terminal_send(paste0("./", gpt_exec(), " --temp 0.01"))
+  Sys.sleep(6)
+  nomicai_chat("* Use tidyverse packages: readr, ggplot2, dplyr, tidyr")
+  nomicai_chat("* Avoid additional comments unless necessary, expecting code only")
+  nomicai_chat("* Return all code responses inside RMarkdown code chunks")
+  Sys.sleep(1)
 }
 
 gpt_exec <- function() {

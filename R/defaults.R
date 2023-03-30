@@ -38,7 +38,7 @@ tidychat_defaults <- function(prompt = NULL,
   td <- tidychat_get_defaults()
   yaml_defaults <- NULL
 
-  if (is.null(td$model)) {
+  if (is.null(td$provider)) {
     if (!is.null(yaml_file) & !file.exists(yaml_file)) {
       yaml_file <- system.file("configs/gpt3.5.yml", package = "tidychat")
     }

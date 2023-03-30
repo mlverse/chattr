@@ -4,18 +4,26 @@
 tidy_chat <- function(prompt = NULL) {
   td <- tidychat_defaults()
 
-  prompt <- build_prompt(prompt)
-
   if (td$provider == "openai") {
+    prompt <- build_prompt(prompt)
     comp_text <- openai_get_completion(
       prompt = prompt,
       model = td$model,
       system_msg = td$system_msg,
       model_arguments = td$model_arguments
     )
+
+    text_output <- paste0("\n\n", comp_text, "\n\n")
   }
 
-  text_output <- paste0("\n\n", comp_text, "\n\n")
+  if (td$provider == "nomicai") {
+    if(is.null(prompt)) prompt <-  context_doc_last_line()
+    text_output <- nomicai_chat(
+      prompt = prompt
+    )
+  }
+
+
 
   ide_paste_text(text_output)
 }

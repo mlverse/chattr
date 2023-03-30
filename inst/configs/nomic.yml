@@ -1,0 +1,8 @@
+default:
+  tidychat:
+    prompt: |
+      Avoid additional comments unless necessary, expecting code only
+    provider: nomicai
+    include_data_files: FALSE
+    include_data_frames: FALSE
+    include_doc_contents: FALSE
