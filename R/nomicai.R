@@ -7,6 +7,15 @@ tidychat_use_nomicai_gpt3 <- function() {
   terminal_send(paste0("./", gpt_exec()))
 }
 
+nomicai_chat <- function(prompt = NULL) {
+  if(!is.null(tidychat_env$terminal_id)) {
+    terminal_send(prompt)
+    gpt_wait_last()
+  } else {
+    stop("Model does not seem to be running in terminal yet")
+  }
+}
+
 gpt_exec <- function() {
 
   si <- Sys.info()
@@ -38,4 +47,25 @@ terminal_contents <- function() {
 
 terminal_end <- function() {
   rstudioapi::terminalKill(tidychat_env$terminal_id)
+}
+
+gpt_last_output <- function() {
+  tc <- terminal_contents()
+  is_prompt <- substr(tc, 1, 2) == "> "
+  responses <- tc[!is_prompt]
+  responses[length(responses)]
+}
+
+last_line_prompt <- function() {
+  tc <- terminal_contents()
+  prompts <- which(substr(tc, 1, 2) == "> ")
+  last_prompt <- max(prompts)
+  length(tc) == last_prompt
+}
+
+gpt_wait_last <- function(timeout = 100) {
+  for(i in 1:100) {
+    Sys.sleep(1)
+    if(last_line_prompt()) return(gpt_last_output())
+  }
 }
