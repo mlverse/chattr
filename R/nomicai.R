@@ -51,9 +51,10 @@ terminal_end <- function() {
 
 gpt_last_output <- function() {
   tc <- terminal_contents()
-  is_prompt <- substr(tc, 1, 2) == "> "
-  responses <- tc[!is_prompt]
-  responses[length(responses)]
+  prompts <- which(substr(tc, 1, 2) == "> ")
+  start <- prompts[length(prompts) - 1] + 1
+  end <- prompts[length(prompts)] - 1
+  tc[start:end]
 }
 
 last_line_prompt <- function() {
