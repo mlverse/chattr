@@ -6,7 +6,7 @@ tidychat_use_nomicai_gpt3 <- function() {
 }
 
 nomicai_chat <- function(prompt = NULL) {
-  if(!is.null(tidychat_env$terminal_id)) {
+  if (!is.null(tidychat_env$terminal_id)) {
     terminal_send(prompt)
     gpt_wait_last()
   } else {
@@ -29,12 +29,11 @@ gpt_start <- function() {
 }
 
 gpt_exec <- function() {
-
   si <- Sys.info()
   sysname <- si[names(si) == "sysname"]
   machine <- si[names(si) == "machine"]
   exec_name <- NULL
-  if(sysname == "Darwin" & machine == "arm64") {
+  if (sysname == "Darwin" & machine == "arm64") {
     exec_name <- "gpt4all-lora-quantized-OSX-m1"
   }
   exec_name
@@ -44,7 +43,7 @@ terminal_start <- function() {
   tidychat_env$terminal_id <- rstudioapi::terminalCreate()
 }
 
-terminal_send<- function(x) {
+terminal_send <- function(x) {
   x <- paste0(x, "\n")
   rstudioapi::terminalSend(tidychat_env$terminal_id, x)
 }
@@ -52,9 +51,9 @@ terminal_send<- function(x) {
 terminal_contents <- function() {
   cb <- rstudioapi::terminalBuffer(tidychat_env$terminal_id)
 
-  cb_start <- which(cb == " - If you want to submit another line, end your input in '\\'." )
+  cb_start <- which(cb == " - If you want to submit another line, end your input in '\\'.")
 
-  cb[(cb_start+2):length(cb)]
+  cb[(cb_start + 2):length(cb)]
 }
 
 terminal_end <- function() {
@@ -77,8 +76,10 @@ last_line_prompt <- function() {
 }
 
 gpt_wait_last <- function(timeout = 100) {
-  for(i in 1:100) {
+  for (i in 1:100) {
     Sys.sleep(1)
-    if(last_line_prompt()) return(gpt_last_output())
+    if (last_line_prompt()) {
+      return(gpt_last_output())
+    }
   }
 }
