@@ -36,10 +36,7 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            model_arguments = NULL
-                                            ) {
-
-
+                                            model_arguments = NULL) {
   req_body <- c(
     list(
       model = model,

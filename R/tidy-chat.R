@@ -7,7 +7,7 @@ tidy_chat <- function(prompt = NULL) {
   if (td$provider == "openai") {
     full_prompt <- build_prompt(prompt)
     comp_text <- openai_get_completion(
-      prompt = full_prompt$prompt2,
+      prompt = full_prompt$full,
       model = td$model,
       system_msg = td$system_msg,
       model_arguments = td$model_arguments
@@ -33,7 +33,7 @@ tidy_chat <- function(prompt = NULL) {
 }
 
 
-build_prompt <- function(prompt = NULL, use_current_mode = FALSE) {
+build_prompt <- function(prompt = NULL, use_current_mode = TRUE) {
   td <- tidychat_defaults()
 
   if (is.null(prompt)) {
@@ -57,7 +57,7 @@ build_prompt <- function(prompt = NULL, use_current_mode = FALSE) {
     header <- paste0(header, "\n ------ \n", prompt)
   }
 
-  if(use_current_mode) {
+  if (use_current_mode) {
     full <- c(
       system_msg,
       tidychat_env$openai_history,

@@ -65,7 +65,7 @@ context_doc_contents <- function(prompt = NULL) {
 
     content <- content[!grepl("#\\|", content)]
 
-    if (is.null(prompt)) {
+    if (prompt == ln) {
       content <- c(
         content,
         "--------",
