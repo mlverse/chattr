@@ -8,7 +8,6 @@ openai_get_completion <- function(prompt = NULL,
     openai_get_chat_completion_text(
       prompt = prompt,
       model = model,
-      system_msg = system_msg,
       model_arguments = model_arguments
     )
   } else {
@@ -37,25 +36,14 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            system_msg = NULL,
-                                            model_arguments = NULL) {
-  if (!is.null(system_msg)) {
-    system_msg <- list(
-      role = "system",
-      content = system_msg
-    )
-  }
+                                            model_arguments = NULL
+                                            ) {
+
 
   req_body <- c(
     list(
       model = model,
-      messages = list(
-        system_msg,
-        list(
-          role = "user",
-          content = prompt
-        )
-      )
+      messages = prompt
     ),
     model_arguments
   )

@@ -3,7 +3,7 @@
 #' @inheritParams tidy_chat
 #' @export
 tidychat_prompt <- function(prompt = NULL) {
-  cat(build_prompt(prompt))
+  cat(build_prompt(prompt)$prompt2)
 }
 
 #' @rdname tidychat_prompt

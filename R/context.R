@@ -25,7 +25,6 @@ context_data_frames <- function() {
       map(~ {
         fields <- .x[[1]] %>%
           imap(~ paste0(.y))
-        # imap(~ paste0(.y, " (", class(.x)[1], ")"))
 
         fields <- paste0(fields, collapse = ", ")
 
