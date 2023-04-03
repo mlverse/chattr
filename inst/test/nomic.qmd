@@ -1,0 +1,12 @@
+---
+title: "Hospitals"
+format: html
+---
+
+
+```{r}
+#| include: false
+devtools::load_all()
+tidychat_use_nomicai_gpt3()
+```
+
