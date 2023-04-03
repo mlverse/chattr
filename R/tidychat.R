@@ -3,7 +3,12 @@
 #' @inheritParams tidy_chat
 #' @export
 tidychat_prompt <- function(prompt = NULL) {
-  cat(build_prompt(prompt)$prompt2)
+  full <- build_prompt(prompt)$full
+  if(is.list(full)) {
+    print(full)
+  } else {
+    cat(full)
+  }
 }
 
 #' @rdname tidychat_prompt
