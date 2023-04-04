@@ -8,4 +8,20 @@ format: html
 devtools::load_all()
 ```
 
-import the counties csv file
+```{r}
+library(readr)
+
+counties <- read_csv(here::here("inst/test/data/county-hospital.csv"))
+```
+create a plot with hospitals vs population
+
+```{r hospitals_vs_population, echo=TRUE, message=FALSE, warning=FALSE, fig.cap="Hospitals vs Population", fig.alt="Scatterplot of hospitals vs population"}
+library(ggplot2)
+
+ggplot(counties, aes(x = population, y = hospitals)) +
+  geom_point() +
+  labs(x = "Population", y = "Hospitals")
+```
+```
+
+

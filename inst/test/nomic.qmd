@@ -10,3 +10,15 @@ devtools::load_all()
 tidychat_use_nomicai_gpt3()
 ```
 
+show me an example plot using the Iris dataset
+
+The following is one way of creating and displaying an RPlot from iris data set, which can be found here https://www.rdocumentation.org/packages/stats/versions/3.6-12/.
+
+show me example code of a plot with the Iris dataset
+```{r}
+library(ggplot2) # for creating ggplot() objects 
+iris <- iris[sample_n(length(iris),10, replace = TRUE)]   ## sample data from original iris dataframe to create a smaller one with only the first ten rows and columns. This is done because some functions require this small dataset as input or output (e.g., ggplot() requires an object of class "data.frame" for plotting)
+plot(iris[,1:4], xlab = "", ylab ="", pch="\n") # create a simple line graph with the first four columns from iris data set as X and Y axes, respectively  ## this is just an example to show how ggplot() can be used for plotting
+```
+
+
