@@ -7,19 +7,29 @@ ide_current <- function() {
   ret
 }
 
-ide_paste_text <- function(x) {
+ide_paste_text <- function(x, loc = NULL) {
   if (ide_current() == "rstudio") {
-    rstudioapi::insertText(x)
+    if(is.null(loc)) {
+      rstudioapi::insertText(text = x)
+    } else {
+      loc <- rstudioapi::document_range(c(loc, 0), c(loc, 0))
+      rstudioapi::insertText(text = x, location = loc)
+    }
   }
   invisible()
 }
 
-ide_active_document_contents <- function() {
+ide_append_to_document <- function(x) {
+  current <- ide_active_document_contents(remove_blanks = FALSE)
+  ide_paste_text(x = x, loc = length(current))
+}
+
+ide_active_document_contents <- function(remove_blanks = TRUE) {
   cont <- NULL
   if (ide_current() == "rstudio") {
     ad <- rstudioapi::getActiveDocumentContext()
     cont <- ad$contents
-    cont <- cont[cont != ""]
+    if(remove_blanks) cont <- cont[cont != ""]
   }
   cont
 }

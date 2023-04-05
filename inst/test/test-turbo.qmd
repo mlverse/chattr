@@ -22,6 +22,22 @@ ggplot(counties, aes(x = population, y = hospitals)) +
   geom_point() +
   labs(x = "Population", y = "Hospitals")
 ```
+
+
+```{r}
+tidychat_explain(summary(model))
 ```
 
+
+This is the output of a linear regression model where the dependent variable is mpg (miles per gallon) and the independent variables are all other variables in the mtcars dataset. The coefficients represent the estimated effect of each independent variable on the dependent variable, holding all other variables constant. 
+
+The intercept (12.30337) represents the expected value of mpg when all other independent variables are equal to zero. 
+
+The p-values associated with each coefficient indicate the level of statistical significance of the estimated effect. For example, the coefficient for wt (weight) has a p-value of 0.0633, which suggests that the effect of weight on mpg may not be statistically significant at the conventional level of 0.05. 
+
+The multiple R-squared value (0.869) indicates that the model explains a large proportion of the variance in the dependent variable, while the adjusted R-squared value (0.8066) takes into account the number of independent variables in the model. 
+
+The F-statistic (13.93) and associated p-value (3.793e-07) test the overall significance of the model, indicating that at least one of the independent variables has a significant effect on the dependent variable. 
+
+The residuals represent the difference between the observed values of the dependent variable and the predicted values from the model. The minimum and maximum residuals indicate the range of the differences, while the quartiles (1Q, median, 3Q) provide information about the distribution of the residuals. The residual standard error (2.65) represents the average magnitude of the differences between observed and predicted values.
 
