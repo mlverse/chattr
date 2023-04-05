@@ -7,3 +7,9 @@ Name: Preview prompt
 Description: Displays the prompt without being sent to the LLM
 Binding: tidychat_prompt
 Interactive: false
+
+Name: Explain selection
+Description: Requests the explanation of the output of the higlighted code
+Binding: tidychat_explain_prompt
+Interactive: false
+

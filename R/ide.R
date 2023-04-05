@@ -9,7 +9,7 @@ ide_current <- function() {
 
 ide_paste_text <- function(x, loc = NULL) {
   if (ide_current() == "rstudio") {
-    if(is.null(loc)) {
+    if (is.null(loc)) {
       rstudioapi::insertText(text = x)
     } else {
       loc <- rstudioapi::document_range(c(loc, 0), c(loc, 0))
@@ -29,7 +29,27 @@ ide_active_document_contents <- function(remove_blanks = TRUE) {
   if (ide_current() == "rstudio") {
     ad <- rstudioapi::getActiveDocumentContext()
     cont <- ad$contents
-    if(remove_blanks) cont <- cont[cont != ""]
+    if (remove_blanks) cont <- cont[cont != ""]
+  }
+  cont
+}
+
+ide_prompt <- function(title = "", message = "", default = NULL) {
+  cont <- NULL
+  if (ide_current() == "rstudio") {
+    cont <- rstudioapi::showPrompt(
+      title = title,
+      message = message,
+      default = default
+    )
+  }
+  cont
+}
+
+ide_get_selection <- function() {
+  cont <- NULL
+  if (ide_current() == "rstudio") {
+    cont <- rstudioapi::selectionGet()
   }
   cont
 }
