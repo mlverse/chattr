@@ -19,9 +19,13 @@ ide_paste_text <- function(x, loc = NULL) {
   invisible()
 }
 
-ide_append_to_document <- function(x) {
+ide_append_to_document <- function(x, width = 81) {
   current <- ide_active_document_contents(remove_blanks = FALSE)
-  ide_paste_text(x = x, loc = length(current))
+
+  x %>%
+    strwrap(width = width) %>%
+    paste0(collapse = "\n") %>%
+    ide_paste_text(loc = length(current))
 }
 
 ide_active_document_contents <- function(remove_blanks = TRUE) {

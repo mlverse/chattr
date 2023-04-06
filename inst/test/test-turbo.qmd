@@ -18,15 +18,28 @@ summary(model)
 
 
 
-This is the output of a linear regression model where the response variable is mpg (miles per gallon) and the predictor variables are cyl (number of cylinders), disp (engine displacement), hp (horsepower), drat (rear axle ratio), wt (weight), qsec (quarter mile time), vs (engine type), am (transmission type), gear (number of gears), and carb (number of carburetors). 
+This is the output of a linear regression model where the dependent variable is
+mpg (miles per gallon) and the independent variables are all other variables in
+the mtcars dataset. The coefficients represent the estimated effect of each
+independent variable on the dependent variable, holding all other variables
+constant.
 
-The coefficients table shows the estimated effect of each predictor variable on the response variable. For example, the coefficient for wt is -3.71530, which means that for every one unit increase in wt (in thousands of pounds), mpg is expected to decrease by 3.71530 units. 
+The intercept (12.30337) represents the expected value of mpg when all other
+independent variables are equal to zero.
 
-The p-values in the table indicate the statistical significance of each predictor variable. A p-value less than 0.05 is typically considered statistically significant, meaning that there is strong evidence that the predictor variable has a non-zero effect on the response variable. In this case, none of the predictor variables have p-values less than 0.05, indicating that none of them are statistically significant at the 5% level. 
+The p-values associated with each coefficient indicate the level of statistical
+significance of the estimated effect. A p-value less than 0.05 is typically
+considered statistically significant.
 
-The multiple R-squared value of 0.869 indicates that the model explains 86.9% of the variability in the response variable. The adjusted R-squared value of 0.8066 takes into account the number of predictor variables in the model and is a better measure of the model's goodness of fit. 
+The multiple R-squared (0.869) indicates the proportion of variance in the
+dependent variable that can be explained by the independent variables in the
+model. The adjusted R-squared (0.8066) takes into account the number of
+independent variables in the model.
 
-The F-statistic of 13.93 and the associated p-value of 3.793e-07 indicate that the overall model is statistically significant, meaning that at least one of the predictor variables has a non-zero effect on the response variable. 
+The F-statistic (13.93) tests the overall significance of the model, and the
+associated p-value (3.793e-07) indicates that the model is statistically
+significant.
 
-The residuals table shows the difference between the observed values of the response variable and the predicted values from the model. The residuals should be normally distributed with mean zero and constant variance for the model to be valid. The minimum and maximum residuals are -3.4506 and 4.6271, respectively, indicating that there may be some outliers in the data. The residual standard error of 2.65 indicates the average distance between the observed values and the predicted values, and the degrees of freedom indicate the number of observations minus the number of predictor variables in the model.
-
+The residuals represent the difference between the actual values of the
+dependent variable and the predicted values from the model. The residual
+standard error (2.65) is a measure of the variability of the residuals.
