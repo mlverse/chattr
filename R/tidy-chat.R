@@ -7,13 +7,20 @@ tidy_chat <- function(prompt = NULL) {
     prompt_build = TRUE,
     add_to_history = TRUE
   )
-  ide_append_to_document(out)
+  ide_paste_text(out)
 }
 
 tidychat_send <- function(prompt = NULL,
                           prompt_build = TRUE,
                           add_to_history = TRUE) {
   td <- tidychat_defaults()
+
+  if(is.null(prompt)) {
+    selection <- ide_get_selection(TRUE)
+    if(nchar(selection) > 0) {
+      prompt <- selection
+    }
+  }
 
   if (td$provider == "openai") {
     if (prompt_build) {

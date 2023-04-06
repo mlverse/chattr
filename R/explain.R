@@ -1,12 +1,18 @@
 tidychat_explain_prompt <- function(prompt = "explain these results") {
+
+  selection <- ide_get_selection()
+
+  if(nchar(selection) == 0) {
+    abort("Please highlight the code of the object to be analyzed")
+  }
+
   prompt <- ide_prompt(
     title = "Object explanation",
     message = "Instructions or question about the output to submit",
     default = prompt
   )
 
-  selection <- ide_get_selection()
-  x <- eval(rlang::parse_expr(selection$value))
+  x <- eval(rlang::parse_expr(selection))
 
   tidychat_explain(
     x = x,

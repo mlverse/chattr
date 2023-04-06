@@ -50,10 +50,16 @@ ide_prompt <- function(title = "", message = "", default = NULL) {
   cont
 }
 
-ide_get_selection <- function() {
+ide_get_selection <- function(unhighlight = FALSE) {
   cont <- NULL
   if (ide_current() == "rstudio") {
     cont <- rstudioapi::selectionGet()
+    cont <- cont$value
+
+    if(unhighlight) {
+      ac <- rstudioapi::getActiveDocumentContext()
+      rstudioapi::setCursorPosition(as.vector(ac$selection[[1]]$range$end))
+    }
   }
   cont
 }
