@@ -5,6 +5,7 @@
 \alias{tidychat_debug_set_true}
 \alias{tidychat_debug_set_false}
 \alias{tidychat_debug_get}
+\alias{tidychat_history}
 \title{Debugging functions}
 \usage{
 tidychat_prompt(prompt = NULL)
@@ -14,6 +15,8 @@ tidychat_debug_set_true()
 tidychat_debug_set_false()
 
 tidychat_debug_get()
+
+tidychat_history()
 }
 \arguments{
 \item{prompt}{Request to send to LLM. Defaults to NULL}

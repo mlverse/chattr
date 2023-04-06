@@ -2,10 +2,29 @@
 #' @param prompt Request to send to LLM. Defaults to NULL
 #' @export
 tidy_chat <- function(prompt = NULL) {
+  out <- tidychat_send(
+    prompt = prompt,
+    prompt_build = TRUE,
+    add_to_history = TRUE
+  )
+  ide_append_to_document(out)
+}
+
+tidychat_send <- function(prompt = NULL,
+                          prompt_build = TRUE,
+                          add_to_history = TRUE) {
   td <- tidychat_defaults()
 
   if (td$provider == "openai") {
-    full_prompt <- build_prompt(prompt)
+    if (prompt_build) {
+      full_prompt <- build_prompt(prompt)
+    } else {
+      full_prompt <- list(
+        full = prompt,
+        prompt = prompt
+      )
+    }
+
     comp_text <- openai_get_completion(
       prompt = full_prompt$full,
       model = td$model,
@@ -14,12 +33,14 @@ tidy_chat <- function(prompt = NULL) {
     )
     text_output <- paste0("\n\n", comp_text, "\n\n")
 
-    chat_entry <- list(
-      list(role = "user", content = full_prompt$prompt),
-      list(role = "assistant", content = comp_text)
-    )
+    if (add_to_history) {
+      chat_entry <- list(
+        list(role = "user", content = full_prompt$prompt),
+        list(role = "assistant", content = comp_text)
+      )
 
-    tidychat_env$openai_history <- c(tidychat_env$openai_history, chat_entry)
+      tidychat_env$openai_history <- c(tidychat_env$openai_history, chat_entry)
+    }
   }
 
   if (td$provider == "nomicai") {
@@ -29,7 +50,7 @@ tidy_chat <- function(prompt = NULL) {
     )
   }
 
-  ide_paste_text(text_output)
+  text_output
 }
 
 
