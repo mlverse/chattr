@@ -34,17 +34,22 @@ tidychat_debug_get <- function() {
 
 #' @rdname tidychat_prompt
 #' @export
-tidychat_history <- function() {
+tidychat_history <- function(raw = FALSE) {
   hist <- tidychat_env$openai_history
-  if (!is.null(hist)) {
-    hist_chr <- map(
-      hist,
-      ~ {
-        paste0("role: ", .x$role, "\ncontent:\n", .x$content, "\n")
-      }
-    )
-    cat(paste0(hist_chr, collapse = "----------------------------\n"))
+  if(!raw) {
+    if (!is.null(hist)) {
+      hist_chr <- map(
+        hist,
+        ~ {
+          paste0("role: ", .x$role, "\ncontent:\n", .x$content, "\n")
+        }
+      )
+      cat(paste0(hist_chr, collapse = "----------------------------\n"))
+    }
+  } else {
+    hist
   }
+
 }
 
 

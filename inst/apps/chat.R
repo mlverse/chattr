@@ -1,18 +1,33 @@
-library(rclipboard)
+library(tidychat)
+
+tidychat::tidychat_debug_set_true()
 
 ui <- fluidPage(
-  rclipboardSetup(),
   fixedPanel(
-    width = "100%", left = -1,
+    width = "100%",
+    left = -1,
     fluidRow(
       column(width = 1, div()),
       column(
         width = 9,
-        textAreaInput("prompt", "", width = "70%", value = "test", resize = "horizontal")
+        textAreaInput(
+          "prompt", "",
+          width = "70%",
+          resize = "horizontal"
+          )
       ),
-      column(width = 2, br(), actionButton("add", "Submit"))
+      column(
+        width = 2,
+        br(),
+        actionButton("add", "Submit"),
+        checkboxInput("include", "Enhanced prompt?", value = TRUE)
+        )
     ),
-    style = "opacity: 1; z-index: 10; background-color: #0a9;"
+    style = "
+    opacity: 1;
+    z-index: 10;
+    background-color: #ffd;
+    "
   ),
   absolutePanel(
     top = 100, width = "95%",
@@ -23,51 +38,53 @@ ui <- fluidPage(
   )
 )
 
-server <- function(input, output, session) {
-  # Add clipboard buttons
-  # output$clip <- renderUI({
-  output$clip <- renderUI({
-    rclipButton(
-      inputId = "clipbtn",
-      label = "Copy",
-      clipText = input$copytext,
-      icon = icon("clipboard")
-    )
-  })
-  # })
+ui_style <- "
+border-color: #ddd;
+border-style: solid;
+border-width: 1px;
+padding-top: 5px;
+padding-left: 5px;
+padding-right: 5px;
+margin-top: 10px;"
 
+ui_user <- paste0(ui_style, " margin-left: 50px; background-color: #ffd;")
+ui_assistant <- paste0(ui_style, " margin-left: 0px; background-color: #fff;")
+
+server <- function(input, output, session) {
   observeEvent(input$add, {
+
+    invisible(tidychat:::tidychat_send(input$prompt))
+
+    chat_history <- tidychat_history(raw = TRUE)
+    chat_length <- length(chat_history)
+
+    assistant <- chat_history[[chat_length]]
+    user <- chat_history[[chat_length - 1]]
+
     insertUI(
       selector = "#tabs",
       where = "afterEnd",
-      ui = {
-
-        fluidRow(
-          style = "
-          border-color: #ddd;
-          border-style: solid;
-          background-color: #fff;
-          border-width: 1px;
-          padding-left: 10px;
-          padding-right: 10px;
-          margin: 10px;
-          ",
-          markdown("
-    # Markdown Example
-
-    This is a markdown paragraph, and will be contained within a `<p>` tag
-    in the UI.
-
-    ```{r}
-    1 + 1
-    ```
-    ")
-        )
-      }
+      ui = fluidRow(
+        style = ui_assistant,
+        markdown(assistant$content)
+      )
     )
-  }
 
-  )
+    insertUI(
+      selector = "#tabs",
+      where = "afterEnd",
+      ui = fluidRow(
+        style = ui_user,
+        markdown(user$content)
+      )
+    )
+
+    updateTextAreaInput(
+      inputId = "prompt",
+      value = ""
+      )
+
+  })
 }
 
 shinyApp(ui, server)
