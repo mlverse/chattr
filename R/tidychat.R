@@ -52,6 +52,21 @@ tidychat_history <- function(raw = FALSE) {
 
 }
 
+#' @rdname tidychat_prompt
+#' @export
+tidychat_interactive <- function() {
+  run_file <- tempfile()
+  writeLines(
+    "shiny::runApp(host = '127.0.0.1', port = 7788)",
+    con = run_file
+  )
+  rstudioapi::jobRunScript(
+    path = run_file,
+    workingDir = system.file('apps/chat', package = 'tidychat')
+    )
+  Sys.sleep(3)
+  rstudioapi::viewer("http://127.0.0.1:7788")
+}
 
 #' Copies the base version of defaults used for tidychat
 #' @param overwrite If there's an existing "config.yml", should it be replaced?

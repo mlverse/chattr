@@ -13,7 +13,8 @@ tidychat_defaults(
   model = NULL,
   system_msg = NULL,
   yaml_file = "config.yml",
-  model_arguments = NULL
+  model_arguments = NULL,
+  type = "notebook"
 )
 }
 \arguments{
@@ -41,6 +42,9 @@ defaults to use in a session}
 \item{model_arguments}{Additional arguments to pass to the model as part of the
 request, it requires a list. Examples of arguments: temperature, top_p,
 max_tokens}
+
+\item{type}{Entry point to interact with the model. Accepted values: 'notebook',
+'chat'}
 }
 \description{
 Default arguments to use when making requests to the LLM

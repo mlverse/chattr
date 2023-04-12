@@ -1,3 +1,4 @@
+library(shiny)
 library(tidychat)
 
 #tidychat::tidychat_debug_set_true()
