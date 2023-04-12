@@ -34,19 +34,39 @@ tidychat_debug_get <- function() {
 
 #' @rdname tidychat_prompt
 #' @export
-tidychat_history <- function() {
+tidychat_history <- function(raw = FALSE) {
   hist <- tidychat_env$openai_history
-  if (!is.null(hist)) {
-    hist_chr <- map(
-      hist,
-      ~ {
-        paste0("role: ", .x$role, "\ncontent:\n", .x$content, "\n")
-      }
-    )
-    cat(paste0(hist_chr, collapse = "----------------------------\n"))
+  if(!raw) {
+    if (!is.null(hist)) {
+      hist_chr <- map(
+        hist,
+        ~ {
+          paste0("role: ", .x$role, "\ncontent:\n", .x$content, "\n")
+        }
+      )
+      cat(paste0(hist_chr, collapse = "----------------------------\n"))
+    }
+  } else {
+    hist
   }
+
 }
 
+#' @rdname tidychat_prompt
+#' @export
+tidychat_interactive <- function() {
+  run_file <- tempfile()
+  writeLines(
+    "shiny::runApp(host = '127.0.0.1', port = 7788)",
+    con = run_file
+  )
+  rstudioapi::jobRunScript(
+    path = run_file,
+    workingDir = system.file('apps/chat', package = 'tidychat')
+    )
+  Sys.sleep(3)
+  rstudioapi::viewer("http://127.0.0.1:7788")
+}
 
 #' Copies the base version of defaults used for tidychat
 #' @param overwrite If there's an existing "config.yml", should it be replaced?

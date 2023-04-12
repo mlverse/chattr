@@ -25,6 +25,8 @@ tidychat_env <- new.env()
 #' @param model_arguments Additional arguments to pass to the model as part of the
 #' request, it requires a list. Examples of arguments: temperature, top_p,
 #' max_tokens
+#' @param type Entry point to interact with the model. Accepted values: 'notebook',
+#' 'chat'
 #' @inheritParams tidy_chat
 tidychat_defaults <- function(prompt = NULL,
                               include_data_files = NULL,
@@ -34,8 +36,9 @@ tidychat_defaults <- function(prompt = NULL,
                               model = NULL,
                               system_msg = NULL,
                               yaml_file = "config.yml",
-                              model_arguments = NULL) {
-  td <- tidychat_get_defaults()
+                              model_arguments = NULL,
+                              type = "notebook") {
+  td <- tidychat_get_defaults(type)
   yaml_defaults <- NULL
 
   if (is.null(td$provider)) {
@@ -43,7 +46,9 @@ tidychat_defaults <- function(prompt = NULL,
       yaml_file <- system.file("configs/gpt3.5.yml", package = "tidychat")
     }
 
-    yaml_defaults <- config::get("tidychat", file = yaml_file)
+    td_defaults <- config::get("tidychat", file = yaml_file)
+
+    yaml_defaults <- td_defaults[[type]]
 
     if (!is.null(yaml_defaults)) {
       prompt <- yaml_defaults$prompt
@@ -56,7 +61,8 @@ tidychat_defaults <- function(prompt = NULL,
         provider = yaml_defaults$provider,
         model = yaml_defaults$model,
         system_msg = yaml_defaults$system_msg,
-        model_arguments = yaml_defaults$model_arguments
+        model_arguments = yaml_defaults$model_arguments,
+        type = type
       )
     }
   }
@@ -69,14 +75,18 @@ tidychat_defaults <- function(prompt = NULL,
     provider = provider,
     model = model,
     system_msg = system_msg,
-    model_arguments = model_arguments
+    model_arguments = model_arguments,
+    type = type
   )
 
-  tidychat_get_defaults()
+  tidychat_get_defaults(type)
 }
 
-tidychat_get_defaults <- function() {
-  tidychat_env$model_defaults
+tidychat_get_defaults <- function(type = "notebook") {
+  ret <- NULL
+  if(type == "notebook") ret <- tidychat_env$notebook
+  if(type == "chat") ret <- tidychat_env$chat
+  ret
 }
 
 tidychat_set_defaults <- function(prompt = NULL,
@@ -86,10 +96,12 @@ tidychat_set_defaults <- function(prompt = NULL,
                                   provider = NULL,
                                   model = NULL,
                                   system_msg = NULL,
-                                  model_arguments = NULL) {
-  td <- tidychat_get_defaults()
+                                  model_arguments = NULL,
+                                  type = "notebook"
+                                  ) {
+  td <- tidychat_get_defaults(type)
 
-  tidychat_env$model_defaults <- list(
+  td_env <- list(
     prompt = prompt %||% td$prompt,
     include_data_files = include_data_files %||% td$include_data_files,
     include_data_frames = include_data_frames %||% td$include_data_frames,
@@ -99,4 +111,7 @@ tidychat_set_defaults <- function(prompt = NULL,
     system_msg = system_msg %||% td$system_msg,
     model_arguments = model_arguments %||% td$model_arguments
   )
+
+  if(type == "notebook") tidychat_env$notebook <- td_env
+  if(type == "chat") tidychat_env$chat <- td_env
 }

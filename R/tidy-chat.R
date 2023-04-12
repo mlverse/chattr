@@ -12,8 +12,11 @@ tidy_chat <- function(prompt = NULL) {
 
 tidychat_send <- function(prompt = NULL,
                           prompt_build = TRUE,
-                          add_to_history = TRUE) {
-  td <- tidychat_defaults()
+                          add_to_history = TRUE,
+                          type = "notebook",
+                          enhanced_prompt = TRUE
+                          ) {
+  td <- tidychat_defaults(type = type)
 
   if(is.null(prompt)) {
     selection <- ide_get_selection(TRUE)
@@ -24,7 +27,16 @@ tidychat_send <- function(prompt = NULL,
 
   if (td$provider == "openai") {
     if (prompt_build) {
-      full_prompt <- build_prompt(prompt)
+
+      if(enhanced_prompt) {
+        full_prompt <- build_prompt(prompt = prompt, type = type)
+      } else {
+        full_prompt <- list(
+          full = prompt,
+          prompt = prompt
+        )
+      }
+
     } else {
       full_prompt <- list(
         full = prompt,
@@ -61,8 +73,8 @@ tidychat_send <- function(prompt = NULL,
 }
 
 
-build_prompt <- function(prompt = NULL, use_current_mode = TRUE) {
-  td <- tidychat_defaults()
+build_prompt <- function(prompt = NULL, use_current_mode = TRUE, type = "notebook") {
+  td <- tidychat_defaults(type = type)
 
   if (is.null(prompt)) {
     prompt <- context_doc_last_line()
