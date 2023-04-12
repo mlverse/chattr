@@ -16,7 +16,7 @@ tidychat_send <- function(prompt = NULL,
                           type = "notebook",
                           enhanced_prompt = TRUE
                           ) {
-  td <- tidychat_defaults(type)
+  td <- tidychat_defaults(type = type)
 
   if(is.null(prompt)) {
     selection <- ide_get_selection(TRUE)
@@ -31,7 +31,10 @@ tidychat_send <- function(prompt = NULL,
       if(enhanced_prompt) {
         full_prompt <- build_prompt(prompt = prompt, type = type)
       } else {
-        full_prompt <- prompt
+        full_prompt <- list(
+          full = prompt,
+          prompt = prompt
+        )
       }
 
     } else {
@@ -71,7 +74,7 @@ tidychat_send <- function(prompt = NULL,
 
 
 build_prompt <- function(prompt = NULL, use_current_mode = TRUE, type = "notebook") {
-  td <- tidychat_defaults(type)
+  td <- tidychat_defaults(type = type)
 
   if (is.null(prompt)) {
     prompt <- context_doc_last_line()

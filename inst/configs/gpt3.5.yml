@@ -1,3 +1,4 @@
+default:
   tidychat:
     notebook:
       prompt: |
@@ -20,7 +21,6 @@
         max_tokens: 1000
     chat:
       prompt: |
-        this is chat
         Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
         Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
         Use tidyverse packages: readr, ggplot2, dplyr, tidyr
@@ -30,9 +30,9 @@
         Expecting only code, avoid comments unless requested by user
       provider: openai
       model: gpt-3.5-turbo
-      include_data_files: TRUE
-      include_data_frames: TRUE
-      include_doc_contents: TRUE
+      include_data_files: FALSE
+      include_data_frames: FALSE
+      include_doc_contents: FALSE
       system_msg: You are a helpful coding assistant
       model_arguments:
         temperature: 0.01

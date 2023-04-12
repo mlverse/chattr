@@ -1,6 +1,6 @@
 library(tidychat)
 
-tidychat::tidychat_debug_set_true()
+#tidychat::tidychat_debug_set_true()
 
 ui <- fluidPage(
   fixedPanel(
@@ -14,14 +14,14 @@ ui <- fluidPage(
           "prompt", "",
           width = "70%",
           resize = "horizontal"
-          )
+        )
       ),
       column(
         width = 2,
         br(),
         actionButton("add", "Submit"),
         checkboxInput("include", "Enhanced prompt?", value = TRUE)
-        )
+      )
     ),
     style = "
     opacity: 1;
@@ -30,7 +30,7 @@ ui <- fluidPage(
     "
   ),
   absolutePanel(
-    top = 100, width = "95%",
+    top = 120, width = "95%",
     tabsetPanel(
       type = "tabs",
       id = "tabs"
@@ -52,8 +52,19 @@ ui_assistant <- paste0(ui_style, " margin-left: 0px; background-color: #fff;")
 
 server <- function(input, output, session) {
   observeEvent(input$add, {
+    showModal(modalDialog(
+      title = "tidychat",
+      "Communicating with model...",
+      footer = NULL
+    ))
 
-    invisible(tidychat:::tidychat_send(input$prompt))
+    invisible(
+      tidychat:::tidychat_send(
+        prompt = input$prompt,
+        type = "chat",
+        enhanced_prompt = input$include
+      )
+    )
 
     chat_history <- tidychat_history(raw = TRUE)
     chat_length <- length(chat_history)
@@ -82,8 +93,9 @@ server <- function(input, output, session) {
     updateTextAreaInput(
       inputId = "prompt",
       value = ""
-      )
+    )
 
+    removeModal()
   })
 }
 

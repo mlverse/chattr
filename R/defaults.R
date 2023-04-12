@@ -46,7 +46,9 @@ tidychat_defaults <- function(prompt = NULL,
       yaml_file <- system.file("configs/gpt3.5.yml", package = "tidychat")
     }
 
-    yaml_defaults <- config::get("tidychat", file = yaml_file)$notebook
+    td_defaults <- config::get("tidychat", file = yaml_file)
+
+    yaml_defaults <- td_defaults[[type]]
 
     if (!is.null(yaml_defaults)) {
       prompt <- yaml_defaults$prompt
@@ -59,7 +61,8 @@ tidychat_defaults <- function(prompt = NULL,
         provider = yaml_defaults$provider,
         model = yaml_defaults$model,
         system_msg = yaml_defaults$system_msg,
-        model_arguments = yaml_defaults$model_arguments
+        model_arguments = yaml_defaults$model_arguments,
+        type = type
       )
     }
   }
@@ -72,15 +75,18 @@ tidychat_defaults <- function(prompt = NULL,
     provider = provider,
     model = model,
     system_msg = system_msg,
-    model_arguments = model_arguments
+    model_arguments = model_arguments,
+    type = type
   )
 
-  tidychat_get_defaults()
+  tidychat_get_defaults(type)
 }
 
 tidychat_get_defaults <- function(type = "notebook") {
-  if(type == "notebook") tidychat_env$model_notebook
-  if(type == "chat") tidychat_env$model_chat
+  ret <- NULL
+  if(type == "notebook") ret <- tidychat_env$notebook
+  if(type == "chat") ret <- tidychat_env$chat
+  ret
 }
 
 tidychat_set_defaults <- function(prompt = NULL,
@@ -95,7 +101,7 @@ tidychat_set_defaults <- function(prompt = NULL,
                                   ) {
   td <- tidychat_get_defaults(type)
 
-  tidychat_env[type] <- list(
+  td_env <- list(
     prompt = prompt %||% td$prompt,
     include_data_files = include_data_files %||% td$include_data_files,
     include_data_frames = include_data_frames %||% td$include_data_frames,
@@ -105,4 +111,7 @@ tidychat_set_defaults <- function(prompt = NULL,
     system_msg = system_msg %||% td$system_msg,
     model_arguments = model_arguments %||% td$model_arguments
   )
+
+  if(type == "notebook") tidychat_env$notebook <- td_env
+  if(type == "chat") tidychat_env$chat <- td_env
 }
