@@ -14,7 +14,8 @@ ui <- fluidPage(
         textAreaInput(
           "prompt", "",
           width = "70%",
-          resize = "horizontal"
+          resize = "horizontal",
+          value = capture.output(rstudioapi::getActiveDocumentContext()[[1]])
         )
       ),
       column(
@@ -100,4 +101,4 @@ server <- function(input, output, session) {
   })
 }
 
-shinyApp(ui, server)
+runGadget(ui, server, viewer = dialogViewer("tidychat", width = 800))
