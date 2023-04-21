@@ -2,7 +2,25 @@
 #' @import shiny
 #' @export
 tidychat_interactive <- function() {
+
+  ti <- rstudioapi::getThemeInfo()
+
+  color_bg <- theme_rgb_to_hex(ti$background)
+  color_fg <- theme_rgb_to_hex(ti$foreground)
+
+  if(ti$dark) {
+    color_user <- "#3E4A56;"
+  } else {
+    color_user <- "#f1f6f8;"
+  }
+
   ui <- fluidPage(
+    shinyWidgets::setBackgroundColor(
+      color = color_bg,
+      gradient = "linear",
+      direction = "bottom"
+    ),
+
     fixedPanel(
       width = "100%",
       left = -1,
@@ -23,11 +41,11 @@ tidychat_interactive <- function() {
           checkboxInput("include", "Enhanced prompt?", value = TRUE)
         )
       ),
-      style = "
+      style = paste0("
       opacity: 1;
       z-index: 10;
-      background-color: #ffd;
-      "
+      background-color:", color_user
+      )
     ),
     absolutePanel(
       top = 120, width = "95%",
@@ -39,16 +57,27 @@ tidychat_interactive <- function() {
   )
 
   ui_style <- "
-  border-color: #ddd;
-  border-style: solid;
-  border-width: 1px;
   padding-top: 5px;
   padding-left: 5px;
-  padding-right: 5px;
-  margin-top: 10px;"
+  padding-right: 5px;"
 
-  ui_user <- paste0(ui_style, " margin-left: 50px; background-color: #ffd;")
-  ui_assistant <- paste0(ui_style, " margin-left: 0px; background-color: #fff;")
+  ui_user <- paste0(ui_style, "
+                    border-style: solid;
+                    border-width: 1px;
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                    margin-left: 50px;
+                    background-color:", color_bg, ";",
+                    "color:", color_fg, ";",
+                    "border-color:", color_fg ,";"
+                    )
+
+  ui_assistant <- paste0(ui_style, "
+                         margin-left: 0px;
+                         background-color:", color_user ,";",
+                         "color:", color_fg, ";",
+                         "border-color:", color_bg ,";"
+                         )
 
   server <- function(input, output, session) {
     content_hist <- NULL
@@ -101,8 +130,8 @@ tidychat_interactive <- function() {
           where = "afterEnd",
           ui = fluidRow(
             style = ui_assistant,
-            if (is_code) actionButton(paste0("copy", length(content_hist)), "Copy to clipboard"),
-            if (is_code) actionButton(paste0("doc", length(content_hist)), "Copy to Document"),
+            if (is_code) actionButton(paste0("copy", length(content_hist)), icon = icon("clipboard"), label = "Copy", class = ui_user),
+            if (is_code) actionButton(paste0("doc", length(content_hist)), icon = icon("file"), label = "To Document"),
             markdown(curr_content)
           )
         )
@@ -141,4 +170,11 @@ tidychat_interactive <- function() {
   }
 
   runGadget(ui, server, viewer = dialogViewer("tidychat", width = 800))
+}
+
+theme_rgb_to_hex <- function(x) {
+  x1 <- sub("rgb\\(", "", x)
+  x1 <- sub("\\)", "", x1)
+  x2 <- unlist(strsplit(x1, ","))
+  rgb(x2[1], x2[2], x2[3], maxColorValue = 255)
 }
