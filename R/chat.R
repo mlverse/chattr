@@ -1,6 +1,5 @@
 #' @rdname tidychat_prompt
 #' @import shiny
-#' @import rclipboard
 #' @export
 tidychat_interactive <- function() {
   ui <- fluidPage(
@@ -14,8 +13,7 @@ tidychat_interactive <- function() {
           textAreaInput(
             "prompt", "",
             width = "70%",
-            resize = "horizontal",
-            value = capture.output(rstudioapi::getActiveDocumentContext()$contents[[1]])
+            resize = "horizontal"
           )
         ),
         column(
@@ -85,13 +83,17 @@ tidychat_interactive <- function() {
 
       split_content <- unlist(strsplit(assistant_content, "```"))
 
-      for(i in seq_along(split_content)) {
+      for (i in seq_along(split_content)) {
         curr_content <- split_content[length(split_content) - i + 1]
 
-        content_hist <- c(content_hist, curr_content)
-
-        if(grepl("\\{r\\}", curr_content)) {
+        if (grepl("\\{r\\}", curr_content)) {
+          is_code <- TRUE
+          hist_content <- sub("\\{r\\}\n", "", curr_content)
+          hist_content <- sub("\\{r\\}", "", hist_content)
           curr_content <- paste0("```", curr_content, "```")
+          content_hist <- c(content_hist, hist_content)
+        } else {
+          is_code <- FALSE
         }
 
         insertUI(
@@ -99,12 +101,12 @@ tidychat_interactive <- function() {
           where = "afterEnd",
           ui = fluidRow(
             style = ui_assistant,
-            actionButton(paste0("copy", length(content_hist)), "Copy"),
+            if (is_code) actionButton(paste0("copy", length(content_hist)), "Copy to clipboard"),
+            if (is_code) actionButton(paste0("doc", length(content_hist)), "Copy to Document"),
             markdown(curr_content)
           )
         )
       }
-
 
       insertUI(
         selector = "#tabs",
@@ -123,22 +125,19 @@ tidychat_interactive <- function() {
       removeModal()
 
       purrr::walk(
-        paste0("copy", seq_along(content_hist)),
-        ~{
-          observeEvent(input[[.x]], {
-            print(input[[.x]])
-            updateTextAreaInput(
-              inputId = "prompt",
-              value = .x
-            )
+        seq_along(content_hist),
+        ~ {
+          observeEvent(input[[paste0("copy", .x)]], {
+            clipr::write_clip(content_hist[.x])
+            stopApp()
           })
-        })
+          observeEvent(input[[paste0("doc", .x)]], {
+            rstudioapi::insertText(text = content_hist[.x])
+            stopApp()
+          })
+        }
+      )
     })
-
-
-
-
-
   }
 
   runGadget(ui, server, viewer = dialogViewer("tidychat", width = 800))
