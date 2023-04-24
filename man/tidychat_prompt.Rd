@@ -3,8 +3,6 @@
 \name{tidychat_interactive}
 \alias{tidychat_interactive}
 \alias{tidychat_prompt}
-\alias{tidychat_debug_set_true}
-\alias{tidychat_debug_set_false}
 \alias{tidychat_debug_get}
 \alias{tidychat_history}
 \title{Debugging functions}
@@ -12,10 +10,6 @@
 tidychat_interactive()
 
 tidychat_prompt(prompt = NULL)
-
-tidychat_debug_set_true()
-
-tidychat_debug_set_false()
 
 tidychat_debug_get()
 

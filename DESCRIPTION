@@ -16,4 +16,7 @@ Imports:
     rlang,
     rstudioapi,
     config,
+    bslib,
+    shiny,
+    clipr,
     fs
