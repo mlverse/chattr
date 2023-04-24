@@ -10,6 +10,7 @@ context_data_files <- function() {
   if (length(files)) {
     ret <- paste("Data files available: ", paste(files, collapse = ", "))
   }
+  ret
 }
 
 context_data_frames <- function() {

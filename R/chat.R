@@ -186,6 +186,7 @@ get_chat <- function(prompt, include = TRUE) {
   if(tidychat_debug_get()) {
     ret$assistant <- "some text\n```{r}\nmtcars\n```\nmore text\n```{r}\niris\n```"
     ret$user <- "test"
+    print(build_prompt(prompt))
   } else {
     invisible(
       tidychat_send(
@@ -198,8 +199,8 @@ get_chat <- function(prompt, include = TRUE) {
     chat_history <- tidychat_history(raw = TRUE)
     chat_length <- length(chat_history)
 
-    ret$assistant <- chat_history[[chat_length]]
-    ret$user <- chat_history[[chat_length - 1]]
+    ret$assistant <- chat_history[[chat_length]]$content
+    ret$user <- chat_history[[chat_length - 1]]$content
   }
   ret
 }
