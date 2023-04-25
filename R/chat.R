@@ -1,12 +1,12 @@
 #' @rdname tidychat_prompt
 #' @export
-tidychat_interactive <- function() {
+tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800)) {
 
   tidychat_env$content_hist <- NULL
   style <- app_theme_style()
 
-  tidychat_debug_set_true()
-  tidychat_env$openai_history <- readRDS("inst/history/raw.rds")
+  #tidychat_debug_set_true()
+  #tidychat_env$openai_history <- readRDS("inst/history/raw.rds")
 
   ui <- fluidPage(
     theme = bs_theme(
@@ -19,24 +19,28 @@ tidychat_interactive <- function() {
       fluidRow(
         column(width = 1, div()),
         column(
-          width = 9,
+          width = 7,
           textAreaInput(
             "prompt", "",
-            width = "70%",
+            width = "100%",
             resize = "horizontal"
           )
         ),
         column(
           width = 2,
           br(),
-          actionButton("add", "Submit"),
+          actionButton("add", "Submit", style = "font-size:120%;")
+        ),
+        column(
+          width = 1,
+          br(),
           checkboxInput("include", "Enhanced prompt?", value = TRUE)
         )
       ),
-      style = paste0("opacity: 1; z-index: 10; background-color:", style$color_top)
+      style = paste0("font-size:60%; z-index: 10; background-color:", style$color_top)
     ),
     absolutePanel(
-      top = 120, width = "95%",
+      top = 95, width = "95%",
       tabsetPanel(
         type = "tabs",
         id = "tabs"
@@ -75,7 +79,7 @@ tidychat_interactive <- function() {
     })
   }
 
-  runGadget(ui, server, viewer = dialogViewer("tidychat", width = 900))
+  runGadget(ui, server, viewer = viewer)
 }
 
 app_add_user <- function(content, style) {
@@ -119,9 +123,9 @@ app_add_assistant <- function(content, style, input) {
       ui = fluidRow(
         style = style,
         fluidRow(
-          column(width = 10, div()),
+          column(width = 9, div()),
           column(
-            width = 2,
+            width = 3,
             if (is_code) {
               actionButton(
                 paste0("copy", length(content_hist)),
