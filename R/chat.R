@@ -1,6 +1,13 @@
-#' @rdname tidychat_prompt
+#' Starts a Shiny app interface to the LLM
+#' @param viewer Specifies where the Shiny app is going to display
+#' @param as_job App runs as an RStudio IDE Job. Defaults to FALSE. If set to
+#' TRUE, the Shiny app will not be able to transfer the code blocks directly to
+#' the document, or console, in the IDE.
+#' @param as_job_port Port to use for the Shiny app. Applicable only if `as_job`
+#' is set to TRUE.
+#' @param as_job_port Host IP to use for the Shiny app. Applicable only if `as_job`
+#' is set to TRUE.
 #' @export
-#'
 tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800),
                                  as_job = FALSE,
                                  as_job_port = getOption("shiny.port", 7788),
@@ -65,7 +72,8 @@ app_interactive <- function() {
       style = paste0("font-size:60%; z-index: 10; background-color:", style$color_top)
     ),
     absolutePanel(
-      top = 95, width = "95%",
+      top = 95,
+      width = "95%",
       tabsetPanel(
         type = "tabs",
         id = "tabs"

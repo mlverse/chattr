@@ -14,7 +14,8 @@ tidychat_send <- function(prompt = NULL,
                           prompt_build = TRUE,
                           add_to_history = TRUE,
                           type = "notebook",
-                          enhanced_prompt = TRUE
+                          enhanced_prompt = TRUE,
+                          preview = FALSE
                           ) {
   td <- tidychat_defaults(type = type)
 
@@ -44,6 +45,7 @@ tidychat_send <- function(prompt = NULL,
       )
     }
 
+  if(!preview) {
     comp_text <- openai_get_completion(
       prompt = full_prompt$full,
       model = td$model,
@@ -60,6 +62,10 @@ tidychat_send <- function(prompt = NULL,
 
       tidychat_env$openai_history <- c(tidychat_env$openai_history, chat_entry)
     }
+  } else {
+    text_output <- full_prompt$full
+  }
+
   }
 
   text_output
