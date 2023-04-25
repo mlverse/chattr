@@ -1,5 +1,5 @@
 Name: Execute prompt
-Description: Sends the prompt to the LLM
+Description: Sends the last line of your document, or the highlighted text to the LLM
 Binding: tidy_chat
 Interactive: false
 
@@ -13,7 +13,7 @@ Description: Requests the explanation of the output of the higlighted code
 Binding: tidychat_explain_prompt
 Interactive: false
 
-Name: Chat
-Description: Chat
+Name: Open Chat
+Description: Opens the chat app as a Shiny Gadget
 Binding: tidychat_interactive
 Interactive: true

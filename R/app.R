@@ -9,9 +9,10 @@
 #' is set to TRUE.
 #' @export
 tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
-                                 as_job = FALSE,
-                                 as_job_port = getOption("shiny.port", 7788),
-                                 as_job_host = getOption("shiny.host", "127.0.0.1")) {
+                         as_job = FALSE,
+                         as_job_port = getOption("shiny.port", 7788),
+                         as_job_host = getOption("shiny.host", "127.0.0.1")
+                         ) {
   app <- app_interactive()
 
   if (!as_job) {
