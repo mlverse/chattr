@@ -2,11 +2,8 @@
 
 export(tidy_chat)
 export(tidychat_base_yaml)
-export(tidychat_debug_get)
 export(tidychat_defaults)
-export(tidychat_history)
 export(tidychat_interactive)
-export(tidychat_prompt)
 export(tidychat_use_openai_davinci)
 export(tidychat_use_openai_gpt35)
 import(httr2)

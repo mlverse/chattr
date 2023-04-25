@@ -1,8 +1,7 @@
 tidychat_explain_prompt <- function(prompt = "explain these results") {
-
   selection <- ide_get_selection()
 
-  if(nchar(selection) == 0) {
+  if (nchar(selection) == 0) {
     abort("Please highlight the code of the object to be analyzed")
   }
 

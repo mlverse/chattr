@@ -84,8 +84,8 @@ tidychat_defaults <- function(prompt = NULL,
 
 tidychat_get_defaults <- function(type = "notebook") {
   ret <- NULL
-  if(type == "notebook") ret <- tidychat_env$notebook
-  if(type == "chat") ret <- tidychat_env$chat
+  if (type == "notebook") ret <- tidychat_env$notebook
+  if (type == "chat") ret <- tidychat_env$chat
   ret
 }
 
@@ -97,8 +97,7 @@ tidychat_set_defaults <- function(prompt = NULL,
                                   model = NULL,
                                   system_msg = NULL,
                                   model_arguments = NULL,
-                                  type = "notebook"
-                                  ) {
+                                  type = "notebook") {
   td <- tidychat_get_defaults(type)
 
   td_env <- list(
@@ -112,6 +111,6 @@ tidychat_set_defaults <- function(prompt = NULL,
     model_arguments = model_arguments %||% td$model_arguments
   )
 
-  if(type == "notebook") tidychat_env$notebook <- td_env
-  if(type == "chat") tidychat_env$chat <- td_env
+  if (type == "notebook") tidychat_env$notebook <- td_env
+  if (type == "chat") tidychat_env$chat <- td_env
 }

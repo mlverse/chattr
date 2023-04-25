@@ -56,7 +56,7 @@ ide_get_selection <- function(unhighlight = FALSE) {
     cont <- rstudioapi::selectionGet()
     cont <- cont$value
 
-    if(unhighlight) {
+    if (unhighlight) {
       ac <- rstudioapi::getActiveDocumentContext()
       rstudioapi::setCursorPosition(as.vector(ac$selection[[1]]$range$end))
     }

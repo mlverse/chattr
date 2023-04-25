@@ -68,7 +68,7 @@ server <- function(input, output, session) {
       )
     )
 
-    chat_history <- tidychat_history(raw = TRUE)
+    chat_history <- tidychat_history_get()
     chat_length <- length(chat_history)
 
     assistant <- chat_history[[chat_length]]

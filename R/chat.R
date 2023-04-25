@@ -11,19 +11,18 @@
 tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800),
                                  as_job = FALSE,
                                  as_job_port = getOption("shiny.port", 7788),
-                                 as_job_host = getOption("shiny.host", "127.0.0.1")
-                                 ) {
-
+                                 as_job_host = getOption("shiny.host", "127.0.0.1")) {
   app <- app_interactive()
 
-  if(!as_job) {
-    runGadget(app$ui,  app$server, viewer = viewer)
+  if (!as_job) {
+    runGadget(app$ui, app$server, viewer = viewer)
   } else {
     run_file <- tempfile()
-    writeLines(c(
-      "app <- tidychat:::app_interactive()\n",
-      "rp <- list(ui = app$ui, server = app$server)\n",
-      paste0("shiny::runApp(rp, host = '", as_job_host, "', port = ", as_job_port, ")")
+    writeLines(
+      c(
+        "app <- tidychat:::app_interactive()\n",
+        "rp <- list(ui = app$ui, server = app$server)\n",
+        paste0("shiny::runApp(rp, host = '", as_job_host, "', port = ", as_job_port, ")")
       ),
       con = run_file
     )
@@ -34,11 +33,11 @@ tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800),
 }
 
 app_interactive <- function() {
-  tidychat_env$content_hist <- NULL
+  tidychat_history_reset()
   style <- app_theme_style()
 
   tidychat_debug_set_true()
-  tidychat_env$openai_history <- readRDS(system.file("history/raw.rds", package = "tidychat") )
+  tidychat_env$openai_history <- readRDS(system.file("history/raw.rds", package = "tidychat"))
 
   ui <- fluidPage(
     theme = bs_theme(
@@ -82,19 +81,18 @@ app_interactive <- function() {
   )
 
   server <- function(input, output, session) {
-    th <- tidychat_history(raw = TRUE)
-    for(i in seq_along(th)) {
+    th <- tidychat_history_get()
+    for (i in seq_along(th)) {
       curr <- th[[i]]
-      if(curr$role == "user") {
+      if (curr$role == "user") {
         app_add_user(curr$content, style$ui_user)
       }
-      if(curr$role == "assistant") {
+      if (curr$role == "assistant") {
         app_add_assistant(curr$content, style$ui_assistant, input)
       }
     }
 
     observeEvent(input$add, {
-
       app_add_user(input$prompt, style$ui_user)
 
       updateTextAreaInput(
@@ -108,7 +106,6 @@ app_interactive <- function() {
       )
 
       app_add_assistant(chat$assistant, style$ui_assistant, input)
-
     })
   }
 
@@ -127,7 +124,7 @@ app_add_user <- function(content, style) {
 }
 
 app_add_assistant <- function(content, style, input) {
-  if(grepl("```", content)) {
+  if (grepl("```", content)) {
     split_content <- unlist(strsplit(content, "```"))
   } else {
     split_content <- content
@@ -193,8 +190,8 @@ app_add_assistant <- function(content, style, input) {
       })
       observeEvent(input[[paste0("doc", .x)]], {
         ch <- content_hist[.x]
-        if(ui_current() == "markdown") {
-          ch <-  paste0("```{r}\n", ch, "\n```")
+        if (ui_current() == "markdown") {
+          ch <- paste0("```{r}\n", ch, "\n```")
         }
         rstudioapi::insertText(text = ch)
         stopApp()
@@ -219,27 +216,30 @@ app_theme_style <- function() {
     color_top <- "#E1E2E5"
   }
 
-  ui_style <- c("padding-top: 5px",
-                "padding-left: 5px",
-                "padding-right: 5px;",
-                paste0("color:", color_fg)
-                )
+  ui_style <- c(
+    "padding-top: 5px",
+    "padding-left: 5px",
+    "padding-right: 5px;",
+    paste0("color:", color_fg)
+  )
 
-  ui_user <- c(ui_style,
-               "border-style: solid",
-               "border-width: 1px",
-               "margin-top: 10px",
-               "margin-bottom: 10px",
-               "margin-left: 50px",
-               paste0("background-color:", color_bg),
-               paste0("border-color:", color_top)
-               )
+  ui_user <- c(
+    ui_style,
+    "border-style: solid",
+    "border-width: 1px",
+    "margin-top: 10px",
+    "margin-bottom: 10px",
+    "margin-left: 50px",
+    paste0("background-color:", color_bg),
+    paste0("border-color:", color_top)
+  )
 
-  ui_assistant <- c(ui_style,
-                    "margin-left: 0px",
-                    paste0("background-color:", color_user),
-                    paste0("border-color:", color_bg)
-                    )
+  ui_assistant <- c(
+    ui_style,
+    "margin-left: 0px",
+    paste0("background-color:", color_user),
+    paste0("border-color:", color_bg)
+  )
 
   list(
     color_bg = color_bg,
@@ -259,7 +259,7 @@ app_theme_rgb_to_hex <- function(x) {
 
 app_get_chat <- function(prompt, include = TRUE) {
   ret <- list()
-  if(tidychat_debug_get()) {
+  if (tidychat_debug_get()) {
     ret$assistant <- "some text\n```{r}\nmtcars\n```\nmore text\n```{r}\niris\n```"
     ret$user <- "test"
   } else {
@@ -271,7 +271,7 @@ app_get_chat <- function(prompt, include = TRUE) {
       )
     )
 
-    chat_history <- tidychat_history(raw = TRUE)
+    chat_history <- tidychat_history_get()
     chat_length <- length(chat_history)
 
     ret$assistant <- chat_history[[chat_length]]$content

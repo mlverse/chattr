@@ -15,21 +15,19 @@ tidychat_send <- function(prompt = NULL,
                           add_to_history = TRUE,
                           type = "notebook",
                           enhanced_prompt = TRUE,
-                          preview = FALSE
-                          ) {
+                          preview = FALSE) {
   td <- tidychat_defaults(type = type)
 
-  if(is.null(prompt)) {
+  if (is.null(prompt)) {
     selection <- ide_get_selection(TRUE)
-    if(nchar(selection) > 0) {
+    if (nchar(selection) > 0) {
       prompt <- selection
     }
   }
 
   if (td$provider == "openai") {
     if (prompt_build) {
-
-      if(enhanced_prompt) {
+      if (enhanced_prompt) {
         full_prompt <- build_prompt(prompt = prompt, type = type)
       } else {
         full_prompt <- list(
@@ -37,7 +35,6 @@ tidychat_send <- function(prompt = NULL,
           prompt = prompt
         )
       }
-
     } else {
       full_prompt <- list(
         full = prompt,
@@ -45,27 +42,26 @@ tidychat_send <- function(prompt = NULL,
       )
     }
 
-  if(!preview) {
-    comp_text <- openai_get_completion(
-      prompt = full_prompt$full,
-      model = td$model,
-      system_msg = td$system_msg,
-      model_arguments = td$model_arguments
-    )
-    text_output <- paste0("\n\n", comp_text, "\n\n")
-
-    if (add_to_history) {
-      chat_entry <- list(
-        list(role = "user", content = full_prompt$prompt),
-        list(role = "assistant", content = comp_text)
+    if (!preview) {
+      comp_text <- openai_get_completion(
+        prompt = full_prompt$full,
+        model = td$model,
+        system_msg = td$system_msg,
+        model_arguments = td$model_arguments
       )
+      text_output <- paste0("\n\n", comp_text, "\n\n")
 
-      tidychat_env$openai_history <- c(tidychat_env$openai_history, chat_entry)
+      if (add_to_history) {
+        chat_entry <- list(
+          list(role = "user", content = full_prompt$prompt),
+          list(role = "assistant", content = comp_text)
+        )
+
+        tidychat_env$openai_history <- c(tidychat_env$openai_history, chat_entry)
+      }
+    } else {
+      text_output <- full_prompt$full
     }
-  } else {
-    text_output <- full_prompt$full
-  }
-
   }
 
   text_output

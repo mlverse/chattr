@@ -14,7 +14,6 @@ import the counties csv file
 
 ```{r}
 iris
-
 ```
 
 ```{r}

@@ -93,7 +93,7 @@ context_doc_last_line <- function() {
   cont <- ide_active_document_contents()
   ln <- NULL
 
-  if(length(cont)) {
+  if (length(cont)) {
     ln <- cont[length(cont)]
     if (substr(ln, 1, 2) == "# ") ln <- substr(ln, 3, nchar(ln))
     if (substr(ln, 1, 1) == "#") ln <- substr(ln, 2, nchar(ln))
