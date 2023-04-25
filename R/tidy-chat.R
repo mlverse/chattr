@@ -62,13 +62,6 @@ tidychat_send <- function(prompt = NULL,
     }
   }
 
-  if (td$provider == "nomicai") {
-    if (is.null(prompt)) prompt <- context_doc_last_line()
-    text_output <- nomicai_chat(
-      prompt = prompt
-    )
-  }
-
   text_output
 }
 
