@@ -1,12 +1,37 @@
 #' @rdname tidychat_prompt
 #' @export
-tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800)) {
+#'
+tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800),
+                                 as_job = FALSE,
+                                 as_job_port = getOption("shiny.port", 7788),
+                                 as_job_host = getOption("shiny.host", "127.0.0.1")
+                                 ) {
 
+  app <- app_interactive()
+
+  if(!as_job) {
+    runGadget(app$ui,  app$server, viewer = viewer)
+  } else {
+    run_file <- tempfile()
+    writeLines(c(
+      "app <- tidychat:::app_interactive()\n",
+      "rp <- list(ui = app$ui, server = app$server)\n",
+      paste0("shiny::runApp(rp, host = '", as_job_host, "', port = ", as_job_port, ")")
+      ),
+      con = run_file
+    )
+    rstudioapi::jobRunScript(path = run_file)
+    Sys.sleep(3)
+    rstudioapi::viewer(paste0("http://", as_job_host, ":", as_job_port))
+  }
+}
+
+app_interactive <- function() {
   tidychat_env$content_hist <- NULL
   style <- app_theme_style()
 
-  #tidychat_debug_set_true()
-  #tidychat_env$openai_history <- readRDS("inst/history/raw.rds")
+  tidychat_debug_set_true()
+  tidychat_env$openai_history <- readRDS(system.file("history/raw.rds", package = "tidychat") )
 
   ui <- fluidPage(
     theme = bs_theme(
@@ -72,14 +97,14 @@ tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800))
       chat <- app_get_chat(
         prompt = input$prompt,
         include = input$include
-        )
+      )
 
       app_add_assistant(chat$assistant, style$ui_assistant, input)
 
     })
   }
 
-  runGadget(ui, server, viewer = viewer)
+  list(ui = ui, server = server)
 }
 
 app_add_user <- function(content, style) {
