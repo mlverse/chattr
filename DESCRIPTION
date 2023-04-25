@@ -10,12 +10,13 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
+    rstudioapi,
+    config,
     httr2,
     purrr,
     rlang,
-    rstudioapi,
-    config,
     bslib,
     shiny,
     clipr,
+    yaml,
     fs
