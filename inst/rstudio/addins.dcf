@@ -13,3 +13,7 @@ Description: Requests the explanation of the output of the higlighted code
 Binding: tidychat_explain_prompt
 Interactive: false
 
+Name: Chat
+Description: Chat
+Binding: tidychat_interactive
+Interactive: true

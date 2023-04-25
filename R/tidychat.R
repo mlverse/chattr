@@ -11,14 +11,10 @@ tidychat_prompt <- function(prompt = NULL) {
   }
 }
 
-#' @rdname tidychat_prompt
-#' @export
 tidychat_debug_set_true <- function() {
   tidychat_env$debug <- TRUE
 }
 
-#' @rdname tidychat_prompt
-#' @export
 tidychat_debug_set_false <- function() {
   tidychat_env$debug <- FALSE
 }
@@ -50,22 +46,6 @@ tidychat_history <- function(raw = FALSE) {
     hist
   }
 
-}
-
-#' @rdname tidychat_prompt
-#' @export
-tidychat_interactive <- function() {
-  run_file <- tempfile()
-  writeLines(
-    "shiny::runApp(host = '127.0.0.1', port = 7788)",
-    con = run_file
-  )
-  rstudioapi::jobRunScript(
-    path = run_file,
-    workingDir = system.file('apps/chat', package = 'tidychat')
-    )
-  Sys.sleep(3)
-  rstudioapi::viewer("http://127.0.0.1:7788")
 }
 
 #' Copies the base version of defaults used for tidychat

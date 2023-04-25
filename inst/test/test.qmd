@@ -13,6 +13,11 @@ tidychat_debug_set_false()
 import the counties csv file
 
 ```{r}
+iris
+
+```
+
+```{r}
 library(readr)
 
 counties <- read_csv("data/county-hospital.csv")
