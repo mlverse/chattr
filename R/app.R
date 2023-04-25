@@ -8,7 +8,7 @@
 #' @param as_job_port Host IP to use for the Shiny app. Applicable only if `as_job`
 #' is set to TRUE.
 #' @export
-tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800),
+tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
                                  as_job = FALSE,
                                  as_job_port = getOption("shiny.port", 7788),
                                  as_job_host = getOption("shiny.host", "127.0.0.1")) {
@@ -33,7 +33,7 @@ tidychat_interactive <- function(viewer = dialogViewer("tidychat", width = 800),
 }
 
 app_interactive <- function() {
-  tidychat_history_reset()
+  tidychat_env$content_hist <- NULL
   style <- app_theme_style()
 
   tidychat_debug_set_true()
