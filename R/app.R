@@ -87,7 +87,7 @@ app_interactive <- function(as_job = FALSE) {
 
   server <- function(input, output, session) {
     app_add_history(
-      style == style,
+      style = style,
       input = input,
       as_job = as_job
     )
