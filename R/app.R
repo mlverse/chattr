@@ -60,16 +60,20 @@ app_interactive <- function(as_job = FALSE) {
         ),
         column(
           width = 2,
-          br(),
+          br(), br(),
           actionButton("add", "Submit", style = "font-size:120%;")
         ),
         column(
-          width = 1,
+          width = 2,
           br(),
-          checkboxInput("include", "Enhanced prompt?", value = TRUE)
+          fluidRow(
+            actionLink("save", "Save chat"),
+            actionLink("open", "Open chat")
+          ),
+          checkboxInput("include", "Prompt+", value = TRUE)
         )
       ),
-      style = paste0("font-size:60%; z-index: 10; background-color:", style$color_top)
+      style = paste0("font-size:80%; z-index: 10; background-color:", style$color_top)
     ),
     absolutePanel(
       top = 95,
@@ -82,16 +86,11 @@ app_interactive <- function(as_job = FALSE) {
   )
 
   server <- function(input, output, session) {
-    th <- tidychat_history_get()
-    for (i in seq_along(th)) {
-      curr <- th[[i]]
-      if (curr$role == "user") {
-        app_add_user(curr$content, style$ui_user)
-      }
-      if (curr$role == "assistant") {
-        app_add_assistant(curr$content, style$ui_assistant, input, as_job)
-      }
-    }
+    app_add_history(
+      style == style,
+      input = input,
+      as_job = as_job
+    )
 
     observeEvent(input$add, {
       app_add_user(input$prompt, style$ui_user)
@@ -108,11 +107,49 @@ app_interactive <- function(as_job = FALSE) {
         include = input$include
       )
 
-      # app_add_assistant(chat$assistant, style$ui_assistant, input, as_job)
+      app_add_assistant(chat$assistant, style$ui_assistant, input, as_job)
+    })
+
+    observeEvent(input$open, {
+      file <- file.choose()
+      ext <- fs::path_ext(file)
+      if (ext == "rds") {
+        rds <- readRDS(file)
+        tidychat_history_set(rds)
+        app_add_history(
+          style = style,
+          input = input,
+          as_job = as_job
+        )
+      }
+    })
+
+    observeEvent(input$save, {
+      file <- file.choose(new = TRUE)
+      ext <- fs::path_ext(file)
+      if (ext == "rds") {
+        saveRDS(
+          tidychat_history_get(),
+          file
+        )
+      }
     })
   }
 
   list(ui = ui, server = server)
+}
+
+app_add_history <- function(style, input, as_job) {
+  th <- tidychat_history_get()
+  for (i in seq_along(th)) {
+    curr <- th[[i]]
+    if (curr$role == "user") {
+      app_add_user(curr$content, style$ui_user)
+    }
+    if (curr$role == "assistant") {
+      app_add_assistant(curr$content, style$ui_assistant, input, as_job)
+    }
+  }
 }
 
 app_add_user <- function(content, style) {
