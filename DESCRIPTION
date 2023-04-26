@@ -19,4 +19,5 @@ Imports:
     shiny,
     clipr,
     yaml,
+    cli,
     fs

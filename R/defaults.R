@@ -79,7 +79,15 @@ tidychat_defaults <- function(prompt = NULL,
     type = type
   )
 
-  tidychat_get_defaults(type)
+  ret <- tidychat_get_defaults(type)
+
+  class(ret) <- c(
+    "tc_model",
+    paste0("tc_provider_", ret$provider),
+    paste0("tc_model_", ret$model)
+    )
+
+  ret
 }
 
 tidychat_get_defaults <- function(type = "notebook") {
@@ -87,6 +95,30 @@ tidychat_get_defaults <- function(type = "notebook") {
   if (type == "notebook") ret <- tidychat_env$notebook
   if (type == "chat") ret <- tidychat_env$chat
   ret
+}
+
+#' @export
+print.tc_model <- function(x) {
+  cli::cli_h1("tidychat - Current defaults")
+  cli::cli_h3("Model")
+  cli::cli_text("Provider: {x$provider}")
+  cli::cli_text("Model: {x$model}")
+  cli::cli_h3("Prompt:")
+  cli::cli_li(x$prompt)
+  cli::cli_h3("Context:")
+  print_include(x$include_data_files, "Data Files")
+  print_include(x$include_data_frames, "Data Frames")
+  print_include(x$include_doc_contents, "Document contents")
+}
+
+print_include <- function(x, label) {
+  if(!is.null(x)) {
+    if(x) {
+      cli::cli_alert_success(label)
+    } else {
+      cli::cli_alert_danger(label)
+    }
+  }
 }
 
 tidychat_set_defaults <- function(prompt = NULL,
