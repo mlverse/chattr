@@ -16,7 +16,6 @@ tidychat_submit <- function(defaults,
                             add_to_history = TRUE,
                             prompt_build = TRUE,
                             preview = FALSE,
-                            ...
-) {
+                            ...) {
   UseMethod("tidychat_submit")
 }

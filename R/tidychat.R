@@ -3,9 +3,7 @@
 #' @param overwrite If there's an existing "config.yml", should it be replaced?
 #' @export
 tidychat_yaml_copy <- function(path = "config.yml",
-                               overwrite = FALSE
-                               ) {
-
+                               overwrite = FALSE) {
   notebook <- tidychat_defaults(type = "notebook")
   notebook$prompt <- paste0(notebook$prompt, collapse = "\n")
 
@@ -29,11 +27,15 @@ tidychat_yaml_copy <- function(path = "config.yml",
 # -------------------------------- History -------------------------------------
 
 tidychat_history_get <- function() {
-  tidychat_env$openai_history
+  tidychat_env$chat_history
 }
 
-tidychat_history_reset <- function() {
-  tidychat_env$openai_history <- NULL
+tidychat_history_append <- function(entry) {
+  tidychat_env$chat_history <- c(tidychat_env$chat_history, entry)
+}
+
+tidychat_history_set <- function(x) {
+  tidychat_env$chat_history <- x
 }
 
 # --------------------------------- Debug --------------------------------------
@@ -47,10 +49,8 @@ tidychat_debug_set_false <- function() {
 }
 
 tidychat_debug_get <- function() {
-  debug <- tidychat_env$debug
-  if (is.null(debug)) debug <- FALSE
-  tidychat_env$debug <- debug
-  debug
+  tidychat_env$debug <- tidychat_env$debug %||% FALSE
+  tidychat_env$debug
 }
 
 # ---------------------------------- Use ---------------------------------------

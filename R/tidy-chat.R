@@ -61,7 +61,7 @@ build_prompt <- function(prompt = NULL, use_current_mode = TRUE, defaults) {
   if (use_current_mode) {
     full <- c(
       system_msg,
-      tidychat_env$openai_history,
+      tidychat_history_get(),
       list(
         list(
           role = "user",

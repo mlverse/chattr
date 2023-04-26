@@ -11,8 +11,7 @@
 tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
-                         as_job_host = getOption("shiny.host", "127.0.0.1")
-                         ) {
+                         as_job_host = getOption("shiny.host", "127.0.0.1")) {
   if (!as_job) {
     app <- app_interactive(as_job = as_job)
     runGadget(app$ui, app$server, viewer = viewer)
@@ -36,9 +35,9 @@ app_interactive <- function(as_job = FALSE) {
   tidychat_env$content_hist <- NULL
   style <- app_theme_style()
 
-  if(tidychat_debug_get()) {
-    test_file <-  readRDS(system.file("history/raw.rds", package = "tidychat"))
-    tidychat_env$openai_history <- test_file
+  if (tidychat_debug_get()) {
+    test_file <- readRDS(system.file("history/raw.rds", package = "tidychat"))
+    tidychat_history_set(test_file)
   }
 
   ui <- fluidPage(
@@ -109,7 +108,7 @@ app_interactive <- function(as_job = FALSE) {
         include = input$include
       )
 
-      #app_add_assistant(chat$assistant, style$ui_assistant, input, as_job)
+      # app_add_assistant(chat$assistant, style$ui_assistant, input, as_job)
     })
   }
 
@@ -151,7 +150,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       is_code <- FALSE
     }
 
-    if(as_job) {
+    if (as_job) {
       tabs_1 <- 11
       tabs_2 <- 1
     } else {
@@ -198,7 +197,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
     ~ {
       observeEvent(input[[paste0("copy", .x)]], {
         write_clip(content_hist[.x], allow_non_interactive = TRUE)
-        if(!as_job) stopApp()
+        if (!as_job) stopApp()
       })
       observeEvent(input[[paste0("doc", .x)]], {
         ch <- content_hist[.x]

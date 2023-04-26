@@ -85,7 +85,7 @@ tidychat_defaults <- function(prompt = NULL,
     "tc_model",
     paste0("tc_provider_", prep_class_name(ret$provider)),
     paste0("tc_model_", prep_class_name(ret$model))
-    )
+  )
 
   ret
 }
@@ -101,11 +101,11 @@ tidychat_get_defaults <- function(type = "notebook") {
   if (type == "notebook") {
     ret <- tidychat_env$notebook
     ret$type <- "Notebook"
-    }
+  }
   if (type == "chat") {
     ret <- tidychat_env$chat
     ret$type <- "Chat"
-    }
+  }
   ret
 }
 
@@ -121,7 +121,7 @@ print.tc_model <- function(x) {
   cli::cli_li("Provider: {.val0 {x$provider}}")
   cli::cli_li("Model: {.val0 {x$model}}")
   cli::cli_h3("Prompt:")
-  walk(paste0("{.val1 ",x$prompt, "}"), cli::cli_text)
+  walk(paste0("{.val1 ", x$prompt, "}"), cli::cli_text)
   cli::cli_h3("Context:")
   print_include(x$include_data_files, "Data Files")
   print_include(x$include_data_frames, "Data Frames")
@@ -130,8 +130,8 @@ print.tc_model <- function(x) {
 }
 
 print_include <- function(x, label) {
-  if(!is.null(x)) {
-    if(x) {
+  if (!is.null(x)) {
+    if (x) {
       cli::cli_alert_success(label)
     } else {
       cli::cli_alert_danger(label)

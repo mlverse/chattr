@@ -28,8 +28,7 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
         list(role = "user", content = full_prompt$prompt),
         list(role = "assistant", content = comp_text)
       )
-
-      tidychat_env$openai_history <- c(tidychat_env$openai_history, chat_entry)
+      tidychat_history_append(chat_entry)
     }
   } else {
     text_output <- full_prompt$full
@@ -40,15 +39,13 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
 
 openai_get_completion <- function(defaults,
                                   prompt = NULL,
-                                  model_arguments = NULL
-                                  ) {
+                                  model_arguments = NULL) {
   UseMethod("openai_get_completion")
 }
 
 openai_get_completion.tc_model_gpt_3.5_turbo <- function(defaults,
                                                          prompt = NULL,
-                                                         model_arguments = NULL
-                                                         ) {
+                                                         model_arguments = NULL) {
   openai_get_chat_completion_text(
     prompt = prompt,
     model = "gpt-3.5-turbo",
@@ -58,8 +55,7 @@ openai_get_completion.tc_model_gpt_3.5_turbo <- function(defaults,
 
 openai_get_completion.tc_model_davinci_3 <- function(defaults,
                                                      prompt = NULL,
-                                                     model_arguments = NULL
-                                                     ) {
+                                                     model_arguments = NULL) {
   openai_get_completion_text(
     prompt = prompt,
     model = "text-davinci-003",
@@ -69,8 +65,7 @@ openai_get_completion.tc_model_davinci_3 <- function(defaults,
 
 openai_get_completion_text <- function(prompt = NULL,
                                        model = "text-davinci-003",
-                                       model_arguments = NULL
-                                       ) {
+                                       model_arguments = NULL) {
   req_body <- c(
     list(
       model = model,
@@ -85,8 +80,7 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            model_arguments = NULL
-                                            ) {
+                                            model_arguments = NULL) {
   req_body <- c(
     list(
       model = model,
