@@ -283,7 +283,7 @@ app_get_chat <- function(prompt, include = TRUE) {
       tidychat_send(
         prompt = prompt,
         type = "chat",
-        enhanced_prompt = include
+        prompt_build = include
       )
     )
 

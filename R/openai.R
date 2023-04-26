@@ -1,27 +1,76 @@
-# Functions to integrate with the OpenAI API
-
-openai_get_completion <- function(prompt = NULL,
-                                  model = NULL,
-                                  system_msg = NULL,
-                                  model_arguments = NULL) {
-  if (grepl("gpt", model)) {
-    openai_get_chat_completion_text(
+#' @export
+tidychat_submit.tc_provider_open_ai <- function(defaults,
+                                                prompt = NULL,
+                                                add_to_history = TRUE,
+                                                prompt_build = TRUE,
+                                                preview = FALSE) {
+  if (prompt_build) {
+    full_prompt <- build_prompt(
       prompt = prompt,
-      model = model,
-      model_arguments = model_arguments
+      defaults = defaults
     )
   } else {
-    openai_get_completion_text(
-      prompt = prompt,
-      model = model,
-      model_arguments = model_arguments
+    full_prompt <- list(
+      full = prompt,
+      prompt = prompt
     )
   }
+
+  if (!preview) {
+    comp_text <- openai_get_completion(
+      defaults,
+      prompt = full_prompt$full
+    )
+    text_output <- paste0("\n\n", comp_text, "\n\n")
+
+    if (add_to_history) {
+      chat_entry <- list(
+        list(role = "user", content = full_prompt$prompt),
+        list(role = "assistant", content = comp_text)
+      )
+
+      tidychat_env$openai_history <- c(tidychat_env$openai_history, chat_entry)
+    }
+  } else {
+    text_output <- full_prompt$full
+  }
+
+  text_output
+}
+
+openai_get_completion <- function(defaults,
+                                  prompt = NULL,
+                                  model_arguments = NULL
+                                  ) {
+  UseMethod("openai_get_completion")
+}
+
+openai_get_completion.tc_model_gpt_3.5_turbo <- function(defaults,
+                                                         prompt = NULL,
+                                                         model_arguments = NULL
+                                                         ) {
+  openai_get_chat_completion_text(
+    prompt = prompt,
+    model = "gpt-3.5-turbo",
+    model_arguments = defaults$model_arguments
+  )
+}
+
+openai_get_completion.tc_model_davinci_3 <- function(defaults,
+                                                     prompt = NULL,
+                                                     model_arguments = NULL
+                                                     ) {
+  openai_get_completion_text(
+    prompt = prompt,
+    model = "text-davinci-003",
+    model_arguments = defaults$model_arguments
+  )
 }
 
 openai_get_completion_text <- function(prompt = NULL,
                                        model = "text-davinci-003",
-                                       model_arguments = NULL) {
+                                       model_arguments = NULL
+                                       ) {
   req_body <- c(
     list(
       model = model,
@@ -36,7 +85,8 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            model_arguments = NULL) {
+                                            model_arguments = NULL
+                                            ) {
   req_body <- c(
     list(
       model = model,

@@ -83,32 +83,50 @@ tidychat_defaults <- function(prompt = NULL,
 
   class(ret) <- c(
     "tc_model",
-    paste0("tc_provider_", ret$provider),
-    paste0("tc_model_", ret$model)
+    paste0("tc_provider_", prep_class_name(ret$provider)),
+    paste0("tc_model_", prep_class_name(ret$model))
     )
 
   ret
 }
 
+prep_class_name <- function(x) {
+  x <- tolower(x)
+  x <- gsub(" ", "_", x)
+  x
+}
+
 tidychat_get_defaults <- function(type = "notebook") {
   ret <- NULL
-  if (type == "notebook") ret <- tidychat_env$notebook
-  if (type == "chat") ret <- tidychat_env$chat
+  if (type == "notebook") {
+    ret <- tidychat_env$notebook
+    ret$type <- "Notebook"
+    }
+  if (type == "chat") {
+    ret <- tidychat_env$chat
+    ret$type <- "Chat"
+    }
   ret
 }
 
 #' @export
 print.tc_model <- function(x) {
-  cli::cli_h1("tidychat - Current defaults")
+  cli::cli_div(theme = list(
+    span.val0 = list(color = "blue"),
+    span.val1 = list(color = "darkgray")
+  ))
+  cli::cli_h1("tidychat")
+  cli::cli_h2("Defaults for: {.val0 {x$type}}")
   cli::cli_h3("Model")
-  cli::cli_text("Provider: {x$provider}")
-  cli::cli_text("Model: {x$model}")
+  cli::cli_li("Provider: {.val0 {x$provider}}")
+  cli::cli_li("Model: {.val0 {x$model}}")
   cli::cli_h3("Prompt:")
-  cli::cli_li(x$prompt)
+  walk(paste0("{.val1 ",x$prompt, "}"), cli::cli_text)
   cli::cli_h3("Context:")
   print_include(x$include_data_files, "Data Files")
   print_include(x$include_data_frames, "Data Frames")
   print_include(x$include_doc_contents, "Document contents")
+  cli::cli_end()
 }
 
 print_include <- function(x, label) {

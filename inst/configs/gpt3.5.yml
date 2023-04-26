@@ -10,8 +10,8 @@ default:
         For code output, use RMarkdown code chunks
         Expecting only code, avoid comments unless requested by user
         Include alt text code chunk option for all plots
-      provider: openai
-      model: gpt-3.5-turbo
+      provider: Open AI
+      model: GPT 3.5 Turbo
       include_data_files: TRUE
       include_data_frames: TRUE
       include_doc_contents: TRUE
@@ -27,8 +27,8 @@ default:
         skimr and janitor can also be used if needed
         For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom
         For code output, use markdown code chunks
-      provider: openai
-      model: gpt-3.5-turbo
+      provider: Open AI
+      model: GPT 3.5 Turbo
       include_data_files: TRUE
       include_data_frames: TRUE
       include_doc_contents: FALSE
