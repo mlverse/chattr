@@ -3,17 +3,7 @@ Description: Sends the last line of your document, or the highlighted text to th
 Binding: tidy_chat
 Interactive: false
 
-Name: Preview prompt
-Description: Displays the prompt without being sent to the LLM
-Binding: tidychat_prompt
-Interactive: false
-
-Name: Explain selection
-Description: Requests the explanation of the output of the higlighted code
-Binding: tidychat_explain_prompt
-Interactive: false
-
 Name: Open Chat
 Description: Opens the chat app as a Shiny Gadget
-Binding: tidychat_interactive
+Binding: tidychat_app
 Interactive: true

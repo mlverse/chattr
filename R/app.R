@@ -13,15 +13,14 @@ tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
                          as_job_port = getOption("shiny.port", 7788),
                          as_job_host = getOption("shiny.host", "127.0.0.1")
                          ) {
-  app <- app_interactive()
-
   if (!as_job) {
+    app <- app_interactive(as_job = as_job)
     runGadget(app$ui, app$server, viewer = viewer)
   } else {
     run_file <- tempfile()
     writeLines(
       c(
-        "app <- tidychat:::app_interactive()\n",
+        "app <- tidychat:::app_interactive(as_job = TRUE)\n",
         "rp <- list(ui = app$ui, server = app$server)\n",
         paste0("shiny::runApp(rp, host = '", as_job_host, "', port = ", as_job_port, ")")
       ),
@@ -33,12 +32,14 @@ tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
   }
 }
 
-app_interactive <- function() {
+app_interactive <- function(as_job = FALSE) {
   tidychat_env$content_hist <- NULL
   style <- app_theme_style()
 
-  tidychat_debug_set_true()
-  tidychat_env$openai_history <- readRDS(system.file("history/raw.rds", package = "tidychat"))
+  if(tidychat_debug_get()) {
+    test_file <-  readRDS(system.file("history/raw.rds", package = "tidychat"))
+    tidychat_env$openai_history <- test_file
+  }
 
   ui <- fluidPage(
     theme = bs_theme(
@@ -89,7 +90,7 @@ app_interactive <- function() {
         app_add_user(curr$content, style$ui_user)
       }
       if (curr$role == "assistant") {
-        app_add_assistant(curr$content, style$ui_assistant, input)
+        app_add_assistant(curr$content, style$ui_assistant, input, as_job)
       }
     }
 
@@ -100,13 +101,15 @@ app_interactive <- function() {
         inputId = "prompt",
         value = ""
       )
+    })
 
+    observeEvent(input$add, {
       chat <- app_get_chat(
         prompt = input$prompt,
         include = input$include
       )
 
-      app_add_assistant(chat$assistant, style$ui_assistant, input)
+      #app_add_assistant(chat$assistant, style$ui_assistant, input, as_job)
     })
   }
 
@@ -124,7 +127,7 @@ app_add_user <- function(content, style) {
   )
 }
 
-app_add_assistant <- function(content, style, input) {
+app_add_assistant <- function(content, style, input, as_job = FALSE) {
   if (grepl("```", content)) {
     split_content <- unlist(strsplit(content, "```"))
   } else {
@@ -148,15 +151,23 @@ app_add_assistant <- function(content, style, input) {
       is_code <- FALSE
     }
 
+    if(as_job) {
+      tabs_1 <- 11
+      tabs_2 <- 1
+    } else {
+      tabs_1 <- 9
+      tabs_2 <- 3
+    }
+
     insertUI(
       selector = "#tabs",
       where = "afterEnd",
       ui = fluidRow(
         style = style,
         fluidRow(
-          column(width = 9, div()),
+          column(width = tabs_1, div()),
           column(
-            width = 3,
+            width = tabs_2,
             if (is_code) {
               actionButton(
                 paste0("copy", length(content_hist)),
@@ -165,7 +176,7 @@ app_add_assistant <- function(content, style, input) {
                 style = "padding:4px; font-size:60%"
               )
             },
-            if (is_code) {
+            if (is_code & !as_job) {
               actionButton(
                 paste0("doc", length(content_hist)),
                 icon = icon("file"),
@@ -186,8 +197,8 @@ app_add_assistant <- function(content, style, input) {
     seq_along(content_hist),
     ~ {
       observeEvent(input[[paste0("copy", .x)]], {
-        write_clip(content_hist[.x])
-        stopApp()
+        write_clip(content_hist[.x], allow_non_interactive = TRUE)
+        if(!as_job) stopApp()
       })
       observeEvent(input[[paste0("doc", .x)]], {
         ch <- content_hist[.x]
@@ -212,16 +223,17 @@ app_theme_style <- function() {
   if (ti$dark) {
     color_user <- "#3E4A56"
     color_top <- "#242B31"
+    color_bk <- "#f1f6f8"
   } else {
     color_user <- "#f1f6f8"
     color_top <- "#E1E2E5"
+    color_bk <- "#3E4A56"
   }
 
   ui_style <- c(
     "padding-top: 5px",
     "padding-left: 5px",
-    "padding-right: 5px;",
-    paste0("color:", color_fg)
+    "padding-right: 5px"
   )
 
   ui_user <- c(
@@ -231,13 +243,15 @@ app_theme_style <- function() {
     "margin-top: 10px",
     "margin-bottom: 10px",
     "margin-left: 50px",
-    paste0("background-color:", color_bg),
+    paste0("color:", color_bg),
+    paste0("background-color:", color_bk),
     paste0("border-color:", color_top)
   )
 
   ui_assistant <- c(
     ui_style,
     "margin-left: 0px",
+    paste0("color:", color_fg),
     paste0("background-color:", color_user),
     paste0("border-color:", color_bg)
   )
@@ -263,6 +277,7 @@ app_get_chat <- function(prompt, include = TRUE) {
   if (tidychat_debug_get()) {
     ret$assistant <- "some text\n```{r}\nmtcars\n```\nmore text\n```{r}\niris\n```"
     ret$user <- "test"
+    Sys.sleep(2)
   } else {
     invisible(
       tidychat_send(
