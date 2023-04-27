@@ -56,8 +56,7 @@ app_interactive <- function(as_job = FALSE) {
             "prompt", "",
             width = "100%",
             resize = "horizontal"
-          ),
-          textOutput("stream")
+          )
         ),
         column(
           width = 2,
@@ -100,12 +99,21 @@ app_interactive <- function(as_job = FALSE) {
         inputId = "prompt",
         value = ""
       )
+
+      insertUI(
+        selector = "#tabs",
+        where = "afterEnd",
+        ui = fluidRow(
+          style = style$ui_assistant,
+          htmlOutput("stream")
+        )
+      )
     })
 
     observeEvent(input$add, {
-        tidychat_stream_chat(
-          prompt = input$prompt
-        )
+      tidychat_stream_chat(
+        prompt = input$prompt
+      )
     })
 
     stream_file <- reactivePoll(
@@ -126,7 +134,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     output$stream <- renderText({
-      open_ai_parse(stream_file())
+      markdown(open_ai_parse(stream_file()))
     })
 
     # observeEvent(input$add, {

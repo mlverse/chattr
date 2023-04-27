@@ -125,9 +125,9 @@ openai_stream <- function(endpoint, req_body) {
           }
           TRUE
         },
-        buffer_kb = 0.01
+        buffer_kb = 0.1
       )
-    #fs::file_delete(path)
+    fs::file_delete(path)
   }
 }
 
