@@ -111,14 +111,15 @@ openai_stream <- function(endpoint, req_body) {
   if (tidychat_debug_get()) {
     req_body
   } else {
+    path <- tidychat_env_app()
+
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x){
-          fl <- tidychat_env_app()
-          if(!file.exists(fl)) {
-            writeLines("", fl)
+          if(!file.exists(path)) {
+            writeLines("", path)
           } else {
-            con <- file(fl, "a")
+            con <- file(path, "a")
             writeLines(rawToChar(x), con)
             close(con)
           }
@@ -126,6 +127,7 @@ openai_stream <- function(endpoint, req_body) {
         },
         buffer_kb = 0.01
       )
+    fs::file_delete(path)
   }
 }
 
@@ -151,4 +153,34 @@ openai_token <- function() {
   }
 
   ret
+}
+
+
+open_ai_parse <- function() {
+  path <- tidychat_env_app()
+  if(file.exists(path)) {
+    x <- readLines(path)
+    cx <- paste0(x, collapse = "")
+    start <- NULL
+    end <- NULL
+    resp <- NULL
+    for(i in seq_len(nchar(cx))) {
+      cr <- substr(cx, i, nchar(cx))
+      fn <- regexpr("data: \\{", cr)[[1]]
+      if(fn == 1) {
+        if(is.null(start)) {
+          start <- i
+        } else {
+          end <- i - 1
+          entry <- substr(cx, start + 6, end)
+          json <- jsonlite::fromJSON(entry)
+          resp <- paste0(resp, json$choices$delta$content, collapse = "")
+          start <- i
+        }
+      }
+    }
+  } else {
+    resp <- NULL
+  }
+  resp
 }

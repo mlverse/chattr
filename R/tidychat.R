@@ -26,7 +26,10 @@ tidychat_yaml_copy <- function(path = "config.yml",
 
 # ------------------------------- App File -------------------------------------
 
-tidychat_env_app <- function() {
+tidychat_env_app <- function(path = NULL) {
+  if(!is.null(path)) {
+    tidychat_env$app_file <- path
+  }
   if(is.null(tidychat_env$app_file)) {
     tidychat_env$app_file <- tempfile()
   }
