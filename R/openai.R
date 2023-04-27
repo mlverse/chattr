@@ -111,7 +111,7 @@ openai_stream <- function(endpoint, req_body) {
   if (tidychat_debug_get()) {
     req_body
   } else {
-    path <- tidychat_env_app()
+    path <- tidychat_stream_path()
 
     openai_request(endpoint, req_body) %>%
       req_stream(
@@ -157,7 +157,7 @@ openai_token <- function() {
 
 
 open_ai_parse <- function() {
-  path <- tidychat_env_app()
+  path <- tidychat_stream_path()
   if(file.exists(path)) {
     x <- readLines(path)
     cx <- paste0(x, collapse = "")
