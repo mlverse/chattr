@@ -1,16 +1,24 @@
 #' @import callr
 tidychat_stream_chat <- function(prompt) {
+  out <- tempfile()
   rs <- tidychat_stream_session_start()
   rs$call(
-    function(prompt, path) {
-      tidychat:::tidychat_stream_path(path)
-      tidychat:::tidychat_send(prompt = prompt)
+    function(prompt, path, out) {
+      tidychat:::tidychat_stream(prompt, path, out)
     },
     args = list(
       prompt = prompt,
-      path = tidychat_stream_path()
+      path = tidychat_stream_path(),
+      out = out
     )
   )
+  out
+}
+
+tidychat_stream <- function(prompt, path_stream, path_output) {
+  tidychat_stream_path(path_stream)
+  res <- tidychat_send(prompt = prompt)
+  writeLines(res, path_output)
 }
 
 tidychat_stream_session_start <- function() {

@@ -86,6 +86,15 @@ app_interactive <- function(as_job = FALSE) {
   )
 
   server <- function(input, output, session) {
+    insertUI(
+      selector = "#tabs",
+      where = "beforeBegin",
+      ui = fluidRow(
+        style = style$ui_assistant,
+        htmlOutput("stream")
+      )
+    )
+
     app_add_history(
       style = style,
       input = input,
@@ -98,15 +107,6 @@ app_interactive <- function(as_job = FALSE) {
       updateTextAreaInput(
         inputId = "prompt",
         value = ""
-      )
-
-      insertUI(
-        selector = "#tabs",
-        where = "afterEnd",
-        ui = fluidRow(
-          style = style$ui_assistant,
-          htmlOutput("stream")
-        )
       )
     })
 

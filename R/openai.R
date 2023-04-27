@@ -21,7 +21,8 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
       defaults = defaults,
       prompt = full_prompt$full
     )
-    text_output <- paste0("\n\n", comp_text, "\n\n")
+    #text_output <- paste0("\n\n", comp_text, "\n\n")
+    text_output <- comp_text
 
     if (add_to_history) {
       chat_entry <- list(
@@ -88,8 +89,7 @@ openai_get_chat_completion_text <- function(prompt = NULL,
   )
 
   if(model_arguments$stream) {
-    ret <- NULL
-    openai_stream("chat/completions", req_body)
+    ret <- openai_stream("chat/completions", req_body)
   } else {
     comp <- openai_perform("chat/completions", req_body)
     ret <- comp$choices[[1]]$message$content
@@ -127,7 +127,10 @@ openai_stream <- function(endpoint, req_body) {
         },
         buffer_kb = 0.1
       )
+    x <- readLines(path)
+    ret <- open_ai_parse(x)
     fs::file_delete(path)
+    ret
   }
 }
 
