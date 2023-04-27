@@ -127,7 +127,7 @@ openai_stream <- function(endpoint, req_body) {
         },
         buffer_kb = 0.01
       )
-    fs::file_delete(path)
+    #fs::file_delete(path)
   }
 }
 
@@ -156,31 +156,25 @@ openai_token <- function() {
 }
 
 
-open_ai_parse <- function() {
-  path <- tidychat_stream_path()
-  if(file.exists(path)) {
-    x <- readLines(path)
-    cx <- paste0(x, collapse = "")
-    start <- NULL
-    end <- NULL
-    resp <- NULL
-    for(i in seq_len(nchar(cx))) {
-      cr <- substr(cx, i, nchar(cx))
-      fn <- regexpr("data: \\{", cr)[[1]]
-      if(fn == 1) {
-        if(is.null(start)) {
-          start <- i
-        } else {
-          end <- i - 1
-          entry <- substr(cx, start + 6, end)
-          json <- jsonlite::fromJSON(entry)
-          resp <- paste0(resp, json$choices$delta$content, collapse = "")
-          start <- i
-        }
+open_ai_parse <- function(x) {
+  cx <- paste0(x, collapse = "")
+  start <- NULL
+  end <- NULL
+  resp <- NULL
+  for(i in seq_len(nchar(cx))) {
+    cr <- substr(cx, i, nchar(cx))
+    fn <- regexpr("data: \\{", cr)[[1]]
+    if(fn == 1) {
+      if(is.null(start)) {
+        start <- i
+      } else {
+        end <- i - 1
+        entry <- substr(cx, start + 6, end)
+        json <- jsonlite::fromJSON(entry)
+        resp <- paste0(resp, json$choices$delta$content, collapse = "")
+        start <- i
       }
     }
-  } else {
-    resp <- NULL
   }
   resp
 }
