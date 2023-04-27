@@ -24,6 +24,15 @@ tidychat_yaml_copy <- function(path = "config.yml",
   fs::file_copy(temp, path, overwrite = overwrite)
 }
 
+# ------------------------------- App File -------------------------------------
+
+tidychat_env_app <- function() {
+  if(is.null(tidychat_env$app_file)) {
+    tidychat_env$app_file <- tempfile()
+  }
+  tidychat_env$app_file
+}
+
 # -------------------------------- History -------------------------------------
 
 tidychat_history_get <- function() {

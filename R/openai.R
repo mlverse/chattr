@@ -18,7 +18,7 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
 
   if (!preview) {
     comp_text <- openai_get_completion(
-      defaults,
+      defaults = defaults,
       prompt = full_prompt$full
     )
     text_output <- paste0("\n\n", comp_text, "\n\n")
@@ -38,14 +38,12 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
 }
 
 openai_get_completion <- function(defaults,
-                                  prompt = NULL,
-                                  model_arguments = NULL) {
+                                  prompt = NULL) {
   UseMethod("openai_get_completion")
 }
 
 openai_get_completion.tc_model_gpt_3.5_turbo <- function(defaults,
-                                                         prompt = NULL,
-                                                         model_arguments = NULL) {
+                                                         prompt = NULL) {
   openai_get_chat_completion_text(
     prompt = prompt,
     model = "gpt-3.5-turbo",
@@ -54,8 +52,7 @@ openai_get_completion.tc_model_gpt_3.5_turbo <- function(defaults,
 }
 
 openai_get_completion.tc_model_davinci_3 <- function(defaults,
-                                                     prompt = NULL,
-                                                     model_arguments = NULL) {
+                                                     prompt = NULL) {
   openai_get_completion_text(
     prompt = prompt,
     model = "text-davinci-003",
@@ -80,7 +77,8 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            model_arguments = NULL) {
+                                            model_arguments = NULL
+                                            ) {
   req_body <- c(
     list(
       model = model,
@@ -89,22 +87,54 @@ openai_get_chat_completion_text <- function(prompt = NULL,
     model_arguments
   )
 
-  comp <- openai_perform("chat/completions", req_body)
-  comp$choices[[1]]$message$content
+  if(model_arguments$stream) {
+    ret <- NULL
+    openai_stream("chat/completions", req_body)
+  } else {
+    comp <- openai_perform("chat/completions", req_body)
+    ret <- comp$choices[[1]]$message$content
+  }
+  ret
 }
 
 openai_perform <- function(endpoint, req_body) {
   if (tidychat_debug_get()) {
-    print(req_body)
+    req_body
   } else {
-    "https://api.openai.com/v1/" %>%
-      paste0(endpoint) %>%
-      request() %>%
-      req_auth_bearer_token(openai_token()) %>%
-      req_body_json(req_body) %>%
+    openai_request(endpoint, req_body) %>%
       req_perform() %>%
       resp_body_json()
   }
+}
+
+openai_stream <- function(endpoint, req_body) {
+  if (tidychat_debug_get()) {
+    req_body
+  } else {
+    openai_request(endpoint, req_body) %>%
+      req_stream(
+        function(x){
+          fl <- tidychat_env_app()
+          if(!file.exists(fl)) {
+            writeLines("", fl)
+          } else {
+            con <- file(fl, "a")
+            writeLines(rawToChar(x), con)
+            close(con)
+          }
+          TRUE
+        },
+        buffer_kb = 0.01
+      )
+  }
+}
+
+openai_request <- function(endpoint, req_body) {
+  "https://api.openai.com/v1/" %>%
+    paste0(endpoint) %>%
+    request() %>%
+    req_auth_bearer_token(openai_token()) %>%
+    req_body_json(req_body)
 }
 
 openai_token <- function() {

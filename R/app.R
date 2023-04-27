@@ -107,7 +107,12 @@ app_interactive <- function(as_job = FALSE) {
         include = input$include
       )
 
-      app_add_assistant(chat$assistant, style$ui_assistant, input, as_job)
+      app_add_assistant(
+        content = chat$assistant,
+        style = style$ui_assistant,
+        input = input,
+        as_job = as_job
+        )
     })
 
     observeEvent(input$open, {
