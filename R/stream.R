@@ -14,7 +14,7 @@ tidychat_stream_chat <- function(prompt) {
 
 tidychat_stream <- function(prompt, path_stream, path_output) {
   tidychat_stream_path(path_stream)
-  res <- tidychat_send(prompt = prompt)
+  res <- tidychat_send(prompt = prompt, type = "chat")
   saveRDS(res, path_output)
 }
 
