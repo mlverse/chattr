@@ -19,6 +19,7 @@ default:
       model_arguments:
         temperature: 0.01
         max_tokens: 1000
+        stream: TRUE
     chat:
       prompt: |
         Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
@@ -36,3 +37,5 @@ default:
       model_arguments:
         temperature: 0.01
         max_tokens: 1000
+        stream: TRUE
+

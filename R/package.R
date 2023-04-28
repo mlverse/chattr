@@ -1,3 +1,4 @@
+#' @import callr
 #' @import httr2
 #' @import shiny
 #' @importFrom bslib bs_theme

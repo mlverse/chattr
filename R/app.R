@@ -35,11 +35,6 @@ app_interactive <- function(as_job = FALSE) {
   tidychat_env$content_hist <- NULL
   style <- app_theme_style()
 
-  if (tidychat_debug_get()) {
-    test_file <- readRDS(system.file("history/raw.rds", package = "tidychat"))
-    tidychat_history_set(test_file)
-  }
-
   ui <- fluidPage(
     theme = bs_theme(
       bg = style$color_bg,
@@ -47,7 +42,7 @@ app_interactive <- function(as_job = FALSE) {
     ),
     fixedPanel(
       width = "100%",
-      left = -1,
+      left = 1,
       fluidRow(
         column(width = 1, div()),
         column(
@@ -76,7 +71,7 @@ app_interactive <- function(as_job = FALSE) {
       style = paste0("font-size:80%; z-index: 10; background-color:", style$color_top)
     ),
     absolutePanel(
-      top = 95,
+      top = 93,
       width = "95%",
       tabsetPanel(
         type = "tabs",
@@ -86,6 +81,15 @@ app_interactive <- function(as_job = FALSE) {
   )
 
   server <- function(input, output, session) {
+    insertUI(
+      selector = "#tabs",
+      where = "beforeBegin",
+      ui = fluidRow(
+        style = style$ui_assistant,
+        htmlOutput("stream")
+      )
+    )
+
     app_add_history(
       style = style,
       input = input,
@@ -93,6 +97,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$add, {
+      tidychat_history_append(user = input$prompt)
       app_add_user(input$prompt, style$ui_user)
 
       updateTextAreaInput(
@@ -102,12 +107,36 @@ app_interactive <- function(as_job = FALSE) {
     })
 
     observeEvent(input$add, {
-      chat <- app_get_chat(
-        prompt = input$prompt,
-        include = input$include
+      tidychat_stream_chat(
+        prompt = input$prompt
       )
+    })
 
-      app_add_assistant(chat$assistant, style$ui_assistant, input, as_job)
+    auto_invalidate <- reactiveTimer(100)
+
+    observe({
+      auto_invalidate()
+      out_file <- tidychat_stream_output()
+      if (file.exists(out_file)) {
+        out <- readRDS(out_file)
+        app_add_assistant(
+          content = out,
+          style = style$ui_assistant,
+          input = input,
+          as_job = as_job
+        )
+        tidychat_history_append(
+          assistant = out
+        )
+        fs::file_delete(out_file)
+      }
+    })
+
+    output$stream <- renderText({
+      auto_invalidate()
+      if (file.exists(tidychat_stream_path())) {
+        markdown(readRDS(tidychat_stream_path()))
+      }
     })
 
     observeEvent(input$open, {
@@ -174,14 +203,14 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
 
   for (i in seq_along(split_content)) {
     curr_content <- split_content[length(split_content) - i + 1]
-
-    if (grepl("\\{r\\}", curr_content)) {
+    if (grepl("\\{r", curr_content)) {
       is_code <- TRUE
 
-      hist_content <- sub("\\{r\\}\n", "", curr_content)
-      hist_content <- sub("\\{r\\}", "", hist_content)
-      content_hist <- c(content_hist, hist_content)
+      end_cap <- regexpr("\\}", curr_content)[[1]]
 
+      hist_content <- substr(curr_content, end_cap + 1, nchar(curr_content))
+
+      content_hist <- c(content_hist, hist_content)
       curr_content <- paste0("```", curr_content, "```")
     } else {
       is_code <- FALSE
