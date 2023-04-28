@@ -127,8 +127,12 @@ openai_stream <- function(endpoint, req_body) {
         },
         buffer_kb = 0.1
       )
-    x <- readLines(path)
-    ret <- open_ai_parse(x)
+
+    ret <- path %>%
+      readLines() %>%
+      open_ai_parse() %>%
+      paste0(collapse = "\n")
+
     fs::file_delete(path)
     ret
   }

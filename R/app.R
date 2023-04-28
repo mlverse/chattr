@@ -133,6 +133,26 @@ app_interactive <- function(as_job = FALSE) {
       }
     )
 
+    autoInvalidate <- reactiveTimer(100)
+
+    observe({
+      autoInvalidate()
+      out_file <- tidychat_stream_output()
+      if(file.exists(out_file)) {
+        out <- readRDS(out_file)
+        app_add_assistant(
+          content = out,
+          style = style$ui_assistant,
+          input = input,
+          as_job = as_job
+        )
+        fs::file_delete(out_file)
+      }
+
+    })
+
+
+
     output$stream <- renderText({
       markdown(open_ai_parse(stream_file()))
     })
@@ -215,14 +235,14 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
 
   for (i in seq_along(split_content)) {
     curr_content <- split_content[length(split_content) - i + 1]
-
-    if (grepl("\\{r\\}", curr_content)) {
+    if (grepl("\\{r", curr_content)) {
       is_code <- TRUE
 
-      hist_content <- sub("\\{r\\}\n", "", curr_content)
-      hist_content <- sub("\\{r\\}", "", hist_content)
-      content_hist <- c(content_hist, hist_content)
+      end_cap <- regexpr("\\}", curr_content)[[1]]
 
+      hist_content <- substr(curr_content, end_cap + 1, nchar(curr_content))
+
+      content_hist <- c(content_hist, hist_content)
       curr_content <- paste0("```", curr_content, "```")
     } else {
       is_code <- FALSE
