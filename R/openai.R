@@ -21,15 +21,8 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
       defaults = defaults,
       prompt = full_prompt$full
     )
-    #text_output <- paste0("\n\n", comp_text, "\n\n")
+    # text_output <- paste0("\n\n", comp_text, "\n\n")
     text_output <- comp_text
-
-    if (add_to_history) {
-      tidychat_history_append(
-        user = full_prompt$prompt,
-        assitant = comp_text
-      )
-    }
   } else {
     text_output <- full_prompt$full
   }
@@ -77,8 +70,7 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            model_arguments = NULL
-                                            ) {
+                                            model_arguments = NULL) {
   req_body <- c(
     list(
       model = model,
@@ -87,7 +79,7 @@ openai_get_chat_completion_text <- function(prompt = NULL,
     model_arguments
   )
 
-  if(model_arguments$stream) {
+  if (model_arguments$stream) {
     ret <- openai_stream("chat/completions", req_body)
   } else {
     comp <- openai_perform("chat/completions", req_body)
@@ -116,14 +108,14 @@ openai_stream <- function(endpoint, req_body) {
 
     openai_request(endpoint, req_body) %>%
       req_stream(
-        function(x){
+        function(x) {
           tidychat_env$response <- paste0(
             tidychat_env$response,
             rawToChar(x),
             collapse = ""
-            )
+          )
           ret <- open_ai_parse(tidychat_env$response)
-          saveRDS(ret,path)
+          saveRDS(ret, path)
           TRUE
         },
         buffer_kb = 0.1
@@ -164,11 +156,11 @@ open_ai_parse <- function(x) {
   start <- NULL
   end <- NULL
   resp <- NULL
-  for(i in seq_len(nchar(cx))) {
+  for (i in seq_len(nchar(cx))) {
     cr <- substr(cx, i, nchar(cx))
     fn <- regexpr("data: \\{", cr)[[1]]
-    if(fn == 1) {
-      if(is.null(start)) {
+    if (fn == 1) {
+      if (is.null(start)) {
         start <- i
       } else {
         end <- i - 1

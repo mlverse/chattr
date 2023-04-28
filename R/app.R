@@ -34,7 +34,7 @@ tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
 app_interactive <- function(as_job = FALSE) {
   tidychat_env$content_hist <- NULL
   style <- app_theme_style()
-  latest_user <- NULL
+
   ui <- fluidPage(
     theme = bs_theme(
       bg = style$color_bg,
@@ -42,7 +42,7 @@ app_interactive <- function(as_job = FALSE) {
     ),
     fixedPanel(
       width = "100%",
-      left = -1,
+      left = 1,
       fluidRow(
         column(width = 1, div()),
         column(
@@ -71,7 +71,7 @@ app_interactive <- function(as_job = FALSE) {
       style = paste0("font-size:80%; z-index: 10; background-color:", style$color_top)
     ),
     absolutePanel(
-      top = 95,
+      top = 93,
       width = "95%",
       tabsetPanel(
         type = "tabs",
@@ -97,7 +97,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$add, {
-      latest_user <- input$prompt
+      tidychat_history_append(user = input$prompt)
       app_add_user(input$prompt, style$ui_user)
 
       updateTextAreaInput(
@@ -117,7 +117,7 @@ app_interactive <- function(as_job = FALSE) {
     observe({
       auto_invalidate()
       out_file <- tidychat_stream_output()
-      if(file.exists(out_file)) {
+      if (file.exists(out_file)) {
         out <- readRDS(out_file)
         app_add_assistant(
           content = out,
@@ -126,34 +126,18 @@ app_interactive <- function(as_job = FALSE) {
           as_job = as_job
         )
         tidychat_history_append(
-          user = latest_user,
           assistant = out
         )
         fs::file_delete(out_file)
       }
-
     })
 
     output$stream <- renderText({
       auto_invalidate()
-      if(file.exists(tidychat_stream_path())) {
-        readRDS(tidychat_stream_path())
+      if (file.exists(tidychat_stream_path())) {
+        markdown(readRDS(tidychat_stream_path()))
       }
     })
-
-    # observeEvent(input$add, {
-    #   chat <- app_get_chat(
-    #     prompt = input$prompt,
-    #     include = input$include
-    #   )
-    #
-    #   app_add_assistant(
-    #     content = chat$assistant,
-    #     style = style$ui_assistant,
-    #     input = input,
-    #     as_job = as_job
-    #     )
-    # })
 
     observeEvent(input$open, {
       file <- file.choose()

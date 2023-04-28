@@ -33,7 +33,6 @@ tidychat_send <- function(prompt = NULL,
   )
 }
 
-
 build_prompt <- function(prompt = NULL, use_current_mode = TRUE, defaults) {
   td <- defaults
 

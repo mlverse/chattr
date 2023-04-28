@@ -30,12 +30,21 @@ tidychat_history_get <- function() {
   tidychat_env$chat_history
 }
 
-tidychat_history_append <- function(user, assistant) {
-  entry <- list(
-    list(role = "user", user),
-    list(role = "assistant", assistant)
+tidychat_history_append <- function(user = NULL, assistant = NULL) {
+  if (!is.null(user)) {
+    user <- list(role = "user", content = user)
+  }
+
+  if (!is.null(assistant)) {
+    assistant <- list(role = "assistant", content = assistant)
+  }
+
+  entry <- list(c(user, assistant))
+
+  tidychat_env$chat_history <- c(
+    tidychat_env$chat_history,
+    entry
   )
-  tidychat_env$chat_history <- c(tidychat_env$chat_history, entry)
 }
 
 tidychat_history_set <- function(x) {

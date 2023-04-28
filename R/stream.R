@@ -1,4 +1,3 @@
-#' @import callr
 tidychat_stream_chat <- function(prompt) {
   rs <- tidychat_stream_session_start()
   rs$call(
@@ -33,20 +32,20 @@ tidychat_stream_session_get <- function() {
 }
 
 tidychat_stream_path <- function(path = NULL) {
-  if(!is.null(path)) {
+  if (!is.null(path)) {
     tidychat_env$app_file <- path
   }
-  if(is.null(tidychat_env$app_file)) {
+  if (is.null(tidychat_env$app_file)) {
     tidychat_env$app_file <- tempfile()
   }
   tidychat_env$app_file
 }
 
 tidychat_stream_output <- function(path = NULL) {
-  if(!is.null(path)) {
+  if (!is.null(path)) {
     tidychat_env$app_out <- path
   }
-  if(is.null(tidychat_env$app_out)) {
+  if (is.null(tidychat_env$app_out)) {
     tidychat_env$app_out <- tempfile()
   }
   tidychat_env$app_out
