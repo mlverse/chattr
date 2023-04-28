@@ -113,26 +113,23 @@ openai_stream <- function(endpoint, req_body) {
   } else {
     path <- tidychat_stream_path()
 
+    tidychat_env$response <- NULL
+
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x){
-          if(!file.exists(path)) {
-            writeLines("", path)
-          } else {
-            con <- file(path, "a")
-            writeLines(rawToChar(x), con)
-            close(con)
-          }
+          tidychat_env$response <- paste0(
+            tidychat_env$response,
+            rawToChar(x),
+            collapse = ""
+            )
+          ret <- open_ai_parse(tidychat_env$response)
+          saveRDS(ret,path)
           TRUE
         },
         buffer_kb = 0.1
       )
-
-    ret <- path %>%
-      readLines() %>%
-      open_ai_parse() %>%
-      paste0(collapse = "\n")
-
+    ret <- readRDS(path)
     fs::file_delete(path)
     ret
   }

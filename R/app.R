@@ -128,7 +128,7 @@ app_interactive <- function(as_job = FALSE) {
       },
       valueFunc = function() {
         if(file.exists(tidychat_stream_path())) {
-          readLines(tidychat_stream_path())
+          readRDS(tidychat_stream_path())
         }
       }
     )
@@ -151,10 +151,8 @@ app_interactive <- function(as_job = FALSE) {
 
     })
 
-
-
     output$stream <- renderText({
-      markdown(open_ai_parse(stream_file()))
+      markdown((stream_file()))
     })
 
     # observeEvent(input$add, {
