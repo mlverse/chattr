@@ -25,11 +25,10 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
     text_output <- comp_text
 
     if (add_to_history) {
-      chat_entry <- list(
-        list(role = "user", content = full_prompt$prompt),
-        list(role = "assistant", content = comp_text)
+      tidychat_history_append(
+        user = full_prompt$prompt,
+        assitant = comp_text
       )
-      tidychat_history_append(chat_entry)
     }
   } else {
     text_output <- full_prompt$full

@@ -34,12 +34,7 @@ tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
 app_interactive <- function(as_job = FALSE) {
   tidychat_env$content_hist <- NULL
   style <- app_theme_style()
-
-  if (tidychat_debug_get()) {
-    test_file <- readRDS(system.file("history/raw.rds", package = "tidychat"))
-    tidychat_history_set(test_file)
-  }
-
+  latest_user <- NULL
   ui <- fluidPage(
     theme = bs_theme(
       bg = style$color_bg,
@@ -102,6 +97,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$add, {
+      latest_user <- input$prompt
       app_add_user(input$prompt, style$ui_user)
 
       updateTextAreaInput(
@@ -116,27 +112,10 @@ app_interactive <- function(as_job = FALSE) {
       )
     })
 
-    stream_file <- reactivePoll(
-      intervalMillis = 100,
-      session = session,
-      checkFunc = function() {
-        if(file.exists(tidychat_stream_path())) {
-          file.info(tidychat_stream_path())$mtime[1]
-        } else {
-          ""
-        }
-      },
-      valueFunc = function() {
-        if(file.exists(tidychat_stream_path())) {
-          readRDS(tidychat_stream_path())
-        }
-      }
-    )
-
-    autoInvalidate <- reactiveTimer(100)
+    auto_invalidate <- reactiveTimer(100)
 
     observe({
-      autoInvalidate()
+      auto_invalidate()
       out_file <- tidychat_stream_output()
       if(file.exists(out_file)) {
         out <- readRDS(out_file)
@@ -146,13 +125,20 @@ app_interactive <- function(as_job = FALSE) {
           input = input,
           as_job = as_job
         )
+        tidychat_history_append(
+          user = latest_user,
+          assistant = out
+        )
         fs::file_delete(out_file)
       }
 
     })
 
     output$stream <- renderText({
-      markdown((stream_file()))
+      auto_invalidate()
+      if(file.exists(tidychat_stream_path())) {
+        readRDS(tidychat_stream_path())
+      }
     })
 
     # observeEvent(input$add, {
