@@ -21,7 +21,6 @@ tidychat_submit.tc_provider_open_ai <- function(defaults,
       defaults = defaults,
       prompt = full_prompt$full
     )
-    # text_output <- paste0("\n\n", comp_text, "\n\n")
     text_output <- comp_text
   } else {
     text_output <- full_prompt$full
@@ -40,7 +39,7 @@ openai_get_completion.tc_model_gpt_3.5_turbo <- function(defaults,
   openai_get_chat_completion_text(
     prompt = prompt,
     model = "gpt-3.5-turbo",
-    model_arguments = defaults$model_arguments
+    defaults = defaults
   )
 }
 
@@ -70,22 +69,32 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            model_arguments = NULL) {
+                                            defaults = NULL) {
   req_body <- c(
     list(
       model = model,
       messages = prompt
     ),
-    model_arguments
+    defaults$model_arguments
   )
 
-  if (model_arguments$stream) {
-    ret <- openai_stream("chat/completions", req_body)
+  ret <- NULL
+  if (defaults$model_arguments$stream) {
+    if(defaults$type == "Chat") {
+      ret <- openai_stream_file("chat/completions", req_body)
+    } else {
+      openai_stream_ide("chat/completions", req_body)
+    }
+
   } else {
     comp <- openai_perform("chat/completions", req_body)
     ret <- comp$choices[[1]]$message$content
   }
-  ret
+  if(!is.null(ret)) {
+    return(ret)
+  } else {
+    return(invisible())
+  }
 }
 
 openai_perform <- function(endpoint, req_body) {
@@ -98,7 +107,45 @@ openai_perform <- function(endpoint, req_body) {
   }
 }
 
-openai_stream <- function(endpoint, req_body) {
+openai_stream_ide <- function(endpoint, req_body) {
+  if (tidychat_debug_get()) {
+    req_body
+  } else {
+
+    tidychat_env$raw <- NULL
+    tidychat_env$stream <- NULL
+
+    ide_paste_text("\n\n")
+    openai_request(endpoint, req_body) %>%
+      req_stream(
+        function(x) {
+          tidychat_env$raw <- paste0(
+            tidychat_env$raw,
+            rawToChar(x),
+            collapse = ""
+          )
+          current <- open_ai_parse(tidychat_env$raw)
+
+          if(!is.null(current)) {
+            if(is.null(tidychat_env$stream)) {
+              ide_paste_text(current)
+            } else {
+              if(nchar(current) != nchar(tidychat_env$stream)) {
+                delta <- substr(current, nchar(tidychat_env$stream) + 1, nchar(current))
+                ide_paste_text(delta)
+              }
+            }
+          }
+          tidychat_env$stream <- current
+          TRUE
+        },
+        buffer_kb = 0.1
+      )
+    ide_paste_text("\n\n")
+  }
+}
+
+openai_stream_file <- function(endpoint, req_body) {
   if (tidychat_debug_get()) {
     req_body
   } else {

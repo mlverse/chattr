@@ -2,12 +2,12 @@
 #' @param prompt Request to send to LLM. Defaults to NULL
 #' @export
 tidy_chat <- function(prompt = NULL) {
-  out <- tidychat_send(
+  tidychat_send(
     prompt = prompt,
     prompt_build = TRUE,
     add_to_history = TRUE
   )
-  ide_paste_text(out)
+  invisible()
 }
 
 tidychat_send <- function(prompt = NULL,
