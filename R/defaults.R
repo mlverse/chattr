@@ -37,7 +37,12 @@ tidychat_defaults <- function(prompt = NULL,
                               system_msg = NULL,
                               yaml_file = "config.yml",
                               model_arguments = NULL,
-                              type = "notebook") {
+                              type = NULL) {
+  if(is.null(type)) {
+    type <- ui_current()
+    if(type == "markdown") type <- "notebook"
+  }
+
   td <- tidychat_get_defaults(type)
   yaml_defaults <- NULL
 
@@ -48,23 +53,28 @@ tidychat_defaults <- function(prompt = NULL,
 
     td_defaults <- config::get("tidychat", file = yaml_file)
 
-    yaml_defaults <- td_defaults[[type]]
 
-    if (!is.null(yaml_defaults)) {
-      prompt <- yaml_defaults$prompt
-      if (length(prompt) > 0) prompt <- strsplit(prompt, split = "\n")[[1]]
-      tidychat_set_defaults(
-        prompt = prompt,
-        include_data_files = yaml_defaults$include_data_files,
-        include_data_frames = yaml_defaults$include_data_frames,
-        include_doc_contents = yaml_defaults$include_doc_contents,
-        provider = yaml_defaults$provider,
-        model = yaml_defaults$model,
-        system_msg = yaml_defaults$system_msg,
-        model_arguments = yaml_defaults$model_arguments,
-        type = type
-      )
+    check_defaults <- c("default", type)
+
+    for(i in seq_along(check_defaults)) {
+      yaml_defaults <- td_defaults[[check_defaults[i]]]
+      if (!is.null(yaml_defaults)) {
+        prompt <- yaml_defaults$prompt
+        if (length(prompt) > 0) prompt <- strsplit(prompt, split = "\n")[[1]]
+        tidychat_set_defaults(
+          prompt = prompt,
+          include_data_files = yaml_defaults$include_data_files,
+          include_data_frames = yaml_defaults$include_data_frames,
+          include_doc_contents = yaml_defaults$include_doc_contents,
+          provider = yaml_defaults$provider,
+          model = yaml_defaults$model,
+          system_msg = yaml_defaults$system_msg,
+          model_arguments = yaml_defaults$model_arguments,
+          type = type
+        )
+      }
     }
+
   }
 
   tidychat_set_defaults(
@@ -105,6 +115,14 @@ tidychat_get_defaults <- function(type = "notebook") {
   if (type == "chat") {
     ret <- tidychat_env$chat
     ret$type <- "Chat"
+  }
+  if (type == "console") {
+    ret <- tidychat_env$console
+    ret$type <- "Console"
+  }
+  if (type == "script") {
+    ret <- tidychat_env$script
+    ret$type <- "Script"
   }
   ret
 }
@@ -161,6 +179,5 @@ tidychat_set_defaults <- function(prompt = NULL,
     model_arguments = model_arguments %||% td$model_arguments
   )
 
-  if (type == "notebook") tidychat_env$notebook <- td_env
-  if (type == "chat") tidychat_env$chat <- td_env
+  tidychat_env[[type]] <- td_env
 }
