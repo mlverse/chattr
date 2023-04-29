@@ -27,7 +27,7 @@ tidychat_env <- new.env()
 #' max_tokens
 #' @param type Entry point to interact with the model. Accepted values: 'notebook',
 #' 'chat'
-#' @inheritParams tidy_chat
+#' @inheritParams tidychat
 tidychat_defaults <- function(prompt = NULL,
                               include_data_files = NULL,
                               include_data_frames = NULL,
@@ -73,7 +73,6 @@ tidychat_defaults <- function(prompt = NULL,
         )
       }
     }
-
   }
 
   tidychat_set_defaults(
@@ -89,6 +88,8 @@ tidychat_defaults <- function(prompt = NULL,
   )
 
   ret <- tidychat_get_defaults(type)
+
+  ret$type <- paste0(toupper(substr(type, 1, 1)), substr(type, 2, nchar(type)))
 
   class(ret) <- c(
     "tc_model",
@@ -106,24 +107,7 @@ prep_class_name <- function(x) {
 }
 
 tidychat_get_defaults <- function(type = "notebook") {
-  ret <- NULL
-  if (type == "notebook") {
-    ret <- tidychat_env$notebook
-    ret$type <- "Notebook"
-  }
-  if (type == "chat") {
-    ret <- tidychat_env$chat
-    ret$type <- "Chat"
-  }
-  if (type == "console") {
-    ret <- tidychat_env$console
-    ret$type <- "Console"
-  }
-  if (type == "script") {
-    ret <- tidychat_env$script
-    ret$type <- "Script"
-  }
-  ret
+  tidychat_env[[type]]
 }
 
 #' @export
@@ -134,12 +118,12 @@ print.tc_model <- function(x) {
   ))
   cli::cli_h1("tidychat")
   cli::cli_h2("Defaults for: {.val0 {x$type}}")
-  cli::cli_h3("Model")
-  cli::cli_li("Provider: {.val0 {x$provider}}")
-  cli::cli_li("Model: {.val0 {x$model}}")
   cli::cli_h3("Prompt:")
   prompt <- process_prompt(x$prompt)
   walk(paste0("{.val1 ", prompt, "}"), cli::cli_text)
+  cli::cli_h3("Model")
+  cli::cli_li("Provider: {.val0 {x$provider}}")
+  cli::cli_li("Model: {.val0 {x$model}}")
   cli::cli_h3("Context:")
   print_include(x$include_data_files, "Data Files")
   print_include(x$include_data_frames, "Data Frames")

@@ -2,7 +2,7 @@
 
 S3method(print,tc_model)
 S3method(tidychat_submit,tc_provider_open_ai)
-export(tidy_chat)
+export(tidychat)
 export(tidychat_app)
 export(tidychat_defaults)
 export(tidychat_submit)

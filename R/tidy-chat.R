@@ -1,7 +1,7 @@
 #' Submits prompt to LLM
 #' @param prompt Request to send to LLM. Defaults to NULL
 #' @export
-tidy_chat <- function(prompt = NULL) {
+tidychat <- function(prompt = NULL) {
   tidychat_send(
     prompt = prompt,
     prompt_build = TRUE,
