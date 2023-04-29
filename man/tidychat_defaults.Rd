@@ -14,7 +14,7 @@ tidychat_defaults(
   system_msg = NULL,
   yaml_file = "config.yml",
   model_arguments = NULL,
-  type = "notebook"
+  type = NULL
 )
 }
 \arguments{

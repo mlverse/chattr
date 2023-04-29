@@ -53,7 +53,6 @@ tidychat_defaults <- function(prompt = NULL,
 
     td_defaults <- config::get("tidychat", file = yaml_file)
 
-
     check_defaults <- c("default", type)
 
     for(i in seq_along(check_defaults)) {
@@ -139,7 +138,8 @@ print.tc_model <- function(x) {
   cli::cli_li("Provider: {.val0 {x$provider}}")
   cli::cli_li("Model: {.val0 {x$model}}")
   cli::cli_h3("Prompt:")
-  walk(paste0("{.val1 ", x$prompt, "}"), cli::cli_text)
+  prompt <- process_prompt(x$prompt)
+  walk(paste0("{.val1 ", prompt, "}"), cli::cli_text)
   cli::cli_h3("Context:")
   print_include(x$include_data_files, "Data Files")
   print_include(x$include_data_frames, "Data Frames")
@@ -180,4 +180,21 @@ tidychat_set_defaults <- function(prompt = NULL,
   )
 
   tidychat_env[[type]] <- td_env
+}
+
+tidychat_openai_gpt3_base <- function() {
+  c(
+  "Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference",
+  "Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference",
+  "Use tidyverse packages: readr, ggplot2, dplyr, tidyr",
+  "skimr and janitor can also be used if needed",
+  "For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom",
+  "Expecting only code, avoid comments unless requested by user"
+  )
+}
+
+process_prompt <- function(x) {
+  x %>%
+    map(glue) %>%
+    reduce(c)
 }
