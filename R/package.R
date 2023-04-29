@@ -1,6 +1,7 @@
 #' @import callr
 #' @import httr2
 #' @import shiny
+#' @import glue
 #' @importFrom bslib bs_theme
 #' @importFrom clipr write_clip
 #' @importFrom grDevices rgb
