@@ -1,81 +1,35 @@
-# --------------------------------- YAML ---------------------------------------
-#' Creates
-#' @param overwrite If there's an existing "config.yml", should it be replaced?
+#' Submits prompt to LLM
+#' @param prompt Request to send to LLM. Defaults to NULL
 #' @export
-tidychat_yaml_copy <- function(path = "config.yml",
-                               overwrite = FALSE) {
-  notebook <- tidychat_defaults(type = "notebook")
-  notebook$prompt <- paste0(notebook$prompt, collapse = "\n")
-
-  chat <- tidychat_defaults(type = "chat")
-  chat$prompt <- paste0(chat$prompt, collapse = "\n")
-
-  temp <- tempfile()
-  x <- list(
-    default = list(
-      tidychat = list(
-        notebook = notebook,
-        chat = chat
-      )
-    )
+tidychat <- function(prompt = NULL) {
+  ret <- tidychat_send(
+    prompt = prompt,
+    prompt_build = TRUE
   )
-
-  yaml::write_yaml(x = x, file = temp)
-  fs::file_copy(temp, path, overwrite = overwrite)
+  if(is.null(ret)) {
+    invisible()
+  } else {
+   return(ret)
+  }
 }
 
-# -------------------------------- History -------------------------------------
+tidychat_send <- function(prompt = NULL,
+                          prompt_build = TRUE,
+                          type = "notebook",
+                          preview = FALSE) {
+  td <- tidychat_defaults(type = type)
 
-tidychat_history_get <- function() {
-  tidychat_env$chat_history
-}
-
-tidychat_history_append <- function(user = NULL, assistant = NULL) {
-  if (!is.null(user)) {
-    user <- list(role = "user", content = user)
+  if (is.null(prompt)) {
+    selection <- ide_get_selection(TRUE)
+    if (nchar(selection) > 0) {
+      prompt <- selection
+    }
   }
 
-  if (!is.null(assistant)) {
-    assistant <- list(role = "assistant", content = assistant)
-  }
-
-  entry <- list(c(user, assistant))
-
-  tidychat_env$chat_history <- c(
-    tidychat_env$chat_history,
-    entry
-  )
-}
-
-tidychat_history_set <- function(x) {
-  tidychat_env$chat_history <- x
-}
-
-# --------------------------------- Debug --------------------------------------
-
-tidychat_debug_set_true <- function() {
-  tidychat_env$debug <- TRUE
-}
-
-tidychat_debug_set_false <- function() {
-  tidychat_env$debug <- FALSE
-}
-
-tidychat_debug_get <- function() {
-  tidychat_env$debug <- tidychat_env$debug %||% FALSE
-  tidychat_env$debug
-}
-
-# ---------------------------------- Use ---------------------------------------
-
-tidychat_use_openai_gpt35 <- function() {
-  tidychat_defaults(
-    yaml_file = system.file("configs/gpt3.5.yml", package = "tidychat")
-  )
-}
-
-tidychat_use_openai_davinci <- function() {
-  tidychat_defaults(
-    yaml_file = system.file("configs/davinci.yml", package = "tidychat")
+  tidychat_submit(
+    defaults = td,
+    prompt = prompt,
+    prompt_build = prompt_build,
+    preview = preview
   )
 }

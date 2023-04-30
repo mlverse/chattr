@@ -10,7 +10,7 @@ build_prompt <- function(prompt = NULL, use_current_mode = TRUE, defaults) {
   }
 
   header <- c(
-    glue(td$prompt),
+    process_prompt(td$prompt),
     if (td$include_data_files) context_data_files(),
     if (td$include_data_frames) context_data_frames(),
     if (td$include_doc_contents & !use_current_mode) context_doc_contents(prompt)
@@ -25,7 +25,7 @@ build_prompt <- function(prompt = NULL, use_current_mode = TRUE, defaults) {
   if (use_current_mode) {
     full <- c(
       system_msg,
-      tidychat_history_get(),
+      if(td$include_history) tidychat_history_get(),
       list(
         list(
           role = "user",

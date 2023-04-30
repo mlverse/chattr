@@ -9,12 +9,13 @@ tidychat_defaults(
   include_data_files = NULL,
   include_data_frames = NULL,
   include_doc_contents = NULL,
+  include_history = NULL,
   provider = NULL,
   model = NULL,
+  model_arguments = NULL,
   system_msg = NULL,
   yaml_file = "config.yml",
-  model_arguments = NULL,
-  type = "notebook"
+  type = NULL
 )
 }
 \arguments{
@@ -28,20 +29,23 @@ environment? Defaults to NULL}
 
 \item{include_doc_contents}{Send the current code in the document}
 
+\item{include_history}{Indicates weather to include the chat history when
+everytime a new prompt is submitted}
+
 \item{provider}{The name of the provider of the LLM. Today, only "openai" is
 is available}
 
 \item{model}{The name of the model to use, based on the provider}
+
+\item{model_arguments}{Additional arguments to pass to the model as part of the
+request, it requires a list. Examples of arguments: temperature, top_p,
+max_tokens}
 
 \item{system_msg}{For GPT 3.5 or above, the system message to send as part of
 the request}
 
 \item{yaml_file}{The path to a valid \code{config} YAML file that contains the
 defaults to use in a session}
-
-\item{model_arguments}{Additional arguments to pass to the model as part of the
-request, it requires a list. Examples of arguments: temperature, top_p,
-max_tokens}
 
 \item{type}{Entry point to interact with the model. Accepted values: 'notebook',
 'chat'}

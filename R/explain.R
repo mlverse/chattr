@@ -26,8 +26,7 @@ tidychat_explain <- function(x, prompt = "explain these results") {
     prompt = list(
       list(role = "user", content = out)
     ),
-    prompt_build = FALSE,
-    add_to_history = FALSE
+    prompt_build = FALSE
   )
   ide_append_to_document(res)
 }
