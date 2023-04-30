@@ -25,9 +25,9 @@ tidychat_app <- function(viewer = dialogViewer("tidychat", width = 800),
       ),
       con = run_file
     )
-    rstudioapi::jobRunScript(path = run_file)
+    jobRunScript(path = run_file)
     Sys.sleep(3)
-    rstudioapi::viewer(paste0("http://", as_job_host, ":", as_job_port))
+    viewer(paste0("http://", as_job_host, ":", as_job_port))
   }
 }
 
@@ -128,7 +128,7 @@ app_interactive <- function(as_job = FALSE) {
         tidychat_history_append(
           assistant = out
         )
-        fs::file_delete(out_file)
+        file_delete(out_file)
       }
     })
 
@@ -141,7 +141,7 @@ app_interactive <- function(as_job = FALSE) {
 
     observeEvent(input$open, {
       file <- file.choose()
-      ext <- fs::path_ext(file)
+      ext <- path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
         tidychat_history_set(rds)
@@ -155,7 +155,7 @@ app_interactive <- function(as_job = FALSE) {
 
     observeEvent(input$save, {
       file <- file.choose(new = TRUE)
-      ext <- fs::path_ext(file)
+      ext <- path_ext(file)
       if (ext == "rds") {
         saveRDS(
           tidychat_history_get(),
@@ -270,7 +270,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
         if (ui_current() == "markdown") {
           ch <- paste0("```{r}\n", ch, "\n```")
         }
-        rstudioapi::insertText(text = ch)
+        insertText(text = ch)
         stopApp()
       })
     }
@@ -280,7 +280,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
 }
 
 app_theme_style <- function() {
-  ti <- rstudioapi::getThemeInfo()
+  ti <- getThemeInfo()
 
   color_bg <- app_theme_rgb_to_hex(ti$background)
   color_fg <- app_theme_rgb_to_hex(ti$foreground)

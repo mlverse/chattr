@@ -10,10 +10,10 @@ ide_current <- function() {
 ide_paste_text <- function(x, loc = NULL) {
   if (ide_current() == "rstudio") {
     if (is.null(loc)) {
-      rstudioapi::insertText(text = x)
+      insertText(text = x)
     } else {
-      loc <- rstudioapi::document_range(c(loc, 0), c(loc, 0))
-      rstudioapi::insertText(text = x, location = loc)
+      loc <- document_range(c(loc, 0), c(loc, 0))
+      insertText(text = x, location = loc)
     }
   }
   invisible()
@@ -31,7 +31,7 @@ ide_append_to_document <- function(x, width = 81) {
 ide_active_document_contents <- function(remove_blanks = TRUE) {
   cont <- NULL
   if (ide_current() == "rstudio") {
-    ad <- rstudioapi::getActiveDocumentContext()
+    ad <- getActiveDocumentContext()
     cont <- ad$contents
     if (remove_blanks) cont <- cont[cont != ""]
   }
@@ -41,7 +41,7 @@ ide_active_document_contents <- function(remove_blanks = TRUE) {
 ide_prompt <- function(title = "", message = "", default = NULL) {
   cont <- NULL
   if (ide_current() == "rstudio") {
-    cont <- rstudioapi::showPrompt(
+    cont <- showPrompt(
       title = title,
       message = message,
       default = default
@@ -53,12 +53,12 @@ ide_prompt <- function(title = "", message = "", default = NULL) {
 ide_get_selection <- function(unhighlight = FALSE) {
   cont <- NULL
   if (ide_current() == "rstudio") {
-    cont <- rstudioapi::selectionGet()
+    cont <- selectionGet()
     cont <- cont$value
 
     if (unhighlight) {
-      ac <- rstudioapi::getActiveDocumentContext()
-      rstudioapi::setCursorPosition(as.vector(ac$selection[[1]]$range$end))
+      ac <- getActiveDocumentContext()
+      setCursorPosition(as.vector(ac$selection[[1]]$range$end))
     }
   }
   cont
@@ -68,7 +68,7 @@ ui_current <- function() {
   ret <- NULL
   current_ide <- ide_current()
   if (current_ide == "rstudio") {
-    cont <- rstudioapi::getActiveDocumentContext()
+    cont <- getActiveDocumentContext()
     if (cont$id == "#console") ret <- "console"
     if (is.null(ret)) {
       if (cont$contents[1] == "---") {

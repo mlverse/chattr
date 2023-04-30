@@ -115,43 +115,43 @@ tidychat_get_defaults <- function(type = "notebook") {
 
 #' @export
 print.tc_model <- function(x) {
-  cli::cli_div(theme = list(
+  cli_div(theme = list(
     span.val0 = list(color = "blue"),
     span.val1 = list(color = "darkgray")
   ))
-  cli::cli_h1("tidychat")
+  cli_h1("tidychat")
   type <- paste0(
     toupper(substr(x$type, 1, 1)),
     substr(x$type, 2, nchar(x$type))
   )
-  cli::cli_h2("Defaults for: {.val0 {type}}")
-  cli::cli_h3("Prompt:")
+  cli_h2("Defaults for: {.val0 {type}}")
+  cli_h3("Prompt:")
   prompt <- process_prompt(x$prompt)
-  walk(paste0("{.val1 ", prompt, "}"), cli::cli_text)
-  cli::cli_h3("Model")
-  cli::cli_li("Provider: {.val0 {x$provider}}")
-  cli::cli_li("Model: {.val0 {x$model}}")
+  walk(paste0("{.val1 ", prompt, "}"), cli_text)
+  cli_h3("Model")
+  cli_li("Provider: {.val0 {x$provider}}")
+  cli_li("Model: {.val0 {x$model}}")
   if(!is.null(x$model_arguments)) {
-    cli::cli_h3("Model Arguments:")
+    cli_h3("Model Arguments:")
     iwalk(
       x$model_arguments,
-      ~ cli::cli_li("{.y}: {.val0 {.x}}")
+      ~ cli_li("{.y}: {.val0 {.x}}")
     )
   }
-  cli::cli_h3("Context:")
+  cli_h3("Context:")
   print_include(x$include_history, "Chat History")
   print_include(x$include_data_files, "Data Files")
   print_include(x$include_data_frames, "Data Frames")
   print_include(x$include_doc_contents, "Document contents")
-  cli::cli_end()
+  cli_end()
 }
 
 print_include <- function(x, label) {
   if (!is.null(x)) {
     if (x) {
-      cli::cli_alert_success(label)
+      cli_alert_success(label)
     } else {
-      cli::cli_alert_danger(label)
+      cli_alert_danger(label)
     }
   }
 }

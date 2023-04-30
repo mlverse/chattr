@@ -79,15 +79,15 @@ openai_get_chat_completion_text <- function(prompt = NULL,
 
   ret <- NULL
   stream <- defaults$model_arguments$stream %||% FALSE
+  endpoint <- "chat/completions"
   if (stream) {
     if(defaults$type == "chat") {
-      ret <- openai_stream_file("chat/completions", req_body)
+      ret <- openai_stream_file(endpoint, req_body)
     } else {
-      openai_stream_ide("chat/completions", req_body)
+      openai_stream_ide(endpoint, req_body)
     }
-
   } else {
-    comp <- openai_perform("chat/completions", req_body)
+    comp <- openai_perform(endpoint, req_body)
     ret <- comp$choices[[1]]$message$content
   }
   if(!is.null(ret)) {
@@ -168,7 +168,7 @@ openai_stream_file <- function(endpoint, req_body) {
         buffer_kb = 0.1
       )
     ret <- readRDS(path)
-    fs::file_delete(path)
+    file_delete(path)
     ret
   }
 }

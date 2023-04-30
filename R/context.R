@@ -2,7 +2,7 @@
 # being worked on
 
 context_data_files <- function() {
-  all_files <- fs::dir_ls(recurse = TRUE)
+  all_files <- dir_ls(recurse = TRUE)
   csv <- all_files[grepl(".csv", all_files)]
   parquet <- all_files[grepl(".parquet", all_files)]
   files <- c(csv, parquet)

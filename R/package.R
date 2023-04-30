@@ -3,7 +3,9 @@
 #' @import shiny
 #' @import glue
 #' @import yaml
+#' @import cli
 #' @import fs
+#' @import rstudioapi
 #' @importFrom bslib bs_theme
 #' @importFrom clipr write_clip
 #' @importFrom grDevices rgb
