@@ -114,7 +114,7 @@ tidychat_get_defaults <- function(type = "notebook") {
 }
 
 #' @export
-print.tc_model <- function(x) {
+print.tc_model <- function(x, ...) {
   cli_div(theme = list(
     span.val0 = list(color = "blue"),
     span.val1 = list(color = "darkgray")

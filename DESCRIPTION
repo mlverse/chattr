@@ -11,6 +11,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
     rstudioapi,
+    jsonlite,
+    config,
     httr2,
     purrr,
     rlang,

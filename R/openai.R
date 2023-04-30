@@ -2,7 +2,8 @@
 tidychat_submit.tc_provider_open_ai <- function(defaults,
                                                 prompt = NULL,
                                                 prompt_build = TRUE,
-                                                preview = FALSE) {
+                                                preview = FALSE,
+                                                ...) {
   if (prompt_build) {
     full_prompt <- build_prompt(
       prompt = prompt,

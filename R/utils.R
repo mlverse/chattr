@@ -27,8 +27,8 @@ tidychat_defaults_save <- function(path = "tidychat.yml",
           ~{
             y <- td_default[[.y]]
             x <- .x
-            if(class(x) != "list") {
-              if(class(x) == "character") {
+            if(!inherits(x, "list")) {
+              if(inherits(x, "character")) {
                 x <- paste0(x, collapse = "")
                 y <- paste0(y, collapse = "")
               }

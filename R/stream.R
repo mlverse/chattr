@@ -1,7 +1,7 @@
 tidychat_stream_chat <- function(prompt) {
   rs <- tidychat_stream_session_start()
   rs$call(
-    function(prompt, path, out) {
+    function(prompt, path, out, defaults) {
       tidychat:::tidychat_stream_job(prompt, path, out, defaults)
     },
     args = list(
