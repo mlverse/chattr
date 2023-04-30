@@ -97,7 +97,11 @@ tidychat_defaults <- function(prompt = NULL,
 
 prep_class_name <- function(x) {
   x <- tolower(x)
+  x <- gsub(" \\(", "_", x)
   x <- gsub(" ", "_", x)
+  x <- gsub("\\(", "_", x)
+  x <- gsub("\\) ", "_", x)
+  x <- gsub("\\)", "_", x)
   x
 }
 
@@ -123,6 +127,13 @@ print.tc_model <- function(x) {
   cli::cli_h3("Model")
   cli::cli_li("Provider: {.val0 {x$provider}}")
   cli::cli_li("Model: {.val0 {x$model}}")
+  if(!is.null(x$model_arguments)) {
+    cli::cli_h3("Model Arguments:")
+    iwalk(
+      x$model_arguments,
+      ~ cli::cli_li("{.y}: {.val0 {.x}}")
+    )
+  }
   cli::cli_h3("Context:")
   print_include(x$include_history, "Chat History")
   print_include(x$include_data_files, "Data Files")
