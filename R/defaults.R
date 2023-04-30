@@ -107,7 +107,7 @@ prep_class_name <- function(x) {
 }
 
 tidychat_get_defaults <- function(type = "notebook") {
-  tidychat_env[[type]]
+  tidychat_env$defaults[[type]]
 }
 
 #' @export
@@ -163,7 +163,7 @@ tidychat_set_defaults <- function(prompt = NULL,
     model_arguments = model_arguments %||% td$model_arguments
   )
 
-  tidychat_env[[type]] <- td_env
+  tidychat_env$defaults[[type]] <- td_env
 }
 
 tidychat_openai_gpt3_base <- function() {
