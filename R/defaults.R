@@ -1,8 +1,3 @@
-# Model selection, prompt building, and weather to include output from the
-# context.R functions
-
-tidychat_env <- new.env()
-
 #' Default arguments to use when making requests to the LLM
 #' @details The idea is that because we will use addin shortcut to execute the
 #' request, all of the other arguments can be controlled via this function. By
@@ -39,7 +34,7 @@ tidychat_defaults <- function(prompt = NULL,
                               model = NULL,
                               model_arguments = NULL,
                               system_msg = NULL,
-                              yaml_file = "config.yml",
+                              yaml_file = "tidychat.yml",
                               type = NULL
                               ) {
   function_args <- as.list(environment())
@@ -49,31 +44,40 @@ tidychat_defaults <- function(prompt = NULL,
     if(type == "markdown") type <- "notebook"
   }
 
-  td <- tidychat_get_defaults(type)
-  yaml_defaults <- NULL
+  if (is.null(tidychat_get_defaults(type)$provider)) {
 
-  if (is.null(td$provider)) {
-    if (!is.null(yaml_file) & !file.exists(yaml_file)) {
-      yaml_file <- system.file("configs/gpt3.5.yml", package = "tidychat")
+    default_file <- path("configs", "default.yml")
+    inst_file <- path("inst", default_file)
+    check_files <- NULL
+
+    if(file_exists(inst_file)) {
+      pkg_file <- inst_file
+    } else {
+      pkg_file <- system.file(default_file, package = "tidychat")
+    }
+    check_files <- pkg_file
+
+    if (file_exists(yaml_file)) {
+      check_files <- c(check_files, yaml_file)
     }
 
-    td_defaults <- config::get("tidychat", file = yaml_file)
+    for(j in seq_along(check_files)) {
+      td_defaults <- read_yaml(file = check_files[j])
+      check_defaults <- c("default", type)
+      for(i in seq_along(check_defaults)) {
+        td <- td_defaults[[check_defaults[i]]]
+        if (!is.null(td)) {
 
-    check_defaults <- c("default", type)
+          if (length(td$prompt) > 0) {
+            td$prompt <- strsplit(td$prompt, split = "\n")[[1]]
+          }
+          td$type <- NULL
 
-    for(i in seq_along(check_defaults)) {
-      yaml_defaults <- td_defaults[[check_defaults[i]]]
-      if (!is.null(yaml_defaults)) {
-
-        if (length(yaml_defaults$prompt) > 0) {
-          yaml_defaults$prompt <- strsplit(yaml_defaults$prompt, split = "\n")[[1]]
+          tidychat_set_defaults(
+            arguments = td,
+            type = type
+          )
         }
-        yaml_defaults$type <- NULL
-
-        tidychat_set_defaults(
-          arguments = yaml_defaults,
-          type = type
-        )
       }
     }
   }
@@ -163,6 +167,9 @@ tidychat_set_defaults <- function(arguments = list(),
   }
 
   tidychat_env$defaults[[type]] <- arguments
+
+  tidychat_env$defaults[[type]]$type <- NULL
+  tidychat_env$defaults[[type]]$yaml_file <- NULL
 }
 
 tidychat_openai_gpt3_base <- function() {

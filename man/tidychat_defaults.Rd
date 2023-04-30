@@ -14,7 +14,7 @@ tidychat_defaults(
   model = NULL,
   model_arguments = NULL,
   system_msg = NULL,
-  yaml_file = "config.yml",
+  yaml_file = "tidychat.yml",
   type = NULL
 )
 }

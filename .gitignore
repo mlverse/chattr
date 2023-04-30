@@ -27,4 +27,4 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 data
-config.yml
+tidychat.yml

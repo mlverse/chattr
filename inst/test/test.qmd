@@ -2,6 +2,9 @@
 title: "Hospitals"
 format: html
 ---
+```{r}
+tidychat_defaults()
+```
 
 
 ```{r}

@@ -5,7 +5,7 @@
 \title{Saves the current defaults in a yaml file that is compatible with
 the config package}
 \usage{
-tidychat_defaults_save(path = "config.yml", overwrite = FALSE, type = NULL)
+tidychat_defaults_save(path = "tidychat.yml", overwrite = FALSE, type = NULL)
 }
 \arguments{
 \item{path}{Path to the file to save the configuration to}
