@@ -7,7 +7,6 @@
 tidychat_submit(
   defaults,
   prompt = NULL,
-  add_to_history = TRUE,
   prompt_build = TRUE,
   preview = FALSE,
   ...
@@ -17,9 +16,6 @@ tidychat_submit(
 \item{defaults}{Defaults object, generally puled from \code{tidychat_defaults()}}
 
 \item{prompt}{The prompt to send to the LLM}
-
-\item{add_to_history}{If supported by the LLM, indicates wether to include
-this request in the history of request for this session}
 
 \item{prompt_build}{Include the context and additional prompt as part of the
 request}

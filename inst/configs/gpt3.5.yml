@@ -8,6 +8,7 @@ default:
       include_data_files: TRUE
       include_data_frames: TRUE
       include_doc_contents: FALSE
+      include_history: TRUE
       system_msg: You are a helpful coding assistant
       model_arguments:
         temperature: 0.01

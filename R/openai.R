@@ -1,7 +1,6 @@
 #' @export
 tidychat_submit.tc_provider_open_ai <- function(defaults,
                                                 prompt = NULL,
-                                                add_to_history = TRUE,
                                                 prompt_build = TRUE,
                                                 preview = FALSE) {
   if (prompt_build) {
@@ -79,8 +78,9 @@ openai_get_chat_completion_text <- function(prompt = NULL,
   )
 
   ret <- NULL
-  if (defaults$model_arguments$stream) {
-    if(defaults$type == "Chat") {
+  stream <- defaults$model_arguments$stream %||% FALSE
+  if (stream) {
+    if(defaults$type == "chat") {
       ret <- openai_stream_file("chat/completions", req_body)
     } else {
       openai_stream_ide("chat/completions", req_body)

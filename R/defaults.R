@@ -15,6 +15,8 @@ tidychat_env <- new.env()
 #' @param include_data_frames Send the list of data.frames currently in the R
 #' environment? Defaults to NULL
 #' @param include_doc_contents Send the current code in the document
+#' @param include_history Indicates weather to include the chat history when
+#' everytime a new prompt is submitted
 #' @param provider The name of the provider of the LLM. Today, only "openai" is
 #' is available
 #' @param model The name of the model to use, based on the provider
@@ -32,12 +34,16 @@ tidychat_defaults <- function(prompt = NULL,
                               include_data_files = NULL,
                               include_data_frames = NULL,
                               include_doc_contents = NULL,
+                              include_history = NULL,
                               provider = NULL,
                               model = NULL,
+                              model_arguments = NULL,
                               system_msg = NULL,
                               yaml_file = "config.yml",
-                              model_arguments = NULL,
-                              type = NULL) {
+                              type = NULL
+                              ) {
+  function_args <- as.list(environment())
+
   if(is.null(type)) {
     type <- ui_current()
     if(type == "markdown") type <- "notebook"
@@ -58,17 +64,14 @@ tidychat_defaults <- function(prompt = NULL,
     for(i in seq_along(check_defaults)) {
       yaml_defaults <- td_defaults[[check_defaults[i]]]
       if (!is.null(yaml_defaults)) {
-        prompt <- yaml_defaults$prompt
-        if (length(prompt) > 0) prompt <- strsplit(prompt, split = "\n")[[1]]
+
+        if (length(yaml_defaults$prompt) > 0) {
+          yaml_defaults$prompt <- strsplit(yaml_defaults$prompt, split = "\n")[[1]]
+        }
+        yaml_defaults$type <- NULL
+
         tidychat_set_defaults(
-          prompt = prompt,
-          include_data_files = yaml_defaults$include_data_files,
-          include_data_frames = yaml_defaults$include_data_frames,
-          include_doc_contents = yaml_defaults$include_doc_contents,
-          provider = yaml_defaults$provider,
-          model = yaml_defaults$model,
-          system_msg = yaml_defaults$system_msg,
-          model_arguments = yaml_defaults$model_arguments,
+          arguments = yaml_defaults,
           type = type
         )
       }
@@ -76,20 +79,12 @@ tidychat_defaults <- function(prompt = NULL,
   }
 
   tidychat_set_defaults(
-    prompt = prompt,
-    include_data_files = include_data_files,
-    include_data_frames = include_data_frames,
-    include_doc_contents = include_doc_contents,
-    provider = provider,
-    model = model,
-    system_msg = system_msg,
-    model_arguments = model_arguments,
+    arguments = function_args,
     type = type
   )
 
   ret <- tidychat_get_defaults(type)
-
-  ret$type <- paste0(toupper(substr(type, 1, 1)), substr(type, 2, nchar(type)))
+  ret$type <- type
 
   class(ret) <- c(
     "tc_model",
@@ -117,7 +112,11 @@ print.tc_model <- function(x) {
     span.val1 = list(color = "darkgray")
   ))
   cli::cli_h1("tidychat")
-  cli::cli_h2("Defaults for: {.val0 {x$type}}")
+  type <- paste0(
+    toupper(substr(x$type, 1, 1)),
+    substr(x$type, 2, nchar(x$type))
+  )
+  cli::cli_h2("Defaults for: {.val0 {type}}")
   cli::cli_h3("Prompt:")
   prompt <- process_prompt(x$prompt)
   walk(paste0("{.val1 ", prompt, "}"), cli::cli_text)
@@ -125,6 +124,7 @@ print.tc_model <- function(x) {
   cli::cli_li("Provider: {.val0 {x$provider}}")
   cli::cli_li("Model: {.val0 {x$model}}")
   cli::cli_h3("Context:")
+  print_include(x$include_history, "Chat History")
   print_include(x$include_data_files, "Data Files")
   print_include(x$include_data_frames, "Data Frames")
   print_include(x$include_doc_contents, "Document contents")
@@ -141,29 +141,17 @@ print_include <- function(x, label) {
   }
 }
 
-tidychat_set_defaults <- function(prompt = NULL,
-                                  include_data_files = NULL,
-                                  include_data_frames = NULL,
-                                  include_doc_contents = NULL,
-                                  provider = NULL,
-                                  model = NULL,
-                                  system_msg = NULL,
-                                  model_arguments = NULL,
-                                  type = "notebook") {
+tidychat_set_defaults <- function(arguments = list(),
+                                  type = NULL) {
   td <- tidychat_get_defaults(type)
 
-  td_env <- list(
-    prompt = prompt %||% td$prompt,
-    include_data_files = include_data_files %||% td$include_data_files,
-    include_data_frames = include_data_frames %||% td$include_data_frames,
-    include_doc_contents = include_doc_contents %||% td$include_doc_contents,
-    provider = provider %||% td$provider,
-    model = model %||% td$model,
-    system_msg = system_msg %||% td$system_msg,
-    model_arguments = model_arguments %||% td$model_arguments
-  )
+  if(!is.null(td)) {
+    for(i in seq_along(td)) {
+      arguments[[names(td[i])]] <- arguments[[names(td[i])]] %||% td[[i]]
+    }
+  }
 
-  tidychat_env$defaults[[type]] <- td_env
+  tidychat_env$defaults[[type]] <- arguments
 }
 
 tidychat_openai_gpt3_base <- function() {
