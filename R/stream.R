@@ -1,26 +1,23 @@
 tidychat_stream_chat <- function(prompt) {
+  td <- tidychat_defaults(type = "chat")
+  td$prompt <- process_prompt(td$prompt)
   rs <- tidychat_stream_session_start()
   rs$call(
     function(prompt, path, out, defaults) {
-      tidychat:::tidychat_stream_job(prompt, path, out, defaults)
+      tidychat:::tidychat_stream_path(path)
+      res <- tidychat::tidychat_submit(
+        defaults = do.call(tidychat::tidychat_defaults, args = defaults),
+        prompt = prompt
+      )
+      saveRDS(res, out)
     },
     args = list(
       prompt = prompt,
       path = tidychat_stream_path(),
       out = tidychat_stream_output(),
-      defaults = tidychat_defaults(type = "chat")
+      defaults = td
     )
   )
-}
-
-tidychat_stream_job <- function(prompt, path_stream, path_output, defaults) {
-  tidychat_stream_path(path_stream)
-  tidychat_env$chat <- defaults
-  res <- tidychat_send(
-    prompt = prompt,
-    type = "chat"
-    )
-  saveRDS(res, path_output)
 }
 
 tidychat_stream_session_start <- function() {
