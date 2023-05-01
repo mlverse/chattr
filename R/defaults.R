@@ -166,21 +166,10 @@ tidychat_set_defaults <- function(arguments = list(),
     }
   }
 
+  arguments$type <- NULL
+  arguments$yaml_file <- NULL
+
   tidychat_env$defaults[[type]] <- arguments
-
-  tidychat_env$defaults[[type]]$type <- NULL
-  tidychat_env$defaults[[type]]$yaml_file <- NULL
-}
-
-tidychat_openai_gpt3_base <- function() {
-  c(
-  "Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference",
-  "Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference",
-  "Use tidyverse packages: readr, ggplot2, dplyr, tidyr",
-  "skimr and janitor can also be used if needed",
-  "For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom",
-  "Expecting only code, avoid comments unless requested by user"
-  )
 }
 
 process_prompt <- function(x) {
