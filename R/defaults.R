@@ -24,6 +24,7 @@
 #' max_tokens
 #' @param type Entry point to interact with the model. Accepted values: 'notebook',
 #' 'chat'
+#' @param force Re-process the base and any work space level file defaults
 #' @inheritParams tidychat
 tidychat_defaults <- function(prompt = NULL,
                               include_data_files = NULL,
@@ -35,7 +36,8 @@ tidychat_defaults <- function(prompt = NULL,
                               model_arguments = NULL,
                               system_msg = NULL,
                               yaml_file = "tidychat.yml",
-                              type = NULL
+                              type = NULL,
+                              force = FALSE
                               ) {
   function_args <- as.list(environment())
 
@@ -44,18 +46,9 @@ tidychat_defaults <- function(prompt = NULL,
     if(type == "markdown") type <- "notebook"
   }
 
-  if (is.null(tidychat_get_defaults(type)$provider)) {
+  if (is.null(tidychat_get_defaults(type)$provider) | force) {
 
-    default_file <- path("configs", "default.yml")
-    inst_file <- path("inst", default_file)
-    check_files <- NULL
-
-    if(file_exists(inst_file)) {
-      pkg_file <- inst_file
-    } else {
-      pkg_file <- system.file(default_file, package = "tidychat")
-    }
-    check_files <- pkg_file
+    check_files <- package_file("configs", "default.yml")
 
     if (file_exists(yaml_file)) {
       check_files <- c(check_files, yaml_file)
@@ -168,6 +161,7 @@ tidychat_set_defaults <- function(arguments = list(),
 
   arguments$type <- NULL
   arguments$yaml_file <- NULL
+  arguments$force <- NULL
 
   tidychat_env$defaults[[type]] <- arguments
 }

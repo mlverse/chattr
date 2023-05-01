@@ -15,7 +15,8 @@ tidychat_defaults(
   model_arguments = NULL,
   system_msg = NULL,
   yaml_file = "tidychat.yml",
-  type = NULL
+  type = NULL,
+  force = FALSE
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ defaults to use in a session}
 
 \item{type}{Entry point to interact with the model. Accepted values: 'notebook',
 'chat'}
+
+\item{force}{Re-process the base and any work space level file defaults}
 }
 \description{
 Default arguments to use when making requests to the LLM

@@ -17,17 +17,8 @@ tidychat_send <- function(prompt = NULL,
                           prompt_build = TRUE,
                           type = NULL,
                           preview = FALSE) {
-  td <- tidychat_defaults(type = type)
-
-  if (is.null(prompt)) {
-    selection <- ide_get_selection(TRUE)
-    if (nchar(selection) > 0) {
-      prompt <- selection
-    }
-  }
-
   tidychat_submit(
-    defaults = td,
+    defaults = tidychat_defaults(type = type),
     prompt = prompt,
     prompt_build = prompt_build,
     preview = preview

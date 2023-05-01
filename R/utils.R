@@ -96,12 +96,26 @@ tidychat_debug_get <- function() {
 
 tidychat_use_openai_gpt35 <- function() {
   tidychat_defaults(
-    yaml_file = system.file("configs/gpt3.5.yml", package = "tidychat")
+    yaml_file = package_file("gpt3.5.yml"),
+    force = TRUE
   )
 }
 
 tidychat_use_openai_davinci <- function() {
   tidychat_defaults(
-    yaml_file = system.file("configs/davinci.yml", package = "tidychat")
+    yaml_file = package_file("configs", "davinci.yml"),
+    force = TRUE
   )
+}
+
+package_file <- function(...) {
+  default_file <- path(...)
+  inst_file <- path("inst", default_file)
+
+  if(file_exists(inst_file)) {
+    pkg_file <- inst_file
+  } else {
+    pkg_file <- system.file(default_file, package = "tidychat")
+  }
+  pkg_file
 }
