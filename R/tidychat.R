@@ -15,7 +15,7 @@ tidychat <- function(prompt = NULL) {
 
 tidychat_send <- function(prompt = NULL,
                           prompt_build = TRUE,
-                          type = "notebook",
+                          type = NULL,
                           preview = FALSE) {
   td <- tidychat_defaults(type = type)
 
