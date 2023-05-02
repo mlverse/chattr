@@ -2,32 +2,34 @@ openai_stream_ide <- function(endpoint, req_body) {
   if (tidychat_debug_get()) {
     req_body
   } else {
-
-    tidychat_env$raw <- NULL
-    tidychat_env$stream <- NULL
-
     ide_paste_text("\n\n")
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          tidychat_env$raw <- paste0(
-            tidychat_env$raw,
+          tidychat_env$stream$raw <- paste0(
+            tidychat_env$stream$raw,
             rawToChar(x),
             collapse = ""
           )
-          current <- openai_stream_parse(tidychat_env$raw)
-
+          current <- openai_stream_parse(
+            x = tidychat_env$stream$raw,
+            endpoint = endpoint
+          )
           if(!is.null(current)) {
-            if(is.null(tidychat_env$stream)) {
+            if(is.null(tidychat_env$stream$response)) {
               ide_paste_text(current)
             } else {
-              if(nchar(current) != nchar(tidychat_env$stream)) {
-                delta <- substr(current, nchar(tidychat_env$stream) + 1, nchar(current))
+              if(nchar(current) != nchar(tidychat_env$stream$response)) {
+                delta <- substr(
+                  current,
+                  nchar(tidychat_env$stream$response) + 1,
+                  nchar(current)
+                  )
                 ide_paste_text(delta)
               }
             }
           }
-          tidychat_env$stream <- current
+          tidychat_env$stream$response <- current
           TRUE
         },
         buffer_kb = 0.1
@@ -42,17 +44,20 @@ openai_stream_file <- function(endpoint, req_body) {
   } else {
     path <- tidychat_stream_path()
 
-    tidychat_env$response <- NULL
+    tidychat_env$stream$response <- NULL
 
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          tidychat_env$response <- paste0(
-            tidychat_env$response,
+          tidychat_env$stream$response <- paste0(
+            tidychat_env$stream$response,
             rawToChar(x),
             collapse = ""
           )
-          ret <- openai_stream_parse(tidychat_env$response)
+          ret <- openai_stream_parse(
+            x = tidychat_env$stream$response,
+            endpoint = endpoint
+            )
           saveRDS(ret, path)
           TRUE
         },
@@ -64,8 +69,8 @@ openai_stream_file <- function(endpoint, req_body) {
   }
 }
 
-openai_stream_parse <- function(x) {
-  data_cx <- x %>%
+openai_stream_parse <- function(x, endpoint) {
+  res <- x %>%
     paste0(collapse = "") %>%
     strsplit("data: ") %>%
     unlist() %>%
@@ -73,15 +78,20 @@ openai_stream_parse <- function(x) {
     purrr::keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
     map(jsonlite::fromJSON)
 
-  if(length(data_cx) > 0) {
-    res <- data_cx %>%
-      map(~ .x$choices$text) %>%
-      reduce(paste0)
-    if(length(res) == 0) {
-      res <- data_cx %>%
+  if(length(res) > 0) {
+
+    if(endpoint == "completions") {
+      res <- res %>%
+        map(~ .x$choices$text) %>%
+        reduce(paste0)
+    }
+
+    if(endpoint == "chat/completions") {
+      res <- res %>%
         map(~ .x$choices$delta$content) %>%
         reduce(paste0)
     }
+
     if(length(res) > 0) return(res)
   }
 }

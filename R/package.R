@@ -13,3 +13,6 @@
 #' @importFrom purrr map_chr map_lgl map imap set_names walk reduce iwalk
 #' @importFrom rlang %||% abort
 tidychat_env <- new.env()
+tidychat_env$stream <- list()
+tidychat_env$stream$raw <- NULL
+tidychat_env$stream$response <- NULL
