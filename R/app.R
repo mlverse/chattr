@@ -145,9 +145,7 @@ app_interactive <- function(as_job = FALSE) {
 
     output$stream <- renderText({
       auto_invalidate()
-      if (file.exists(tidychat_stream_path())) {
-        markdown(readRDS(tidychat_stream_path()))
-      }
+      tidychat_app_stream(tidychat_defaults())
     })
 
     observeEvent(input$open, {
