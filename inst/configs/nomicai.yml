@@ -1,0 +1,13 @@
+default:
+  prompt: |
+    Use tidyverse packages: readr, ggplot2, dplyr, tidyr
+    Avoid additional comments unless necessary, expecting code only
+    Return all code responses inside RMarkdown code chunks
+  provider: Nomic AI
+  model: Lora Quantized
+  include_data_files: FALSE
+  include_data_frames: FALSE
+  include_doc_contents: FALSE
+  include_history: FALSE
+  model_arguments:
+    temp: 0.01
