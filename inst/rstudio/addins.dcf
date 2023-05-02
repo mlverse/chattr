@@ -1,6 +1,6 @@
 Name: Execute prompt
 Description: Sends the last line of your document, or the highlighted text to the LLM
-Binding: tidy_chat
+Binding: tidychat
 Interactive: false
 
 Name: Open Chat
