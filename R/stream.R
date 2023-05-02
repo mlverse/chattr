@@ -1,6 +1,5 @@
-tidychat_stream_chat <- function(prompt) {
-  td <- tidychat_defaults(type = "chat")
-  td$prompt <- process_prompt(td$prompt)
+tidychat_stream_chat <- function(prompt, defaults = tidychat_defaults(type = "chat")) {
+  defaults$prompt <- process_prompt(defaults$prompt)
   rs <- tidychat_stream_session_start()
   rs$call(
     function(prompt, path, out, defaults) {
@@ -15,7 +14,7 @@ tidychat_stream_chat <- function(prompt) {
       prompt = prompt,
       path = tidychat_stream_path(),
       out = tidychat_stream_output(),
-      defaults = td
+      defaults = defaults
     )
   )
 }

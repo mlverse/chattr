@@ -65,24 +65,23 @@ openai_stream_file <- function(endpoint, req_body) {
 }
 
 openai_stream_parse <- function(x) {
-  cx <- paste0(x, collapse = "")
-  start <- NULL
-  end <- NULL
-  resp <- NULL
-  for (i in seq_len(nchar(cx))) {
-    cr <- substr(cx, i, nchar(cx))
-    fn <- regexpr("data: \\{", cr)[[1]]
-    if (fn == 1) {
-      if (is.null(start)) {
-        start <- i
-      } else {
-        end <- i - 1
-        entry <- substr(cx, start + 6, end)
-        json <- jsonlite::fromJSON(entry)
-        resp <- paste0(resp, json$choices$delta$content, collapse = "")
-        start <- i
-      }
+  data_cx <- x %>%
+    paste0(collapse = "") %>%
+    strsplit("data: ") %>%
+    unlist() %>%
+    purrr::discard(~ .x == "")  %>%
+    purrr::keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
+    map(jsonlite::fromJSON)
+
+  if(length(data_cx) > 0) {
+    res <- data_cx %>%
+      map(~ .x$choices$text) %>%
+      reduce(paste0)
+    if(length(res) == 0) {
+      res <- data_cx %>%
+        map(~ .x$choices$delta$content) %>%
+        reduce(paste0)
     }
+    if(length(res) > 0) return(res)
   }
-  resp
 }

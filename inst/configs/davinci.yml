@@ -10,7 +10,7 @@ default:
   model_arguments:
     temperature: 0.01
     max_tokens: 1000
-    stream: FALSE
+    stream: TRUE
 notebook:
   prompt: |
     {tidychat_base_prompt}

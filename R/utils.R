@@ -95,17 +95,26 @@ tidychat_debug_get <- function() {
 # ---------------------------------- Use ---------------------------------------
 
 tidychat_use_openai_gpt35 <- function() {
-  tidychat_defaults(
-    yaml_file = package_file("gpt3.5.yml"),
-    force = TRUE
-  )
+  use_switch("configs", "default.yml")
 }
 
 tidychat_use_openai_davinci <- function() {
-  tidychat_defaults(
-    yaml_file = package_file("configs", "davinci.yml"),
-    force = TRUE
+  use_switch("configs", "davinci.yml")
+}
+
+use_switch <- function(...) {
+  file <- package_file(...)
+  walk(
+    c("default", "console", "chat", "notebook"),
+    ~{
+      tidychat_defaults(
+        type = .x,
+        yaml_file = file,
+        force = TRUE
+      )
+    }
   )
+
 }
 
 package_file <- function(...) {

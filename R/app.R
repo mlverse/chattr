@@ -13,8 +13,11 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
                          as_job_port = getOption("shiny.port", 7788),
                          as_job_host = getOption("shiny.host", "127.0.0.1")
                          ) {
+  td <- tidychat_defaults(type = "chat")
+  cli_li("Provider: {td$provider}")
+  cli_li("Model: {td$model}")
+
   if(viewer[1] == "dialog") {
-    td <- tidychat_defaults()
     viewer <- dialogViewer(
       dialogName = glue("tidychat - {td$provider} - {td$model}"),
       width = 800
@@ -119,7 +122,8 @@ app_interactive <- function(as_job = FALSE) {
 
     observeEvent(input$add, {
       tidychat_stream_chat(
-        prompt = input$prompt
+        prompt = input$prompt,
+        defaults = td
       )
     })
 
