@@ -20,13 +20,13 @@ tc_submit_job(
   prompt,
   r_file_stream = tempfile(),
   r_file_complete = tempfile(),
-  defaults = tidychat_defaults(type = "chat")
+  defaults = tc_defaults(type = "chat")
 )
 
 tc_submit_job_stop()
 }
 \arguments{
-\item{defaults}{Defaults object, generally puled from \code{tidychat_defaults()}}
+\item{defaults}{Defaults object, generally puled from \code{tc_defaults()}}
 
 \item{prompt}{The prompt to send to the LLM}
 

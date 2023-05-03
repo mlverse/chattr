@@ -3,7 +3,7 @@
 #' @export
 tidychat <- function(prompt = NULL) {
   ret <- tc_submit(
-    defaults = tidychat_defaults(),
+    defaults = tc_defaults(),
     prompt = prompt,
     preview = FALSE
   )

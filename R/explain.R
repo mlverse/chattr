@@ -23,7 +23,7 @@ tidychat_explain <- function(x, prompt = "explain these results") {
   out <- paste0(capture.output(x), collapse = "\n")
   out <- paste0(prompt, ": \n", out)
   res <- tc_submit(
-    tidychat_defaults(),
+    tc_defaults(),
     prompt = list(
       list(role = "user", content = out)
     ),

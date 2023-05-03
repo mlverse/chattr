@@ -12,7 +12,7 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
                          as_job_host = getOption("shiny.host", "127.0.0.1")) {
-  td <- tidychat_defaults(type = "chat")
+  td <- tc_defaults(type = "chat")
   cli_li("Provider: {td$provider}")
   cli_li("Model: {td$model}")
 
@@ -125,7 +125,7 @@ app_interactive <- function(as_job = FALSE) {
     observeEvent(input$add, {
       tc_submit_job(
         prompt = input$prompt,
-        defaults = tidychat_defaults(type = "chat"),
+        defaults = tc_defaults(type = "chat"),
         r_file_complete = r_file_complete,
         r_file_stream = r_file_stream
       )

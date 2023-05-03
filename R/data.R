@@ -3,12 +3,12 @@
 #' @description It is meant to be used within the tidychat_default() function
 #' @examples
 #'
-#' tidychat_defaults(
-#'   c("This is an example", "{tidychat_base_prompt}"),
+#' tc_defaults(
+#'   c("This is an example", "{tc_base_prompt}"),
 #'   type = "chat"
 #' )
 #'
-"tidychat_base_prompt"
+"tc_base_prompt"
 
 
 tidychat_base <- function() {
@@ -21,5 +21,5 @@ tidychat_base <- function() {
     "Expecting only code, avoid comments unless requested by user"
   )
 }
-# tidychat_base_prompt <- tidychat_base()
-# use_data(tidychat_base_prompt)
+# tc_base_prompt <- tidychat_base()
+# usethis::use_data(tc_base_prompt)

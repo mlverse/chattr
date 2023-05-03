@@ -26,18 +26,18 @@
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
 #' @inheritParams tidychat
-tidychat_defaults <- function(prompt = NULL,
-                              include_data_files = NULL,
-                              include_data_frames = NULL,
-                              include_doc_contents = NULL,
-                              include_history = NULL,
-                              provider = NULL,
-                              model = NULL,
-                              model_arguments = NULL,
-                              system_msg = NULL,
-                              yaml_file = "tidychat.yml",
-                              type = NULL,
-                              force = FALSE) {
+tc_defaults <- function(prompt = NULL,
+                        include_data_files = NULL,
+                        include_data_frames = NULL,
+                        include_doc_contents = NULL,
+                        include_history = NULL,
+                        provider = NULL,
+                        model = NULL,
+                        model_arguments = NULL,
+                        system_msg = NULL,
+                        yaml_file = "tidychat.yml",
+                        type = NULL,
+                        force = FALSE) {
   function_args <- as.list(environment())
 
   if (is.null(type)) {

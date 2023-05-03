@@ -5,10 +5,10 @@
 #' @param type The type of UI to save the defaults for. It defaults to NULL which
 #' will save whatever types had been used during the current R session
 #' @export
-tidychat_defaults_save <- function(path = "tidychat.yml",
-                                   overwrite = FALSE,
-                                   type = NULL) {
-  invisible(tidychat_defaults(type = "default"))
+tc_defaults_save <- function(path = "tidychat.yml",
+                             overwrite = FALSE,
+                             type = NULL) {
+  invisible(tc_defaults(type = "default"))
 
   temp <- tempfile()
 
@@ -107,7 +107,7 @@ use_switch <- function(...) {
   walk(
     c("default", "console", "chat", "notebook"),
     ~ {
-      tidychat_defaults(
+      tc_defaults(
         type = .x,
         yaml_file = file,
         force = TRUE

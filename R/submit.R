@@ -1,5 +1,5 @@
 #' Method to easily integrate to new LLM's
-#' @param defaults Defaults object, generally puled from `tidychat_defaults()`
+#' @param defaults Defaults object, generally puled from `tc_defaults()`
 #' @param prompt The prompt to send to the LLM
 #' @param prompt_build Include the context and additional prompt as part of the
 #' request
@@ -28,14 +28,14 @@ tc_submit <- function(defaults,
 tc_submit_job <- function(prompt,
                           r_file_stream = tempfile(),
                           r_file_complete = tempfile(),
-                          defaults = tidychat_defaults(type = "chat")) {
+                          defaults = tc_defaults(type = "chat")) {
   defaults$prompt <- process_prompt(defaults$prompt)
   rs <- r_session_start()
   rs$call(
     function(prompt, r_file_stream, r_file_complete, defaults) {
       res <- tidychat::tc_submit(
         defaults = do.call(
-          what = tidychat::tidychat_defaults,
+          what = tidychat::tc_defaults,
           args = defaults
         ),
         prompt = prompt,

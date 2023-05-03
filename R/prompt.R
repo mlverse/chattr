@@ -1,4 +1,4 @@
-build_prompt_new <- function(prompt = NULL, defaults = tidychat_defaults()) {
+build_prompt_new <- function(prompt = NULL, defaults = tc_defaults()) {
   td <- defaults
 
   header <- build_header(defaults)
@@ -18,7 +18,7 @@ build_prompt_new <- function(prompt = NULL, defaults = tidychat_defaults()) {
   )
 }
 
-build_prompt_old <- function(prompt = NULL, defaults = tidychat_defaults()) {
+build_prompt_old <- function(prompt = NULL, defaults = tc_defaults()) {
   td <- defaults
 
   header <- build_header(defaults)
