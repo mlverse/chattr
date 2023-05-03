@@ -55,14 +55,14 @@ tc_submit_job <- function(prompt,
 #' @export
 #' @rdname tc_submit
 tc_submit_job_stop <- function() {
-  tidychat_env$r_session$close()
+  tc_env$r_session$close()
 }
 
 r_session_start <- function() {
-  tidychat_env$r_session <- r_session$new()
-  tidychat_env$r_session
+  tc_env$r_session <- r_session$new()
+  tc_env$r_session
 }
 
 r_session_get <- function() {
-  tidychat_env$r_session
+  tc_env$r_session
 }

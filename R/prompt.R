@@ -10,7 +10,7 @@ build_prompt_new <- function(prompt = NULL, defaults = tc_defaults()) {
 
   c(
     system_msg,
-    if (td$include_history) tidychat_history_get(),
+    if (td$include_history) tc_history_get(),
     list(
       list(role = "user", content = header),
       list(role = "user", content = prompt)

@@ -33,6 +33,10 @@ openai_token <- function() {
 }
 
 openai_stream_ide <- function(endpoint, req_body) {
+  tc_env$stream <- list()
+  tc_env$stream$raw <- NULL
+  tc_env$stream$response <- NULL
+
   if (tidychat_debug_get()) {
     req_body
   } else {
@@ -40,30 +44,30 @@ openai_stream_ide <- function(endpoint, req_body) {
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          tidychat_env$stream$raw <- paste0(
-            tidychat_env$stream$raw,
+          tc_env$stream$raw <- paste0(
+            tc_env$stream$raw,
             rawToChar(x),
             collapse = ""
           )
           current <- openai_stream_parse(
-            x = tidychat_env$stream$raw,
+            x = tc_env$stream$raw,
             endpoint = endpoint
           )
           if (!is.null(current)) {
-            if (is.null(tidychat_env$stream$response)) {
+            if (is.null(tc_env$stream$response)) {
               ide_paste_text(current)
             } else {
-              if (nchar(current) != nchar(tidychat_env$stream$response)) {
+              if (nchar(current) != nchar(tc_env$stream$response)) {
                 delta <- substr(
                   current,
-                  nchar(tidychat_env$stream$response) + 1,
+                  nchar(tc_env$stream$response) + 1,
                   nchar(current)
                 )
                 ide_paste_text(delta)
               }
             }
           }
-          tidychat_env$stream$response <- current
+          tc_env$stream$response <- current
           TRUE
         },
         buffer_kb = 0.1
@@ -76,21 +80,24 @@ openai_stream_file <- function(endpoint,
                                req_body,
                                r_file_stream,
                                r_file_complete) {
+  tc_env$stream <- list()
+  tc_env$stream$response <- NULL
+
   if (tidychat_debug_get()) {
     req_body
   } else {
-    tidychat_env$stream$response <- NULL
+    tc_env$stream$response <- NULL
 
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          tidychat_env$stream$response <- paste0(
-            tidychat_env$stream$response,
+          tc_env$stream$response <- paste0(
+            tc_env$stream$response,
             rawToChar(x),
             collapse = ""
           )
           ret <- openai_stream_parse(
-            x = tidychat_env$stream$response,
+            x = tc_env$stream$response,
             endpoint = endpoint
           )
           saveRDS(ret, r_file_stream)

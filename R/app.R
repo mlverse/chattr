@@ -45,7 +45,7 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
 }
 
 app_interactive <- function(as_job = FALSE) {
-  tidychat_env$content_hist <- NULL
+  tc_env$content_hist <- NULL
   style <- app_theme_style()
 
   ui <- fluidPage(
@@ -113,7 +113,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$add, {
-      tidychat_history_append(user = input$prompt)
+      tc_history_append(user = input$prompt)
       app_add_user(input$prompt, style$ui_user)
 
       updateTextAreaInput(
@@ -144,7 +144,7 @@ app_interactive <- function(as_job = FALSE) {
           input = input,
           as_job = as_job
         )
-        tidychat_history_append(
+        tc_history_append(
           assistant = out
         )
         file_delete(r_file_complete)
@@ -163,7 +163,7 @@ app_interactive <- function(as_job = FALSE) {
       ext <- path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
-        tidychat_history_set(rds)
+        tc_history_set(rds)
         app_add_history(
           style = style,
           input = input,
@@ -177,7 +177,7 @@ app_interactive <- function(as_job = FALSE) {
       ext <- path_ext(file)
       if (ext == "rds") {
         saveRDS(
-          tidychat_history_get(),
+          tc_history_get(),
           file
         )
       }
@@ -188,7 +188,7 @@ app_interactive <- function(as_job = FALSE) {
 }
 
 app_add_history <- function(style, input, as_job) {
-  th <- tidychat_history_get()
+  th <- tc_history_get()
   for (i in seq_along(th)) {
     curr <- th[[i]]
     if (curr$role == "user") {
@@ -218,7 +218,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
     split_content <- content
   }
 
-  content_hist <- tidychat_env$content_hist
+  content_hist <- tc_env$content_hist
 
   for (i in seq_along(split_content)) {
     curr_content <- split_content[length(split_content) - i + 1]
@@ -295,7 +295,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
     }
   )
 
-  tidychat_env$content_hist <- content_hist
+  tc_env$content_hist <- content_hist
 }
 
 app_theme_style <- function() {

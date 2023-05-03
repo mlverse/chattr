@@ -12,7 +12,7 @@ tc_defaults_save <- function(path = "tidychat.yml",
 
   temp <- tempfile()
 
-  td <- tidychat_env$defaults
+  td <- tc_env$defaults
   td_names <- names(td)
   td_other <- td_names[td_names != "default"]
   td_default <- td$default
@@ -52,11 +52,11 @@ tc_defaults_save <- function(path = "tidychat.yml",
 
 # -------------------------------- History -------------------------------------
 
-tidychat_history_get <- function() {
-  tidychat_env$chat_history
+tc_history_get <- function() {
+  tc_env$chat_history
 }
 
-tidychat_history_append <- function(user = NULL, assistant = NULL) {
+tc_history_append <- function(user = NULL, assistant = NULL) {
   if (!is.null(user)) {
     user <- list(role = "user", content = user)
   }
@@ -67,29 +67,29 @@ tidychat_history_append <- function(user = NULL, assistant = NULL) {
 
   entry <- list(c(user, assistant))
 
-  tidychat_env$chat_history <- c(
-    tidychat_env$chat_history,
+  tc_env$chat_history <- c(
+    tc_env$chat_history,
     entry
   )
 }
 
-tidychat_history_set <- function(x) {
-  tidychat_env$chat_history <- x
+tc_history_set <- function(x) {
+  tc_env$chat_history <- x
 }
 
 # --------------------------------- Debug --------------------------------------
 
 tidychat_debug_set_true <- function() {
-  tidychat_env$debug <- TRUE
+  tc_env$debug <- TRUE
 }
 
 tidychat_debug_set_false <- function() {
-  tidychat_env$debug <- FALSE
+  tc_env$debug <- FALSE
 }
 
 tidychat_debug_get <- function() {
-  tidychat_env$debug <- tidychat_env$debug %||% FALSE
-  tidychat_env$debug
+  tc_env$debug <- tc_env$debug %||% FALSE
+  tc_env$debug
 }
 
 # ---------------------------------- Use ---------------------------------------

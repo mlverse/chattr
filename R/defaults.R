@@ -45,7 +45,7 @@ tc_defaults <- function(prompt = NULL,
     if (type == "markdown") type <- "notebook"
   }
 
-  if (is.null(tidychat_get_defaults(type)$provider) | force) {
+  if (is.null(tc_defaults_get(type)$provider) | force) {
     check_files <- package_file("configs", "default.yml")
 
     if (file_exists(yaml_file)) {
@@ -63,7 +63,7 @@ tc_defaults <- function(prompt = NULL,
           }
           td$type <- NULL
 
-          tidychat_set_defaults(
+          tc_defaults_set(
             arguments = td,
             type = type
           )
@@ -72,12 +72,12 @@ tc_defaults <- function(prompt = NULL,
     }
   }
 
-  tidychat_set_defaults(
+  tc_defaults_set(
     arguments = function_args,
     type = type
   )
 
-  ret <- tidychat_get_defaults(type)
+  ret <- tc_defaults_get(type)
   ret$type <- type
 
   class(ret) <- c(
@@ -99,8 +99,8 @@ prep_class_name <- function(x) {
   x
 }
 
-tidychat_get_defaults <- function(type = "notebook") {
-  tidychat_env$defaults[[type]]
+tc_defaults_get <- function(type = "notebook") {
+  tc_env$defaults[[type]]
 }
 
 #' @export
@@ -146,9 +146,9 @@ print_include <- function(x, label) {
   }
 }
 
-tidychat_set_defaults <- function(arguments = list(),
-                                  type = NULL) {
-  td <- tidychat_get_defaults(type)
+tc_defaults_set <- function(arguments = list(),
+                            type = NULL) {
+  td <- tc_defaults_get(type)
 
   if (!is.null(td)) {
     for (i in seq_along(td)) {
@@ -160,7 +160,7 @@ tidychat_set_defaults <- function(arguments = list(),
   arguments$yaml_file <- NULL
   arguments$force <- NULL
 
-  tidychat_env$defaults[[type]] <- arguments
+  tc_env$defaults[[type]] <- arguments
 }
 
 process_prompt <- function(x) {
