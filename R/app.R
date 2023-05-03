@@ -95,6 +95,9 @@ app_interactive <- function(as_job = FALSE) {
   )
 
   server <- function(input, output, session) {
+    r_file_stream <- tempfile()
+    r_file_complete <- tempfile()
+
     insertUI(
       selector = "#tabs",
       where = "beforeBegin",
@@ -123,7 +126,9 @@ app_interactive <- function(as_job = FALSE) {
     observeEvent(input$add, {
       tidychat_stream_chat(
         prompt = input$prompt,
-        defaults = td
+        defaults = tidychat_defaults(type = "chat"),
+        r_file_complete = r_file_complete,
+        r_file_stream = r_file_stream
       )
     })
 
@@ -131,9 +136,9 @@ app_interactive <- function(as_job = FALSE) {
 
     observe({
       auto_invalidate()
-      out_file <- tidychat_stream_output()
-      if (file.exists(out_file)) {
-        out <- readRDS(out_file)
+      if (file_exists(r_file_complete)) {
+        print("complete")
+        out <- readRDS(r_file_complete)
         app_add_assistant(
           content = out,
           style = style$ui_assistant,
@@ -143,14 +148,14 @@ app_interactive <- function(as_job = FALSE) {
         tidychat_history_append(
           assistant = out
         )
-        file_delete(out_file)
+        file_delete(r_file_complete)
       }
     })
 
     output$stream <- renderText({
       auto_invalidate()
-      if (file.exists(tidychat_stream_path())) {
-        markdown(readRDS(tidychat_stream_path()))
+      if (file_exists(r_file_stream)) {
+        markdown(readRDS(r_file_stream))
       }
     })
 
@@ -350,28 +355,4 @@ app_theme_rgb_to_hex <- function(x) {
   x1 <- sub("\\)", "", x1)
   x2 <- unlist(strsplit(x1, ","))
   rgb(x2[1], x2[2], x2[3], maxColorValue = 255)
-}
-
-app_get_chat <- function(prompt, include = TRUE) {
-  ret <- list()
-  if (tidychat_debug_get()) {
-    ret$assistant <- "some text\n```{r}\nmtcars\n```\nmore text\n```{r}\niris\n```"
-    ret$user <- "test"
-    Sys.sleep(2)
-  } else {
-    invisible(
-      tidychat_send(
-        prompt = prompt,
-        type = "chat",
-        prompt_build = include
-      )
-    )
-
-    chat_history <- tidychat_history_get()
-    chat_length <- length(chat_history)
-
-    ret$assistant <- chat_history[[chat_length]]$content
-    ret$user <- chat_history[[chat_length - 1]]$content
-  }
-  ret
 }

@@ -38,11 +38,14 @@ openai_stream_ide <- function(endpoint, req_body) {
   }
 }
 
-openai_stream_file <- function(endpoint, req_body) {
+openai_stream_file <- function(endpoint,
+                               req_body,
+                               r_file_stream,
+                               r_file_complete
+                               ) {
   if (tidychat_debug_get()) {
     req_body
   } else {
-    path <- tidychat_stream_path()
 
     tidychat_env$stream$response <- NULL
 
@@ -58,13 +61,14 @@ openai_stream_file <- function(endpoint, req_body) {
             x = tidychat_env$stream$response,
             endpoint = endpoint
             )
-          saveRDS(ret, path)
+          saveRDS(ret, r_file_stream)
           TRUE
         },
         buffer_kb = 0.1
       )
-    ret <- readRDS(path)
-    file_delete(path)
+    ret <- readRDS(r_file_stream)
+    file_delete(r_file_stream)
+    saveRDS(ret, r_file_complete)
     ret
   }
 }

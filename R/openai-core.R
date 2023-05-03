@@ -1,6 +1,8 @@
 openai_get_completion_text <- function(prompt = NULL,
                                        model = "text-davinci-003",
-                                       defaults = NULL) {
+                                       defaults = NULL,
+                                       r_file_stream = NULL,
+                                       r_file_complete = NULL) {
   req_body <- c(
     list(
       model = model,
@@ -12,7 +14,9 @@ openai_get_completion_text <- function(prompt = NULL,
   ret <- openai_switch(
     endpoint = "completions",
     req_body = req_body,
-    defaults = defaults
+    defaults = defaults,
+    r_file_stream = r_file_stream,
+    r_file_complete = r_file_complete
     )
 
   if(inherits(ret, "list")) {
@@ -24,7 +28,9 @@ openai_get_completion_text <- function(prompt = NULL,
 
 openai_get_chat_completion_text <- function(prompt = NULL,
                                             model = "gpt-3.5-turbo",
-                                            defaults = NULL) {
+                                            defaults = NULL,
+                                            r_file_stream = NULL,
+                                            r_file_complete = NULL) {
   req_body <- c(
     list(
       model = model,
@@ -36,7 +42,9 @@ openai_get_chat_completion_text <- function(prompt = NULL,
   ret <- openai_switch(
     endpoint = "chat/completions",
     req_body = req_body,
-    defaults = defaults
+    defaults = defaults,
+    r_file_stream = r_file_stream,
+    r_file_complete = r_file_complete
     )
 
   if(inherits(ret, "list")) {
@@ -46,12 +54,22 @@ openai_get_chat_completion_text <- function(prompt = NULL,
   ret
 }
 
-openai_switch <- function(endpoint, req_body, defaults) {
+openai_switch <- function(endpoint,
+                          req_body,
+                          defaults,
+                          r_file_stream,
+                          r_file_complete
+                          ) {
   ret <- NULL
   stream <- defaults$model_arguments$stream %||% FALSE
   if (stream) {
     if(defaults$type == "chat") {
-      ret <- openai_stream_file(endpoint, req_body)
+      ret <- openai_stream_file(
+        endpoint = endpoint,
+        req_body = req_body,
+        r_file_stream = r_file_stream,
+        r_file_complete = r_file_complete
+        )
     } else {
       openai_stream_ide(endpoint, req_body)
     }
