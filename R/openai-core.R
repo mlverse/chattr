@@ -49,11 +49,11 @@ openai_stream_ide <- function(endpoint, req_body) {
             x = tidychat_env$stream$raw,
             endpoint = endpoint
           )
-          if(!is.null(current)) {
-            if(is.null(tidychat_env$stream$response)) {
+          if (!is.null(current)) {
+            if (is.null(tidychat_env$stream$response)) {
               ide_paste_text(current)
             } else {
-              if(nchar(current) != nchar(tidychat_env$stream$response)) {
+              if (nchar(current) != nchar(tidychat_env$stream$response)) {
                 delta <- substr(
                   current,
                   nchar(tidychat_env$stream$response) + 1,
@@ -75,12 +75,10 @@ openai_stream_ide <- function(endpoint, req_body) {
 openai_stream_file <- function(endpoint,
                                req_body,
                                r_file_stream,
-                               r_file_complete
-) {
+                               r_file_complete) {
   if (tidychat_debug_get()) {
     req_body
   } else {
-
     tidychat_env$stream$response <- NULL
 
     openai_request(endpoint, req_body) %>%
@@ -112,24 +110,25 @@ openai_stream_parse <- function(x, endpoint) {
     paste0(collapse = "") %>%
     strsplit("data: ") %>%
     unlist() %>%
-    purrr::discard(~ .x == "")  %>%
+    purrr::discard(~ .x == "") %>%
     purrr::keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
     map(jsonlite::fromJSON)
 
-  if(length(res) > 0) {
-
-    if(endpoint == "completions") {
+  if (length(res) > 0) {
+    if (endpoint == "completions") {
       res <- res %>%
         map(~ .x$choices$text) %>%
         reduce(paste0)
     }
 
-    if(endpoint == "chat/completions") {
+    if (endpoint == "chat/completions") {
       res <- res %>%
         map(~ .x$choices$delta$content) %>%
         reduce(paste0)
     }
 
-    if(length(res) > 0) return(res)
+    if (length(res) > 0) {
+      return(res)
+    }
   }
 }

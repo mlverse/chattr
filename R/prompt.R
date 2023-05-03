@@ -10,7 +10,7 @@ build_prompt_new <- function(prompt = NULL, defaults = tidychat_defaults()) {
 
   c(
     system_msg,
-    if(td$include_history) tidychat_history_get(),
+    if (td$include_history) tidychat_history_get(),
     list(
       list(role = "user", content = header),
       list(role = "user", content = prompt)
@@ -22,7 +22,7 @@ build_prompt_old <- function(prompt = NULL, defaults = tidychat_defaults()) {
   td <- defaults
 
   header <- build_header(defaults)
-  prompt <- paste0("\n* ",  build_null_prompt(prompt))
+  prompt <- paste0("\n* ", build_null_prompt(prompt))
 
   paste0(header, prompt, collapse = "")
 }

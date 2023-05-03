@@ -13,12 +13,56 @@
 #' @param ... Optional arguments; currently unused.
 #' @keywords internal
 #' @export
-tidychat_submit <- function(defaults,
-                            prompt = NULL,
-                            prompt_build = TRUE,
-                            preview = FALSE,
-                            r_file_stream = NULL,
-                            r_file_complete = NULL,
-                            ...) {
-  UseMethod("tidychat_submit")
+tc_submit <- function(defaults,
+                      prompt = NULL,
+                      prompt_build = TRUE,
+                      preview = FALSE,
+                      r_file_stream = NULL,
+                      r_file_complete = NULL,
+                      ...) {
+  UseMethod("tc_submit")
+}
+
+#' @export
+#' @rdname tc_submit
+tc_submit_job <- function(prompt,
+                          r_file_stream = tempfile(),
+                          r_file_complete = tempfile(),
+                          defaults = tidychat_defaults(type = "chat")) {
+  defaults$prompt <- process_prompt(defaults$prompt)
+  rs <- r_session_start()
+  rs$call(
+    function(prompt, r_file_stream, r_file_complete, defaults) {
+      res <- tidychat::tc_submit(
+        defaults = do.call(
+          what = tidychat::tidychat_defaults,
+          args = defaults
+        ),
+        prompt = prompt,
+        r_file_stream = r_file_stream,
+        r_file_complete = r_file_complete
+      )
+    },
+    args = list(
+      prompt = prompt,
+      r_file_stream = r_file_stream,
+      r_file_complete = r_file_complete,
+      defaults = defaults
+    )
+  )
+}
+
+#' @export
+#' @rdname tc_submit
+tc_submit_job_stop <- function() {
+  tidychat_env$r_session$close()
+}
+
+r_session_start <- function() {
+  tidychat_env$r_session <- r_session$new()
+  tidychat_env$r_session
+}
+
+r_session_get <- function() {
+  tidychat_env$r_session
 }

@@ -2,25 +2,14 @@
 #' @param prompt Request to send to LLM. Defaults to NULL
 #' @export
 tidychat <- function(prompt = NULL) {
-  ret <- tidychat_send(
+  ret <- tc_submit(
+    defaults = tidychat_defaults(),
     prompt = prompt,
-    prompt_build = TRUE
+    preview = FALSE
   )
-  if(is.null(ret)) {
+  if (is.null(ret)) {
     invisible()
   } else {
-   return(ret)
+    return(ret)
   }
-}
-
-tidychat_send <- function(prompt = NULL,
-                          prompt_build = TRUE,
-                          type = NULL,
-                          preview = FALSE) {
-  tidychat_submit(
-    defaults = tidychat_defaults(type = type),
-    prompt = prompt,
-    prompt_build = prompt_build,
-    preview = preview
-  )
 }

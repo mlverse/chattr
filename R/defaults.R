@@ -37,30 +37,27 @@ tidychat_defaults <- function(prompt = NULL,
                               system_msg = NULL,
                               yaml_file = "tidychat.yml",
                               type = NULL,
-                              force = FALSE
-                              ) {
+                              force = FALSE) {
   function_args <- as.list(environment())
 
-  if(is.null(type)) {
+  if (is.null(type)) {
     type <- ui_current()
-    if(type == "markdown") type <- "notebook"
+    if (type == "markdown") type <- "notebook"
   }
 
   if (is.null(tidychat_get_defaults(type)$provider) | force) {
-
     check_files <- package_file("configs", "default.yml")
 
     if (file_exists(yaml_file)) {
       check_files <- c(check_files, yaml_file)
     }
 
-    for(j in seq_along(check_files)) {
+    for (j in seq_along(check_files)) {
       td_defaults <- read_yaml(file = check_files[j])
       check_defaults <- c("default", type)
-      for(i in seq_along(check_defaults)) {
+      for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]
         if (!is.null(td)) {
-
           if (length(td$prompt) > 0) {
             td$prompt <- strsplit(td$prompt, split = "\n")[[1]]
           }
@@ -124,7 +121,7 @@ print.tc_model <- function(x, ...) {
   cli_h3("Model")
   cli_li("Provider: {.val0 {x$provider}}")
   cli_li("Model: {.val0 {x$model}}")
-  if(!is.null(x$model_arguments)) {
+  if (!is.null(x$model_arguments)) {
     cli_h3("Model Arguments:")
     iwalk(
       x$model_arguments,
@@ -153,8 +150,8 @@ tidychat_set_defaults <- function(arguments = list(),
                                   type = NULL) {
   td <- tidychat_get_defaults(type)
 
-  if(!is.null(td)) {
-    for(i in seq_along(td)) {
+  if (!is.null(td)) {
+    for (i in seq_along(td)) {
       arguments[[names(td[i])]] <- arguments[[names(td[i])]] %||% td[[i]]
     }
   }

@@ -18,7 +18,7 @@ It is meant to be used within the tidychat_default() function
 tidychat_defaults(
   c("This is an example", "{tidychat_base_prompt}"),
   type = "chat"
-  )
+)
 
 }
 \keyword{datasets}

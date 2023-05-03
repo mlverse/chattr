@@ -6,7 +6,7 @@
 #' tidychat_defaults(
 #'   c("This is an example", "{tidychat_base_prompt}"),
 #'   type = "chat"
-#'   )
+#' )
 #'
 "tidychat_base_prompt"
 
@@ -23,4 +23,3 @@ tidychat_base <- function() {
 }
 # tidychat_base_prompt <- tidychat_base()
 # use_data(tidychat_base_prompt)
-

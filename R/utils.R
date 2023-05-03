@@ -7,9 +7,7 @@
 #' @export
 tidychat_defaults_save <- function(path = "tidychat.yml",
                                    overwrite = FALSE,
-                                   type = NULL
-                                   ) {
-
+                                   type = NULL) {
   invisible(tidychat_defaults(type = "default"))
 
   temp <- tempfile()
@@ -21,29 +19,31 @@ tidychat_defaults_save <- function(path = "tidychat.yml",
 
   other <- map(
     td[td_other],
-     ~ {
-       match <- purrr::imap_lgl(
-         .x,
-          ~{
-            y <- td_default[[.y]]
-            x <- .x
-            if(!inherits(x, "list")) {
-              if(inherits(x, "character")) {
-                x <- paste0(x, collapse = "")
-                y <- paste0(y, collapse = "")
-              }
-              x != y
-            } else {
-              ma <- purrr::imap_lgl(x, ~ .x == y[[.y]])
-              !all(ma)
+    ~ {
+      match <- purrr::imap_lgl(
+        .x,
+        ~ {
+          y <- td_default[[.y]]
+          x <- .x
+          if (!inherits(x, "list")) {
+            if (inherits(x, "character")) {
+              x <- paste0(x, collapse = "")
+              y <- paste0(y, collapse = "")
             }
-          })
-        .x[match]
-      }) %>%
+            x != y
+          } else {
+            ma <- purrr::imap_lgl(x, ~ .x == y[[.y]])
+            !all(ma)
+          }
+        }
+      )
+      .x[match]
+    }
+  ) %>%
     purrr::keep(~ length(.x) > 0)
 
   td_all <- list(default = td_default)
-  if(length(other) > 0) td_all <- c(td_all, other)
+  if (length(other) > 0) td_all <- c(td_all, other)
 
   write_yaml(x = td_all, file = temp)
 
@@ -106,7 +106,7 @@ use_switch <- function(...) {
   file <- package_file(...)
   walk(
     c("default", "console", "chat", "notebook"),
-    ~{
+    ~ {
       tidychat_defaults(
         type = .x,
         yaml_file = file,
@@ -114,14 +114,13 @@ use_switch <- function(...) {
       )
     }
   )
-
 }
 
 package_file <- function(...) {
   default_file <- path(...)
   inst_file <- path("inst", default_file)
 
-  if(file_exists(inst_file)) {
+  if (file_exists(inst_file)) {
     pkg_file <- inst_file
   } else {
     pkg_file <- system.file(default_file, package = "tidychat")
