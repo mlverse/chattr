@@ -1,0 +1,26 @@
+#' Sets base defaults for specific LLM model
+#' @export
+tc_use_openai_gpt35 <- function() {
+  use_switch("configs", "default.yml")
+}
+
+#' @export
+#' @rdname tc_use_openai_gpt35
+tc_use_openai_davinci <- function() {
+  use_switch("configs", "davinci.yml")
+}
+
+use_switch <- function(...) {
+  tc_env$defaults <- NULL
+  file <- package_file(...)
+  walk(
+    c("default", "console", "chat", "notebook", "script"),
+    ~ {
+      tc_defaults(
+        type = .x,
+        yaml_file = file,
+        force = TRUE
+      )
+    }
+  )
+}

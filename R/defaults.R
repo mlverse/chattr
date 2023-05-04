@@ -105,10 +105,7 @@ tc_defaults_get <- function(type = "notebook") {
 
 #' @export
 print.tc_model <- function(x, ...) {
-  cli_div(theme = list(
-    span.val0 = list(color = "blue"),
-    span.val1 = list(color = "darkgray")
-  ))
+  cli_colors()
   cli_h1("tidychat")
   type <- paste0(
     toupper(substr(x$type, 1, 1)),
