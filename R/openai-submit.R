@@ -1,6 +1,7 @@
 #' @export
 tc_submit.tc_provider_open_ai <- function(defaults,
                                           prompt = NULL,
+                                          stream = NULL,
                                           prompt_build = TRUE,
                                           preview = FALSE,
                                           r_file_stream = NULL,
@@ -8,6 +9,14 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           ...) {
 
   prompt <- build_null_prompt(prompt)
+
+  st <- stream %||% defaults$stream
+
+  if(!is.null(st)) {
+    ma <- defaults$model_arguments
+    ma$stream <- st
+    defaults$model_arguments <- ma
+  }
 
   if(prompt_build) {
     prompt <- openai_prompt(defaults, prompt)
@@ -55,9 +64,15 @@ build_prompt_history <- function(prompt = NULL, defaults) {
     system_msg <- list(list(role = "system", content = td$system_msg))
   }
 
+  if(td$include_history) {
+    history <- tc_history_get()
+  } else {
+    history <- NULL
+  }
+
   c(
     system_msg,
-    if (td$include_history) tc_history_get(),
+    history,
     list(
       list(role = "user", content = header),
       list(role = "user", content = prompt)
@@ -100,7 +115,8 @@ build_null_prompt <- function(prompt) {
 openai_completion <- function(defaults,
                               prompt,
                               r_file_stream,
-                              r_file_complete
+                              r_file_complete,
+                              stream
                               ) {
   UseMethod("openai_completion")
 }
@@ -108,7 +124,8 @@ openai_completion <- function(defaults,
 openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
                                                      prompt,
                                                      r_file_stream,
-                                                     r_file_complete) {
+                                                     r_file_complete
+                                                     ) {
   openai_get_chat_completion_text(
     prompt = prompt,
     model = "gpt-3.5-turbo",

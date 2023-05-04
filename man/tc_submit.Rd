@@ -9,6 +9,7 @@
 tc_submit(
   defaults,
   prompt = NULL,
+  stream = NULL,
   prompt_build = TRUE,
   preview = FALSE,
   r_file_stream = NULL,
@@ -18,6 +19,7 @@ tc_submit(
 
 tc_submit_job(
   prompt,
+  stream = NULL,
   prompt_build = TRUE,
   r_file_stream = tempfile(),
   r_file_complete = tempfile(),
@@ -30,6 +32,9 @@ tc_submit_job_stop()
 \item{defaults}{Defaults object, generally puled from \code{tc_defaults()}}
 
 \item{prompt}{The prompt to send to the LLM}
+
+\item{stream}{To output the response from the LLM as it happens, or wait until
+the response is complete. Defaults to TRUE.}
 
 \item{prompt_build}{Include the context and additional prompt as part of the
 request}
