@@ -92,42 +92,6 @@ tidychat_debug_get <- function() {
   tc_env$debug
 }
 
-# ---------------------------------- Use ---------------------------------------
-
-tidychat_use_openai_gpt35 <- function() {
-  use_switch("configs", "default.yml")
-}
-
-tidychat_use_openai_davinci <- function() {
-  use_switch("configs", "davinci.yml")
-}
-
-use_switch <- function(...) {
-  file <- package_file(...)
-  walk(
-    c("default", "console", "chat", "notebook", "script"),
-    ~ {
-      tc_defaults(
-        type = .x,
-        yaml_file = file,
-        force = TRUE
-      )
-    }
-  )
-}
-
-package_file <- function(...) {
-  default_file <- path(...)
-  inst_file <- path("inst", default_file)
-
-  if (file_exists(inst_file)) {
-    pkg_file <- inst_file
-  } else {
-    pkg_file <- system.file(default_file, package = "tidychat")
-  }
-  pkg_file
-}
-
 # ------------------------------ Print Chat ------------------------------------
 
 as_tc_request <- function(x, defaults) {
@@ -144,10 +108,7 @@ print.tc_request <- function(x, ...) {
     toupper(substr(x$defaults$type, 1, 1)),
     substr(x$defaults$type, 2, nchar(x$defaults$type))
   )
-  cli_div(theme = list(
-    span.val0 = list(color = "blue"),
-    span.val1 = list(color = "darkgray")
-  ))
+  cli_colors()
   cli_h2("Preview for: {.val0 {type}}")
   cli_h3("Model")
   cli_li("Provider: {.val0 {x$defaults$provider}}")
@@ -159,10 +120,7 @@ print.tc_request <- function(x, ...) {
       ~ cli_li("{.y}: {.val0 {.x}}")
     )
   }
-  cli_div(theme = list(
-    span.val0 = list(color = "blue"),
-    span.val1 = list(color = "darkgray")
-  ))
+  cli_colors()
   cli_h3("Prompt:")
   walk(x$prompt, ~ {
     x <- .x
@@ -184,4 +142,25 @@ print.tc_request <- function(x, ...) {
       }
     })
   })
+}
+
+# ------------------------------- Utils ----------------------------------------
+
+package_file <- function(...) {
+  default_file <- path(...)
+  inst_file <- path("inst", default_file)
+
+  if (file_exists(inst_file)) {
+    pkg_file <- inst_file
+  } else {
+    pkg_file <- system.file(default_file, package = "tidychat")
+  }
+  pkg_file
+}
+
+cli_colors <- function() {
+  cli_div(theme = list(
+    span.val0 = list(color = "blue"),
+    span.val1 = list(color = "darkgray")
+  ))
 }
