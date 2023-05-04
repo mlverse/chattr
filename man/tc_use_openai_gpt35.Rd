@@ -3,11 +3,14 @@
 \name{tc_use_openai_gpt35}
 \alias{tc_use_openai_gpt35}
 \alias{tc_use_openai_davinci}
+\alias{tc_use_nomicai_lora}
 \title{Sets base defaults for specific LLM model}
 \usage{
 tc_use_openai_gpt35()
 
 tc_use_openai_davinci()
+
+tc_use_nomicai_lora()
 }
 \description{
 Sets base defaults for specific LLM model

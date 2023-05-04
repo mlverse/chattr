@@ -1,52 +1,39 @@
 tc_submit.tc_model_lora_quantized <- function(defaults,
-                                                    prompt = NULL,
-                                                    prompt_build = TRUE,
-                                                    preview = FALSE,
-                                                    ...) {
+                                              prompt = NULL,
+                                              prompt_build = TRUE,
+                                              preview = FALSE,
+                                              ...) {
   prompt <- build_null_prompt(prompt)
 
-  if(prompt_build) {
+  if (prompt_build) {
     header <- paste0(defaults$prompt, collapse = " \\ ")
     prompt <- paste0(header, "\\", prompt)
   }
 
-  if(preview) {
-    ret <- prompt
+  if (preview) {
+    ret <- as_tc_request(prompt, defaults)
   } else {
-    if(defaults$type == "chat") {
+    if (defaults$type == "chat") {
       nomicai_chat_stream(prompt)
     } else {
       ret <- nomicai_chat(prompt)
     }
   }
 
-  if(is.null(ret)) return(invisible())
+  if (is.null(ret)) {
+    return(invisible())
+  }
 
   ret
 }
-
-
 nomicai_env <- new.env()
-
-tidychat_use_nomicai_lora <- function() {
-  walk(
-    c("default", "console", "chat", "markdown", "script"),
-    ~ {
-      tc_defaults(
-        type = .x,
-        yaml_file = package_file("configs", "nomicai.yml"),
-        force = TRUE
-      )
-    }
-  )
-}
 
 nomicai_chat <- function(prompt = NULL, stream = TRUE) {
   gpt4all_start()
   if (!is.null(terminal_get())) {
     td <- terminal_contents()
     terminal_send(prompt)
-    if(stream) {
+    if (stream) {
       gpt4all_stream(length(td) + 1)
     } else {
       gpt4all_wait_last()
@@ -57,7 +44,7 @@ nomicai_chat <- function(prompt = NULL, stream = TRUE) {
 }
 
 gpt4all_start <- function() {
-  if(is.null(terminal_get())) {
+  if (is.null(terminal_get())) {
     gpt4all_location <- fs::path_expand("~/gpt4all/chat")
     terminal_start()
     Sys.sleep(1)
@@ -88,7 +75,7 @@ terminal_set <- function(terminal_id) {
 }
 
 terminal_start <- function() {
-  if(is.null(terminal_get())) {
+  if (is.null(terminal_get())) {
     nomicai_env$terminal_id <- rstudioapi::terminalCreate()
   }
   terminal_get()
@@ -148,10 +135,10 @@ gpt4all_stream <- function(start_line = 1, timeout = 100) {
   Sys.sleep(1)
   for (i in 1:100) {
     Sys.sleep(0.1)
-    if(!last_line_prompt()) {
+    if (!last_line_prompt()) {
       tc <- terminal_contents()
       tc <- paste0(tc[start_line:length(tc)], collapse = "\n")
-      if(tc != contents) {
+      if (tc != contents) {
         delta <- substr(tc, nchar(contents) + 1, nchar(tc))
         cat(delta)
         contents <- tc

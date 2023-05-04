@@ -10,6 +10,13 @@ tc_use_openai_davinci <- function() {
   use_switch("configs", "davinci.yml")
 }
 
+#' @export
+#' @rdname tc_use_openai_gpt35
+tc_use_nomicai_lora <- function() {
+  use_switch("configs", "nomicai.yml")
+}
+
+
 use_switch <- function(...) {
   tc_env$defaults <- NULL
   file <- package_file(...)
