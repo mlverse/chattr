@@ -4,10 +4,14 @@
 \alias{tidychat}
 \title{Submits prompt to LLM}
 \usage{
-tidychat(prompt = NULL)
+tidychat(prompt = NULL, preview = FALSE)
 }
 \arguments{
 \item{prompt}{Request to send to LLM. Defaults to NULL}
+
+\item{preview}{Primarily used for debugging. It indicates if it should send
+the prompt to the LLM (FALSE), or if it should print out the resulting
+prompt (TRUE)}
 }
 \description{
 Submits prompt to LLM

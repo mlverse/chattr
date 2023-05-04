@@ -42,7 +42,7 @@ openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
 }
 
 openai_prompt.tc_model_davinci_3 <- function(defaults, prompt) {
-  build_prompt_simple(ptompt, defaults)
+  build_prompt_simple(prompt, defaults)
 }
 
 build_prompt_history <- function(prompt = NULL, defaults = tc_defaults()) {
