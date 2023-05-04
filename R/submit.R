@@ -1,6 +1,8 @@
 #' Method to easily integrate to new LLM's
 #' @param defaults Defaults object, generally puled from `tc_defaults()`
 #' @param prompt The prompt to send to the LLM
+#' @param stream To output the response from the LLM as it happens, or wait until
+#' the response is complete. Defaults to TRUE.
 #' @param prompt_build Include the context and additional prompt as part of the
 #' request
 #' @param preview Primarily used for debugging. It indicates if it should send
@@ -15,6 +17,7 @@
 #' @export
 tc_submit <- function(defaults,
                       prompt = NULL,
+                      stream = NULL,
                       prompt_build = TRUE,
                       preview = FALSE,
                       r_file_stream = NULL,
@@ -26,6 +29,7 @@ tc_submit <- function(defaults,
 #' @export
 #' @rdname tc_submit
 tc_submit_job <- function(prompt,
+                          stream = NULL,
                           prompt_build = TRUE,
                           r_file_stream = tempfile(),
                           r_file_complete = tempfile(),
@@ -34,13 +38,20 @@ tc_submit_job <- function(prompt,
   defaults$prompt <- process_prompt(defaults$prompt)
   rs <- r_session_start()
   rs$call(
-    function(prompt, r_file_stream, r_file_complete, prompt_build, defaults) {
+    function(prompt,
+             stream,
+             r_file_stream,
+             r_file_complete,
+             prompt_build,
+             defaults
+             ) {
       res <- tidychat::tc_submit(
         defaults = do.call(
           what = tidychat::tc_defaults,
           args = defaults
         ),
         prompt = prompt,
+        stream = stream,
         prompt_build = prompt_build,
         r_file_stream = r_file_stream,
         r_file_complete = r_file_complete
@@ -51,7 +62,8 @@ tc_submit_job <- function(prompt,
       r_file_stream = r_file_stream,
       r_file_complete = r_file_complete,
       prompt_build = prompt_build,
-      defaults = defaults
+      defaults = defaults,
+      stream = stream
     )
   )
 }

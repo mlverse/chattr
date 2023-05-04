@@ -105,7 +105,7 @@ tidychat_use_openai_davinci <- function() {
 use_switch <- function(...) {
   file <- package_file(...)
   walk(
-    c("default", "console", "chat", "notebook"),
+    c("default", "console", "chat", "notebook", "script"),
     ~ {
       tc_defaults(
         type = .x,
@@ -127,3 +127,69 @@ package_file <- function(...) {
   }
   pkg_file
 }
+
+# ------------------------------ Print Chat ------------------------------------
+
+as_tc_request <- function(x, defaults) {
+  class(defaults) <- "list"
+  ret <- list(prompt = x, defaults = defaults)
+  class(ret) <- "tc_request"
+  ret
+}
+
+#' @export
+print.tc_request <- function(x, ...) {
+  cli_h1("tidychat")
+  type <- paste0(
+    toupper(substr(x$defaults$type, 1, 1)),
+    substr(x$defaults$type, 2, nchar(x$defaults$type))
+  )
+  cli_div(theme = list(
+    span.val0 = list(color = "blue"),
+    span.val1 = list(color = "darkgray")
+  ))
+  cli_h2("Preview for: {.val0 {type}}")
+  cli_h3("Model")
+  cli_li("Provider: {.val0 {x$defaults$provider}}")
+  cli_li("Model: {.val0 {x$defaults$model}}")
+  if (!is.null(x$defaults$model_arguments)) {
+    cli_h3("Model Arguments:")
+    iwalk(
+      x$defaults$model_arguments,
+      ~ cli_li("{.y}: {.val0 {.x}}")
+    )
+  }
+  cli_div(theme = list(
+    span.val0 = list(color = "blue"),
+    span.val1 = list(color = "darkgray")
+  ))
+  cli_h3("Prompt:")
+  walk(x$prompt, ~ {
+    x <- .x
+    x_named <- rlang::is_named(x)
+    iwalk(x, ~ {
+      split_x <- .x %>%
+        strsplit("\n") %>%
+        unlist()
+      if(x_named) {
+        title <- glue("{.y}:")
+      } else {
+        title <- NULL
+      }
+      if(length(split_x) == 1) {
+        cli_text("{title} {.val0 {.x}}")
+      } else{
+        cli_text("{title}")
+        walk(split_x, ~ cli_bullets("{.val0 {.x}}"))
+      }
+    }
+    )
+  })
+}
+
+
+
+
+
+
+
