@@ -137,7 +137,6 @@ app_interactive <- function(as_job = FALSE) {
     observe({
       auto_invalidate()
       if (file_exists(r_file_complete)) {
-        print("complete")
         out <- readRDS(r_file_complete)
         app_add_assistant(
           content = out,
@@ -220,18 +219,13 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
   }
 
   content_hist <- tc_env$content_hist
-
   for (i in seq_along(split_content)) {
     curr_content <- split_content[length(split_content) - i + 1]
-    if (grepl("\\{r", curr_content)) {
+    if((i / 2) == floor(i / 2)) {
+      curr_content <- paste0("```", curr_content, "\n```")
+      curr_split <- strsplit(curr_content, "\n")
+      content_hist <- c(content_hist, curr_content)
       is_code <- TRUE
-
-      end_cap <- regexpr("\\}", curr_content)[[1]]
-
-      hist_content <- substr(curr_content, end_cap + 1, nchar(curr_content))
-
-      content_hist <- c(content_hist, hist_content)
-      curr_content <- paste0("```", curr_content, "```")
     } else {
       is_code <- FALSE
     }
@@ -287,8 +281,10 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       })
       observeEvent(input[[paste0("doc", .x)]], {
         ch <- content_hist[.x]
-        if (ui_current() == "markdown") {
-          ch <- paste0("```{r}\n", ch, "\n```")
+        if (ui_current() != "markdown") {
+          split_ch <- unlist(strsplit(ch, "\n"))
+          ch <- split_ch[2:(length(split_ch) - 1)]
+          ch <- paste0(ch, collapse = "\n")
         }
         insertText(text = ch)
         stopApp()
