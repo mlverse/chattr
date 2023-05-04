@@ -6,6 +6,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
+
   prompt <- build_null_prompt(prompt)
 
   if(prompt_build) {
@@ -14,7 +15,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
 
   ret <- NULL
   if (preview) {
-    ret <- prompt
+    ret <- as_tc_request(prompt, defaults)
   } else {
     ret <- openai_completion(
       defaults = defaults,
@@ -45,7 +46,7 @@ openai_prompt.tc_model_davinci_3 <- function(defaults, prompt) {
   build_prompt_simple(prompt, defaults)
 }
 
-build_prompt_history <- function(prompt = NULL, defaults = tc_defaults()) {
+build_prompt_history <- function(prompt = NULL, defaults) {
   td <- defaults
 
   header <- build_header(defaults)
@@ -64,17 +65,15 @@ build_prompt_history <- function(prompt = NULL, defaults = tc_defaults()) {
   )
 }
 
-build_prompt_simple <- function(prompt = NULL, defaults = tc_defaults()) {
-  td <- defaults
-
+build_prompt_simple <- function(prompt = NULL, defaults) {
   header <- build_header(defaults)
-
-  paste0(header, prompt, collapse = "")
+  prompt <- paste("\n *", prompt)
+  ret <- paste0(header, prompt)
+  ret
 }
 
 build_header <- function(defaults) {
   td <- defaults
-
   header <- c(
     process_prompt(td$prompt),
     if (td$include_data_files) context_data_files(),
