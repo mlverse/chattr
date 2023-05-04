@@ -1,4 +1,4 @@
-tidychat_submit.tc_model_lora_quantized <- function(defaults,
+tc_submit.tc_model_lora_quantized <- function(defaults,
                                                     prompt = NULL,
                                                     prompt_build = TRUE,
                                                     preview = FALSE,
@@ -30,9 +30,9 @@ nomicai_env <- new.env()
 
 tidychat_use_nomicai_lora <- function() {
   walk(
-    c("default", "console", "chat", "markdown"),
+    c("default", "console", "chat", "markdown", "script"),
     ~ {
-      tidychat_defaults(
+      tc_defaults(
         type = .x,
         yaml_file = package_file("configs", "nomicai.yml"),
         force = TRUE

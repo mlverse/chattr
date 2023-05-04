@@ -94,7 +94,7 @@ ggplot(counties, aes(x = Population, y = Hospitals)) +
 
 
 ```{r}
-tidychat_defaults()$model
+tc_defaults()$model
 ```
 
 

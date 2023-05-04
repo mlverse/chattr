@@ -12,4 +12,4 @@
 #' @importFrom utils capture.output
 #' @importFrom purrr map_chr map_lgl map imap set_names walk reduce iwalk
 #' @importFrom rlang %||% abort
-tidychat_env <- new.env()
+tc_env <- new.env()

@@ -11,14 +11,16 @@
 tidychat_app <- function(viewer = c("viewer", "dialog"),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
-                         as_job_host = getOption("shiny.host", "127.0.0.1")
-                         ) {
-  if(viewer[1] == "dialog") {
-    td <- tidychat_defaults()
+                         as_job_host = getOption("shiny.host", "127.0.0.1")) {
+  td <- tc_defaults(type = "chat")
+  cli_li("Provider: {td$provider}")
+  cli_li("Model: {td$model}")
+
+  if (viewer[1] == "dialog") {
     viewer <- dialogViewer(
       dialogName = glue("tidychat - {td$provider} - {td$model}"),
       width = 800
-      )
+    )
   } else {
     viewer <- paneViewer()
   }
@@ -43,7 +45,7 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
 }
 
 app_interactive <- function(as_job = FALSE) {
-  tidychat_env$content_hist <- NULL
+  tc_env$content_hist <- NULL
   style <- app_theme_style()
 
   ui <- fluidPage(
@@ -92,6 +94,9 @@ app_interactive <- function(as_job = FALSE) {
   )
 
   server <- function(input, output, session) {
+    r_file_stream <- tempfile()
+    r_file_complete <- tempfile()
+
     insertUI(
       selector = "#tabs",
       where = "beforeBegin",
@@ -108,7 +113,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$add, {
-      tidychat_history_append(user = input$prompt)
+      tc_history_append(user = input$prompt)
       app_add_user(input$prompt, style$ui_user)
 
       updateTextAreaInput(
@@ -118,8 +123,12 @@ app_interactive <- function(as_job = FALSE) {
     })
 
     observeEvent(input$add, {
-      tidychat_stream_chat(
-        prompt = input$prompt
+      tc_submit_job(
+        prompt = input$prompt,
+        defaults = tc_defaults(type = "chat"),
+        prompt_build = input$include,
+        r_file_complete = r_file_complete,
+        r_file_stream = r_file_stream
       )
     })
 
@@ -127,25 +136,26 @@ app_interactive <- function(as_job = FALSE) {
 
     observe({
       auto_invalidate()
-      out_file <- tidychat_stream_output()
-      if (file.exists(out_file)) {
-        out <- readRDS(out_file)
+      if (file_exists(r_file_complete)) {
+        out <- readRDS(r_file_complete)
         app_add_assistant(
           content = out,
           style = style$ui_assistant,
           input = input,
           as_job = as_job
         )
-        tidychat_history_append(
+        tc_history_append(
           assistant = out
         )
-        file_delete(out_file)
+        file_delete(r_file_complete)
       }
     })
 
     output$stream <- renderText({
       auto_invalidate()
-      tidychat_app_stream(tidychat_defaults())
+      if (file_exists(r_file_stream)) {
+        markdown(readRDS(r_file_stream))
+      }
     })
 
     observeEvent(input$open, {
@@ -153,7 +163,7 @@ app_interactive <- function(as_job = FALSE) {
       ext <- path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
-        tidychat_history_set(rds)
+        tc_history_set(rds)
         app_add_history(
           style = style,
           input = input,
@@ -167,7 +177,7 @@ app_interactive <- function(as_job = FALSE) {
       ext <- path_ext(file)
       if (ext == "rds") {
         saveRDS(
-          tidychat_history_get(),
+          tc_history_get(),
           file
         )
       }
@@ -178,7 +188,7 @@ app_interactive <- function(as_job = FALSE) {
 }
 
 app_add_history <- function(style, input, as_job) {
-  th <- tidychat_history_get()
+  th <- tc_history_get()
   for (i in seq_along(th)) {
     curr <- th[[i]]
     if (curr$role == "user") {
@@ -208,19 +218,14 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
     split_content <- content
   }
 
-  content_hist <- tidychat_env$content_hist
-
+  content_hist <- tc_env$content_hist
   for (i in seq_along(split_content)) {
     curr_content <- split_content[length(split_content) - i + 1]
-    if (grepl("\\{r", curr_content)) {
+    if ((i / 2) == floor(i / 2)) {
+      curr_content <- paste0("```", curr_content, "\n```")
+      curr_split <- strsplit(curr_content, "\n")
+      content_hist <- c(content_hist, curr_content)
       is_code <- TRUE
-
-      end_cap <- regexpr("\\}", curr_content)[[1]]
-
-      hist_content <- substr(curr_content, end_cap + 1, nchar(curr_content))
-
-      content_hist <- c(content_hist, hist_content)
-      curr_content <- paste0("```", curr_content, "```")
     } else {
       is_code <- FALSE
     }
@@ -276,8 +281,10 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       })
       observeEvent(input[[paste0("doc", .x)]], {
         ch <- content_hist[.x]
-        if (ui_current() == "markdown") {
-          ch <- paste0("```{r}\n", ch, "\n```")
+        if (ui_current() != "markdown") {
+          split_ch <- unlist(strsplit(ch, "\n"))
+          ch <- split_ch[2:(length(split_ch) - 1)]
+          ch <- paste0(ch, collapse = "\n")
         }
         insertText(text = ch)
         stopApp()
@@ -285,7 +292,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
     }
   )
 
-  tidychat_env$content_hist <- content_hist
+  tc_env$content_hist <- content_hist
 }
 
 app_theme_style <- function() {
@@ -344,28 +351,4 @@ app_theme_rgb_to_hex <- function(x) {
   x1 <- sub("\\)", "", x1)
   x2 <- unlist(strsplit(x1, ","))
   rgb(x2[1], x2[2], x2[3], maxColorValue = 255)
-}
-
-app_get_chat <- function(prompt, include = TRUE) {
-  ret <- list()
-  if (tidychat_debug_get()) {
-    ret$assistant <- "some text\n```{r}\nmtcars\n```\nmore text\n```{r}\niris\n```"
-    ret$user <- "test"
-    Sys.sleep(2)
-  } else {
-    invisible(
-      tidychat_send(
-        prompt = prompt,
-        type = "chat",
-        prompt_build = include
-      )
-    )
-
-    chat_history <- tidychat_history_get()
-    chat_length <- length(chat_history)
-
-    ret$assistant <- chat_history[[chat_length]]$content
-    ret$user <- chat_history[[chat_length - 1]]$content
-  }
-  ret
 }

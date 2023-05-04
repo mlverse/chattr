@@ -1,6 +1,6 @@
 default:
   prompt: |
-    {tidychat_base_prompt}
+    {tc_base_prompt}
   provider: Open AI
   model: DaVinci 3
   include_data_files: TRUE
@@ -10,17 +10,17 @@ default:
   model_arguments:
     temperature: 0.01
     max_tokens: 1000
-    stream: FALSE
+    stream: TRUE
 notebook:
   prompt: |
-    {tidychat_base_prompt}
+    {tc_base_prompt}
     For code output, use RMarkdown code chunks
     Include alt text code chunk option for all plots
 chat:
   prompt: |
-    {tidychat_base_prompt}
+    {tc_base_prompt}
     For code output, use markdown code chunks
 console:
   prompt: |
-    {tidychat_base_prompt}
+    {tc_base_prompt}
     For any line that is not code, prefix it with a: #

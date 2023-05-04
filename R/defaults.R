@@ -26,47 +26,44 @@
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
 #' @inheritParams tidychat
-tidychat_defaults <- function(prompt = NULL,
-                              include_data_files = NULL,
-                              include_data_frames = NULL,
-                              include_doc_contents = NULL,
-                              include_history = NULL,
-                              provider = NULL,
-                              model = NULL,
-                              model_arguments = NULL,
-                              system_msg = NULL,
-                              yaml_file = "tidychat.yml",
-                              type = NULL,
-                              force = FALSE
-                              ) {
+tc_defaults <- function(prompt = NULL,
+                        include_data_files = NULL,
+                        include_data_frames = NULL,
+                        include_doc_contents = NULL,
+                        include_history = NULL,
+                        provider = NULL,
+                        model = NULL,
+                        model_arguments = NULL,
+                        system_msg = NULL,
+                        yaml_file = "tidychat.yml",
+                        type = NULL,
+                        force = FALSE) {
   function_args <- as.list(environment())
 
-  if(is.null(type)) {
+  if (is.null(type)) {
     type <- ui_current()
-    if(type == "markdown") type <- "notebook"
+    if (type == "markdown") type <- "notebook"
   }
 
-  if (is.null(tidychat_get_defaults(type)$provider) | force) {
-
+  if (is.null(tc_defaults_get(type)$provider) | force) {
     check_files <- package_file("configs", "default.yml")
 
     if (file_exists(yaml_file)) {
       check_files <- c(check_files, yaml_file)
     }
 
-    for(j in seq_along(check_files)) {
+    for (j in seq_along(check_files)) {
       td_defaults <- read_yaml(file = check_files[j])
       check_defaults <- c("default", type)
-      for(i in seq_along(check_defaults)) {
+      for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]
         if (!is.null(td)) {
-
           if (length(td$prompt) > 0) {
             td$prompt <- strsplit(td$prompt, split = "\n")[[1]]
           }
           td$type <- NULL
 
-          tidychat_set_defaults(
+          tc_defaults_set(
             arguments = td,
             type = type
           )
@@ -75,12 +72,12 @@ tidychat_defaults <- function(prompt = NULL,
     }
   }
 
-  tidychat_set_defaults(
+  tc_defaults_set(
     arguments = function_args,
     type = type
   )
 
-  ret <- tidychat_get_defaults(type)
+  ret <- tc_defaults_get(type)
   ret$type <- type
 
   class(ret) <- c(
@@ -102,8 +99,8 @@ prep_class_name <- function(x) {
   x
 }
 
-tidychat_get_defaults <- function(type = "notebook") {
-  tidychat_env$defaults[[type]]
+tc_defaults_get <- function(type = "notebook") {
+  tc_env$defaults[[type]]
 }
 
 #' @export
@@ -124,7 +121,7 @@ print.tc_model <- function(x, ...) {
   cli_h3("Model")
   cli_li("Provider: {.val0 {x$provider}}")
   cli_li("Model: {.val0 {x$model}}")
-  if(!is.null(x$model_arguments)) {
+  if (!is.null(x$model_arguments)) {
     cli_h3("Model Arguments:")
     iwalk(
       x$model_arguments,
@@ -149,12 +146,12 @@ print_include <- function(x, label) {
   }
 }
 
-tidychat_set_defaults <- function(arguments = list(),
-                                  type = NULL) {
-  td <- tidychat_get_defaults(type)
+tc_defaults_set <- function(arguments = list(),
+                            type = NULL) {
+  td <- tc_defaults_get(type)
 
-  if(!is.null(td)) {
-    for(i in seq_along(td)) {
+  if (!is.null(td)) {
+    for (i in seq_along(td)) {
       arguments[[names(td[i])]] <- arguments[[names(td[i])]] %||% td[[i]]
     }
   }
@@ -163,7 +160,7 @@ tidychat_set_defaults <- function(arguments = list(),
   arguments$yaml_file <- NULL
   arguments$force <- NULL
 
-  tidychat_env$defaults[[type]] <- arguments
+  tc_env$defaults[[type]] <- arguments
 }
 
 process_prompt <- function(x) {

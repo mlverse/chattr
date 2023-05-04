@@ -1,12 +1,12 @@
 default:
   prompt: |
-    {tidychat_base_prompt}
+    {tc_base_prompt}
   provider: Open AI
   model: GPT 3.5 Turbo
   include_data_files: TRUE
   include_data_frames: TRUE
   include_doc_contents: FALSE
-  include_history: FALSE
+  include_history: TRUE
   system_msg: You are a helpful coding assistant
   model_arguments:
     temperature: 0.01
@@ -14,14 +14,14 @@ default:
     stream: TRUE
 notebook:
   prompt: |
-    {tidychat_base_prompt}
+    {tidychat::tc_base_prompt}
     For code output, use RMarkdown code chunks
     Include alt text code chunk option for all plots
 chat:
   prompt: |
-    {tidychat_base_prompt}
+    {tidychat::tc_base_prompt}
     For code output, use markdown code chunks
 console:
   prompt: |
-    {tidychat_base_prompt}
+    {tidychat::tc_base_prompt}
     For any line that is not code, prefix it with a: #

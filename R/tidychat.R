@@ -1,26 +1,17 @@
 #' Submits prompt to LLM
 #' @param prompt Request to send to LLM. Defaults to NULL
+#' @inheritParams tc_submit
 #' @export
-tidychat <- function(prompt = NULL) {
-  ret <- tidychat_send(
+tidychat <- function(prompt = NULL, preview = FALSE, stream = NULL) {
+  ret <- tc_submit(
+    defaults = tc_defaults(),
     prompt = prompt,
-    prompt_build = TRUE
-  )
-  if(is.null(ret)) {
-    invisible()
-  } else {
-   return(ret)
-  }
-}
-
-tidychat_send <- function(prompt = NULL,
-                          prompt_build = TRUE,
-                          type = NULL,
-                          preview = FALSE) {
-  tidychat_submit(
-    defaults = tidychat_defaults(type = type),
-    prompt = prompt,
-    prompt_build = prompt_build,
+    stream = stream,
     preview = preview
   )
+  if (is.null(ret)) {
+    invisible()
+  } else {
+    return(ret)
+  }
 }
