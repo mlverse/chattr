@@ -3,3 +3,4 @@
 ^.*\.csv
 ^.*\.yml
 ^.*\.qmd
+^LICENSE\.md$

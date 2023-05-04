@@ -171,25 +171,17 @@ print.tc_request <- function(x, ...) {
       split_x <- .x %>%
         strsplit("\n") %>%
         unlist()
-      if(x_named) {
+      if (x_named) {
         title <- glue("{.y}:")
       } else {
         title <- NULL
       }
-      if(length(split_x) == 1) {
+      if (length(split_x) == 1) {
         cli_text("{title} {.val0 {.x}}")
-      } else{
+      } else {
         cli_text("{title}")
         walk(split_x, ~ cli_bullets("{.val0 {.x}}"))
       }
-    }
-    )
+    })
   })
 }
-
-
-
-
-
-
-

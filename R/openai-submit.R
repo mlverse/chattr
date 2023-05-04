@@ -7,20 +7,19 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-
   prompt <- build_null_prompt(prompt)
 
   st <- stream %||% defaults$stream
 
-  if(!is.null(st)) {
+  if (!is.null(st)) {
     ma <- defaults$model_arguments
     ma$stream <- st
     defaults$model_arguments <- ma
   }
 
-  if(prompt_build) {
+  if (prompt_build) {
     prompt <- openai_prompt(defaults, prompt)
-    }
+  }
 
   ret <- NULL
   if (preview) {
@@ -64,7 +63,7 @@ build_prompt_history <- function(prompt = NULL, defaults) {
     system_msg <- list(list(role = "system", content = td$system_msg))
   }
 
-  if(td$include_history) {
+  if (td$include_history) {
     history <- tc_history_get()
   } else {
     history <- NULL
@@ -116,16 +115,14 @@ openai_completion <- function(defaults,
                               prompt,
                               r_file_stream,
                               r_file_complete,
-                              stream
-                              ) {
+                              stream) {
   UseMethod("openai_completion")
 }
 
 openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
                                                      prompt,
                                                      r_file_stream,
-                                                     r_file_complete
-                                                     ) {
+                                                     r_file_complete) {
   openai_get_chat_completion_text(
     prompt = prompt,
     model = "gpt-3.5-turbo",
