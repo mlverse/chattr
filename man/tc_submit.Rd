@@ -18,6 +18,7 @@ tc_submit(
 
 tc_submit_job(
   prompt,
+  prompt_build = TRUE,
   r_file_stream = tempfile(),
   r_file_complete = tempfile(),
   defaults = tc_defaults(type = "chat")

@@ -126,6 +126,7 @@ app_interactive <- function(as_job = FALSE) {
       tc_submit_job(
         prompt = input$prompt,
         defaults = tc_defaults(type = "chat"),
+        prompt_build = input$include,
         r_file_complete = r_file_complete,
         r_file_stream = r_file_stream
       )

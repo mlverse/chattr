@@ -26,19 +26,22 @@ tc_submit <- function(defaults,
 #' @export
 #' @rdname tc_submit
 tc_submit_job <- function(prompt,
+                          prompt_build = TRUE,
                           r_file_stream = tempfile(),
                           r_file_complete = tempfile(),
-                          defaults = tc_defaults(type = "chat")) {
+                          defaults = tc_defaults(type = "chat")
+                          ) {
   defaults$prompt <- process_prompt(defaults$prompt)
   rs <- r_session_start()
   rs$call(
-    function(prompt, r_file_stream, r_file_complete, defaults) {
+    function(prompt, r_file_stream, r_file_complete, prompt_build, defaults) {
       res <- tidychat::tc_submit(
         defaults = do.call(
           what = tidychat::tc_defaults,
           args = defaults
         ),
         prompt = prompt,
+        prompt_build = prompt_build,
         r_file_stream = r_file_stream,
         r_file_complete = r_file_complete
       )
@@ -47,6 +50,7 @@ tc_submit_job <- function(prompt,
       prompt = prompt,
       r_file_stream = r_file_stream,
       r_file_complete = r_file_complete,
+      prompt_build = prompt_build,
       defaults = defaults
     )
   )

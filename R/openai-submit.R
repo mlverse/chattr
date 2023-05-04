@@ -6,11 +6,11 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-  if (prompt_build) {
-    prompt <- build_prompt_new(prompt, defaults)
-  } else {
-    prompt <- build_null_prompt(prompt)
-  }
+  prompt <- build_null_prompt(prompt)
+
+  if(prompt_build) {
+    prompt <- openai_prompt(defaults, prompt)
+    }
 
   ret <- NULL
   if (preview) {
@@ -31,7 +31,78 @@ tc_submit.tc_provider_open_ai <- function(defaults,
   ret
 }
 
-openai_completion <- function(defaults, prompt, r_file_stream, r_file_complete) {
+#-------------------------------- Prompt ---------------------------------------
+
+openai_prompt <- function(defaults, prompt) {
+  UseMethod("openai_prompt")
+}
+
+openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
+  build_prompt_history(prompt, defaults)
+}
+
+openai_prompt.tc_model_davinci_3 <- function(defaults, prompt) {
+  build_prompt_simple(ptompt, defaults)
+}
+
+build_prompt_history <- function(prompt = NULL, defaults = tc_defaults()) {
+  td <- defaults
+
+  header <- build_header(defaults)
+
+  if (!is.null(td$system_msg)) {
+    system_msg <- list(list(role = "system", content = td$system_msg))
+  }
+
+  c(
+    system_msg,
+    if (td$include_history) tc_history_get(),
+    list(
+      list(role = "user", content = header),
+      list(role = "user", content = prompt)
+    )
+  )
+}
+
+build_prompt_simple <- function(prompt = NULL, defaults = tc_defaults()) {
+  td <- defaults
+
+  header <- build_header(defaults)
+
+  paste0(header, prompt, collapse = "")
+}
+
+build_header <- function(defaults) {
+  td <- defaults
+
+  header <- c(
+    process_prompt(td$prompt),
+    if (td$include_data_files) context_data_files(),
+    if (td$include_data_frames) context_data_frames()
+  )
+
+  paste0("* ", header, collapse = " \n")
+}
+
+build_null_prompt <- function(prompt) {
+  if (is.null(prompt)) {
+    selection <- ide_get_selection(TRUE)
+    if (nchar(selection) > 0) {
+      prompt <- selection
+    } else {
+      prompt <- context_doc_last_line()
+    }
+  }
+  prompt
+}
+
+#--------------------------- Completion ----------------------------------------
+
+openai_completion <- function(defaults,
+                              prompt,
+                              r_file_stream,
+                              r_file_complete
+                              ) {
   UseMethod("openai_completion")
 }
 
