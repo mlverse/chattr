@@ -130,23 +130,25 @@ gpt4all_wait_last <- function(timeout = 100) {
   }
 }
 
-gpt4all_stream <- function(start_line = 1, timeout = 100) {
+gpt4all_stream <- function(start_line = 1, timeout = 1000) {
   contents <- ""
-  Sys.sleep(1)
-  for (i in 1:100) {
+  ide_paste_text("\n")
+  Sys.sleep(0.5)
+  for (i in 1:timeout) {
     Sys.sleep(0.1)
     if (!last_line_prompt()) {
       tc <- terminal_contents()
       tc <- paste0(tc[start_line:length(tc)], collapse = "\n")
       if (tc != contents) {
         delta <- substr(tc, nchar(contents) + 1, nchar(tc))
-        cat(delta)
+        ide_paste_text(delta)
         contents <- tc
       }
     } else {
       break
     }
   }
+  ide_paste_text("\n")
 }
 
 nomicai_chat_stream <- function(prompt = NULL, stream = TRUE) {
