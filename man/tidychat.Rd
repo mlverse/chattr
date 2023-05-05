@@ -4,7 +4,7 @@
 \alias{tidychat}
 \title{Submits prompt to LLM}
 \usage{
-tidychat(prompt = NULL, preview = FALSE, stream = NULL)
+tidychat(prompt = NULL, preview = FALSE, prompt_build = TRUE, stream = NULL)
 }
 \arguments{
 \item{prompt}{Request to send to LLM. Defaults to NULL}
@@ -12,6 +12,9 @@ tidychat(prompt = NULL, preview = FALSE, stream = NULL)
 \item{preview}{Primarily used for debugging. It indicates if it should send
 the prompt to the LLM (FALSE), or if it should print out the resulting
 prompt (TRUE)}
+
+\item{prompt_build}{Include the context and additional prompt as part of the
+request}
 
 \item{stream}{To output the response from the LLM as it happens, or wait until
 the response is complete. Defaults to TRUE.}
