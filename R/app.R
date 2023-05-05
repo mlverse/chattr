@@ -154,7 +154,7 @@ app_interactive <- function(as_job = FALSE) {
     output$stream <- renderText({
       auto_invalidate()
       if (file_exists(r_file_stream)) {
-        markdown(readRDS(r_file_stream))
+        try(markdown(readRDS(r_file_stream)))
       }
     })
 
