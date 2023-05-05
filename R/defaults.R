@@ -113,11 +113,14 @@ print.tc_model <- function(x, ...) {
   )
   cli_h2("Defaults for: {.val0 {type}}")
   cli_h3("Prompt:")
-  prompt <- process_prompt(x$prompt)
-  walk(paste0("{.val1 ", prompt, "}"), cli_text)
+  prompt <- x$prompt %>%
+    gsub("\\{", "\\{\\{", .) %>%
+    gsub("\\}", "\\}\\}", .)
+  walk(prompt, ~ cli_li("{.val1 {.x}}"))
+  cli_colors()
   cli_h3("Model")
   cli_li("Provider: {.val0 {x$provider}}")
-  cli_li("Model: {.val0 {x$model}}")
+  cli_bullets("Model: {.val0 {x$model}}")
   if (!is.null(x$model_arguments)) {
     cli_h3("Model Arguments:")
     iwalk(
