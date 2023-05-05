@@ -97,7 +97,7 @@ build_header <- function(defaults) {
   paste0("* ", header, collapse = " \n")
 }
 
-build_null_prompt <- function(prompt) {
+build_null_prompt <- function(prompt = NULL) {
   if (is.null(prompt)) {
     selection <- ide_get_selection(TRUE)
     if (nchar(selection) > 0) {
@@ -106,6 +106,18 @@ build_null_prompt <- function(prompt) {
       prompt <- context_doc_last_line()
     }
   }
+  err <- paste("No 'prompt' provided, and no prompt cannot",
+               "be infered from the current document"
+               )
+  err_flag <- FALSE
+  if(is.null(prompt) ) {
+    err_flag <- TRUE
+    } else if(nchar(prompt) == 0) {
+      err_flag <- TRUE
+      }
+
+  if(err_flag) rlang::abort(err)
+
   prompt
 }
 

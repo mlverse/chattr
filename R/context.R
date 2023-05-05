@@ -8,7 +8,10 @@ context_data_files <- function() {
   files <- c(csv, parquet)
   ret <- NULL
   if (length(files)) {
-    ret <- paste("Data files available: ", paste(files, collapse = ", "))
+    ret <- paste(
+      "Data files available: \n",
+      paste("|-", files, collapse = "\n")
+      )
   }
   ret
 }
@@ -29,7 +32,7 @@ context_data_frames <- function() {
 
         fields <- paste0(fields, collapse = ", ")
 
-        paste0("  * ", names(.x), " (", fields, ")")
+        paste0("|--  ", names(.x), " (", fields, ")")
       }) %>%
       paste0(collapse = " \n")
 
