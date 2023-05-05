@@ -109,12 +109,10 @@ print.tc_request <- function(x, ...) {
     substr(x$defaults$type, 2, nchar(x$defaults$type))
   )
   cli_colors()
-  cli_h2("Preview for: {.val0 {type}}")
-  cli_h3("Model")
+  cli_h3("Preview for: {.val0 {type}}")
   cli_li("Provider: {.val0 {x$defaults$provider}}")
   cli_li("Model: {.val0 {x$defaults$model}}")
   if (!is.null(x$defaults$model_arguments)) {
-    cli_h3("Model Arguments:")
     iwalk(
       x$defaults$model_arguments,
       ~ cli_li("{.y}: {.val0 {.x}}")
@@ -135,10 +133,10 @@ print.tc_request <- function(x, ...) {
         title <- NULL
       }
       if (length(split_x) == 1) {
-        cli_text("{title} {.val0 {.x}}")
+        cli_text("{title} {.val1 {.x}}")
       } else {
         cli_text("{title}")
-        walk(split_x, ~ cli_bullets("{.val0 {.x}}"))
+        walk(split_x, ~ cli_bullets("{.val1 {.x}}"))
       }
     })
   })
@@ -158,9 +156,10 @@ package_file <- function(...) {
   pkg_file
 }
 
-cli_colors <- function() {
+cli_colors <- function(envir = parent.frame()) {
   cli_div(theme = list(
     span.val0 = list(color = "blue"),
-    span.val1 = list(color = "darkgray")
-  ))
+    span.val1 = list(color = "darkgreen")
+    ),
+  .envir = envir)
 }
