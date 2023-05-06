@@ -40,7 +40,7 @@ openai_stream_ide <- function(endpoint, req_body) {
   if (tidychat_debug_get()) {
     req_body
   } else {
-    ide_paste_text("\n\n")
+    if(ui_current() != "console") ide_paste_text("\n\n")
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
@@ -55,7 +55,11 @@ openai_stream_ide <- function(endpoint, req_body) {
           )
           if (!is.null(current)) {
             if (is.null(tc_env$stream$response)) {
-              ide_paste_text(current)
+              if(ui_current() == "console") {
+                cat(current)
+              } else {
+                ide_paste_text(current)
+              }
             } else {
               if (nchar(current) != nchar(tc_env$stream$response)) {
                 delta <- substr(
@@ -63,7 +67,11 @@ openai_stream_ide <- function(endpoint, req_body) {
                   nchar(tc_env$stream$response) + 1,
                   nchar(current)
                 )
-                ide_paste_text(delta)
+                if(ui_current() == "console") {
+                  cat(delta)
+                } else {
+                  ide_paste_text(delta)
+                }
               }
             }
           }
@@ -72,7 +80,7 @@ openai_stream_ide <- function(endpoint, req_body) {
         },
         buffer_kb = 0.1
       )
-    ide_paste_text("\n\n")
+    if(ui_current() != "console") ide_paste_text("\n\n")
   }
 }
 
