@@ -188,6 +188,10 @@ openai_get_chat_completion_text <- function(prompt = NULL,
     r_file_complete = r_file_complete
   )
 
+  if(tidychat_debug_get()) {
+    return(ret)
+  }
+
   if (inherits(ret, "list")) {
     ret <- ret$choices[[1]]$message$content
   }
@@ -239,7 +243,7 @@ openai_switch <- function(endpoint,
         r_file_complete = r_file_complete
       )
     } else {
-      openai_stream_ide(endpoint, req_body)
+      ret <- openai_stream_ide(endpoint, req_body)
     }
   } else {
     ret <- openai_perform(endpoint, req_body)
