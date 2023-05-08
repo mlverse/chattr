@@ -234,5 +234,10 @@ openai_switch <- function(endpoint,
   } else {
     ret <- openai_perform(endpoint, req_body)
   }
+
+  if(ui_current() == "markdown") {
+    ide_paste_text(":::\n")
+  }
+
   ret
 }

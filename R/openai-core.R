@@ -70,7 +70,6 @@ openai_stream_ide <- function(endpoint, req_body) {
                 if(ui_current() == "console") {
                   cat(delta)
                 } else {
-                  print(delta)
                   for(i in 1:nchar(delta)) {
                     ide_paste_text(substr(delta, i, i))
                   }

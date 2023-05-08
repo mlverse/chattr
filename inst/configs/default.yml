@@ -15,7 +15,7 @@ default:
 notebook:
   prompt: |
     {tidychat::tc_base_prompt}
-    For code output, use RMarkdown code chunks
+    For code output, use RMarkdown code chunks, turn off evaluation in all chunks
     Include alt text code chunk option for all plots
 chat:
   prompt: |

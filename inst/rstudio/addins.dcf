@@ -1,7 +1,7 @@
 Name: Execute prompt
 Description: Sends the last line of your document, or the highlighted text to the LLM
 Binding: tidychat
-Interactive: false
+Interactive: true
 
 Name: Open Chat
 Description: Opens the chat app as a Shiny Gadget
