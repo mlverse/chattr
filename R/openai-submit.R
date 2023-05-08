@@ -31,6 +31,12 @@ tc_submit.tc_provider_open_ai <- function(defaults,
       r_file_stream = r_file_stream,
       r_file_complete = r_file_complete
     )
+    if(defaults$include_history) {
+      tc_history_append(
+        user = prompt,
+        assistant = ret
+      )
+    }
   }
 
   if (is.null(ret)) {

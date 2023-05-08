@@ -83,6 +83,7 @@ openai_stream_ide <- function(endpoint, req_body) {
         buffer_kb = 0.1
       )
     if(ui_current() != "console") ide_paste_text("\n\n")
+    tc_env$stream$response
   }
 }
 

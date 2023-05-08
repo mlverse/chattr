@@ -67,7 +67,7 @@ ide_get_selection <- function(unhighlight = FALSE) {
 ide_quarto_selection <- function() {
   ret <- NULL
   if (ide_current() == "rstudio") {
-    active_doc <- rstudioapi::getActiveDocumentContext()
+    active_doc <- getActiveDocumentContext()
     contents <- active_doc$contents
     text_range <- active_doc$selection[[1]]$range
     start_row <- text_range$start[[1]]
@@ -90,7 +90,7 @@ ide_quarto_selection <- function() {
 ide_quarto_last_line <- function() {
   ret <- NULL
   if (ide_current() == "rstudio") {
-    active_doc <- rstudioapi::getActiveDocumentContext()
+    active_doc <- getActiveDocumentContext()
     contents <- active_doc$contents
     no_empties <- contents[contents != ""]
     last_line <- no_empties[length(no_empties)]
@@ -123,17 +123,17 @@ ide_quarto_div <- function(x, start, end = NULL) {
     with_div <- paste0(
       "::: {.content-hidden .llm-response}\n",
       commented_x,
-      "\n\n:::"
+      "\n\n:::\n\n"
     )
-    rstudioapi::modifyRange(
-      location = rstudioapi::document_range(
-        rstudioapi::document_position(start, 1),
-        rstudioapi::document_position(end, (nchar(x[length(x)]) + 1))
+    modifyRange(
+      location = document_range(
+        document_position(start, 1),
+        document_position(end, (nchar(x[length(x)]) + 1))
       ),
       text = paste(with_div)
     )
-    rstudioapi::setCursorPosition(
-      rstudioapi::document_position((start + length(x) + xp), 1)
+    setCursorPosition(
+      document_position((start + length(x) + xp), 1)
     )
   }
 }
