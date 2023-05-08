@@ -7,7 +7,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-  prompt <- build_null_prompt(prompt, defaults)
+  new_prompt <- build_null_prompt(prompt, defaults)
 
   st <- stream %||% defaults$stream
 
@@ -18,16 +18,16 @@ tc_submit.tc_provider_open_ai <- function(defaults,
   }
 
   if (prompt_build) {
-    prompt <- openai_prompt(defaults, prompt)
+    new_prompt <- openai_prompt(defaults, new_prompt)
   }
 
   ret <- NULL
   if (preview) {
-    ret <- as_tc_request(prompt, defaults)
+    ret <- as_tc_request(new_prompt, defaults)
   } else {
     ret <- openai_completion(
       defaults = defaults,
-      prompt = prompt,
+      prompt = new_prompt,
       r_file_stream = r_file_stream,
       r_file_complete = r_file_complete
     )
