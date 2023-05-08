@@ -7,7 +7,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-  prompt <- build_null_prompt(prompt)
+  prompt <- build_null_prompt(prompt, defaults)
 
   st <- stream %||% defaults$stream
 
@@ -97,13 +97,23 @@ build_header <- function(defaults) {
   paste0("* ", header, collapse = " \n")
 }
 
-build_null_prompt <- function(prompt = NULL) {
+build_null_prompt <- function(prompt = NULL,
+                              defaults = tc_defaults()
+                              ) {
+
   if (is.null(prompt)) {
-    selection <- ide_get_selection(TRUE)
-    if (nchar(selection) > 0) {
-      prompt <- selection
+    if(defaults$type == "notebook") {
+      prompt <- ide_quarto_selection()
+      if(is.null(prompt)) {
+        prompt <- ide_quarto_last_line()
+      }
     } else {
-      prompt <- context_doc_last_line()
+      selection <- ide_get_selection(TRUE)
+      if (nchar(selection) > 0) {
+        prompt <- selection
+      } else {
+        prompt <- context_doc_last_line()
+      }
     }
   }
   err <- paste("No 'prompt' provided, and no prompt cannot",
@@ -233,10 +243,6 @@ openai_switch <- function(endpoint,
     }
   } else {
     ret <- openai_perform(endpoint, req_body)
-  }
-
-  if(ui_current() == "markdown") {
-    ide_paste_text(":::\n")
   }
 
   ret

@@ -100,25 +100,8 @@ context_doc_last_line <- function() {
     ln <- cont[length(cont)]
     if (substr(ln, 1, 2) == "# ") ln <- substr(ln, 3, nchar(ln))
     if (substr(ln, 1, 1) == "#") ln <- substr(ln, 2, nchar(ln))
-
-    if(ui_current() == "markdown") {
-      active_doc <- rstudioapi::getActiveDocumentContext()
-      contents <- active_doc$contents
-      no_empties <- contents[contents != ""]
-      last_line <- no_empties[length(no_empties)]
-      match_last <- which(contents == last_line)
-      last_match <- match_last[length(match_last)]
-      rstudioapi::modifyRange(
-        location = rstudioapi::document_position(last_match, 1),
-        text = paste("::: {.content-hidden .llm-response}\n#> Prompt: ")
-      )
-      rstudioapi::setCursorPosition(
-        rstudioapi::document_position((last_match + 1), (nchar(last_line) + 20))
-        )
-      ide_paste_text("\n")
-    }
   }
-
+  stop("testing")
   ln
 }
 
