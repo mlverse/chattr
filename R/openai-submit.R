@@ -155,6 +155,10 @@ openai_completion.tc_model_davinci_3 <- function(defaults,
     r_file_complete = r_file_complete
   )
 
+  if (tc_debug_get()) {
+    return(ret)
+  }
+
   if (inherits(ret, "list")) {
     ret <- ret$choices[[1]]$text
   }

@@ -40,6 +40,11 @@ tc_defaults <- function(prompt = NULL,
                         force = FALSE) {
   function_args <- as.list(environment())
 
+  sys_type <- Sys.getenv("TIDYCHAT_TYPE", NA)
+  if(!is.na(sys_type)) {
+    type <- sys_type
+  }
+
   if (is.null(type)) {
     if(!rlang::is_interactive()) {
       type <- "console"

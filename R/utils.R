@@ -94,11 +94,14 @@ print.tc_request <- function(x, ...) {
 package_file <- function(...) {
   default_file <- path(...)
   inst_file <- path("inst", default_file)
-
+  pkg_file <- NULL
   if (file_exists(inst_file)) {
     pkg_file <- inst_file
   } else {
     pkg_file <- system.file(default_file, package = "tidychat")
+  }
+  if(!file_exists(pkg_file)) {
+    abort(paste0("'",default_file, "' not found"))
   }
   pkg_file
 }
