@@ -3,12 +3,14 @@
 
 ide_current <- function() {
   ret <- NULL
-  if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) ret <- "rstudio"
+  if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
+    ret <- "rstudio"
+  }
   ret
 }
 
 ide_paste_text <- function(x, loc = NULL) {
-  if (ide_current() == "rstudio") {
+  if (ide_is_rstudio()) {
     if (is.null(loc)) {
       insertText(text = x)
     } else {
@@ -17,6 +19,10 @@ ide_paste_text <- function(x, loc = NULL) {
     }
   }
   invisible()
+}
+
+ide_is_rstudio <- function() {
+  ide_current() == "rstudio"
 }
 
 ide_append_to_document <- function(x, width = 81) {
@@ -30,7 +36,7 @@ ide_append_to_document <- function(x, width = 81) {
 
 ide_active_document_contents <- function(remove_blanks = TRUE) {
   cont <- NULL
-  if (ide_current() == "rstudio") {
+  if (ide_is_rstudio()) {
     ad <- getActiveDocumentContext()
     cont <- ad$contents
     if (remove_blanks) cont <- cont[cont != ""]
@@ -40,7 +46,7 @@ ide_active_document_contents <- function(remove_blanks = TRUE) {
 
 ide_prompt <- function(title = "", message = "", default = NULL) {
   cont <- NULL
-  if (ide_current() == "rstudio") {
+  if (ide_is_rstudio()) {
     cont <- showPrompt(
       title = title,
       message = message,
@@ -52,7 +58,7 @@ ide_prompt <- function(title = "", message = "", default = NULL) {
 
 ide_get_selection <- function(unhighlight = FALSE) {
   cont <- NULL
-  if (ide_current() == "rstudio") {
+  if (ide_is_rstudio()) {
     cont <- selectionGet()
     cont <- cont$value
 
@@ -66,7 +72,7 @@ ide_get_selection <- function(unhighlight = FALSE) {
 
 ide_quarto_selection <- function() {
   ret <- NULL
-  if (ide_current() == "rstudio") {
+  if (ide_is_rstudio()) {
     active_doc <- getActiveDocumentContext()
     contents <- active_doc$contents
     text_range <- active_doc$selection[[1]]$range
@@ -89,7 +95,7 @@ ide_quarto_selection <- function() {
 
 ide_quarto_last_line <- function() {
   ret <- NULL
-  if (ide_current() == "rstudio") {
+  if (ide_is_rstudio()) {
     active_doc <- getActiveDocumentContext()
     contents <- active_doc$contents
     no_empties <- contents[contents != ""]
@@ -106,7 +112,7 @@ ide_quarto_last_line <- function() {
 }
 
 ide_quarto_div <- function(x, start, end = NULL) {
-  if (ide_current() == "rstudio") {
+  if (ide_is_rstudio()) {
     if (is.null(end)) {
       end <- start
     }
@@ -140,8 +146,7 @@ ide_quarto_div <- function(x, start, end = NULL) {
 
 ui_current <- function() {
   ret <- NULL
-  current_ide <- ide_current()
-  if (current_ide == "rstudio") {
+  if (ide_is_rstudio()) {
     cont <- getActiveDocumentContext()
     if (cont$id == "#console") ret <- "console"
     if (is.null(ret)) {
@@ -154,3 +159,4 @@ ui_current <- function() {
   }
   ret
 }
+
