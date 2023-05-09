@@ -7,7 +7,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-  prompt <- build_null_prompt(prompt, defaults)
+  prompt <- ide_build_prompt(prompt, defaults)
 
   st <- stream %||% defaults$stream
 
@@ -50,23 +50,13 @@ openai_prompt <- function(defaults, prompt) {
 }
 
 openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
-  build_prompt_history(prompt, defaults)
-}
-
-openai_prompt.tc_model_davinci_3 <- function(defaults, prompt) {
-  build_prompt_simple(prompt, defaults)
-}
-
-build_prompt_history <- function(prompt = NULL, defaults) {
-  td <- defaults
-
   header <- build_header(defaults)
 
-  if (!is.null(td$system_msg)) {
-    system_msg <- list(list(role = "system", content = td$system_msg))
+  if (!is.null(defaults$system_msg)) {
+    system_msg <- list(list(role = "system", content = defaults$system_msg))
   }
 
-  if (td$include_history) {
+  if (defaults$include_history) {
     history <- tc_history_get()
   } else {
     history <- NULL
@@ -82,7 +72,7 @@ build_prompt_history <- function(prompt = NULL, defaults) {
   ret
 }
 
-build_prompt_simple <- function(prompt = NULL, defaults) {
+openai_prompt.tc_model_davinci_3 <- function(defaults, prompt) {
   header <- build_header(defaults)
   prompt <- paste("\n *", prompt)
   ret <- paste0(header, prompt)
@@ -90,47 +80,13 @@ build_prompt_simple <- function(prompt = NULL, defaults) {
 }
 
 build_header <- function(defaults) {
-  td <- defaults
   header <- c(
-    process_prompt(td$prompt),
-    if (td$include_data_files) context_data_files(),
-    if (td$include_data_frames) context_data_frames()
+    process_prompt(defaults$prompt),
+    if (defaults$include_data_files) context_data_files(),
+    if (defaults$include_data_frames) context_data_frames()
   )
 
   paste0("* ", header, collapse = " \n")
-}
-
-build_null_prompt <- function(prompt = NULL,
-                              defaults = tc_defaults()) {
-  if (is.null(prompt)) {
-    if (defaults$type == "notebook") {
-      prompt <- ide_quarto_selection()
-      if (is.null(prompt)) {
-        prompt <- ide_quarto_last_line()
-      }
-    } else {
-      selection <- ide_get_selection(TRUE)
-      if (nchar(selection) > 0) {
-        prompt <- selection
-      } else {
-        prompt <- context_doc_last_line()
-      }
-    }
-  }
-  err <- paste(
-    "No 'prompt' provided, and no prompt cannot",
-    "be infered from the current document"
-  )
-  err_flag <- FALSE
-  if (is.null(prompt)) {
-    err_flag <- TRUE
-  } else if (nchar(prompt) == 0) {
-    err_flag <- TRUE
-  }
-
-  if (err_flag) rlang::abort(err)
-
-  prompt
 }
 
 #--------------------------- Completion ----------------------------------------
@@ -149,40 +105,9 @@ openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
                                                      new_prompt,
                                                      r_file_stream,
                                                      r_file_complete) {
-  openai_get_chat_completion_text(
-    prompt = prompt,
-    new_prompt = new_prompt,
-    model = "gpt-3.5-turbo",
-    defaults = defaults,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete
-  )
-}
-
-openai_completion.tc_model_davinci_3 <- function(defaults,
-                                                 prompt,
-                                                 new_prompt,
-                                                 r_file_stream,
-                                                 r_file_complete) {
-  openai_get_completion_text(
-    prompt = prompt,
-    new_prompt = new_prompt,
-    model = "text-davinci-003",
-    defaults = defaults,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete
-  )
-}
-
-openai_get_chat_completion_text <- function(prompt = NULL,
-                                            new_prompt = NULL,
-                                            model = "gpt-3.5-turbo",
-                                            defaults = NULL,
-                                            r_file_stream = NULL,
-                                            r_file_complete = NULL) {
   req_body <- c(
     list(
-      model = model,
+      model = "gpt-3.5-turbo",
       messages = new_prompt
     ),
     defaults$model_arguments
@@ -208,15 +133,14 @@ openai_get_chat_completion_text <- function(prompt = NULL,
   ret
 }
 
-openai_get_completion_text <- function(prompt = NULL,
-                                       new_prompt = NULL,
-                                       model = "text-davinci-003",
-                                       defaults = NULL,
-                                       r_file_stream = NULL,
-                                       r_file_complete = NULL) {
+openai_completion.tc_model_davinci_3 <- function(defaults,
+                                                 prompt,
+                                                 new_prompt,
+                                                 r_file_stream,
+                                                 r_file_complete) {
   req_body <- c(
     list(
-      model = model,
+      model = "text-davinci-003",
       prompt = new_prompt
     ),
     defaults$model_arguments
@@ -264,10 +188,7 @@ openai_switch <- function(prompt,
   }
 
   if (defaults$include_history) {
-    tc_history_append(
-      user = prompt,
-      assistant = ret
-    )
+    tc_history_append(prompt, ret)
   }
 
   if (!return_result) {

@@ -1,23 +1,3 @@
-openai_perform <- function(endpoint, req_body) {
-  ret <- NULL
-  if (tidychat_debug_get()) {
-    ret <- req_body
-  } else {
-    ret <- openai_request(endpoint, req_body) %>%
-      req_perform() %>%
-      resp_body_json()
-  }
-  ret
-}
-
-openai_request <- function(endpoint, req_body) {
-  "https://api.openai.com/v1/" %>%
-    paste0(endpoint) %>%
-    request() %>%
-    req_auth_bearer_token(openai_token()) %>%
-    req_body_json(req_body)
-}
-
 openai_token <- function() {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
 
@@ -31,6 +11,26 @@ openai_token <- function() {
        - or - Add  \"open-ai-api-key\" to a `config` YAML file")
   }
 
+  ret
+}
+
+openai_request <- function(endpoint, req_body) {
+  "https://api.openai.com/v1/" %>%
+    paste0(endpoint) %>%
+    request() %>%
+    req_auth_bearer_token(openai_token()) %>%
+    req_body_json(req_body)
+}
+
+openai_perform <- function(endpoint, req_body) {
+  ret <- NULL
+  if (tidychat_debug_get()) {
+    ret <- req_body
+  } else {
+    ret <- openai_request(endpoint, req_body) %>%
+      req_perform() %>%
+      resp_body_json()
+  }
   ret
 }
 
