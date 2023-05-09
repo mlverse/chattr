@@ -34,7 +34,11 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
       c(
         "app <- tidychat:::app_interactive(as_job = TRUE)\n",
         "rp <- list(ui = app$ui, server = app$server)\n",
-        paste0("shiny::runApp(rp, host = '", as_job_host, "', port = ", as_job_port, ")")
+        paste0("shiny::runApp(rp, host = '",
+               as_job_host,
+               "', port = ",
+               as_job_port,
+               ")")
       ),
       con = run_file
     )
@@ -81,7 +85,10 @@ app_interactive <- function(as_job = FALSE) {
           checkboxInput("include", "Prompt+", value = TRUE)
         )
       ),
-      style = paste0("font-size:80%; z-index: 10; background-color:", style$color_top)
+      style = paste0(
+        "font-size:80%; z-index: 10; background-color:",
+        style$color_top
+        )
     ),
     absolutePanel(
       top = 93,

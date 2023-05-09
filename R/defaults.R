@@ -41,8 +41,12 @@ tc_defaults <- function(prompt = NULL,
   function_args <- as.list(environment())
 
   if (is.null(type)) {
-    type <- ui_current()
-    if (type == "markdown") type <- "notebook"
+    if(!rlang::is_interactive()) {
+      type <- "console"
+    } else {
+      type <- ui_current()
+      if (type == "markdown") type <- "notebook"
+    }
   }
 
   if (is.null(tc_defaults_get(type)$provider) | force) {
@@ -114,7 +118,7 @@ print.tc_model <- function(x, ...) {
   cli_h2("Defaults for: {.val0 {type}}")
   cli_h3("Prompt:")
 
-  prompt <- gsub("\\{", "\\{\\{", prompt)
+  prompt <- gsub("\\{", "\\{\\{", x$prompt)
   prompt <- gsub("\\}", "\\}\\}", prompt)
 
   walk(prompt, ~ cli_li("{.val1 {.x}}"))
@@ -166,6 +170,6 @@ tc_defaults_set <- function(arguments = list(),
 
 process_prompt <- function(x) {
   x %>%
-    map(glue) %>%
+    map(~ glue(.x)) %>%
     reduce(c)
 }
