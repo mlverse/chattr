@@ -14,14 +14,14 @@ default:
     stream: TRUE
 notebook:
   prompt: |
-    {tidychat::tc_base_prompt}
+    {readLines(system.file("prompt/base.txt", package = "tidychat"))}
     For code output, use RMarkdown code chunks, set eval=FALSE for all chunks
     Include alt text code chunk option for all plots
 chat:
   prompt: |
-    {tidychat::tc_base_prompt}
+    {readLines(system.file("prompt/base.txt", package = "tidychat"))}
     For code output, use markdown code chunks
 console:
   prompt: |
-    {tidychat::tc_base_prompt}
+    {readLines(system.file("prompt/base.txt", package = "tidychat"))}
     For any line that is not code, prefix it with a: #
