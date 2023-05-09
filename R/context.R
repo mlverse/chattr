@@ -11,7 +11,7 @@ context_data_files <- function() {
     ret <- paste(
       "Data files available: \n",
       paste("|-", files, collapse = "\n")
-      )
+    )
   }
   ret
 }

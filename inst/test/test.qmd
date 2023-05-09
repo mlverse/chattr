@@ -3,3 +3,8 @@ title: "Hospitals"
 format: html
 ---
 
+```{r}
+library(tidychat)
+```
+
+how do you remove the legend from a ggplot

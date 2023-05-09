@@ -7,7 +7,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-  prompt <- build_null_prompt(prompt)
+  prompt <- build_null_prompt(prompt, defaults)
 
   st <- stream %||% defaults$stream
 
@@ -18,16 +18,19 @@ tc_submit.tc_provider_open_ai <- function(defaults,
   }
 
   if (prompt_build) {
-    prompt <- openai_prompt(defaults, prompt)
+    new_prompt <- openai_prompt(defaults, prompt)
+  } else {
+    new_prompt <- prompt
   }
 
   ret <- NULL
   if (preview) {
-    ret <- as_tc_request(prompt, defaults)
+    ret <- as_tc_request(new_prompt, defaults)
   } else {
     ret <- openai_completion(
       defaults = defaults,
       prompt = prompt,
+      new_prompt = new_prompt,
       r_file_stream = r_file_stream,
       r_file_complete = r_file_complete
     )
@@ -69,14 +72,14 @@ build_prompt_history <- function(prompt = NULL, defaults) {
     history <- NULL
   }
 
-  c(
+  ret <- c(
     system_msg,
     history,
-    list(
-      list(role = "user", content = header),
-      list(role = "user", content = prompt)
-    )
+    list(list(role = "user", content = header)),
+    list(list(role = "user", content = prompt))
   )
+
+  ret
 }
 
 build_prompt_simple <- function(prompt = NULL, defaults) {
@@ -97,26 +100,35 @@ build_header <- function(defaults) {
   paste0("* ", header, collapse = " \n")
 }
 
-build_null_prompt <- function(prompt = NULL) {
+build_null_prompt <- function(prompt = NULL,
+                              defaults = tc_defaults()) {
   if (is.null(prompt)) {
-    selection <- ide_get_selection(TRUE)
-    if (nchar(selection) > 0) {
-      prompt <- selection
+    if (defaults$type == "notebook") {
+      prompt <- ide_quarto_selection()
+      if (is.null(prompt)) {
+        prompt <- ide_quarto_last_line()
+      }
     } else {
-      prompt <- context_doc_last_line()
+      selection <- ide_get_selection(TRUE)
+      if (nchar(selection) > 0) {
+        prompt <- selection
+      } else {
+        prompt <- context_doc_last_line()
+      }
     }
   }
-  err <- paste("No 'prompt' provided, and no prompt cannot",
-               "be infered from the current document"
-               )
+  err <- paste(
+    "No 'prompt' provided, and no prompt cannot",
+    "be infered from the current document"
+  )
   err_flag <- FALSE
-  if(is.null(prompt) ) {
+  if (is.null(prompt)) {
     err_flag <- TRUE
-    } else if(nchar(prompt) == 0) {
-      err_flag <- TRUE
-      }
+  } else if (nchar(prompt) == 0) {
+    err_flag <- TRUE
+  }
 
-  if(err_flag) rlang::abort(err)
+  if (err_flag) rlang::abort(err)
 
   prompt
 }
@@ -125,6 +137,7 @@ build_null_prompt <- function(prompt = NULL) {
 
 openai_completion <- function(defaults,
                               prompt,
+                              new_prompt,
                               r_file_stream,
                               r_file_complete,
                               stream) {
@@ -133,10 +146,12 @@ openai_completion <- function(defaults,
 
 openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
                                                      prompt,
+                                                     new_prompt,
                                                      r_file_stream,
                                                      r_file_complete) {
   openai_get_chat_completion_text(
     prompt = prompt,
+    new_prompt = new_prompt,
     model = "gpt-3.5-turbo",
     defaults = defaults,
     r_file_stream = r_file_stream,
@@ -146,10 +161,12 @@ openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
 
 openai_completion.tc_model_davinci_3 <- function(defaults,
                                                  prompt,
+                                                 new_prompt,
                                                  r_file_stream,
                                                  r_file_complete) {
   openai_get_completion_text(
     prompt = prompt,
+    new_prompt = new_prompt,
     model = "text-davinci-003",
     defaults = defaults,
     r_file_stream = r_file_stream,
@@ -158,6 +175,7 @@ openai_completion.tc_model_davinci_3 <- function(defaults,
 }
 
 openai_get_chat_completion_text <- function(prompt = NULL,
+                                            new_prompt = NULL,
                                             model = "gpt-3.5-turbo",
                                             defaults = NULL,
                                             r_file_stream = NULL,
@@ -165,18 +183,23 @@ openai_get_chat_completion_text <- function(prompt = NULL,
   req_body <- c(
     list(
       model = model,
-      messages = prompt
+      messages = new_prompt
     ),
     defaults$model_arguments
   )
 
   ret <- openai_switch(
+    prompt = prompt,
     endpoint = "chat/completions",
     req_body = req_body,
     defaults = defaults,
     r_file_stream = r_file_stream,
     r_file_complete = r_file_complete
   )
+
+  if (tidychat_debug_get()) {
+    return(ret)
+  }
 
   if (inherits(ret, "list")) {
     ret <- ret$choices[[1]]$message$content
@@ -186,6 +209,7 @@ openai_get_chat_completion_text <- function(prompt = NULL,
 }
 
 openai_get_completion_text <- function(prompt = NULL,
+                                       new_prompt = NULL,
                                        model = "text-davinci-003",
                                        defaults = NULL,
                                        r_file_stream = NULL,
@@ -193,12 +217,13 @@ openai_get_completion_text <- function(prompt = NULL,
   req_body <- c(
     list(
       model = model,
-      prompt = prompt
+      prompt = new_prompt
     ),
     defaults$model_arguments
   )
 
   ret <- openai_switch(
+    prompt = prompt,
     endpoint = "completions",
     req_body = req_body,
     defaults = defaults,
@@ -213,13 +238,15 @@ openai_get_completion_text <- function(prompt = NULL,
   ret
 }
 
-openai_switch <- function(endpoint,
+openai_switch <- function(prompt,
+                          endpoint,
                           req_body,
                           defaults,
                           r_file_stream,
                           r_file_complete) {
   ret <- NULL
   stream <- defaults$model_arguments$stream %||% FALSE
+  return_result <- TRUE
   if (stream) {
     if (defaults$type == "chat") {
       ret <- openai_stream_file(
@@ -229,10 +256,23 @@ openai_switch <- function(endpoint,
         r_file_complete = r_file_complete
       )
     } else {
-      openai_stream_ide(endpoint, req_body)
+      return_result <- FALSE
+      ret <- openai_stream_ide(endpoint, req_body)
     }
   } else {
     ret <- openai_perform(endpoint, req_body)
   }
+
+  if (defaults$include_history) {
+    tc_history_append(
+      user = prompt,
+      assistant = ret
+    )
+  }
+
+  if (!return_result) {
+    ret <- NULL
+  }
+
   ret
 }

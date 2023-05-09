@@ -5,8 +5,7 @@
 tidychat <- function(prompt = NULL,
                      preview = FALSE,
                      prompt_build = TRUE,
-                     stream = NULL
-                     ) {
+                     stream = NULL) {
   ret <- tc_submit(
     defaults = tc_defaults(),
     prompt = prompt,
