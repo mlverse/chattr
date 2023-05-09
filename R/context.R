@@ -62,7 +62,7 @@ context_doc_contents <- function(prompt = NULL) {
       matrix(nrow = 2) %>%
       as.data.frame() %>%
       map(~ content[.x[1]:.x[2]]) %>%
-      flatten() %>%
+      purrr::flatten() %>%
       as.character()
 
     content <- content[!grepl("#\\|", content)]

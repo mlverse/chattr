@@ -113,9 +113,10 @@ print.tc_model <- function(x, ...) {
   )
   cli_h2("Defaults for: {.val0 {type}}")
   cli_h3("Prompt:")
-  prompt <- x$prompt %>%
-    gsub("\\{", "\\{\\{", .) %>%
-    gsub("\\}", "\\}\\}", .)
+
+  prompt <- gsub("\\{", "\\{\\{", prompt)
+  prompt <- gsub("\\}", "\\}\\}", prompt)
+
   walk(prompt, ~ cli_li("{.val1 {.x}}"))
   cli_colors()
   cli_h3("Model")
