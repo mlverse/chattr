@@ -160,3 +160,11 @@ ui_current <- function() {
   ret
 }
 
+ui_current_console <- function() {
+  ui_current() == "console"
+}
+
+ui_current_markdown <- function() {
+  ui_current() == "markdown"
+}
+

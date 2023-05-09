@@ -43,7 +43,7 @@ openai_stream_ide <- function(endpoint, req_body) {
   if (tidychat_debug_get()) {
     ret <- req_body
   } else {
-    if (ui_current() != "console") ide_paste_text("\n\n")
+    if (!ui_current_console()) ide_paste_text("\n\n")
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
@@ -58,7 +58,7 @@ openai_stream_ide <- function(endpoint, req_body) {
           )
           if (!is.null(current)) {
             if (is.null(tc_env$stream$response)) {
-              if (ui_current() == "console") {
+              if (ui_current_console()) {
                 cat(current)
               } else {
                 ide_paste_text(current)
@@ -70,7 +70,7 @@ openai_stream_ide <- function(endpoint, req_body) {
                   nchar(tc_env$stream$response) + 1,
                   nchar(current)
                 )
-                if (ui_current() == "console") {
+                if (ui_current_console()) {
                   cat(delta)
                 } else {
                   for (i in 1:nchar(delta)) {
@@ -85,7 +85,7 @@ openai_stream_ide <- function(endpoint, req_body) {
         },
         buffer_kb = 0.1
       )
-    if (ui_current() != "console") ide_paste_text("\n\n")
+    if (!ui_current_console()) ide_paste_text("\n\n")
     ret <- tc_env$stream$response
   }
   ret
@@ -132,8 +132,8 @@ openai_stream_parse <- function(x, endpoint) {
     paste0(collapse = "") %>%
     strsplit("data: ") %>%
     unlist() %>%
-    purrr::discard(~ .x == "") %>%
-    purrr::keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
+    discard(~ .x == "") %>%
+    keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
     map(jsonlite::fromJSON)
 
   if (length(res) > 0) {

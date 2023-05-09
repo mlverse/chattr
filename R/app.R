@@ -281,7 +281,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       })
       observeEvent(input[[paste0("doc", .x)]], {
         ch <- content_hist[.x]
-        if (ui_current() != "markdown") {
+        if (!ui_current_markdown()) {
           split_ch <- unlist(strsplit(ch, "\n"))
           ch <- split_ch[2:(length(split_ch) - 1)]
           ch <- paste0(ch, collapse = "\n")

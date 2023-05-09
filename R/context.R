@@ -44,11 +44,9 @@ context_data_frames <- function() {
 
 context_doc_contents <- function(prompt = NULL) {
   content <- ide_active_document_contents()
-
-  current_ui <- ui_current()
   ret <- NULL
 
-  if (current_ui == "markdown") {
+  if (ui_current_markdown()) {
     # assuming rmarkdown or quarto removes frontmatter
     fm_locations <- which(content == "---")
     if (length(fm_locations) == 2) {
@@ -64,7 +62,7 @@ context_doc_contents <- function(prompt = NULL) {
       matrix(nrow = 2) %>%
       as.data.frame() %>%
       map(~ content[.x[1]:.x[2]]) %>%
-      purrr::flatten() %>%
+      flatten() %>%
       as.character()
 
     content <- content[!grepl("#\\|", content)]
@@ -81,7 +79,7 @@ context_doc_contents <- function(prompt = NULL) {
     ret <- paste0("Current code: \n ", cont_paste)
   }
 
-  if (current_ui == "console") {
+  if (ui_current_console()) {
     ret <- paste0(
       "Output is for console, do not encase code in code chunks",
       "\n--------\n",

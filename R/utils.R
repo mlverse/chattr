@@ -20,7 +20,7 @@ tc_defaults_save <- function(path = "tidychat.yml",
   other <- map(
     td[td_other],
     ~ {
-      match <- purrr::imap_lgl(
+      match <- imap_lgl(
         .x,
         ~ {
           y <- td_default[[.y]]
@@ -32,7 +32,7 @@ tc_defaults_save <- function(path = "tidychat.yml",
             }
             x != y
           } else {
-            ma <- purrr::imap_lgl(x, ~ .x == y[[.y]])
+            ma <- imap_lgl(x, ~ .x == y[[.y]])
             !all(ma)
           }
         }
@@ -40,7 +40,7 @@ tc_defaults_save <- function(path = "tidychat.yml",
       .x[match]
     }
   ) %>%
-    purrr::keep(~ length(.x) > 0)
+    keep(~ length(.x) > 0)
 
   td_all <- list(default = td_default)
   if (length(other) > 0) td_all <- c(td_all, other)
@@ -121,7 +121,7 @@ print.tc_request <- function(x, ...) {
   cli_h3("Prompt:")
   walk(x$prompt, ~ {
     x <- .x
-    x_named <- rlang::is_named(x)
+    x_named <- is_named(x)
     iwalk(x, ~ {
       split_x <- .x %>%
         strsplit("\n") %>%
