@@ -24,7 +24,7 @@ openai_request <- function(endpoint, req_body) {
 
 openai_perform <- function(endpoint, req_body) {
   ret <- NULL
-  if (tidychat_debug_get()) {
+  if (tc_debug_get()) {
     ret <- req_body
   } else {
     ret <- openai_request(endpoint, req_body) %>%
@@ -40,7 +40,7 @@ openai_stream_ide <- function(endpoint, req_body) {
   tc_env$stream$response <- NULL
 
   ret <- NULL
-  if (tidychat_debug_get()) {
+  if (tc_debug_get()) {
     ret <- req_body
   } else {
     if (!ui_current_console()) ide_paste_text("\n\n")
@@ -98,7 +98,7 @@ openai_stream_file <- function(endpoint,
   tc_env$stream <- list()
   tc_env$stream$response <- NULL
   ret <- NULL
-  if (tidychat_debug_get()) {
+  if (tc_debug_get()) {
     ret <- req_body
   } else {
     tc_env$stream$response <- NULL

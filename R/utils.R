@@ -78,15 +78,15 @@ tc_history_set <- function(x) {
 
 # --------------------------------- Debug --------------------------------------
 
-tidychat_debug_set_true <- function() {
+tc_debug_set_true <- function() {
   tc_env$debug <- TRUE
 }
 
-tidychat_debug_set_false <- function() {
+tc_debug_set_false <- function() {
   tc_env$debug <- FALSE
 }
 
-tidychat_debug_get <- function() {
+tc_debug_get <- function() {
   tc_env$debug <- tc_env$debug %||% FALSE
   tc_env$debug
 }

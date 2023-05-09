@@ -122,7 +122,7 @@ openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
     r_file_complete = r_file_complete
   )
 
-  if (tidychat_debug_get()) {
+  if (tc_debug_get()) {
     return(ret)
   }
 
