@@ -101,7 +101,7 @@ context_doc_last_line <- function() {
     if (substr(ln, 1, 2) == "# ") ln <- substr(ln, 3, nchar(ln))
     if (substr(ln, 1, 1) == "#") ln <- substr(ln, 2, nchar(ln))
   }
-  stop("testing")
+
   ln
 }
 
