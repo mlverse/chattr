@@ -74,7 +74,7 @@ ide_quarto_selection <- function() {
     start_col <- text_range$start[[2]]
     end_row <- text_range$end[[1]]
     end_col <- text_range$end[[2]]
-    if(start_row != end_row | start_col != end_col) {
+    if (start_row != end_row | start_col != end_col) {
       text <- contents[start_row:end_row]
       ide_quarto_div(
         x = text,

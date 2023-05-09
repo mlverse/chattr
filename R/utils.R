@@ -58,19 +58,18 @@ tc_history_get <- function() {
 
 tc_history_append <- function(user = NULL, assistant = NULL) {
   if (!is.null(user)) {
-    user <- list(role = "user", content = user)
+    tc_env$chat_history <- c(
+      tc_env$chat_history,
+      list(list(role = "user", content = user))
+    )
   }
 
   if (!is.null(assistant)) {
-    assistant <- list(role = "assistant", content = assistant)
+    tc_env$chat_history <- c(
+      tc_env$chat_history,
+      list(list(role = "assistant", content = assistant))
+    )
   }
-
-  entry <- list(c(user, assistant))
-
-  tc_env$chat_history <- c(
-    tc_env$chat_history,
-    entry
-  )
 }
 
 tc_history_set <- function(x) {
@@ -157,9 +156,11 @@ package_file <- function(...) {
 }
 
 cli_colors <- function(envir = parent.frame()) {
-  cli_div(theme = list(
-    span.val0 = list(color = "blue"),
-    span.val1 = list(color = "darkgreen")
+  cli_div(
+    theme = list(
+      span.val0 = list(color = "blue"),
+      span.val1 = list(color = "darkgreen")
     ),
-  .envir = envir)
+    .envir = envir
+  )
 }
