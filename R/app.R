@@ -34,7 +34,11 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
       c(
         "app <- tidychat:::app_interactive(as_job = TRUE)\n",
         "rp <- list(ui = app$ui, server = app$server)\n",
-        paste0("shiny::runApp(rp, host = '", as_job_host, "', port = ", as_job_port, ")")
+        paste0("shiny::runApp(rp, host = '",
+               as_job_host,
+               "', port = ",
+               as_job_port,
+               ")")
       ),
       con = run_file
     )
@@ -81,7 +85,10 @@ app_interactive <- function(as_job = FALSE) {
           checkboxInput("include", "Prompt+", value = TRUE)
         )
       ),
-      style = paste0("font-size:80%; z-index: 10; background-color:", style$color_top)
+      style = paste0(
+        "font-size:80%; z-index: 10; background-color:",
+        style$color_top
+        )
     ),
     absolutePanel(
       top = 93,
@@ -281,7 +288,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       })
       observeEvent(input[[paste0("doc", .x)]], {
         ch <- content_hist[.x]
-        if (ui_current() != "markdown") {
+        if (!ui_current_markdown()) {
           split_ch <- unlist(strsplit(ch, "\n"))
           ch <- split_ch[2:(length(split_ch) - 1)]
           ch <- paste0(ch, collapse = "\n")

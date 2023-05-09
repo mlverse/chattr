@@ -12,6 +12,7 @@ tc_use_openai_davinci <- function() {
 
 use_switch <- function(...) {
   tc_env$defaults <- NULL
+  tc_env$chat_history <- NULL
   file <- package_file(...)
   walk(
     c("default", "console", "chat", "notebook", "script"),
@@ -23,4 +24,7 @@ use_switch <- function(...) {
       )
     }
   )
+  tc <- tc_defaults()
+  cli_li("Provider: {tc$provider}")
+  cli_li("Model: {tc$model}")
 }

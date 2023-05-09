@@ -1,55 +1,3 @@
-#' Saves the current defaults in a yaml file that is compatible with
-#' the config package
-#' @param path Path to the file to save the configuration to
-#' @param overwrite Indicates to replace the file if it exists
-#' @param type The type of UI to save the defaults for. It defaults to NULL which
-#' will save whatever types had been used during the current R session
-#' @export
-tc_defaults_save <- function(path = "tidychat.yml",
-                             overwrite = FALSE,
-                             type = NULL) {
-  invisible(tc_defaults(type = "default"))
-
-  temp <- tempfile()
-
-  td <- tc_env$defaults
-  td_names <- names(td)
-  td_other <- td_names[td_names != "default"]
-  td_default <- td$default
-
-  other <- map(
-    td[td_other],
-    ~ {
-      match <- purrr::imap_lgl(
-        .x,
-        ~ {
-          y <- td_default[[.y]]
-          x <- .x
-          if (!inherits(x, "list")) {
-            if (inherits(x, "character")) {
-              x <- paste0(x, collapse = "")
-              y <- paste0(y, collapse = "")
-            }
-            x != y
-          } else {
-            ma <- purrr::imap_lgl(x, ~ .x == y[[.y]])
-            !all(ma)
-          }
-        }
-      )
-      .x[match]
-    }
-  ) %>%
-    purrr::keep(~ length(.x) > 0)
-
-  td_all <- list(default = td_default)
-  if (length(other) > 0) td_all <- c(td_all, other)
-
-  write_yaml(x = td_all, file = temp)
-
-  file_copy(temp, path, overwrite = overwrite)
-}
-
 # -------------------------------- History -------------------------------------
 
 tc_history_get <- function() {
@@ -78,15 +26,15 @@ tc_history_set <- function(x) {
 
 # --------------------------------- Debug --------------------------------------
 
-tidychat_debug_set_true <- function() {
+tc_debug_set_true <- function() {
   tc_env$debug <- TRUE
 }
 
-tidychat_debug_set_false <- function() {
+tc_debug_set_false <- function() {
   tc_env$debug <- FALSE
 }
 
-tidychat_debug_get <- function() {
+tc_debug_get <- function() {
   tc_env$debug <- tc_env$debug %||% FALSE
   tc_env$debug
 }
@@ -121,7 +69,7 @@ print.tc_request <- function(x, ...) {
   cli_h3("Prompt:")
   walk(x$prompt, ~ {
     x <- .x
-    x_named <- rlang::is_named(x)
+    x_named <- is_named(x)
     iwalk(x, ~ {
       split_x <- .x %>%
         strsplit("\n") %>%
@@ -146,11 +94,14 @@ print.tc_request <- function(x, ...) {
 package_file <- function(...) {
   default_file <- path(...)
   inst_file <- path("inst", default_file)
-
+  pkg_file <- NULL
   if (file_exists(inst_file)) {
     pkg_file <- inst_file
   } else {
     pkg_file <- system.file(default_file, package = "tidychat")
+  }
+  if(!file_exists(pkg_file)) {
+    abort(paste0("'",default_file, "' not found"))
   }
   pkg_file
 }
