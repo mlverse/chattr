@@ -7,7 +7,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-  new_prompt <- build_null_prompt(prompt, defaults)
+  prompt <- build_null_prompt(prompt, defaults)
 
   st <- stream %||% defaults$stream
 
@@ -18,7 +18,9 @@ tc_submit.tc_provider_open_ai <- function(defaults,
   }
 
   if (prompt_build) {
-    new_prompt <- openai_prompt(defaults, new_prompt)
+    new_prompt <- openai_prompt(defaults, prompt)
+  } else {
+    new_prompt <- prompt
   }
 
   ret <- NULL
@@ -31,12 +33,6 @@ tc_submit.tc_provider_open_ai <- function(defaults,
       r_file_stream = r_file_stream,
       r_file_complete = r_file_complete
     )
-    if(defaults$include_history) {
-      tc_history_append(
-        user = prompt,
-        assistant = ret
-      )
-    }
   }
 
   if (is.null(ret)) {
@@ -240,6 +236,7 @@ openai_switch <- function(endpoint,
                           r_file_complete) {
   ret <- NULL
   stream <- defaults$model_arguments$stream %||% FALSE
+  return_result <- TRUE
   if (stream) {
     if (defaults$type == "chat") {
       ret <- openai_stream_file(
@@ -249,10 +246,22 @@ openai_switch <- function(endpoint,
         r_file_complete = r_file_complete
       )
     } else {
+      return_result <- FALSE
       ret <- openai_stream_ide(endpoint, req_body)
     }
   } else {
     ret <- openai_perform(endpoint, req_body)
+  }
+
+  if(defaults$include_history) {
+    tc_history_append(
+      user = prompt,
+      assistant = ret
+    )
+  }
+
+  if(!return_result) {
+    ret <- NULL
   }
 
   ret
