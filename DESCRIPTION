@@ -11,6 +11,7 @@ RoxygenNote: 7.2.3
 Imports: 
     rstudioapi,
     jsonlite,
+    webfakes,
     config,
     httr2,
     purrr,

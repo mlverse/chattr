@@ -15,7 +15,8 @@ openai_token <- function() {
 }
 
 openai_request <- function(endpoint, req_body) {
-  "https://api.openai.com/v1/" %>%
+  #"https://api.openai.com/v1/" %>%
+  tc_simulate_openai()$url() %>%
     paste0(endpoint) %>%
     request() %>%
     req_auth_bearer_token(openai_token()) %>%
@@ -29,7 +30,7 @@ openai_perform <- function(endpoint, req_body) {
   } else {
     ret <- openai_request(endpoint, req_body) %>%
       req_perform() %>%
-      resp_body_json()
+      resp_body_json(check_type = FALSE)
   }
   ret
 }
