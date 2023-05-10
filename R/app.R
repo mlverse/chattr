@@ -16,7 +16,6 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
   cli_li("Provider: {td$provider}")
   cli_li("Model: {td$model}")
 
-
   if (viewer[1] == "dialog") {
     viewer <- dialogViewer(
       dialogName = glue("tidychat - {td$provider} - {td$model}"),
@@ -35,13 +34,11 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
       c(
         "app <- tidychat:::app_interactive(as_job = TRUE)\n",
         "rp <- list(ui = app$ui, server = app$server)\n",
-        paste0(
-          "shiny::runApp(rp, host = '",
-          as_job_host,
-          "', port = ",
-          as_job_port,
-          ")"
-        )
+        paste0("shiny::runApp(rp, host = '",
+               as_job_host,
+               "', port = ",
+               as_job_port,
+               ")")
       ),
       con = run_file
     )
@@ -70,6 +67,7 @@ app_interactive <- function(as_job = FALSE) {
     ),
     fixedPanel(
       width = "100%",
+      left = 1,
       fluidRow(
         column(
           width = 8,
@@ -77,21 +75,21 @@ app_interactive <- function(as_job = FALSE) {
             inputId = "prompt",
             label = NULL,
             width = "100%",
-            resize = "none"
+            resize = "horizontal"
           )
         ),
         column(
           width = 2,
-          actionButton("submit", "Submit", style = style$ui_submit)
+          actionButton("add", "Submit", style = style$ui_submit)
         ),
         column(
           width = 2,
           fluidRow(
             actionLink("save", "Save chat"),
             actionLink("open", "Open chat"),
-            checkboxInput("include", "Prompt+", value = TRUE),
-            style = "margin-top: 5px; font-size: 70%;"
-          ),
+            style = "margin-top: 5px; font-size: 70%;",
+            checkboxInput("include", "Prompt+", value = TRUE)
+          )
         )
       ),
       style = paste0(
@@ -99,7 +97,7 @@ app_interactive <- function(as_job = FALSE) {
       )
     ),
     absolutePanel(
-      top = 77,
+      top = 93,
       width = "95%",
       tabsetPanel(
         type = "tabs",
@@ -127,28 +125,24 @@ app_interactive <- function(as_job = FALSE) {
       as_job = as_job
     )
 
-    observeEvent(input$submit, {
-      if (input$prompt != "") {
-        tc_history_append(user = input$prompt)
-        app_add_user(input$prompt, style$ui_user)
+    observeEvent(input$add, {
+      tc_history_append(user = input$prompt)
+      app_add_user(input$prompt, style$ui_user)
 
-        updateTextAreaInput(
-          inputId = "prompt",
-          value = ""
-        )
-      }
+      updateTextAreaInput(
+        inputId = "prompt",
+        value = ""
+      )
     })
 
-    observeEvent(input$submit, {
-      if (input$prompt != "") {
-        tc_submit_job(
-          prompt = input$prompt,
-          defaults = tc_defaults(type = "chat"),
-          prompt_build = input$include,
-          r_file_complete = r_file_complete,
-          r_file_stream = r_file_stream
-        )
-      }
+    observeEvent(input$add, {
+      tc_submit_job(
+        prompt = input$prompt,
+        defaults = tc_defaults(type = "chat"),
+        prompt_build = input$include,
+        r_file_complete = r_file_complete,
+        r_file_stream = r_file_stream
+      )
     })
 
     auto_invalidate <- reactiveTimer(100)
@@ -256,7 +250,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       tabs_1 <- 9
       tabs_2 <- 3
     }
-    app_style <- app_theme_style()
+
     insertUI(
       selector = "#tabs",
       where = "afterEnd",
@@ -270,8 +264,8 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
               actionButton(
                 paste0("copy", length(content_hist)),
                 icon = icon("clipboard"),
-                label = "Clipboard",
-                style = app_style$ui_paste
+                label = "",
+                style = "padding:4px; font-size:60%"
               )
             },
             if (is_code & !as_job) {
@@ -279,7 +273,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 paste0("doc", length(content_hist)),
                 icon = icon("file"),
                 label = "To Document",
-                style = app_style$ui_paste
+                style = "padding:4px; font-size:60%"
               )
             }
           )
@@ -322,12 +316,12 @@ app_theme_style <- function() {
 
   if (ti$dark) {
     color_user <- "#3E4A56"
-    color_top <- "#242B31"
-    color_bk <- "#f1f6f8"
+      color_top <- "#242B31"
+        color_bk <- "#f1f6f8"
   } else {
     color_user <- "#f1f6f8"
-    color_top <- "#E1E2E5"
-    color_bk <- "#3E4A56"
+      color_top <- "#E1E2E5"
+        color_bk <- "#3E4A56"
   }
 
   ui_paste <- c(
