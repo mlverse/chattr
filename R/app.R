@@ -53,6 +53,7 @@ app_interactive <- function(as_job = FALSE) {
   style <- app_theme_style()
 
   ui <- fluidPage(
+    responsive = FALSE,
     theme = bs_theme(
       bg = style$color_bg,
       fg = style$color_fg
@@ -67,10 +68,10 @@ app_interactive <- function(as_job = FALSE) {
     ),
     fixedPanel(
       width = "100%",
-      left = 1,
+      left = 0.1,
       fluidRow(
         column(
-          width = 8,
+          width = 9,
           textAreaInput(
             inputId = "prompt",
             label = NULL,
@@ -79,15 +80,15 @@ app_interactive <- function(as_job = FALSE) {
           )
         ),
         column(
-          width = 2,
-          actionButton("add", "Submit", style = style$ui_submit)
+          width = 1,
+          actionButton("submit", "Submit", style = style$ui_submit)
         ),
         column(
           width = 2,
           fluidRow(
             actionLink("save", "Save chat"),
             actionLink("open", "Open chat"),
-            style = "margin-top: 5px; font-size: 70%;",
+            style = "margin-top: 15px; font-size: 70%;",
             checkboxInput("include", "Prompt+", value = TRUE)
           )
         )
@@ -95,8 +96,9 @@ app_interactive <- function(as_job = FALSE) {
       style = style$ui_panel
     ),
     absolutePanel(
-      top = 76,
-      width = "95%",
+      top = 86,
+      left = "2%",
+      width = "94%",
       tabsetPanel(
         type = "tabs",
         id = "tabs"
@@ -123,7 +125,7 @@ app_interactive <- function(as_job = FALSE) {
       as_job = as_job
     )
 
-    observeEvent(input$add, {
+    observeEvent(input$submit, {
       tc_history_append(user = input$prompt)
       app_add_user(input$prompt, style$ui_user)
 
@@ -133,7 +135,7 @@ app_interactive <- function(as_job = FALSE) {
       )
     })
 
-    observeEvent(input$add, {
+    observeEvent(input$submit, {
       tc_submit_job(
         prompt = input$prompt,
         defaults = tc_defaults(type = "chat"),
@@ -245,8 +247,8 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       tabs_1 <- 11
       tabs_2 <- 1
     } else {
-      tabs_1 <- 9
-      tabs_2 <- 3
+      tabs_1 <- 10
+      tabs_2 <- 2
     }
     app_style <- app_theme_style()
     insertUI(
@@ -273,7 +275,8 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 label = "To Document",
                 style = app_style$ui_paste
               )
-            }
+            },
+            style = "padding: 0px"
           )
         ),
         fluidRow(
@@ -336,8 +339,9 @@ app_theme_style <- function() {
 
   ui_text <- c(
     "font-size: 80%",
-    "margin-left: 5px",
-    "margin-top: 5px"
+    "margin-left: 10px",
+    "margin-top: 15px",
+    "padding: 10px"
   )
 
   ui_submit <- c(
@@ -346,7 +350,7 @@ app_theme_style <- function() {
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
-    "margin-top: 15px",
+    "margin-top: 30px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
