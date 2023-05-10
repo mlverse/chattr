@@ -62,18 +62,22 @@ app_interactive <- function(as_job = FALSE) {
     ),
     tags$style(
       type = "text/css",
-      ".form-control {font-size: 90%; margin-left: 10px;}"
+      ".form-control {font-size: 80%; margin-left: 5px; margin-top: 5px;}"
+    ),
+    tags$style(
+      type = "text/css",
+      ".shiny-tab-input {border-width: 0px;}"
     ),
     fixedPanel(
       width = "100%",
-      left = 0,
       fluidRow(
         column(
           width = 8,
           textAreaInput(
-            "prompt", "",
+            inputId = "prompt",
+            label = NULL,
             width = "100%",
-            resize = "horizontal"
+            resize = "none"
           )
         ),
         column(
@@ -84,13 +88,14 @@ app_interactive <- function(as_job = FALSE) {
           width = 2,
           fluidRow(
             actionLink("save", "Save chat"),
-            actionLink("open", "Open chat")
+            actionLink("open", "Open chat"),
+            checkboxInput("include", "Prompt+", value = TRUE),
+            style = "margin-top: 5px; font-size: 70%;"
           ),
-          checkboxInput("include", "Prompt+", value = TRUE)
         )
       ),
       style = paste0(
-        "font-size: 80%; z-index: 10; background-color:", style$color_top
+        "z-index: 10; background-color:", style$color_top
       )
     ),
     absolutePanel(
@@ -265,7 +270,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
               actionButton(
                 paste0("copy", length(content_hist)),
                 icon = icon("clipboard"),
-                label = "",
+                label = "Clipboard",
                 style = app_style$ui_paste
               )
             },
@@ -333,10 +338,10 @@ app_theme_style <- function() {
   )
 
   ui_submit <- c(
-    "font-size: 100%",
+    "font-size: 80%",
     "padding-top: 3px",
     "padding-bottom: 3px",
-    "margin-top: 30px",
+    "margin-top: 15px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
@@ -355,7 +360,7 @@ app_theme_style <- function() {
     "margin-top: 10px",
     "margin-bottom: 10px",
     "margin-left: 50px",
-    "padding-bottom: 0px",
+    "padding: 2px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk),
     paste0("border-color:", color_top)
