@@ -35,11 +35,13 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
       c(
         "app <- tidychat:::app_interactive(as_job = TRUE)\n",
         "rp <- list(ui = app$ui, server = app$server)\n",
-        paste0("shiny::runApp(rp, host = '",
-               as_job_host,
-               "', port = ",
-               as_job_port,
-               ")")
+        paste0(
+          "shiny::runApp(rp, host = '",
+          as_job_host,
+          "', port = ",
+          as_job_port,
+          ")"
+        )
       ),
       con = run_file
     )
@@ -61,7 +63,7 @@ app_interactive <- function(as_job = FALSE) {
     tags$style(
       type = "text/css",
       ".form-control {font-size: 90%; margin-left: 10px;}"
-      ),
+    ),
     fixedPanel(
       width = "100%",
       left = 0,
@@ -76,7 +78,7 @@ app_interactive <- function(as_job = FALSE) {
         ),
         column(
           width = 2,
-          actionButton("add", "Submit", style = style$ui_submit)
+          actionButton("submit", "Submit", style = style$ui_submit)
         ),
         column(
           width = 2,
@@ -89,7 +91,7 @@ app_interactive <- function(as_job = FALSE) {
       ),
       style = paste0(
         "font-size: 80%; z-index: 10; background-color:", style$color_top
-        )
+      )
     ),
     absolutePanel(
       top = 77,
@@ -120,24 +122,28 @@ app_interactive <- function(as_job = FALSE) {
       as_job = as_job
     )
 
-    observeEvent(input$add, {
-      tc_history_append(user = input$prompt)
-      app_add_user(input$prompt, style$ui_user)
+    observeEvent(input$submit, {
+      if (input$prompt != "") {
+        tc_history_append(user = input$prompt)
+        app_add_user(input$prompt, style$ui_user)
 
-      updateTextAreaInput(
-        inputId = "prompt",
-        value = ""
-      )
+        updateTextAreaInput(
+          inputId = "prompt",
+          value = ""
+        )
+      }
     })
 
-    observeEvent(input$add, {
-      tc_submit_job(
-        prompt = input$prompt,
-        defaults = tc_defaults(type = "chat"),
-        prompt_build = input$include,
-        r_file_complete = r_file_complete,
-        r_file_stream = r_file_stream
-      )
+    observeEvent(input$submit, {
+      if (input$prompt != "") {
+        tc_submit_job(
+          prompt = input$prompt,
+          defaults = tc_defaults(type = "chat"),
+          prompt_build = input$include,
+          r_file_complete = r_file_complete,
+          r_file_stream = r_file_stream
+        )
+      }
     })
 
     auto_invalidate <- reactiveTimer(100)
@@ -333,13 +339,13 @@ app_theme_style <- function() {
     "margin-top: 30px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
-    )
+  )
 
   ui_style <- c(
     "padding-top: 5px",
     "padding-left: 5px",
     "padding-right: 5px",
-    "font-size: 85%"
+    "font-size: 80%"
   )
 
   ui_user <- c(
@@ -368,11 +374,15 @@ app_theme_style <- function() {
     color_fg = color_fg,
     color_top = color_top,
     color_user = color_user,
-    ui_submit = paste0(paste0(ui_submit, collapse = ";"), ";"),
-    ui_user = paste0(paste0(ui_user, collapse = ";"), ";"),
-    ui_assistant = paste0(paste0(ui_assistant, collapse = ";"), ";"),
-    ui_paste = paste0(paste0(ui_paste, collapse = ";"), ";")
+    ui_submit = style_collapse(ui_submit),
+    ui_user = style_collapse(ui_user),
+    ui_assistant = style_collapse(ui_assistant),
+    ui_paste = style_collapse(ui_paste)
   )
+}
+
+style_collapse <- function(x) {
+  paste0(paste0(x, collapse = ";"), ";")
 }
 
 app_theme_rgb_to_hex <- function(x) {
