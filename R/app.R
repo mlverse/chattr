@@ -97,7 +97,7 @@ app_interactive <- function(as_job = FALSE) {
       )
     ),
     absolutePanel(
-      top = 93,
+      top = 76,
       width = "95%",
       tabsetPanel(
         type = "tabs",
@@ -332,9 +332,11 @@ app_theme_style <- function() {
   )
 
   ui_submit <- c(
-    "font-size: 80%",
+    "font-size: 70%",
     "padding-top: 3px",
     "padding-bottom: 3px",
+    "padding-left: 5px",
+    "padding-right: 5px",
     "margin-top: 15px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
