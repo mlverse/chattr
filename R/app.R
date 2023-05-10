@@ -59,7 +59,7 @@ app_interactive <- function(as_job = FALSE) {
     ),
     tags$style(
       type = "text/css",
-      ".form-control {font-size: 80%; margin-left: 5px; margin-top: 5px;}"
+      paste0(".form-control {", style$ui_text,"}")
     ),
     tags$style(
       type = "text/css",
@@ -92,9 +92,7 @@ app_interactive <- function(as_job = FALSE) {
           )
         )
       ),
-      style = paste0(
-        "z-index: 10; background-color:", style$color_top
-      )
+      style = style$ui_panel
     ),
     absolutePanel(
       top = 76,
@@ -250,7 +248,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       tabs_1 <- 9
       tabs_2 <- 3
     }
-
+    app_style <- app_theme_style()
     insertUI(
       selector = "#tabs",
       where = "afterEnd",
@@ -265,7 +263,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 paste0("copy", length(content_hist)),
                 icon = icon("clipboard"),
                 label = "",
-                style = "padding:4px; font-size:60%"
+                style = app_style$ui_paste
               )
             },
             if (is_code & !as_job) {
@@ -273,7 +271,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 paste0("doc", length(content_hist)),
                 icon = icon("file"),
                 label = "To Document",
-                style = "padding:4px; font-size:60%"
+                style = app_style$ui_paste
               )
             }
           )
@@ -324,11 +322,22 @@ app_theme_style <- function() {
         color_bk <- "#3E4A56"
   }
 
+  ui_panel <- c(
+    "z-index: 10",
+    paste0("background-color:", color_top)
+  )
+
   ui_paste <- c(
     "padding: 4px",
     "font-size: 60%",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
+  )
+
+  ui_text <- c(
+    "font-size: 80%",
+    "margin-left: 5px",
+    "margin-top: 5px"
   )
 
   ui_submit <- c(
@@ -378,7 +387,9 @@ app_theme_style <- function() {
     ui_submit = style_collapse(ui_submit),
     ui_user = style_collapse(ui_user),
     ui_assistant = style_collapse(ui_assistant),
-    ui_paste = style_collapse(ui_paste)
+    ui_paste = style_collapse(ui_paste),
+    ui_text = style_collapse(ui_text),
+    ui_panel = style_collapse(ui_panel)
   )
 }
 
