@@ -53,46 +53,52 @@ app_interactive <- function(as_job = FALSE) {
   style <- app_theme_style()
 
   ui <- fluidPage(
+    responsive = FALSE,
     theme = bs_theme(
       bg = style$color_bg,
       fg = style$color_fg
     ),
+    tags$style(
+      type = "text/css",
+      paste0(".form-control {", style$ui_text,"}")
+    ),
+    tags$style(
+      type = "text/css",
+      ".shiny-tab-input {border-width: 0px;}"
+    ),
     fixedPanel(
       width = "100%",
-      left = 1,
+      left = 0.1,
       fluidRow(
-        column(width = 1, div()),
         column(
-          width = 7,
+          width = 9,
           textAreaInput(
-            "prompt", "",
+            inputId = "prompt",
+            label = NULL,
             width = "100%",
             resize = "horizontal"
           )
         ),
         column(
-          width = 2,
-          br(), br(),
-          actionButton("add", "Submit", style = "font-size:120%;")
+          width = 1,
+          actionButton("submit", "Submit", style = style$ui_submit)
         ),
         column(
           width = 2,
-          br(),
           fluidRow(
             actionLink("save", "Save chat"),
-            actionLink("open", "Open chat")
-          ),
-          checkboxInput("include", "Prompt+", value = TRUE)
+            actionLink("open", "Open chat"),
+            style = "margin-top: 15px; font-size: 70%;",
+            checkboxInput("include", "Prompt+", value = TRUE)
+          )
         )
       ),
-      style = paste0(
-        "font-size:80%; z-index: 10; background-color:",
-        style$color_top
-        )
+      style = style$ui_panel
     ),
     absolutePanel(
-      top = 93,
-      width = "95%",
+      top = 86,
+      left = "2%",
+      width = "94%",
       tabsetPanel(
         type = "tabs",
         id = "tabs"
@@ -119,7 +125,7 @@ app_interactive <- function(as_job = FALSE) {
       as_job = as_job
     )
 
-    observeEvent(input$add, {
+    observeEvent(input$submit, {
       tc_history_append(user = input$prompt)
       app_add_user(input$prompt, style$ui_user)
 
@@ -129,7 +135,7 @@ app_interactive <- function(as_job = FALSE) {
       )
     })
 
-    observeEvent(input$add, {
+    observeEvent(input$submit, {
       tc_submit_job(
         prompt = input$prompt,
         defaults = tc_defaults(type = "chat"),
@@ -241,10 +247,10 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       tabs_1 <- 11
       tabs_2 <- 1
     } else {
-      tabs_1 <- 9
-      tabs_2 <- 3
+      tabs_1 <- 10
+      tabs_2 <- 2
     }
-
+    app_style <- app_theme_style()
     insertUI(
       selector = "#tabs",
       where = "afterEnd",
@@ -259,7 +265,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 paste0("copy", length(content_hist)),
                 icon = icon("clipboard"),
                 label = "",
-                style = "padding:4px; font-size:60%"
+                style = app_style$ui_paste
               )
             },
             if (is_code & !as_job) {
@@ -267,9 +273,10 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 paste0("doc", length(content_hist)),
                 icon = icon("file"),
                 label = "To Document",
-                style = "padding:4px; font-size:60%"
+                style = app_style$ui_paste
               )
-            }
+            },
+            style = "padding: 0px"
           )
         ),
         fluidRow(
@@ -310,18 +317,49 @@ app_theme_style <- function() {
 
   if (ti$dark) {
     color_user <- "#3E4A56"
-    color_top <- "#242B31"
-    color_bk <- "#f1f6f8"
+      color_top <- "#242B31"
+        color_bk <- "#f1f6f8"
   } else {
     color_user <- "#f1f6f8"
-    color_top <- "#E1E2E5"
-    color_bk <- "#3E4A56"
+      color_top <- "#E1E2E5"
+        color_bk <- "#3E4A56"
   }
+
+  ui_panel <- c(
+    "z-index: 10",
+    paste0("background-color:", color_top)
+  )
+
+  ui_paste <- c(
+    "padding: 4px",
+    "font-size: 60%",
+    paste0("color:", color_bg),
+    paste0("background-color:", color_bk)
+  )
+
+  ui_text <- c(
+    "font-size: 80%",
+    "margin-left: 10px",
+    "margin-top: 15px",
+    "padding: 10px"
+  )
+
+  ui_submit <- c(
+    "font-size: 70%",
+    "padding-top: 3px",
+    "padding-bottom: 3px",
+    "padding-left: 5px",
+    "padding-right: 5px",
+    "margin-top: 30px",
+    paste0("color:", color_bg),
+    paste0("background-color:", color_bk)
+  )
 
   ui_style <- c(
     "padding-top: 5px",
     "padding-left: 5px",
-    "padding-right: 5px"
+    "padding-right: 5px",
+    "font-size: 80%"
   )
 
   ui_user <- c(
@@ -331,6 +369,7 @@ app_theme_style <- function() {
     "margin-top: 10px",
     "margin-bottom: 10px",
     "margin-left: 50px",
+    "padding: 2px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk),
     paste0("border-color:", color_top)
@@ -348,9 +387,18 @@ app_theme_style <- function() {
     color_bg = color_bg,
     color_fg = color_fg,
     color_top = color_top,
-    ui_user = paste0(paste0(ui_user, collapse = ";"), ";"),
-    ui_assistant = paste0(paste0(ui_assistant, collapse = ";"), ";")
+    color_user = color_user,
+    ui_submit = style_collapse(ui_submit),
+    ui_user = style_collapse(ui_user),
+    ui_assistant = style_collapse(ui_assistant),
+    ui_paste = style_collapse(ui_paste),
+    ui_text = style_collapse(ui_text),
+    ui_panel = style_collapse(ui_panel)
   )
+}
+
+style_collapse <- function(x) {
+  paste0(paste0(x, collapse = ";"), ";")
 }
 
 app_theme_rgb_to_hex <- function(x) {
