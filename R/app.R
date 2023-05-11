@@ -63,15 +63,12 @@ app_interactive <- function(as_job = FALSE) {
     ),
     tags$style(
       type = "text/css",
-      paste0(".form-control {", style$ui_text, "}")
-    ),
-    tags$style(
-      type = "text/css",
-      ".shiny-tab-input {border-width: 0px;}"
-    ),
-    tags$style(
-      type = "text/css",
-      ".form-group {padding: 1px; margin: 1px;} .checkbox {font-size: 75%;}"
+      paste0(
+        ".form-control {", style$ui_text, "}",
+        ".form-group {padding: 1px; margin: 1px;}",
+        ".checkbox {font-size: 75%;}",
+        ".shiny-tab-input {border-width: 0px;}"
+        )
     ),
     fixedPanel(
       width = "100%",
@@ -104,7 +101,7 @@ app_interactive <- function(as_job = FALSE) {
       style = style$ui_panel
     ),
     absolutePanel(
-      top = 86,
+      top = 60,
       left = "2%",
       width = "94%",
       tabsetPanel(
@@ -124,11 +121,12 @@ app_interactive <- function(as_job = FALSE) {
     observeEvent(input$options, {
       showModal(
         modalDialog(
-          title = "Settings",
+          p("Save / Load Chat"),
           if(!as_job) actionButton("save", "Save chat", style = style$ui_paste),
           if(!as_job) actionButton("open", "Open chat", style = style$ui_paste),
           hr(),
           textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
+          br(),
           checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
           checkboxInput("i_files", "Include Data Files", tc$include_data_files),
           checkboxInput("i_history", "Include History", tc$include_history),
@@ -280,13 +278,9 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       is_code <- FALSE
     }
 
-    if (as_job) {
-      tabs_1 <- 10
-      tabs_2 <- 2
-    } else {
-      tabs_1 <- 10
-      tabs_2 <- 2
-    }
+    tabs_1 <- 10
+    tabs_2 <- 2
+
     app_style <- app_theme_style()
     insertUI(
       selector = "#tabs",
@@ -387,8 +381,9 @@ app_theme_style <- function() {
 
   ui_text <- c(
     "font-size: 80%",
-    "margin-left: 10px",
-    "margin-top: 15px",
+    "margin-left: 3px",
+    "margin-top: 1px",
+    "margin-right: 0px",
     "padding: 10px"
   )
 
@@ -398,7 +393,7 @@ app_theme_style <- function() {
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
-    "margin-top: 30px",
+    "margin-top: 20px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
