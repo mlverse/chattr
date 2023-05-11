@@ -10,7 +10,6 @@
       
       -- Prompt: 
       * {{readLines(system.file('prompt/base.txt', package = 'tidychat'))}}
-      * For any line that is not code, prefix it with a: #
       
       -- Model 
       * Provider: Open AI

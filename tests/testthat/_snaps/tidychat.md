@@ -25,7 +25,6 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Expecting only code, avoid comments unless requested by user
-      * For any line that is not code, prefix it with a: #
       role: user
       content: test
 
@@ -74,7 +73,6 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Expecting only code, avoid comments unless requested by user
-      * For any line that is not code, prefix it with a: #
       role: user
       content: test
 
@@ -100,7 +98,7 @@
       [1] "user"
       
       $messages[[2]]$content
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* skimr and janitor can also be used if needed \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Expecting only code, avoid comments unless requested by user \n* For any line that is not code, prefix it with a: #"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* skimr and janitor can also be used if needed \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Expecting only code, avoid comments unless requested by user"
       
       
       $messages[[3]]

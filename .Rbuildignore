@@ -3,3 +3,5 @@
 ^.*\.csv
 ^.*\.qmd
 ^LICENSE\.md$
+^\.github$
+^codecov\.yml$
