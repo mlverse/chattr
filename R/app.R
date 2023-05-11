@@ -112,30 +112,6 @@ app_interactive <- function(as_job = FALSE) {
   )
 
   server <- function(input, output, session) {
-    tc <- tc_defaults(type = "chat")
-
-    prompt2 <- tc$prompt %>%
-      process_prompt() %>%
-      paste(collapse = "\n")
-
-    observeEvent(input$options, {
-      showModal(
-        modalDialog(
-          p("Save / Load Chat"),
-          if(!as_job) actionButton("save", "Save chat", style = style$ui_paste),
-          if(!as_job) actionButton("open", "Open chat", style = style$ui_paste),
-          hr(),
-          textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
-          br(),
-          checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
-          checkboxInput("i_files", "Include Data Files", tc$include_data_files),
-          checkboxInput("i_history", "Include History", tc$include_history),
-          easyClose = TRUE,
-          footer = tagList(modalButton("Close"))
-        )
-      )
-    })
-
     r_file_stream <- tempfile()
     r_file_complete <- tempfile()
 
@@ -148,11 +124,47 @@ app_interactive <- function(as_job = FALSE) {
       )
     )
 
+    observeEvent(input$options, {
+      tc <- tc_defaults(type = "chat")
+
+      prompt2 <- tc$prompt %>%
+        process_prompt() %>%
+        paste(collapse = "\n")
+
+      showModal(
+        modalDialog(
+          p("Save / Load Chat"),
+          if(!as_job) actionButton("save", "Save chat", style = style$ui_paste),
+          if(!as_job) actionButton("open", "Open chat", style = style$ui_paste),
+          hr(),
+          textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
+          br(),
+          checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
+          checkboxInput("i_files", "Include Data Files", tc$include_data_files),
+          checkboxInput("i_history", "Include History", tc$include_history),
+          actionButton("saved", "Save", style = style$ui_paste),
+          easyClose = TRUE,
+          footer = tagList()
+        )
+      )
+    })
+
     app_add_history(
       style = style,
       input = input,
       as_job = as_job
     )
+
+    observeEvent(input$saved, {
+      tc_defaults(
+        type = "chat",
+        include_data_files = input$i_files,
+        include_data_frames = input$i_data,
+        include_history = input$i_history,
+        prompt = input$prompt2
+        )
+      removeModal()
+    })
 
     observeEvent(input$submit, {
       if (input$prompt != "") {
@@ -178,7 +190,7 @@ app_interactive <- function(as_job = FALSE) {
       }
     })
 
-    auto_invalidate <- reactiveTimer(100)
+    auto_invalidate <- reactiveTimer(120)
 
     observe({
       auto_invalidate()
