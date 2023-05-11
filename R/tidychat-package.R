@@ -13,4 +13,8 @@
 #' @importFrom purrr map_chr map_lgl map imap set_names walk
 #' @importFrom purrr iwalk discard keep imap_lgl reduce
 #' @importFrom rlang %||% abort is_named
+
+## usethis namespace: start
+#' @importFrom lifecycle deprecated
+## usethis namespace: end
 tc_env <- new.env()
