@@ -39,9 +39,18 @@ print.tc_request <- function(x, ...) {
       ~ cli_li("{.y}: {.val0 {.x}}")
     )
   }
+  print_history(x$prompt)
+}
+
+#' @export
+print.tc_history <- function(x, ...) {
+  print_history(x)
+}
+
+print_history <- function(x) {
   cli_colors()
   cli_h3("Prompt:")
-  walk(x$prompt, ~ {
+  walk(x, ~ {
     x <- .x
     x_named <- is_named(x)
     iwalk(x, ~ {
