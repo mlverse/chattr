@@ -11,7 +11,8 @@
 tidychat_app <- function(viewer = c("viewer", "dialog"),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
-                         as_job_host = getOption("shiny.host", "127.0.0.1")) {
+                         as_job_host = getOption("shiny.host", "127.0.0.1")
+                         ) {
   td <- tc_defaults(type = "chat")
   cli_li("Provider: {td$provider}")
   cli_li("Model: {td$model}")
@@ -62,43 +63,45 @@ app_interactive <- function(as_job = FALSE) {
     ),
     tags$style(
       type = "text/css",
-      paste0(".form-control {", style$ui_text, "}")
-    ),
-    tags$style(
-      type = "text/css",
-      ".shiny-tab-input {border-width: 0px;}"
+      paste0(
+        ".form-control {", style$ui_text, "}",
+        ".form-group {padding: 1px; margin: 1px;}",
+        ".checkbox {font-size: 75%;}",
+        ".shiny-tab-input {border-width: 0px;}"
+        )
     ),
     fixedPanel(
       width = "100%",
       left = 0.1,
       fluidRow(
         column(
-          width = 9,
+          width = 10,
           textAreaInput(
             inputId = "prompt",
             label = NULL,
             width = "100%",
-            resize = "horizontal"
+            resize = "none"
           )
         ),
         column(
-          width = 1,
-          actionButton("submit", "Submit", style = style$ui_submit)
-        ),
-        column(
           width = 2,
-          fluidRow(
-            actionLink("save", "Save chat"),
-            actionLink("open", "Open chat"),
-            style = "margin-top: 15px; font-size: 70%;",
-            checkboxInput("include", "Prompt+", value = TRUE)
+          actionButton(
+            inputId = "submit",
+            label = "Submit",
+            style = style$ui_submit
+          ),
+          actionButton(
+            inputId = "options",
+            label = NULL,
+            icon = icon("gear"),
+            style = style$ui_submit
           )
         )
       ),
       style = style$ui_panel
     ),
     absolutePanel(
-      top = 86,
+      top = 60,
       left = "2%",
       width = "94%",
       tabsetPanel(
@@ -121,33 +124,73 @@ app_interactive <- function(as_job = FALSE) {
       )
     )
 
+    observeEvent(input$options, {
+      tc <- tc_defaults(type = "chat")
+
+      prompt2 <- tc$prompt %>%
+        process_prompt() %>%
+        paste(collapse = "\n")
+
+      showModal(
+        modalDialog(
+          p("Save / Load Chat"),
+          if(!as_job) actionButton("save", "Save chat", style = style$ui_paste),
+          if(!as_job) actionButton("open", "Open chat", style = style$ui_paste),
+          hr(),
+          textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
+          br(),
+          checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
+          checkboxInput("i_files", "Include Data Files", tc$include_data_files),
+          checkboxInput("i_history", "Include History", tc$include_history),
+          actionButton("saved", "Save", style = style$ui_paste),
+          easyClose = TRUE,
+          footer = tagList()
+        )
+      )
+    })
+
     app_add_history(
       style = style,
       input = input,
       as_job = as_job
     )
 
-    observeEvent(input$submit, {
-      tc_history_append(user = input$prompt)
-      app_add_user(input$prompt, style$ui_user)
-
-      updateTextAreaInput(
-        inputId = "prompt",
-        value = ""
-      )
+    observeEvent(input$saved, {
+      tc_defaults(
+        type = "chat",
+        include_data_files = input$i_files,
+        include_data_frames = input$i_data,
+        include_history = input$i_history,
+        prompt = input$prompt2
+        )
+      removeModal()
     })
 
     observeEvent(input$submit, {
-      tc_submit_job(
-        prompt = input$prompt,
-        defaults = tc_defaults(type = "chat"),
-        prompt_build = input$include,
-        r_file_complete = r_file_complete,
-        r_file_stream = r_file_stream
-      )
+      if (input$prompt != "") {
+        tc_history_append(user = input$prompt)
+        app_add_user(input$prompt, style$ui_user)
+
+        updateTextAreaInput(
+          inputId = "prompt",
+          value = ""
+        )
+      }
     })
 
-    auto_invalidate <- reactiveTimer(100)
+    observeEvent(input$submit, {
+      if (input$prompt != "") {
+        tc_submit_job(
+          prompt = input$prompt,
+          defaults = tc_defaults(type = "chat"),
+          prompt_build = TRUE,
+          r_file_complete = r_file_complete,
+          r_file_stream = r_file_stream
+        )
+      }
+    })
+
+    auto_invalidate <- reactiveTimer(120)
 
     observe({
       auto_invalidate()
@@ -174,8 +217,8 @@ app_interactive <- function(as_job = FALSE) {
     })
 
     observeEvent(input$open, {
-      file <- file.choose()
-      ext <- path_ext(file)
+      file <- try(file.choose(), silent = TRUE)
+      ext <-path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
         tc_history_set(rds)
@@ -184,17 +227,19 @@ app_interactive <- function(as_job = FALSE) {
           input = input,
           as_job = as_job
         )
+        removeModal()
       }
     })
 
     observeEvent(input$save, {
-      file <- file.choose(new = TRUE)
+      file <- try(file.choose(new = TRUE), silent = TRUE)
       ext <- path_ext(file)
       if (ext == "rds") {
         saveRDS(
           tc_history(),
           file
         )
+        removeModal()
       }
     })
   }
@@ -245,13 +290,9 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       is_code <- FALSE
     }
 
-    if (as_job) {
-      tabs_1 <- 11
-      tabs_2 <- 1
-    } else {
-      tabs_1 <- 10
-      tabs_2 <- 2
-    }
+    tabs_1 <- 10
+    tabs_2 <- 2
+
     app_style <- app_theme_style()
     insertUI(
       selector = "#tabs",
@@ -263,19 +304,27 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
           column(
             width = tabs_2,
             if (is_code) {
-              actionButton(
-                paste0("copy", length(content_hist)),
-                icon = icon("clipboard"),
-                label = "",
-                style = app_style$ui_paste
+              tags$div(
+                style = "display:inline-block",
+                title = "Copy to clipboard",
+                actionButton(
+                  paste0("copy", length(content_hist)),
+                  icon = icon("clipboard"),
+                  label = "",
+                  style = app_style$ui_paste
+                )
               )
             },
             if (is_code & !as_job) {
-              actionButton(
-                paste0("doc", length(content_hist)),
-                icon = icon("file"),
-                label = "To Document",
-                style = app_style$ui_paste
+              tags$div(
+                style = "display:inline-block",
+                title = "Send to document",
+                actionButton(
+                  paste0("doc", length(content_hist)),
+                  icon = icon("file"),
+                  label = "",
+                  style = app_style$ui_paste
+                )
               )
             },
             style = "padding: 0px"
@@ -333,7 +382,10 @@ app_theme_style <- function() {
   )
 
   ui_paste <- c(
-    "padding: 4px",
+    "padding-top: 4px",
+    "padding-bottom: 4px",
+    "padding-left: 10px",
+    "padding-right: 10px",
     "font-size: 60%",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
@@ -341,8 +393,9 @@ app_theme_style <- function() {
 
   ui_text <- c(
     "font-size: 80%",
-    "margin-left: 10px",
-    "margin-top: 15px",
+    "margin-left: 3px",
+    "margin-top: 1px",
+    "margin-right: 0px",
     "padding: 10px"
   )
 
@@ -352,7 +405,17 @@ app_theme_style <- function() {
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
-    "margin-top: 30px",
+    "margin-top: 20px",
+    paste0("color:", color_bg),
+    paste0("background-color:", color_bk)
+  )
+
+  ui_options <- c(
+    "font-size: 90%",
+    "padding-top: 3px",
+    "padding-bottom: 3px",
+    "padding-left: 5px",
+    "padding-right: 5px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
@@ -395,7 +458,8 @@ app_theme_style <- function() {
     ui_assistant = style_collapse(ui_assistant),
     ui_paste = style_collapse(ui_paste),
     ui_text = style_collapse(ui_text),
-    ui_panel = style_collapse(ui_panel)
+    ui_panel = style_collapse(ui_panel),
+    ui_options = style_collapse(ui_options)
   )
 }
 
