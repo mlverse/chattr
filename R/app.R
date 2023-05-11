@@ -34,11 +34,13 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
       c(
         "app <- tidychat:::app_interactive(as_job = TRUE)\n",
         "rp <- list(ui = app$ui, server = app$server)\n",
-        paste0("shiny::runApp(rp, host = '",
-               as_job_host,
-               "', port = ",
-               as_job_port,
-               ")")
+        paste0(
+          "shiny::runApp(rp, host = '",
+          as_job_host,
+          "', port = ",
+          as_job_port,
+          ")"
+        )
       ),
       con = run_file
     )
@@ -60,7 +62,7 @@ app_interactive <- function(as_job = FALSE) {
     ),
     tags$style(
       type = "text/css",
-      paste0(".form-control {", style$ui_text,"}")
+      paste0(".form-control {", style$ui_text, "}")
     ),
     tags$style(
       type = "text/css",
@@ -190,7 +192,7 @@ app_interactive <- function(as_job = FALSE) {
       ext <- path_ext(file)
       if (ext == "rds") {
         saveRDS(
-          tc_history_get(),
+          tc_history(),
           file
         )
       }
@@ -201,7 +203,7 @@ app_interactive <- function(as_job = FALSE) {
 }
 
 app_add_history <- function(style, input, as_job) {
-  th <- tc_history_get()
+  th <- tc_history()
   for (i in seq_along(th)) {
     curr <- th[[i]]
     if (curr$role == "user") {
@@ -317,12 +319,12 @@ app_theme_style <- function() {
 
   if (ti$dark) {
     color_user <- "#3E4A56"
-      color_top <- "#242B31"
-        color_bk <- "#f1f6f8"
+    color_top <- "#242B31"
+    color_bk <- "#f1f6f8"
   } else {
     color_user <- "#f1f6f8"
-      color_top <- "#E1E2E5"
-        color_bk <- "#3E4A56"
+    color_top <- "#E1E2E5"
+    color_bk <- "#3E4A56"
   }
 
   ui_panel <- c(

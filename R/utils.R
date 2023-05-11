@@ -1,29 +1,3 @@
-# -------------------------------- History -------------------------------------
-
-tc_history_get <- function() {
-  tc_env$chat_history
-}
-
-tc_history_append <- function(user = NULL, assistant = NULL) {
-  if (!is.null(user)) {
-    tc_env$chat_history <- c(
-      tc_env$chat_history,
-      list(list(role = "user", content = user))
-    )
-  }
-
-  if (!is.null(assistant)) {
-    tc_env$chat_history <- c(
-      tc_env$chat_history,
-      list(list(role = "assistant", content = assistant))
-    )
-  }
-}
-
-tc_history_set <- function(x) {
-  tc_env$chat_history <- x
-}
-
 # --------------------------------- Debug --------------------------------------
 
 tc_debug_set_true <- function() {
@@ -65,9 +39,18 @@ print.tc_request <- function(x, ...) {
       ~ cli_li("{.y}: {.val0 {.x}}")
     )
   }
+  print_history(x$prompt)
+}
+
+#' @export
+print.tc_history <- function(x, ...) {
+  print_history(x)
+}
+
+print_history <- function(x) {
   cli_colors()
   cli_h3("Prompt:")
-  walk(x$prompt, ~ {
+  walk(x, ~ {
     x <- .x
     x_named <- is_named(x)
     iwalk(x, ~ {

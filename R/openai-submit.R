@@ -57,7 +57,7 @@ openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
   }
 
   if (defaults$include_history) {
-    history <- tc_history_get()
+    history <- tc_history()
   } else {
     history <- NULL
   }
