@@ -11,7 +11,8 @@
 tidychat_app <- function(viewer = c("viewer", "dialog"),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
-                         as_job_host = getOption("shiny.host", "127.0.0.1")) {
+                         as_job_host = getOption("shiny.host", "127.0.0.1")
+                         ) {
   td <- tc_defaults(type = "chat")
   cli_li("Provider: {td$provider}")
   cli_li("Model: {td$model}")
@@ -66,11 +67,11 @@ app_interactive <- function(as_job = FALSE) {
     ),
     tags$style(
       type = "text/css",
-      paste0(".modal-footer {font-size: 1px}")
+      ".shiny-tab-input {border-width: 0px;}"
     ),
     tags$style(
       type = "text/css",
-      ".shiny-tab-input {border-width: 0px;}"
+      ".form-group {padding: 1px; margin: 1px;} .checkbox {font-size: 75%;}"
     ),
     fixedPanel(
       width = "100%",
@@ -82,20 +83,22 @@ app_interactive <- function(as_job = FALSE) {
             inputId = "prompt",
             label = NULL,
             width = "100%",
-            resize = "horizontal"
+            resize = "none"
           )
         ),
         column(
           width = 2,
-          actionButton(inputId = "submit",
-                       label = "Submit",
-                       style = style$ui_submit
-                       ),
-          actionButton(inputId = "options",
-                       label = NULL,
-                       icon = icon("gear"),
-                       style = style$ui_submit
-                       )
+          actionButton(
+            inputId = "submit",
+            label = "Submit",
+            style = style$ui_submit
+          ),
+          actionButton(
+            inputId = "options",
+            label = NULL,
+            icon = icon("gear"),
+            style = style$ui_submit
+          )
         )
       ),
       style = style$ui_panel
@@ -112,15 +115,23 @@ app_interactive <- function(as_job = FALSE) {
   )
 
   server <- function(input, output, session) {
+    tc <- tc_defaults(type = "chat")
+
+    prompt2 <- tc$prompt %>%
+      process_prompt() %>%
+      paste(collapse = "\n")
 
     observeEvent(input$options, {
       showModal(
         modalDialog(
           title = "Settings",
-          actionButton("save", "Save chat", style = style$ui_paste),
-          actionButton("open", "Open chat", style = style$ui_paste),
+          if(!as_job) actionButton("save", "Save chat", style = style$ui_paste),
+          if(!as_job) actionButton("open", "Open chat", style = style$ui_paste),
           hr(),
-          checkboxInput("include", "Include additional prompt", value = TRUE),
+          textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
+          checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
+          checkboxInput("i_files", "Include Data Files", tc$include_data_files),
+          checkboxInput("i_history", "Include History", tc$include_history),
           easyClose = TRUE,
           footer = tagList(modalButton("Close"))
         )
@@ -146,7 +157,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$submit, {
-      if(input$prompt != "") {
+      if (input$prompt != "") {
         tc_history_append(user = input$prompt)
         app_add_user(input$prompt, style$ui_user)
 
@@ -158,11 +169,11 @@ app_interactive <- function(as_job = FALSE) {
     })
 
     observeEvent(input$submit, {
-      if(input$prompt != "") {
+      if (input$prompt != "") {
         tc_submit_job(
           prompt = input$prompt,
           defaults = tc_defaults(type = "chat"),
-          prompt_build = input$include,
+          prompt_build = TRUE,
           r_file_complete = r_file_complete,
           r_file_stream = r_file_stream
         )
@@ -196,8 +207,8 @@ app_interactive <- function(as_job = FALSE) {
     })
 
     observeEvent(input$open, {
-      file <- file.choose()
-      ext <- try(file.choose(), silent = TRUE)
+      file <- try(file.choose(), silent = TRUE)
+      ext <-path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
         tc_history_set(rds)
@@ -206,6 +217,7 @@ app_interactive <- function(as_job = FALSE) {
           input = input,
           as_job = as_job
         )
+        removeModal()
       }
     })
 
@@ -217,6 +229,7 @@ app_interactive <- function(as_job = FALSE) {
           tc_history(),
           file
         )
+        removeModal()
       }
     })
   }
@@ -293,8 +306,8 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                   icon = icon("clipboard"),
                   label = "",
                   style = app_style$ui_paste
-                  )
                 )
+              )
             },
             if (is_code & !as_job) {
               tags$div(
