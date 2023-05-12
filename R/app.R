@@ -11,8 +11,7 @@
 tidychat_app <- function(viewer = c("viewer", "dialog"),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
-                         as_job_host = getOption("shiny.host", "127.0.0.1")
-                         ) {
+                         as_job_host = getOption("shiny.host", "127.0.0.1")) {
   td <- tc_defaults(type = "chat")
   cli_li("Provider: {td$provider}")
   cli_li("Model: {td$model}")
@@ -68,7 +67,7 @@ app_interactive <- function(as_job = FALSE) {
         ".form-group {padding: 1px; margin: 1px;}",
         ".checkbox {font-size: 75%;}",
         ".shiny-tab-input {border-width: 0px;}"
-        )
+      )
     ),
     fixedPanel(
       width = "100%",
@@ -134,8 +133,8 @@ app_interactive <- function(as_job = FALSE) {
       showModal(
         modalDialog(
           p("Save / Load Chat"),
-          if(!as_job) actionButton("save", "Save chat", style = style$ui_paste),
-          if(!as_job) actionButton("open", "Open chat", style = style$ui_paste),
+          if (!as_job) actionButton("save", "Save chat", style = style$ui_paste),
+          if (!as_job) actionButton("open", "Open chat", style = style$ui_paste),
           hr(),
           textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
           br(),
@@ -162,7 +161,7 @@ app_interactive <- function(as_job = FALSE) {
         include_data_frames = input$i_data,
         include_history = input$i_history,
         prompt = input$prompt2
-        )
+      )
       removeModal()
     })
 
@@ -190,7 +189,7 @@ app_interactive <- function(as_job = FALSE) {
       }
     })
 
-    auto_invalidate <- reactiveTimer(120)
+    auto_invalidate <- reactiveTimer(300)
 
     observe({
       auto_invalidate()
@@ -212,13 +211,13 @@ app_interactive <- function(as_job = FALSE) {
     output$stream <- renderText({
       auto_invalidate()
       if (file_exists(r_file_stream)) {
-        try(markdown(readRDS(r_file_stream)))
+        try(markdown(readRDS(r_file_stream)), silent = TRUE)
       }
     })
 
     observeEvent(input$open, {
       file <- try(file.choose(), silent = TRUE)
-      ext <-path_ext(file)
+      ext <- path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
         tc_history_set(rds)
@@ -277,22 +276,28 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
   } else {
     split_content <- content
   }
-
   content_hist <- tc_env$content_hist
+  current_history <- NULL
+  current_code <- NULL
   for (i in seq_along(split_content)) {
-    curr_content <- split_content[length(split_content) - i + 1]
+    curr_content <- split_content[i]
     if ((i / 2) == floor(i / 2)) {
-      curr_content <- paste0("```", curr_content, "\n```")
+      curr_content <- paste0("```\n", curr_content, "\n```")
       curr_split <- strsplit(curr_content, "\n")
       content_hist <- c(content_hist, curr_content)
-      is_code <- TRUE
+      current_history <- c(current_history, curr_content)
+      current_code <- c(current_code, TRUE)
     } else {
-      is_code <- FALSE
+      current_history <- c(current_history, curr_content)
+      current_code <- c(current_code, FALSE)
     }
+  }
 
-    tabs_1 <- 10
-    tabs_2 <- 2
+  tabs_1 <- 10
+  tabs_2 <- 2
 
+  for (i in seq_along(current_history)) {
+    curr_content <- current_history[length(current_history) - i + 1]
     app_style <- app_theme_style()
     insertUI(
       selector = "#tabs",
@@ -303,7 +308,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
           column(width = tabs_1, div()),
           column(
             width = tabs_2,
-            if (is_code) {
+            if (current_code[i]) {
               tags$div(
                 style = "display:inline-block",
                 title = "Copy to clipboard",
@@ -315,7 +320,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 )
               )
             },
-            if (is_code & !as_job) {
+            if (current_code[i] & !as_job) {
               tags$div(
                 style = "display:inline-block",
                 title = "Send to document",
