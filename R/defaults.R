@@ -67,11 +67,9 @@ tc_defaults <- function(prompt = NULL,
       for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]
         if (!is.null(td)) {
-          if (length(td$prompt) > 0) {
-            td$prompt <- strsplit(td$prompt, split = "\n")[[1]]
+          if (length(td$prompt) > 0 & any(grepl("\n", td$prompt))) {
+              td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
-          td$type <- NULL
-
           tc_defaults_set(
             arguments = td,
             type = type

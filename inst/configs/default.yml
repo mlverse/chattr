@@ -22,8 +22,8 @@ notebook:
 chat:
   prompt: |
     For code output, use RMarkdown code chunks
-    Avoid alt text code chunk option for all plots
-    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
+    Avoid all code chunk options
+    '{readLines(system.file(''prompt/base.txt'', package = ''tidychat''))}'
 console:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'tidychat'))}

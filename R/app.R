@@ -189,7 +189,7 @@ app_interactive <- function(as_job = FALSE) {
       }
     })
 
-    auto_invalidate <- reactiveTimer(300)
+    auto_invalidate <- reactiveTimer(200)
 
     observe({
       auto_invalidate()
