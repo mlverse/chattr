@@ -282,7 +282,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
   for (i in seq_along(split_content)) {
     curr_content <- split_content[i]
     if ((i / 2) == floor(i / 2)) {
-      curr_content <- paste0("```\n", curr_content, "\n```")
+      curr_content <- paste0("```", curr_content, "\n```")
       curr_split <- strsplit(curr_content, "\n")
       content_hist <- c(content_hist, curr_content)
       current_history <- c(current_history, curr_content)
