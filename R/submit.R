@@ -42,26 +42,29 @@ tc_submit_job <- function(prompt,
              r_file_stream,
              r_file_complete,
              prompt_build,
-             defaults) {
-      res <- tidychat::tc_submit(
+             defaults,
+             tc_history) {
+      tidychat::tc_history(tc_history)
+      tidychat::tc_submit(
         defaults = do.call(
           what = tidychat::tc_defaults,
           args = defaults
-        ),
+          ),
         prompt = prompt,
         stream = stream,
         prompt_build = prompt_build,
         r_file_stream = r_file_stream,
         r_file_complete = r_file_complete
-      )
-    },
+        )
+      },
     args = list(
       prompt = prompt,
       r_file_stream = r_file_stream,
       r_file_complete = r_file_complete,
       prompt_build = prompt_build,
       defaults = defaults,
-      stream = stream
+      stream = stream,
+      tc_history = tc_history()
     )
   )
 }

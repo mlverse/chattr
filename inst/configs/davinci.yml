@@ -1,6 +1,6 @@
 default:
   prompt: |
-    {tc_base_prompt}
+    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
   provider: Open AI
   model: DaVinci 3
   include_data_files: TRUE
@@ -13,14 +13,14 @@ default:
     stream: TRUE
 notebook:
   prompt: |
-    {tc_base_prompt}
+    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
     For code output, use RMarkdown code chunks
     Include alt text code chunk option for all plots
 chat:
   prompt: |
-    {tc_base_prompt}
+    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
     For code output, use markdown code chunks
 console:
   prompt: |
-    {tc_base_prompt}
+    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
     For any line that is not code, prefix it with a: #

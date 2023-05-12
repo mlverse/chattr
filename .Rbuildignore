@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.*\.csv
-^.*\.yml
 ^.*\.qmd
 ^LICENSE\.md$
+^\.github$
+^codecov\.yml$

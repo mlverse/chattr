@@ -22,7 +22,12 @@ Imports:
     yaml,
     glue,
     cli,
-    fs
+    fs,
+    lifecycle
 Depends: 
     R (>= 2.10)
 LazyData: true
+Suggests: 
+    covr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

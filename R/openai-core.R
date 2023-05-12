@@ -1,21 +1,3 @@
-openai_perform <- function(endpoint, req_body) {
-  if (tidychat_debug_get()) {
-    req_body
-  } else {
-    openai_request(endpoint, req_body) %>%
-      req_perform() %>%
-      resp_body_json()
-  }
-}
-
-openai_request <- function(endpoint, req_body) {
-  "https://api.openai.com/v1/" %>%
-    paste0(endpoint) %>%
-    request() %>%
-    req_auth_bearer_token(openai_token()) %>%
-    req_body_json(req_body)
-}
-
 openai_token <- function() {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
 
@@ -32,15 +14,36 @@ openai_token <- function() {
   ret
 }
 
+openai_request <- function(endpoint, req_body) {
+  "https://api.openai.com/v1/" %>%
+    paste0(endpoint) %>%
+    request() %>%
+    req_auth_bearer_token(openai_token()) %>%
+    req_body_json(req_body)
+}
+
+openai_perform <- function(endpoint, req_body) {
+  ret <- NULL
+  if (tc_debug_get()) {
+    ret <- req_body
+  } else {
+    ret <- openai_request(endpoint, req_body) %>%
+      req_perform() %>%
+      resp_body_json()
+  }
+  ret
+}
+
 openai_stream_ide <- function(endpoint, req_body) {
   tc_env$stream <- list()
   tc_env$stream$raw <- NULL
   tc_env$stream$response <- NULL
 
-  if (tidychat_debug_get()) {
-    req_body
+  ret <- NULL
+  if (tc_debug_get()) {
+    ret <- req_body
   } else {
-    ide_paste_text("\n\n")
+    if (!ui_current_console()) ide_paste_text("\n\n")
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
@@ -55,7 +58,11 @@ openai_stream_ide <- function(endpoint, req_body) {
           )
           if (!is.null(current)) {
             if (is.null(tc_env$stream$response)) {
-              ide_paste_text(current)
+              if (ui_current_console()) {
+                cat(current)
+              } else {
+                ide_paste_text(current)
+              }
             } else {
               if (nchar(current) != nchar(tc_env$stream$response)) {
                 delta <- substr(
@@ -63,7 +70,13 @@ openai_stream_ide <- function(endpoint, req_body) {
                   nchar(tc_env$stream$response) + 1,
                   nchar(current)
                 )
-                ide_paste_text(delta)
+                if (ui_current_console()) {
+                  cat(delta)
+                } else {
+                  for (i in 1:nchar(delta)) {
+                    ide_paste_text(substr(delta, i, i))
+                  }
+                }
               }
             }
           }
@@ -72,8 +85,10 @@ openai_stream_ide <- function(endpoint, req_body) {
         },
         buffer_kb = 0.1
       )
-    ide_paste_text("\n\n")
+    if (!ui_current_console()) ide_paste_text("\n\n")
+    ret <- tc_env$stream$response
   }
+  ret
 }
 
 openai_stream_file <- function(endpoint,
@@ -82,9 +97,9 @@ openai_stream_file <- function(endpoint,
                                r_file_complete) {
   tc_env$stream <- list()
   tc_env$stream$response <- NULL
-
-  if (tidychat_debug_get()) {
-    req_body
+  ret <- NULL
+  if (tc_debug_get()) {
+    ret <- req_body
   } else {
     tc_env$stream$response <- NULL
 
@@ -108,8 +123,8 @@ openai_stream_file <- function(endpoint,
     ret <- readRDS(r_file_stream)
     file_delete(r_file_stream)
     saveRDS(ret, r_file_complete)
-    ret
   }
+  ret
 }
 
 openai_stream_parse <- function(x, endpoint) {
@@ -117,8 +132,8 @@ openai_stream_parse <- function(x, endpoint) {
     paste0(collapse = "") %>%
     strsplit("data: ") %>%
     unlist() %>%
-    purrr::discard(~ .x == "") %>%
-    purrr::keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
+    discard(~ .x == "") %>%
+    keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
     map(jsonlite::fromJSON)
 
   if (length(res) > 0) {
