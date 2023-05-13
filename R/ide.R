@@ -1,7 +1,7 @@
 # --------------------------- IDE Identification -------------------------------
 
 ide_current <- function() {
-  ret <- NULL
+  ret <- ""
   if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
     ret <- "rstudio"
   }
@@ -26,6 +26,8 @@ ui_current <- function() {
         ret <- "script"
       }
     }
+  } else {
+    ret <- "console"
   }
   ret
 }
@@ -50,15 +52,6 @@ ide_paste_text <- function(x, loc = NULL) {
     }
   }
   invisible()
-}
-
-ide_append_to_document <- function(x, width = 81) {
-  current <- ide_active_document_contents(remove_blanks = FALSE)
-
-  x %>%
-    strwrap(width = width) %>%
-    paste0(collapse = "\n") %>%
-    ide_paste_text(loc = length(current))
 }
 
 ide_active_document_contents <- function(remove_blanks = TRUE) {
@@ -114,20 +107,14 @@ ide_comment_selection <- function() {
 
 # ------------------------------ Utils -----------------------------------------
 
-ide_prompt <- function(title = "", message = "", default = NULL) {
-  cont <- NULL
-  if (ide_is_rstudio()) {
-    cont <- showPrompt(
-      title = title,
-      message = message,
-      default = default
-    )
-  }
-  cont
-}
-
 ide_build_prompt <- function(prompt = NULL,
-                             defaults = tc_defaults()) {
+                             defaults = tc_defaults(),
+                             preview = FALSE) {
+
+  if(preview & is.null(prompt)) {
+    prompt <- "[Your future prompt goes here]"
+  }
+
 
   if (is.null(prompt)) {
     prompt <- ide_comment_selection()

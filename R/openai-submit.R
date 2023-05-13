@@ -7,11 +7,16 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
+
   if(ui_current_markdown()) {
     return(invisible())
   }
 
-  prompt <- ide_build_prompt(prompt, defaults)
+  prompt <- ide_build_prompt(
+    prompt = prompt,
+    defaults = defaults,
+    preview =  preview
+    )
 
   st <- stream %||% defaults$stream
 
@@ -202,6 +207,5 @@ openai_switch <- function(prompt,
   if (!return_result) {
     ret <- NULL
   }
-
   ret
 }
