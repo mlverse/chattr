@@ -140,7 +140,7 @@ app_interactive <- function(as_job = FALSE) {
           br(),
           checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
           checkboxInput("i_files", "Include Data Files", tc$include_data_files),
-          checkboxInput("i_history", "Include History", tc$include_history),
+          checkboxInput("i_history", "Include Chat History", tc$include_history),
           actionButton("saved", "Save", style = style$ui_paste),
           easyClose = TRUE,
           footer = tagList()

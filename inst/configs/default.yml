@@ -18,12 +18,13 @@ notebook:
     Include alt text code chunk option for all plots
     Include eval=FALSE for ALL code chunks
     {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
-
 chat:
   prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
     For code output, use RMarkdown code chunks
     Avoid all code chunk options
-    '{readLines(system.file(''prompt/base.txt'', package = ''tidychat''))}'
-console:
+script:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
+    Prefix ALL explanations with a pound sign
+    DO NOT use Markdown for the code

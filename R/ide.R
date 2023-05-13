@@ -147,11 +147,32 @@ ide_active_document_contents <- function(remove_blanks = TRUE) {
   cont
 }
 
-ide_get_selection <- function(unhighlight = FALSE) {
+ide_get_selection <- function(unhighlight = FALSE, comment_out = FALSE) {
   cont <- NULL
   if (ide_is_rstudio()) {
     cont <- selectionGet()
     cont <- cont$value
+
+    if(comment_out) {
+      active_doc <- getActiveDocumentContext()
+      text_range <- active_doc$selection[[1]]$range
+      start_row <- text_range$start[[1]]
+      end_row <- text_range$end[[1]]
+      end_size <- nchar(active_doc$contents[end_row])
+
+      doc_range <- document_range(
+        document_position(start_row, 1),
+        document_position(end_row, end_size)
+       )
+
+      contents <- active_doc[start_row:end_row]
+      replacement <- paste0("# ", contents, collapse = "\n")
+
+      modifyRange(
+        location = doc_range,
+        text = replacement
+      )
+    }
 
     if (unhighlight & cont != "") {
       ac <- getActiveDocumentContext()
@@ -185,7 +206,7 @@ ide_build_prompt <- function(prompt = NULL,
         prompt <- ide_quarto_last_line()
       }
     } else {
-      selection <- ide_get_selection(TRUE)
+      selection <- ide_get_selection(TRUE, TRUE)
       if (nchar(selection) > 0) {
         prompt <- selection
       } else {
