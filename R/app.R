@@ -69,6 +69,12 @@ app_interactive <- function(as_job = FALSE) {
         ".shiny-tab-input {border-width: 0px;}"
       )
     ),
+    tags$head(
+      tags$script(
+      "Shiny.addCustomMessageHandler('refocus', function(NULL) {
+          document.getElementById('prompt').focus();
+        });"
+      )),
     fixedPanel(
       width = "100%",
       left = 0.1,
@@ -174,6 +180,8 @@ app_interactive <- function(as_job = FALSE) {
           inputId = "prompt",
           value = ""
         )
+
+        session$sendCustomMessage(type="refocus",message=list(NULL))
       }
     })
 
@@ -189,7 +197,7 @@ app_interactive <- function(as_job = FALSE) {
       }
     })
 
-    auto_invalidate <- reactiveTimer(200)
+    auto_invalidate <- reactiveTimer(100)
 
     observe({
       auto_invalidate()
@@ -211,7 +219,12 @@ app_interactive <- function(as_job = FALSE) {
     output$stream <- renderText({
       auto_invalidate()
       if (file_exists(r_file_stream)) {
-        try(markdown(readRDS(r_file_stream)), silent = TRUE)
+        current_stream <- r_file_stream %>%
+          readRDS() %>%
+          try(silent = TRUE)
+        if(!inherits(current_stream, "try-error")) {
+          markdown(current_stream)
+        }
       }
     })
 
