@@ -66,7 +66,9 @@ app_interactive <- function(as_job = FALSE) {
         ".form-control {", style$ui_text, "}",
         ".form-group {padding: 1px; margin: 1px;}",
         ".checkbox {font-size: 75%;}",
-        ".shiny-tab-input {border-width: 0px;}"
+        ".shiny-tab-input {border-width: 0px;}",
+        ".col-sm-11 {margin: 0px; padding: 10px;}",
+        ".col-sm-1 {margin: 0px; padding: 10px;}"
       )
     ),
     tags$head(
@@ -75,12 +77,26 @@ app_interactive <- function(as_job = FALSE) {
           document.getElementById('prompt').focus();
         });"
       )),
+    tags$head(
+      tags$script("
+      $(document).keyup(function(event) {
+         if ((event.keyCode == 27)) {
+          $('#close').click();
+      }});"
+    )),
+    actionButton(
+      inputId = "close",
+      label = NULL,
+      icon = icon("close"),
+      style = style$ui_submit
+    ),
     fixedPanel(
       width = "100%",
       left = 0.1,
+      top = 0,
       fluidRow(
         column(
-          width = 10,
+          width = 11,
           textAreaInput(
             inputId = "prompt",
             label = NULL,
@@ -89,10 +105,11 @@ app_interactive <- function(as_job = FALSE) {
           )
         ),
         column(
-          width = 2,
+          width = 1,
           actionButton(
             inputId = "submit",
-            label = "Submit",
+            label = NULL,
+            icon = icon("paper-plane"),
             style = style$ui_submit
           ),
           actionButton(
@@ -254,6 +271,10 @@ app_interactive <- function(as_job = FALSE) {
         removeModal()
       }
     })
+
+    observeEvent(input$close,{
+      stopApp()
+    })
   }
 
   list(ui = ui, server = server)
@@ -413,7 +434,7 @@ app_theme_style <- function() {
     "font-size: 80%",
     "margin-left: 3px",
     "margin-top: 1px",
-    "margin-right: 0px",
+    "margin-left: 15px",
     "padding: 10px"
   )
 
@@ -423,7 +444,8 @@ app_theme_style <- function() {
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
-    "margin-top: 20px",
+    "padding-left: 5px",
+    "margin-top: 5px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
