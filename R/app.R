@@ -65,25 +65,26 @@ app_interactive <- function(as_job = FALSE) {
       paste0(
         ".form-control {", style$ui_text, "}",
         ".form-group {padding: 1px; margin: 1px;}",
-        ".checkbox {font-size: 75%;}",
+        ".checkbox {font-size: 70%; padding: 1px}",
         ".shiny-tab-input {border-width: 0px;}",
-        ".col-sm-11 {margin: 0px; padding: 10px;}",
-        ".col-sm-1 {margin: 0px; padding: 10px;}"
+        ".col-sm-11 {margin: 0px; padding-left: 5px; padding-right: 5px;}",
+        ".col-sm-1 {margin: 0px; padding-left: 7px; padding-right: 0px;}"
       )
     ),
     tags$head(
       tags$script(
-      "Shiny.addCustomMessageHandler('refocus', function(NULL) {
+        "Shiny.addCustomMessageHandler('refocus', function(NULL) {
           document.getElementById('prompt').focus();
         });"
-      )),
+      )
+    ),
     tags$head(
       tags$script("
       $(document).keyup(function(event) {
          if ((event.keyCode == 27)) {
           $('#close').click();
-      }});"
-    )),
+      }});")
+    ),
     actionButton(
       inputId = "close",
       label = NULL,
@@ -103,13 +104,13 @@ app_interactive <- function(as_job = FALSE) {
             width = "100%",
             resize = "none"
           )
-        ),
+        ) %>%
+          tagAppendAttributes(style = "width: 85%;"),
         column(
           width = 1,
           actionButton(
             inputId = "submit",
-            label = NULL,
-            icon = icon("paper-plane"),
+            label = "Submit",
             style = style$ui_submit
           ),
           actionButton(
@@ -118,12 +119,13 @@ app_interactive <- function(as_job = FALSE) {
             icon = icon("gear"),
             style = style$ui_submit
           )
-        )
+        ) %>%
+          tagAppendAttributes(style = "width: 15%;"),
       ),
       style = style$ui_panel
     ),
     absolutePanel(
-      top = 60,
+      top = 50,
       left = "2%",
       width = "94%",
       tabsetPanel(
@@ -136,7 +138,7 @@ app_interactive <- function(as_job = FALSE) {
   server <- function(input, output, session) {
     r_file_stream <- tempfile()
     r_file_complete <- tempfile()
-    session$sendCustomMessage(type="refocus",message=list(NULL))
+    session$sendCustomMessage(type = "refocus", message = list(NULL))
     insertUI(
       selector = "#tabs",
       where = "beforeBegin",
@@ -159,7 +161,7 @@ app_interactive <- function(as_job = FALSE) {
           if (!as_job) actionButton("save", "Save chat", style = style$ui_paste),
           if (!as_job) actionButton("open", "Open chat", style = style$ui_paste),
           hr(),
-          textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
+          textAreaInput("prompt2", "Prompt", prompt2),
           br(),
           checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
           checkboxInput("i_files", "Include Data Files", tc$include_data_files),
@@ -198,7 +200,7 @@ app_interactive <- function(as_job = FALSE) {
           value = ""
         )
 
-        session$sendCustomMessage(type="refocus",message=list(NULL))
+        session$sendCustomMessage(type = "refocus", message = list(NULL))
       }
     })
 
@@ -239,7 +241,7 @@ app_interactive <- function(as_job = FALSE) {
         current_stream <- r_file_stream %>%
           readRDS() %>%
           try(silent = TRUE)
-        if(!inherits(current_stream, "try-error")) {
+        if (!inherits(current_stream, "try-error")) {
           markdown(current_stream)
         }
       }
@@ -272,7 +274,7 @@ app_interactive <- function(as_job = FALSE) {
       }
     })
 
-    observeEvent(input$close,{
+    observeEvent(input$close, {
       stopApp()
     })
   }
@@ -432,20 +434,17 @@ app_theme_style <- function() {
 
   ui_text <- c(
     "font-size: 80%",
-    "margin-left: 3px",
-    "margin-top: 1px",
-    "margin-left: 15px",
-    "padding: 10px"
+    "margin-left: 8px",
+    "padding: 5px"
   )
 
   ui_submit <- c(
-    "font-size: 70%",
+    "font-size: 55%",
     "padding-top: 3px",
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
     "padding-left: 5px",
-    "margin-top: 5px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
