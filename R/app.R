@@ -119,7 +119,7 @@ app_interactive <- function(as_job = FALSE) {
   server <- function(input, output, session) {
     r_file_stream <- tempfile()
     r_file_complete <- tempfile()
-
+    session$sendCustomMessage(type="refocus",message=list(NULL))
     insertUI(
       selector = "#tabs",
       where = "beforeBegin",
