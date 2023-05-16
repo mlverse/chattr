@@ -111,18 +111,16 @@ openai_stream_file <- function(endpoint,
             rawToChar(x),
             collapse = ""
           )
-          ret <- openai_stream_parse(
-            x = tc_env$stream$response,
-            endpoint = endpoint
-          )
-          saveRDS(ret, r_file_stream)
+          tc_env$stream$response %>%
+            openai_stream_parse(endpoint) %>%
+            saveRDS(r_file_stream)
           TRUE
         },
-        buffer_kb = 0.1
+        buffer_kb = 0.05
       )
     ret <- readRDS(r_file_stream)
-    file_delete(r_file_stream)
     saveRDS(ret, r_file_complete)
+    file_delete(r_file_stream)
   }
   ret
 }

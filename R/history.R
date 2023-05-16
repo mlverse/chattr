@@ -3,10 +3,10 @@
 #' override the current history.
 #' @export
 tc_history <- function(x = NULL) {
-  if(!is.null(x)) {
+  if (!is.null(x)) {
     tc_env$chat_history <- x
   }
-  if(!is.null(tc_env$chat_history)) {
+  if (!is.null(tc_env$chat_history)) {
     class(tc_env$chat_history) <- "tc_history"
   }
   tc_env$chat_history

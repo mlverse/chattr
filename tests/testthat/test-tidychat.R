@@ -3,6 +3,7 @@ test_that("Basic tidychat() tests", {
   expect_snapshot(tidychat("test", preview = TRUE))
   expect_snapshot(tidychat("test", preview = TRUE, prompt_build = FALSE))
   expect_snapshot(tidychat("test", preview = TRUE, stream = FALSE))
+  expect_snapshot(tidychat(preview = TRUE))
   tc_debug_set_true()
   expect_snapshot(tidychat("test", stream = FALSE))
 })

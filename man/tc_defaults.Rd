@@ -5,6 +5,7 @@
 \title{Default arguments to use when making requests to the LLM}
 \usage{
 tc_defaults(
+  type = NULL,
   prompt = NULL,
   include_data_files = NULL,
   include_data_frames = NULL,
@@ -15,11 +16,13 @@ tc_defaults(
   model_arguments = NULL,
   system_msg = NULL,
   yaml_file = "tidychat.yml",
-  type = NULL,
   force = FALSE
 )
 }
 \arguments{
+\item{type}{Entry point to interact with the model. Accepted values: 'notebook',
+'chat'}
+
 \item{prompt}{Request to send to LLM. Defaults to NULL}
 
 \item{include_data_files}{Send the list of data files found in the working
@@ -47,9 +50,6 @@ the request}
 
 \item{yaml_file}{The path to a valid \code{config} YAML file that contains the
 defaults to use in a session}
-
-\item{type}{Entry point to interact with the model. Accepted values: 'notebook',
-'chat'}
 
 \item{force}{Re-process the base and any work space level file defaults}
 }

@@ -21,12 +21,10 @@
       * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
       * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
       * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
-      * skimr and janitor can also be used if needed
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
-      * Expecting only code, avoid comments unless requested by user
-      role: user
-      content: test
+      * Avoid explanations unless requested by user, expecting code only
+      test
 
 ---
 
@@ -69,12 +67,38 @@
       * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
       * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
       * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
-      * skimr and janitor can also be used if needed
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
-      * Expecting only code, avoid comments unless requested by user
+      * Avoid explanations unless requested by user, expecting code only
+      test
+
+---
+
+    Code
+      tidychat(preview = TRUE)
+    Message <cliMessage>
+      
+      -- tidychat --------------------------------------------------------------------
+      
+      -- Preview for: Console 
+      * Provider: Open AI
+      * Model: GPT 3.5 Turbo
+      * temperature: 0.01
+      * max_tokens: 1000
+      * stream: TRUE
+      
+      -- Prompt: 
+      role: system
+      content: You are a helpful coding assistant
       role: user
-      content: test
+      content:
+      * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
+      * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
+      * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
+      * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
+      broom
+      * Avoid explanations unless requested by user, expecting code only
+      [Your future prompt goes here]
 
 ---
 
@@ -98,15 +122,7 @@
       [1] "user"
       
       $messages[[2]]$content
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* skimr and janitor can also be used if needed \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Expecting only code, avoid comments unless requested by user"
-      
-      
-      $messages[[3]]
-      $messages[[3]]$role
-      [1] "user"
-      
-      $messages[[3]]$content
-      [1] "test"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only\ntest"
       
       
       
@@ -148,10 +164,9 @@
       * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
       * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
       * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
-      * skimr and janitor can also be used if needed
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
-      * Expecting only code, avoid comments unless requested by user
+      * Avoid explanations unless requested by user, expecting code only
       * For any line that is not code, prefix it with a: #
       * test
 
@@ -164,7 +179,7 @@
       [1] "text-davinci-003"
       
       $prompt
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* skimr and janitor can also be used if needed \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Expecting only code, avoid comments unless requested by user \n* For any line that is not code, prefix it with a: #\n * test"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* For any line that is not code, prefix it with a: #\n * test"
       
       $temperature
       [1] 0.01
