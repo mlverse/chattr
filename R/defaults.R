@@ -46,7 +46,7 @@ tc_defaults <- function(type = NULL,
   }
 
   if (is.null(type)) {
-    if(!rlang::is_interactive()) {
+    if(!is_interactive()) {
       type <- "console"
     } else {
       type <- ui_current()

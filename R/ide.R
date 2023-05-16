@@ -2,8 +2,10 @@
 
 ide_current <- function() {
   ret <- ""
-  if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
-    ret <- "rstudio"
+  if(is_interactive()) {
+    if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
+      ret <- "rstudio"
+    }
   }
   ret
 }
@@ -132,7 +134,7 @@ ide_build_prompt <- function(prompt = NULL,
     err_flag <- TRUE
   }
 
-  if (err_flag) rlang::abort(err)
+  if (err_flag) abort(err)
 
   prompt
 }
