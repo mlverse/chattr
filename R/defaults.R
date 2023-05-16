@@ -41,12 +41,12 @@ tc_defaults <- function(type = NULL,
   function_args <- as.list(environment())
 
   sys_type <- Sys.getenv("TIDYCHAT_TYPE", NA)
-  if(!is.na(sys_type)) {
+  if (!is.na(sys_type)) {
     type <- sys_type
   }
 
   if (is.null(type)) {
-    if(!is_interactive()) {
+    if (!is_interactive()) {
       type <- "console"
     } else {
       type <- ui_current()
@@ -68,7 +68,7 @@ tc_defaults <- function(type = NULL,
         td <- td_defaults[[check_defaults[i]]]
         if (!is.null(td)) {
           if (length(td$prompt) > 0 & any(grepl("\n", td$prompt))) {
-              td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
+            td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
           tc_defaults_set(
             arguments = td,

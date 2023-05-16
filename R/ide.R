@@ -2,7 +2,7 @@
 
 ide_current <- function() {
   ret <- ""
-  if(is_interactive()) {
+  if (is_interactive()) {
     if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
       ret <- "rstudio"
     }
@@ -83,7 +83,7 @@ ide_comment_selection <- function() {
     doc_range <- document_range(
       document_position(start_row, 1),
       document_position(end_row, end_size + 1)
-     )
+    )
 
     first_letter <- substr(selected, 1, 1)
     commented <- first_letter == "#"
@@ -102,7 +102,6 @@ ide_comment_selection <- function() {
       location = doc_range,
       text = new_line
     )
-
   }
   prompt
 }
@@ -112,8 +111,7 @@ ide_comment_selection <- function() {
 ide_build_prompt <- function(prompt = NULL,
                              defaults = tc_defaults(),
                              preview = FALSE) {
-
-  if(preview & is.null(prompt)) {
+  if (preview & is.null(prompt)) {
     prompt <- "[Your future prompt goes here]"
   }
 

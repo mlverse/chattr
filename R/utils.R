@@ -83,8 +83,8 @@ package_file <- function(...) {
   } else {
     pkg_file <- system.file(default_file, package = "tidychat")
   }
-  if(!file_exists(pkg_file)) {
-    abort(paste0("'",default_file, "' not found"))
+  if (!file_exists(pkg_file)) {
+    abort(paste0("'", default_file, "' not found"))
   }
   pkg_file
 }

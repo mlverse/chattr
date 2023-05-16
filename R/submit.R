@@ -49,14 +49,14 @@ tc_submit_job <- function(prompt,
         defaults = do.call(
           what = tidychat::tc_defaults,
           args = defaults
-          ),
+        ),
         prompt = prompt,
         stream = stream,
         prompt_build = prompt_build,
         r_file_stream = r_file_stream,
         r_file_complete = r_file_complete
-        )
-      },
+      )
+    },
     args = list(
       prompt = prompt,
       r_file_stream = r_file_stream,
