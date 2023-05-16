@@ -7,7 +7,15 @@ tc_submit.tc_provider_open_ai <- function(defaults,
                                           r_file_stream = NULL,
                                           r_file_complete = NULL,
                                           ...) {
-  prompt <- ide_build_prompt(prompt, defaults)
+  if (ui_current_markdown()) {
+    return(invisible())
+  }
+
+  prompt <- ide_build_prompt(
+    prompt = prompt,
+    defaults = defaults,
+    preview = preview
+  )
 
   st <- stream %||% defaults$stream
 
@@ -65,8 +73,8 @@ openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
   ret <- c(
     system_msg,
     history,
-    list(list(role = "user", content = header)),
-    list(list(role = "user", content = prompt))
+    # list(list(role = "user", content = header)),
+    list(list(role = "user", content = paste0(header, "\n", prompt)))
   )
 
   ret
@@ -198,6 +206,5 @@ openai_switch <- function(prompt,
   if (!return_result) {
     ret <- NULL
   }
-
   ret
 }

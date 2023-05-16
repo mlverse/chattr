@@ -12,18 +12,14 @@ default:
     temperature: 0.01
     max_tokens: 1000
     stream: TRUE
-notebook:
-  prompt: |
-    For code output, use RMarkdown code chunks
-    Include alt text code chunk option for all plots
-    Include eval=FALSE for ALL code chunks
-    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
-
 chat:
   prompt: |
-    For code output, use RMarkdown code chunks
-    Include alt text code chunk option for all plots
     {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
-console:
+    For code output, use RMarkdown code chunks
+    Avoid all code chunk options
+script:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
+    Prefix ALL explanations with a pound sign
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code

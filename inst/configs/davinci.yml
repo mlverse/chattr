@@ -19,7 +19,6 @@ notebook:
 chat:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
-    For code output, use markdown code chunks
 console:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'tidychat'))}

@@ -1,5 +1,5 @@
-Name: Execute prompt
-Description: Sends the last line of your document, or the highlighted text to the LLM
+Name: Send prompt
+Description: Sends the highlighted text as the prompt to the LLM
 Binding: tidychat
 Interactive: true
 

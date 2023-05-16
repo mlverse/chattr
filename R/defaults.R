@@ -26,7 +26,8 @@
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
 #' @inheritParams tidychat
-tc_defaults <- function(prompt = NULL,
+tc_defaults <- function(type = NULL,
+                        prompt = NULL,
                         include_data_files = NULL,
                         include_data_frames = NULL,
                         include_doc_contents = NULL,
@@ -36,17 +37,16 @@ tc_defaults <- function(prompt = NULL,
                         model_arguments = NULL,
                         system_msg = NULL,
                         yaml_file = "tidychat.yml",
-                        type = NULL,
                         force = FALSE) {
   function_args <- as.list(environment())
 
   sys_type <- Sys.getenv("TIDYCHAT_TYPE", NA)
-  if(!is.na(sys_type)) {
+  if (!is.na(sys_type)) {
     type <- sys_type
   }
 
   if (is.null(type)) {
-    if(!rlang::is_interactive()) {
+    if (!is_interactive()) {
       type <- "console"
     } else {
       type <- ui_current()
@@ -67,11 +67,9 @@ tc_defaults <- function(prompt = NULL,
       for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]
         if (!is.null(td)) {
-          if (length(td$prompt) > 0) {
-            td$prompt <- strsplit(td$prompt, split = "\n")[[1]]
+          if (length(td$prompt) > 0 & any(grepl("\n", td$prompt))) {
+            td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
-          td$type <- NULL
-
           tc_defaults_set(
             arguments = td,
             type = type

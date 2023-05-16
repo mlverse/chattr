@@ -11,8 +11,7 @@
 tidychat_app <- function(viewer = c("viewer", "dialog"),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
-                         as_job_host = getOption("shiny.host", "127.0.0.1")
-                         ) {
+                         as_job_host = getOption("shiny.host", "127.0.0.1")) {
   td <- tc_defaults(type = "chat")
   cli_li("Provider: {td$provider}")
   cli_li("Model: {td$model}")
@@ -66,25 +65,49 @@ app_interactive <- function(as_job = FALSE) {
       paste0(
         ".form-control {", style$ui_text, "}",
         ".form-group {padding: 1px; margin: 1px;}",
-        ".checkbox {font-size: 75%;}",
-        ".shiny-tab-input {border-width: 0px;}"
-        )
+        ".checkbox {font-size: 70%; padding: 1px}",
+        ".shiny-tab-input {border-width: 0px;}",
+        ".col-sm-11 {margin: 0px; padding-left: 5px; padding-right: 5px;}",
+        ".col-sm-1 {margin: 0px; padding-left: 7px; padding-right: 0px;}"
+      )
+    ),
+    tags$head(
+      tags$script(
+        "Shiny.addCustomMessageHandler('refocus', function(NULL) {
+          document.getElementById('prompt').focus();
+        });"
+      )
+    ),
+    tags$head(
+      tags$script("
+      $(document).keyup(function(event) {
+         if ((event.keyCode == 27)) {
+          $('#close').click();
+      }});")
+    ),
+    actionButton(
+      inputId = "close",
+      label = NULL,
+      icon = icon("close"),
+      style = style$ui_submit
     ),
     fixedPanel(
       width = "100%",
       left = 0.1,
+      top = 0,
       fluidRow(
         column(
-          width = 10,
+          width = 11,
           textAreaInput(
             inputId = "prompt",
             label = NULL,
             width = "100%",
             resize = "none"
           )
-        ),
+        ) %>%
+          tagAppendAttributes(style = "width: 85%;"),
         column(
-          width = 2,
+          width = 1,
           actionButton(
             inputId = "submit",
             label = "Submit",
@@ -96,12 +119,13 @@ app_interactive <- function(as_job = FALSE) {
             icon = icon("gear"),
             style = style$ui_submit
           )
-        )
+        ) %>%
+          tagAppendAttributes(style = "width: 15%;"),
       ),
       style = style$ui_panel
     ),
     absolutePanel(
-      top = 60,
+      top = 50,
       left = "2%",
       width = "94%",
       tabsetPanel(
@@ -114,7 +138,7 @@ app_interactive <- function(as_job = FALSE) {
   server <- function(input, output, session) {
     r_file_stream <- tempfile()
     r_file_complete <- tempfile()
-
+    session$sendCustomMessage(type = "refocus", message = list(NULL))
     insertUI(
       selector = "#tabs",
       where = "beforeBegin",
@@ -134,14 +158,14 @@ app_interactive <- function(as_job = FALSE) {
       showModal(
         modalDialog(
           p("Save / Load Chat"),
-          if(!as_job) actionButton("save", "Save chat", style = style$ui_paste),
-          if(!as_job) actionButton("open", "Open chat", style = style$ui_paste),
+          if (!as_job) actionButton("save", "Save chat", style = style$ui_paste),
+          if (!as_job) actionButton("open", "Open chat", style = style$ui_paste),
           hr(),
-          textAreaInput("prompt2", "Prompt", prompt2, width = "90%"),
+          textAreaInput("prompt2", "Prompt", prompt2),
           br(),
           checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
           checkboxInput("i_files", "Include Data Files", tc$include_data_files),
-          checkboxInput("i_history", "Include History", tc$include_history),
+          checkboxInput("i_history", "Include Chat History", tc$include_history),
           actionButton("saved", "Save", style = style$ui_paste),
           easyClose = TRUE,
           footer = tagList()
@@ -162,7 +186,7 @@ app_interactive <- function(as_job = FALSE) {
         include_data_frames = input$i_data,
         include_history = input$i_history,
         prompt = input$prompt2
-        )
+      )
       removeModal()
     })
 
@@ -175,6 +199,8 @@ app_interactive <- function(as_job = FALSE) {
           inputId = "prompt",
           value = ""
         )
+
+        session$sendCustomMessage(type = "refocus", message = list(NULL))
       }
     })
 
@@ -190,7 +216,7 @@ app_interactive <- function(as_job = FALSE) {
       }
     })
 
-    auto_invalidate <- reactiveTimer(120)
+    auto_invalidate <- reactiveTimer(100)
 
     observe({
       auto_invalidate()
@@ -212,13 +238,18 @@ app_interactive <- function(as_job = FALSE) {
     output$stream <- renderText({
       auto_invalidate()
       if (file_exists(r_file_stream)) {
-        try(markdown(readRDS(r_file_stream)))
+        current_stream <- r_file_stream %>%
+          readRDS() %>%
+          try(silent = TRUE)
+        if (!inherits(current_stream, "try-error")) {
+          markdown(current_stream)
+        }
       }
     })
 
     observeEvent(input$open, {
       file <- try(file.choose(), silent = TRUE)
-      ext <-path_ext(file)
+      ext <- path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
         tc_history_set(rds)
@@ -241,6 +272,10 @@ app_interactive <- function(as_job = FALSE) {
         )
         removeModal()
       }
+    })
+
+    observeEvent(input$close, {
+      stopApp()
     })
   }
 
@@ -277,22 +312,28 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
   } else {
     split_content <- content
   }
-
   content_hist <- tc_env$content_hist
+  current_history <- NULL
+  current_code <- NULL
   for (i in seq_along(split_content)) {
-    curr_content <- split_content[length(split_content) - i + 1]
+    curr_content <- split_content[i]
     if ((i / 2) == floor(i / 2)) {
       curr_content <- paste0("```", curr_content, "\n```")
       curr_split <- strsplit(curr_content, "\n")
       content_hist <- c(content_hist, curr_content)
-      is_code <- TRUE
+      current_history <- c(current_history, curr_content)
+      current_code <- c(current_code, TRUE)
     } else {
-      is_code <- FALSE
+      current_history <- c(current_history, curr_content)
+      current_code <- c(current_code, FALSE)
     }
+  }
 
-    tabs_1 <- 10
-    tabs_2 <- 2
+  tabs_1 <- 10
+  tabs_2 <- 2
 
+  for (i in seq_along(current_history)) {
+    curr_content <- current_history[length(current_history) - i + 1]
     app_style <- app_theme_style()
     insertUI(
       selector = "#tabs",
@@ -303,7 +344,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
           column(width = tabs_1, div()),
           column(
             width = tabs_2,
-            if (is_code) {
+            if (current_code[i]) {
               tags$div(
                 style = "display:inline-block",
                 title = "Copy to clipboard",
@@ -315,7 +356,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
                 )
               )
             },
-            if (is_code & !as_job) {
+            if (current_code[i] & !as_job) {
               tags$div(
                 style = "display:inline-block",
                 title = "Send to document",
@@ -393,19 +434,17 @@ app_theme_style <- function() {
 
   ui_text <- c(
     "font-size: 80%",
-    "margin-left: 3px",
-    "margin-top: 1px",
-    "margin-right: 0px",
-    "padding: 10px"
+    "margin-left: 8px",
+    "padding: 5px"
   )
 
   ui_submit <- c(
-    "font-size: 70%",
+    "font-size: 55%",
     "padding-top: 3px",
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
-    "margin-top: 20px",
+    "padding-left: 5px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
