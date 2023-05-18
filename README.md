@@ -9,6 +9,8 @@ coverage](https://codecov.io/gh/edgararuiz/tidychat/branch/main/graph/badge.svg)
 status](https://www.r-pkg.org/badges/version/tidychat.png)](https://CRAN.R-project.org/package=tidychat)
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
+![](man/readme/tidychat.gif)
+
 <!-- badges: end -->
 <!-- toc: start -->
 
