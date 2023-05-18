@@ -68,6 +68,8 @@ app_interactive <- function(as_job = FALSE) {
         ".checkbox {font-size: 70%; padding: 1px}",
         ".shiny-tab-input {border-width: 0px;}",
         ".col-sm-11 {margin: 0px; padding-left: 5px; padding-right: 5px;}",
+        ".col-sm-10 {margin: 0px; padding-left: 0px; padding-right: 0px;}",
+        ".col-sm-2 {margin: 0px; padding-left: 0px; padding-right: 0px;}",
         ".col-sm-1 {margin: 0px; padding-left: 7px; padding-right: 0px;}"
       )
     ),
@@ -125,9 +127,9 @@ app_interactive <- function(as_job = FALSE) {
       style = style$ui_panel
     ),
     absolutePanel(
-      top = 50,
-      left = "2%",
-      width = "94%",
+      top = 52,
+      left = "1%",
+      width = "98%",
       tabsetPanel(
         type = "tabs",
         id = "tabs"
@@ -329,9 +331,6 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
     }
   }
 
-  tabs_1 <- 10
-  tabs_2 <- 2
-
   for (i in seq_along(current_history)) {
     curr_content <- current_history[length(current_history) - i + 1]
     app_style <- app_theme_style()
@@ -340,41 +339,51 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
       where = "afterEnd",
       ui = fluidRow(
         style = style,
-        fluidRow(
-          column(width = tabs_1, div()),
-          column(
-            width = tabs_2,
-            if (current_code[i]) {
-              tags$div(
-                style = "display:inline-block",
-                title = "Copy to clipboard",
-                actionButton(
-                  paste0("copy", length(content_hist)),
-                  icon = icon("clipboard"),
-                  label = "",
-                  style = app_style$ui_paste
+        column(
+          width = 12,
+          fluidRow(
+            align = "right",
+            column(width = 10, div()) %>%
+              tagAppendAttributes(style = "width: 80%;"),
+            column(
+              width = 2,
+              if (current_code[i]) {
+                tags$div(
+                  style = "display:inline-block",
+                  title = "Copy to clipboard",
+                  actionButton(
+                    paste0("copy", length(content_hist)),
+                    icon = icon("clipboard"),
+                    label = "",
+                    style = app_style$ui_paste
+                  )
                 )
-              )
-            },
-            if (current_code[i] & !as_job) {
-              tags$div(
-                style = "display:inline-block",
-                title = "Send to document",
-                actionButton(
-                  paste0("doc", length(content_hist)),
-                  icon = icon("file"),
-                  label = "",
-                  style = app_style$ui_paste
+              },
+              if (current_code[i] & !as_job) {
+                tags$div(
+                  style = "display:inline-block",
+                  title = "Send to document",
+                  actionButton(
+                    paste0("doc", length(content_hist)),
+                    icon = icon("file"),
+                    label = "",
+                    style = app_style$ui_paste
+                  )
                 )
-              )
-            },
-            style = "padding: 0px"
+              },
+              style = "padding: 0px"
+            ) %>%
+              tagAppendAttributes(style = "width: 20%;")
+          ),
+          fluidRow(
+            column(
+              width = 12,
+              markdown(curr_content)
+            )
           )
-        ),
-        fluidRow(
-          markdown(curr_content)
         )
-      )
+      ) %>%
+        tagAppendAttributes(style = "width: 100%;")
     )
   }
 
@@ -444,7 +453,6 @@ app_theme_style <- function() {
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
-    "padding-left: 5px",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk)
   )
@@ -459,29 +467,27 @@ app_theme_style <- function() {
     paste0("background-color:", color_bk)
   )
 
-  ui_style <- c(
-    "padding-top: 5px",
-    "padding-left: 5px",
-    "padding-right: 5px",
-    "font-size: 80%"
-  )
-
   ui_user <- c(
-    ui_style,
     "border-style: solid",
     "border-width: 1px",
     "margin-top: 10px",
     "margin-bottom: 10px",
     "margin-left: 50px",
-    "padding: 2px",
+    "margin-right: 0px",
+    "padding-top: 5px",
+    "padding-bottom: 2px",
+    "padding-left: 0px",
+    "padding-right: 0px",
+    "font-size: 80%",
     paste0("color:", color_bg),
     paste0("background-color:", color_bk),
     paste0("border-color:", color_top)
   )
 
   ui_assistant <- c(
-    ui_style,
-    "margin-left: 0px",
+    "margin: 0px",
+    "padding: 0px",
+    "font-size: 80%",
     paste0("color:", color_fg),
     paste0("background-color:", color_user),
     paste0("border-color:", color_bg)
