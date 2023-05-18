@@ -10,6 +10,18 @@ status](https://www.r-pkg.org/badges/version/tidychat.png)](https://CRAN.R-proje
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
 <!-- badges: end -->
+<!-- toc: start -->
+
+-   [Install](#install)
+-   [Getting Started](#getting-started)
+    -   [Secret key](#secret-key)
+    -   [Test connection](#test-connection)
+-   [Usage](#usage)
+-   [Appendix](#appendix)
+    -   [How to setup the keyboard
+        shortcut](#how-to-setup-the-keyboard-shortcut)
+
+<!-- toc: end -->
 
 ## Install
 
@@ -58,11 +70,9 @@ tidychat_test()
 ✔ Access to models confirmed
 ```
 
-### Usage
+## Usage
 
 ![](man/figures/readme/chat1.png)
-
-### Use with `tidychat_app()`
 
 ``` r
 tidychat::tidychat_app()
@@ -81,13 +91,16 @@ tidychat::tidychat_app()
 
 -   Select *Tools* in the top menu, and then select *Modify Keyboard
     Shortcuts*
+
     <img src="man/figures/readme/keyboard-shortcuts.png" width="800" />
 
 -   Search for the `tidychat` adding by writing “open chat”, in the
-    search box  
+    search box
+
     <img src="man/figures/readme/addin-find.png" width="500" />
 
 -   To select a key combination for your shortcut, click on the Shortcut
     box and then type *press* the key combination in your keyboard. In
     my case, I chose *Ctrl+Shift+C*
+
     <img src="man/figures/readme/addin-assign.png" width="600" />
