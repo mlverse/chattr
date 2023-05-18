@@ -17,6 +17,8 @@ status](https://www.r-pkg.org/badges/version/tidychat.png)](https://CRAN.R-proje
     -   [Secret key](#secret-key)
     -   [Test connection](#test-connection)
 -   [Usage](#usage)
+    -   [The App](#the-app)
+    -   [Keyboard Shortcut](#keyboard-shortcut)
 -   [Appendix](#appendix)
     -   [How to setup the keyboard
         shortcut](#how-to-setup-the-keyboard-shortcut)
@@ -64,6 +66,9 @@ home directory. Here is an example of the entry:
 
 ### Test connection
 
+Use the `tidychat_test()` function to confirm that your connection
+works:
+
 ``` r
 tidychat_test()
 ✔ Connection with OpenAI cofirmed
@@ -72,18 +77,37 @@ tidychat_test()
 
 ## Usage
 
-![](man/figures/readme/chat1.png)
+### The App
+
+The main way to use `tidychat` is through the Shiny Gadget app. By
+default, it runs inside the Viewer pane. The fastest way to activate the
+app is by calling it via the provided function:
 
 ``` r
 tidychat::tidychat_app()
 ```
 
-    Show in New Window
-    • Provider: Open AI
-    • Model: GPT 3.5 Turbo
-    Loading required package: shiny
+![](man/figures/readme/chat1.png)
 
-    Listening on http://127.0.0.1:5253
+A lot of effort was put in to make the app’s appearance as close as
+possible to the IDE. This way it feels more integrated with your work
+space. This includes switching the color scheme based on the current
+RStudio theme being light, or dark.
+
+Automatically, the app will automatically add buttons to each code
+section. The buttons lets us copy the code to the clipboard, or to send
+it to the document. If you [“call”](#keyboard-shortcut) the app from a
+Quarto document, the app will envelop the code inside a chunk.
+
+### Keyboard Shortcut
+
+The best way to access `tidychat`’s app is by setting up a keyboard
+shortcut for it. This package includes an RStudio Addin that gives us
+direct access to the app, which in turn, allows a **keyboard shortcut**
+to be assigned to the addin. The name of the addin is: “Open Chat”. If
+you are not familiar with how to assign a keyboard shortcut to the
+adding see the Appendix section: [How to setup the keyboard
+shortcut](#how-to-setup-the-keyboard-shortcut).
 
 ## Appendix
 

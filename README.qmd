@@ -19,13 +19,16 @@ toc()
 ```
 
 <!-- toc: start -->
-- [Install](#install)
-- [Getting Started](#getting-started)
-    - [Secret key](#secret-key)
-    - [Test connection](#test-connection)
-- [Usage](#usage)
-- [Appendix](#appendix)
-    - [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
+
+-   [Install](#install)
+-   [Getting Started](#getting-started)
+    -   [Secret key](#secret-key)
+    -   [Test connection](#test-connection)
+-   [Usage](#usage)
+    -   [The App](#the-app)
+    -   [Keyboard Shortcut](#keyboard-shortcut)
+-   [Appendix](#appendix)
+    -   [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
 
 <!-- toc: end -->
 
@@ -40,7 +43,7 @@ remotes::install_github("edgararuiz/tidychat")
 
 ## Getting Started {#getting-started}
 
-### Secret key
+### Secret key {#secret-key}
 
 OpenAI requires a **secret key** to authenticate your user. It is required for any application non-OpenAI application, such as `tidychat`, to have one in order to function. A key is a long alphanumeric sequence. The sequence is created in the OpenAI portal. To obtain your **secret key**, follow this link: [OpenAI API Keys](https://platform.openai.com/account/api-keys)
 
@@ -56,7 +59,9 @@ A preferred method is to save the secret key to the `.Renviron` file. This way, 
 
     OPENAI_API_KEY=####################
 
-### Test connection
+### Test connection {#test-connection}
+
+Use the `tidychat_test()` function to confirm that your connection works:
 
 ``` r
 tidychat_test()
@@ -64,27 +69,32 @@ tidychat_test()
 ✔ Access to models confirmed
 ```
 
-## Usage
+## Usage {#usage}
 
-![](man/figures/readme/chat1.png)
+### The App {#the-app}
+
+The main way to use `tidychat` is through the Shiny Gadget app. By default, it runs inside the Viewer pane. The fastest way to activate the app is by calling it via the provided function:
 
 ```{r}
 #| eval: false
 tidychat::tidychat_app()
 ```
 
-    Show in New Window
-    • Provider: Open AI
-    • Model: GPT 3.5 Turbo
-    Loading required package: shiny
+![](man/figures/readme/chat1.png)
 
-    Listening on http://127.0.0.1:5253
+A lot of effort was put in to make the app's appearance as close as possible to the IDE. This way it feels more integrated with your work space. This includes switching the color scheme based on the current RStudio theme being light, or dark.
+
+Automatically, the app will automatically add buttons to each code section. The buttons lets us copy the code to the clipboard, or to send it to the document. If you ["call"](#keyboard-shortcut) the app from a Quarto document, the app will envelop the code inside a chunk.
+
+### Keyboard Shortcut {#keyboard-shortcut}
+
+The best way to access `tidychat`'s app is by setting up a keyboard shortcut for it. This package includes an RStudio Addin that gives us direct access to the app, which in turn, allows a **keyboard shortcut** to be assigned to the addin. The name of the addin is: "Open Chat". If you are not familiar with how to assign a keyboard shortcut to the adding see the Appendix section: [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut).
 
 ## Appendix {#appendix}
 
 ### How to setup the keyboard shortcut {#how-to-setup-the-keyboard-shortcut}
 
--   Select *Tools* in the top menu, and then select *Modify Keyboard Shortcuts* 
+-   Select *Tools* in the top menu, and then select *Modify Keyboard Shortcuts*
 
     ![](man/figures/readme/keyboard-shortcuts.png){width="800"}
 
@@ -92,8 +102,6 @@ tidychat::tidychat_app()
 
     ![](man/figures/readme/addin-find.png){width="500"}
 
--   To select a key combination for your shortcut, click on the Shortcut box 
-    and then type *press* the key combination in your keyboard. In my case,
-    I chose *Ctrl+Shift+C* 
-    
+-   To select a key combination for your shortcut, click on the Shortcut box and then type *press* the key combination in your keyboard. In my case, I chose *Ctrl+Shift+C*
+
     ![](man/figures/readme/addin-assign.png){width="600"}
