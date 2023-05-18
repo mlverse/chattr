@@ -16,7 +16,7 @@ status](https://www.r-pkg.org/badges/version/tidychat.png)](https://CRAN.R-proje
 -   [Getting Started](#getting-started)
     -   [Secret key](#secret-key)
     -   [Test connection](#test-connection)
--   [Usage](#usage)
+-   [Using](#using)
     -   [The App](#the-app)
     -   [Keyboard Shortcut](#keyboard-shortcut)
 -   [Appendix](#appendix)
@@ -75,7 +75,7 @@ tidychat_test()
 ✔ Access to models confirmed
 ```
 
-## Usage
+## Using
 
 ### The App
 
