@@ -1,42 +1,49 @@
-# Functions that retrieve the current values of the environment and document
-# being worked on
-
-context_data_files <- function() {
+context_data_files <- function(
+    file_types = c("csv", "parquet", "xls", "xlsx", "txt")
+    ) {
   all_files <- dir_ls(recurse = TRUE)
-  csv <- all_files[grepl(".csv", all_files)]
-  parquet <- all_files[grepl(".parquet", all_files)]
-  files <- c(csv, parquet)
-  ret <- NULL
-  if (length(files)) {
-    ret <- paste(
+
+  files <- file_types %>%
+    map(~ {
+      all_files[path_ext(all_files) == .x]
+    }) %>%
+    reduce(c)
+
+  if (length(files) > 0) {
+    ret <- paste0(
       "Data files available: \n",
       paste("|-", files, collapse = "\n")
     )
+  } else {
+    ret <- NULL
   }
+
   ret
 }
 
 context_data_frames <- function() {
-  env_vars <- map(ls(envir = .GlobalEnv), ~ mget(.x, .GlobalEnv))
 
-  env_dfs <- map_lgl(env_vars, ~ any(class(.x[[1]]) == "data.frame"))
+  dfs <- ls(envir = .GlobalEnv) %>%
+    map(~ mget(.x, .GlobalEnv)) %>%
+    keep(~ inherits(.x[[1]], "data.frame"))
 
-  dfs <- env_vars[env_dfs]
-
-  ret <- NULL
-  if (length(dfs)) {
-    ret <- dfs %>%
+  if (length(dfs) > 0) {
+    data_frames <- dfs %>%
       map(~ {
         fields <- .x[[1]] %>%
-          imap(~ paste0(.y))
-
-        fields <- paste0(fields, collapse = ", ")
+          imap(~ paste0(.y)) %>%
+          paste0(collapse = ", ")
 
         paste0("|--  ", names(.x), " (", fields, ")")
       }) %>%
       paste0(collapse = " \n")
 
-    ret <- paste0("Data frames currently in R memory (and columns): \n", ret)
+    ret <- paste0(
+      "Data frames currently in R memory (and columns): \n",
+      data_frames
+      )
+  } else {
+    ret <- NULL
   }
 
   ret

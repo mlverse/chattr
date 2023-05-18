@@ -3,7 +3,7 @@ openai_token <- function() {
 
   ret <- NULL
   if (!is.na(env_key)) ret <- env_key
-  if (is.null(ret)) ret <- config::get("open-ai-api-key")
+  if (is.null(ret)) ret <- config::get("openai-api-key")
 
   if (is.null(ret)) {
     stop("No token found

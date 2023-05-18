@@ -5,3 +5,4 @@
 ^LICENSE\.md$
 ^\.github$
 ^codecov\.yml$
+^utils
