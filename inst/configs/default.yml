@@ -1,6 +1,6 @@
 default:
   prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: Open AI
   model: GPT 3.5 Turbo
   include_data_files: TRUE
@@ -14,12 +14,12 @@ default:
     stream: TRUE
 chat:
   prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     For code output, use RMarkdown code chunks
     Avoid all code chunk options
 script:
   prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'tidychat'))}
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     Prefix ALL explanations with a pound sign
     Keep each line of explanations to no more than 80 characters
     DO NOT use Markdown for the code

@@ -1,15 +1,15 @@
-# tidychat
+# chattr
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/edgararuiz/tidychat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edgararuiz/tidychat/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/edgararuiz/tidychat/branch/main/graph/badge.svg)](https://app.codecov.io/gh/edgararuiz/tidychat?branch=main)
+coverage](https://codecov.io/gh/edgararuiz/chattr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/edgararuiz/chattr?branch=main)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/tidychat.png)](https://CRAN.R-project.org/package=tidychat)
+status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project.org/package=chattr)
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
-![](man/readme/tidychat.gif)
+![](man/readme/chattr.gif)
 
 <!-- badges: end -->
 <!-- toc: start -->
@@ -33,7 +33,7 @@ Since this is a very early version of the package, you can either clone
 the repo, or install the package from GH:
 
 ``` r
-remotes::install_github("edgararuiz/tidychat")
+remotes::install_github("edgararuiz/chattr")
 ```
 
 ## Getting Started
@@ -41,13 +41,13 @@ remotes::install_github("edgararuiz/tidychat")
 ### Secret key
 
 OpenAI requires a **secret key** to authenticate your user. It is
-required for any application non-OpenAI application, such as `tidychat`,
+required for any application non-OpenAI application, such as `chattr`,
 to have one in order to function. A key is a long alphanumeric sequence.
 The sequence is created in the OpenAI portal. To obtain your **secret
 key**, follow this link: [OpenAI API
 Keys](https://platform.openai.com/account/api-keys)
 
-By default, `tidychat` will look for the **secret key** inside the a
+By default, `chattr` will look for the **secret key** inside the a
 Environment Variable called `OPENAI_API_KEY`. Other packages that
 integrate with OpenAI use the same variable name.
 
@@ -68,11 +68,10 @@ home directory. Here is an example of the entry:
 
 ### Test connection
 
-Use the `tidychat_test()` function to confirm that your connection
-works:
+Use the `chattr_test()` function to confirm that your connection works:
 
 ``` r
-tidychat_test()
+chattr_test()
 ✔ Connection with OpenAI cofirmed
 ✔ Access to models confirmed
 ```
@@ -81,12 +80,12 @@ tidychat_test()
 
 ### The App
 
-The main way to use `tidychat` is through the Shiny Gadget app. By
+The main way to use `chattr` is through the Shiny Gadget app. By
 default, it runs inside the Viewer pane. The fastest way to activate the
 app is by calling it via the provided function:
 
 ``` r
-tidychat::tidychat_app()
+chattr::chattr_app()
 ```
 
 ![](man/figures/readme/chat1.png)
@@ -103,7 +102,7 @@ Quarto document, the app will envelop the code inside a chunk.
 
 ### Keyboard Shortcut
 
-The best way to access `tidychat`’s app is by setting up a keyboard
+The best way to access `chattr`’s app is by setting up a keyboard
 shortcut for it. This package includes an RStudio Addin that gives us
 direct access to the app, which in turn, allows a **keyboard shortcut**
 to be assigned to the addin. The name of the addin is: “Open Chat”. If
@@ -120,8 +119,8 @@ shortcut](#how-to-setup-the-keyboard-shortcut).
 
     <img src="man/figures/readme/keyboard-shortcuts.png" width="800" />
 
--   Search for the `tidychat` adding by writing “open chat”, in the
-    search box
+-   Search for the `chattr` adding by writing “open chat”, in the search
+    box
 
     <img src="man/figures/readme/addin-find.png" width="500" />
 

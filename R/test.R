@@ -1,18 +1,18 @@
 #' Confirms connectivity with model
 #' @export
-tidychat_test <- function() {
-  tc_test(defaults = tc_defaults())
+chattr_test <- function() {
+  ch_test(defaults = ch_defaults())
 }
 
 #' Confirms connectivity with model
-#' @inheritParams tc_submit
+#' @inheritParams ch_submit
 #' @export
-tc_test <- function(defaults = tc_defaults()) {
-  UseMethod("tc_test")
+ch_test <- function(defaults = ch_defaults()) {
+  UseMethod("ch_test")
 }
 
 #' @export
-tc_test.tc_provider_open_ai <- function(defaults = tc_defaults()) {
+ch_test.ch_provider_open_ai <- function(defaults = ch_defaults()) {
   req <- request("https://api.openai.com/v1/models") %>%
     req_auth_bearer_token(openai_token()) %>%
     req_perform()

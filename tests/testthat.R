@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(tidychat)
+library(chattr)
 
-test_check("tidychat")
+test_check("chattr")

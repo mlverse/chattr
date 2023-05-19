@@ -1,5 +1,5 @@
 #' Method to easily integrate to new LLM's
-#' @param defaults Defaults object, generally puled from `tc_defaults()`
+#' @param defaults Defaults object, generally puled from `ch_defaults()`
 #' @param prompt The prompt to send to the LLM
 #' @param stream To output the response from the LLM as it happens, or wait until
 #' the response is complete. Defaults to TRUE.
@@ -15,7 +15,7 @@
 #' @param ... Optional arguments; currently unused.
 #' @keywords internal
 #' @export
-tc_submit <- function(defaults,
+ch_submit <- function(defaults,
                       prompt = NULL,
                       stream = NULL,
                       prompt_build = TRUE,
@@ -23,17 +23,17 @@ tc_submit <- function(defaults,
                       r_file_stream = NULL,
                       r_file_complete = NULL,
                       ...) {
-  UseMethod("tc_submit")
+  UseMethod("ch_submit")
 }
 
 #' @export
-#' @rdname tc_submit
-tc_submit_job <- function(prompt,
+#' @rdname ch_submit
+ch_submit_job <- function(prompt,
                           stream = NULL,
                           prompt_build = TRUE,
                           r_file_stream = tempfile(),
                           r_file_complete = tempfile(),
-                          defaults = tc_defaults(type = "chat")) {
+                          defaults = ch_defaults(type = "chat")) {
   defaults$prompt <- process_prompt(defaults$prompt)
   rs <- r_session_start()
   rs$call(
@@ -43,11 +43,11 @@ tc_submit_job <- function(prompt,
              r_file_complete,
              prompt_build,
              defaults,
-             tc_history) {
-      tidychat::tc_history(tc_history)
-      tidychat::tc_submit(
+             ch_history) {
+      chattr::ch_history(ch_history)
+      chattr::ch_submit(
         defaults = do.call(
-          what = tidychat::tc_defaults,
+          what = chattr::ch_defaults,
           args = defaults
         ),
         prompt = prompt,
@@ -64,22 +64,22 @@ tc_submit_job <- function(prompt,
       prompt_build = prompt_build,
       defaults = defaults,
       stream = stream,
-      tc_history = tc_history()
+      ch_history = ch_history()
     )
   )
 }
 
 #' @export
-#' @rdname tc_submit
-tc_submit_job_stop <- function() {
-  tc_env$r_session$close()
+#' @rdname ch_submit
+ch_submit_job_stop <- function() {
+  ch_env$r_session$close()
 }
 
 r_session_start <- function() {
-  tc_env$r_session <- r_session$new()
-  tc_env$r_session
+  ch_env$r_session <- r_session$new()
+  ch_env$r_session
 }
 
 r_session_get <- function() {
-  tc_env$r_session
+  ch_env$r_session
 }
