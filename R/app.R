@@ -52,6 +52,7 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
 
 app_interactive <- function(as_job = FALSE) {
   tc_env$content_hist <- NULL
+  tc_env$current_stream <- NULL
   style <- app_theme_style()
 
   ui <- fluidPage(
@@ -234,6 +235,7 @@ app_interactive <- function(as_job = FALSE) {
           assistant = out
         )
         file_delete(r_file_complete)
+        tc_env$current_stream <- NULL
       }
     })
 
@@ -244,8 +246,9 @@ app_interactive <- function(as_job = FALSE) {
           readRDS() %>%
           try(silent = TRUE)
         if (!inherits(current_stream, "try-error")) {
-          markdown(current_stream)
+          tc_env$current_stream <- current_stream
         }
+        markdown(tc_env$current_stream)
       }
     })
 
