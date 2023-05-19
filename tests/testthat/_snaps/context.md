@@ -11,8 +11,8 @@
       .
     Output
       Data files available: 
+      |- test-chattr.R
       |- test-context.R
       |- test-defaults.R
       |- test-ide.R
-      |- test-chattr.R
 

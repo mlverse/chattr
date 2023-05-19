@@ -4,7 +4,7 @@
       chattr("test", preview = TRUE)
     Message <cliMessage>
       
-      -- chattr --------------------------------------------------------------------
+      -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -32,7 +32,7 @@
       chattr("test", preview = TRUE, prompt_build = FALSE)
     Message <cliMessage>
       
-      -- chattr --------------------------------------------------------------------
+      -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -50,7 +50,7 @@
       chattr("test", preview = TRUE, stream = FALSE)
     Message <cliMessage>
       
-      -- chattr --------------------------------------------------------------------
+      -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -78,7 +78,7 @@
       chattr(preview = TRUE)
     Message <cliMessage>
       
-      -- chattr --------------------------------------------------------------------
+      -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -150,7 +150,7 @@
       chattr("test", preview = TRUE)
     Message <cliMessage>
       
-      -- chattr --------------------------------------------------------------------
+      -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
