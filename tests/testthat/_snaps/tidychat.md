@@ -1,10 +1,10 @@
-# Basic tidychat() tests
+# Basic chattr() tests
 
     Code
-      tidychat("test", preview = TRUE)
+      chattr("test", preview = TRUE)
     Message <cliMessage>
       
-      -- tidychat --------------------------------------------------------------------
+      -- chattr --------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -29,10 +29,10 @@
 ---
 
     Code
-      tidychat("test", preview = TRUE, prompt_build = FALSE)
+      chattr("test", preview = TRUE, prompt_build = FALSE)
     Message <cliMessage>
       
-      -- tidychat --------------------------------------------------------------------
+      -- chattr --------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -47,10 +47,10 @@
 ---
 
     Code
-      tidychat("test", preview = TRUE, stream = FALSE)
+      chattr("test", preview = TRUE, stream = FALSE)
     Message <cliMessage>
       
-      -- tidychat --------------------------------------------------------------------
+      -- chattr --------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -75,10 +75,10 @@
 ---
 
     Code
-      tidychat(preview = TRUE)
+      chattr(preview = TRUE)
     Message <cliMessage>
       
-      -- tidychat --------------------------------------------------------------------
+      -- chattr --------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -103,7 +103,7 @@
 ---
 
     Code
-      tidychat("test", stream = FALSE)
+      chattr("test", stream = FALSE)
     Output
       $model
       [1] "gpt-3.5-turbo"
@@ -139,7 +139,7 @@
 # Using DaVinci
 
     Code
-      tc_use_openai_davinci()
+      ch_use_openai_davinci()
     Message <cliMessage>
       * Provider: Open AI
       * Model: DaVinci 3
@@ -147,10 +147,10 @@
 ---
 
     Code
-      tidychat("test", preview = TRUE)
+      chattr("test", preview = TRUE)
     Message <cliMessage>
       
-      -- tidychat --------------------------------------------------------------------
+      -- chattr --------------------------------------------------------------------
       
       -- Preview for: Console 
       * Provider: Open AI
@@ -173,7 +173,7 @@
 ---
 
     Code
-      tidychat("test", stream = FALSE)
+      chattr("test", stream = FALSE)
     Output
       $model
       [1] "text-davinci-003"

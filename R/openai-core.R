@@ -24,7 +24,7 @@ openai_request <- function(endpoint, req_body) {
 
 openai_perform <- function(endpoint, req_body) {
   ret <- NULL
-  if (tc_debug_get()) {
+  if (ch_debug_get()) {
     ret <- req_body
   } else {
     ret <- openai_request(endpoint, req_body) %>%
@@ -35,39 +35,39 @@ openai_perform <- function(endpoint, req_body) {
 }
 
 openai_stream_ide <- function(endpoint, req_body) {
-  tc_env$stream <- list()
-  tc_env$stream$raw <- NULL
-  tc_env$stream$response <- NULL
+  ch_env$stream <- list()
+  ch_env$stream$raw <- NULL
+  ch_env$stream$response <- NULL
 
   ret <- NULL
-  if (tc_debug_get()) {
+  if (ch_debug_get()) {
     ret <- req_body
   } else {
     if (!ui_current_console()) ide_paste_text("\n\n")
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          tc_env$stream$raw <- paste0(
-            tc_env$stream$raw,
+          ch_env$stream$raw <- paste0(
+            ch_env$stream$raw,
             rawToChar(x),
             collapse = ""
           )
           current <- openai_stream_parse(
-            x = tc_env$stream$raw,
+            x = ch_env$stream$raw,
             endpoint = endpoint
           )
           if (!is.null(current)) {
-            if (is.null(tc_env$stream$response)) {
+            if (is.null(ch_env$stream$response)) {
               if (ui_current_console()) {
                 cat(current)
               } else {
                 ide_paste_text(current)
               }
             } else {
-              if (nchar(current) != nchar(tc_env$stream$response)) {
+              if (nchar(current) != nchar(ch_env$stream$response)) {
                 delta <- substr(
                   current,
-                  nchar(tc_env$stream$response) + 1,
+                  nchar(ch_env$stream$response) + 1,
                   nchar(current)
                 )
                 if (ui_current_console()) {
@@ -80,13 +80,13 @@ openai_stream_ide <- function(endpoint, req_body) {
               }
             }
           }
-          tc_env$stream$response <- current
+          ch_env$stream$response <- current
           TRUE
         },
         buffer_kb = 0.1
       )
     if (!ui_current_console()) ide_paste_text("\n\n")
-    ret <- tc_env$stream$response
+    ret <- ch_env$stream$response
   }
   ret
 }
@@ -95,23 +95,23 @@ openai_stream_file <- function(endpoint,
                                req_body,
                                r_file_stream,
                                r_file_complete) {
-  tc_env$stream <- list()
-  tc_env$stream$response <- NULL
+  ch_env$stream <- list()
+  ch_env$stream$response <- NULL
   ret <- NULL
-  if (tc_debug_get()) {
+  if (ch_debug_get()) {
     ret <- req_body
   } else {
-    tc_env$stream$response <- NULL
+    ch_env$stream$response <- NULL
 
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          tc_env$stream$response <- paste0(
-            tc_env$stream$response,
+          ch_env$stream$response <- paste0(
+            ch_env$stream$response,
             rawToChar(x),
             collapse = ""
           )
-          tc_env$stream$response %>%
+          ch_env$stream$response %>%
             openai_stream_parse(endpoint) %>%
             saveRDS(r_file_stream)
           TRUE

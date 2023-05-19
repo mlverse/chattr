@@ -8,17 +8,17 @@
 #' @param as_job_host Host IP to use for the Shiny app. Applicable only if `as_job`
 #' is set to TRUE.
 #' @export
-tidychat_app <- function(viewer = c("viewer", "dialog"),
+chattr_app <- function(viewer = c("viewer", "dialog"),
                          as_job = FALSE,
                          as_job_port = getOption("shiny.port", 7788),
                          as_job_host = getOption("shiny.host", "127.0.0.1")) {
-  td <- tc_defaults(type = "chat")
+  td <- ch_defaults(type = "chat")
   cli_li("Provider: {td$provider}")
   cli_li("Model: {td$model}")
 
   if (viewer[1] == "dialog") {
     viewer <- dialogViewer(
-      dialogName = glue("tidychat - {td$provider} - {td$model}"),
+      dialogName = glue("chattr - {td$provider} - {td$model}"),
       width = 800
     )
   } else {
@@ -32,7 +32,7 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
     run_file <- tempfile()
     writeLines(
       c(
-        "app <- tidychat:::app_interactive(as_job = TRUE)\n",
+        "app <- chattr:::app_interactive(as_job = TRUE)\n",
         "rp <- list(ui = app$ui, server = app$server)\n",
         paste0(
           "shiny::runApp(rp, host = '",
@@ -51,8 +51,8 @@ tidychat_app <- function(viewer = c("viewer", "dialog"),
 }
 
 app_interactive <- function(as_job = FALSE) {
-  tc_env$content_hist <- NULL
-  tc_env$current_stream <- NULL
+  ch_env$content_hist <- NULL
+  ch_env$current_stream <- NULL
   style <- app_theme_style()
 
   ui <- fluidPage(
@@ -152,7 +152,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$options, {
-      tc <- tc_defaults(type = "chat")
+      tc <- ch_defaults(type = "chat")
 
       prompt2 <- tc$prompt %>%
         process_prompt() %>%
@@ -183,7 +183,7 @@ app_interactive <- function(as_job = FALSE) {
     )
 
     observeEvent(input$saved, {
-      tc_defaults(
+      ch_defaults(
         type = "chat",
         include_data_files = input$i_files,
         include_data_frames = input$i_data,
@@ -195,7 +195,7 @@ app_interactive <- function(as_job = FALSE) {
 
     observeEvent(input$submit, {
       if (input$prompt != "") {
-        tc_history_append(user = input$prompt)
+        ch_history_append(user = input$prompt)
         app_add_user(input$prompt, style$ui_user)
 
         updateTextAreaInput(
@@ -209,9 +209,9 @@ app_interactive <- function(as_job = FALSE) {
 
     observeEvent(input$submit, {
       if (input$prompt != "") {
-        tc_submit_job(
+        ch_submit_job(
           prompt = input$prompt,
-          defaults = tc_defaults(type = "chat"),
+          defaults = ch_defaults(type = "chat"),
           prompt_build = TRUE,
           r_file_complete = r_file_complete,
           r_file_stream = r_file_stream
@@ -231,11 +231,11 @@ app_interactive <- function(as_job = FALSE) {
           input = input,
           as_job = as_job
         )
-        tc_history_append(
+        ch_history_append(
           assistant = out
         )
         file_delete(r_file_complete)
-        tc_env$current_stream <- NULL
+        ch_env$current_stream <- NULL
       }
     })
 
@@ -246,9 +246,9 @@ app_interactive <- function(as_job = FALSE) {
           readRDS() %>%
           try(silent = TRUE)
         if (!inherits(current_stream, "try-error")) {
-          tc_env$current_stream <- current_stream
+          ch_env$current_stream <- current_stream
         }
-        markdown(tc_env$current_stream)
+        markdown(ch_env$current_stream)
       }
     })
 
@@ -257,7 +257,7 @@ app_interactive <- function(as_job = FALSE) {
       ext <- path_ext(file)
       if (ext == "rds") {
         rds <- readRDS(file)
-        tc_history_set(rds)
+        ch_history_set(rds)
         app_add_history(
           style = style,
           input = input,
@@ -272,7 +272,7 @@ app_interactive <- function(as_job = FALSE) {
       ext <- path_ext(file)
       if (ext == "rds") {
         saveRDS(
-          tc_history(),
+          ch_history(),
           file
         )
         removeModal()
@@ -288,7 +288,7 @@ app_interactive <- function(as_job = FALSE) {
 }
 
 app_add_history <- function(style, input, as_job) {
-  th <- tc_history()
+  th <- ch_history()
   for (i in seq_along(th)) {
     curr <- th[[i]]
     if (curr$role == "user") {
@@ -317,7 +317,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
   } else {
     split_content <- content
   }
-  content_hist <- tc_env$content_hist
+  content_hist <- ch_env$content_hist
   current_history <- NULL
   current_code <- NULL
   for (i in seq_along(split_content)) {
@@ -410,7 +410,7 @@ app_add_assistant <- function(content, style, input, as_job = FALSE) {
     }
   )
 
-  tc_env$content_hist <- content_hist
+  ch_env$content_hist <- content_hist
 }
 
 app_theme_style <- function() {

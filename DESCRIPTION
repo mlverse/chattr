@@ -1,4 +1,4 @@
-Package: tidychat
+Package: chattr
 Title: Integrates LLM's with the RStudio IDE
 Version: 0.0.0.9000
 Authors@R: 

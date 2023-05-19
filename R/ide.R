@@ -109,7 +109,7 @@ ide_comment_selection <- function() {
 # ------------------------------ Utils -----------------------------------------
 
 ide_build_prompt <- function(prompt = NULL,
-                             defaults = tc_defaults(),
+                             defaults = ch_defaults(),
                              preview = FALSE) {
   if (preview & is.null(prompt)) {
     prompt <- "[Your future prompt goes here]"

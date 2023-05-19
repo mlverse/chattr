@@ -1,30 +1,30 @@
 # --------------------------------- Debug --------------------------------------
 
-tc_debug_set_true <- function() {
-  tc_env$debug <- TRUE
+ch_debug_set_true <- function() {
+  ch_env$debug <- TRUE
 }
 
-tc_debug_set_false <- function() {
-  tc_env$debug <- FALSE
+ch_debug_set_false <- function() {
+  ch_env$debug <- FALSE
 }
 
-tc_debug_get <- function() {
-  tc_env$debug <- tc_env$debug %||% FALSE
-  tc_env$debug
+ch_debug_get <- function() {
+  ch_env$debug <- ch_env$debug %||% FALSE
+  ch_env$debug
 }
 
 # ------------------------------ Print Chat ------------------------------------
 
-as_tc_request <- function(x, defaults) {
+as_ch_request <- function(x, defaults) {
   class(defaults) <- "list"
   ret <- list(prompt = x, defaults = defaults)
-  class(ret) <- "tc_request"
+  class(ret) <- "ch_request"
   ret
 }
 
 #' @export
-print.tc_request <- function(x, ...) {
-  cli_h1("tidychat")
+print.ch_request <- function(x, ...) {
+  cli_h1("chattr")
   type <- paste0(
     toupper(substr(x$defaults$type, 1, 1)),
     substr(x$defaults$type, 2, nchar(x$defaults$type))
@@ -43,7 +43,7 @@ print.tc_request <- function(x, ...) {
 }
 
 #' @export
-print.tc_history <- function(x, ...) {
+print.ch_history <- function(x, ...) {
   print_history(x)
 }
 
@@ -81,7 +81,7 @@ package_file <- function(...) {
   if (file_exists(inst_file)) {
     pkg_file <- inst_file
   } else {
-    pkg_file <- system.file(default_file, package = "tidychat")
+    pkg_file <- system.file(default_file, package = "chattr")
   }
   if (!file_exists(pkg_file)) {
     abort(paste0("'", default_file, "' not found"))

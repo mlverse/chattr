@@ -1,15 +1,15 @@
 # Basic default tests
 
     Code
-      tc_defaults()
+      ch_defaults()
     Message <cliMessage>
       
-      -- tidychat --------------------------------------------------------------------
+      -- chattr --------------------------------------------------------------------
       
       -- Defaults for: Console --
       
       -- Prompt: 
-      * {{readLines(system.file('prompt/base.txt', package = 'tidychat'))}}
+      * {{readLines(system.file('prompt/base.txt', package = 'chattr'))}}
       
       -- Model 
       * Provider: Open AI

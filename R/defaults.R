@@ -25,8 +25,8 @@
 #' @param type Entry point to interact with the model. Accepted values: 'notebook',
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
-#' @inheritParams tidychat
-tc_defaults <- function(type = NULL,
+#' @inheritParams chattr
+ch_defaults <- function(type = NULL,
                         prompt = NULL,
                         include_data_files = NULL,
                         include_data_frames = NULL,
@@ -36,11 +36,11 @@ tc_defaults <- function(type = NULL,
                         model = NULL,
                         model_arguments = NULL,
                         system_msg = NULL,
-                        yaml_file = "tidychat.yml",
+                        yaml_file = "chattr.yml",
                         force = FALSE) {
   function_args <- as.list(environment())
 
-  sys_type <- Sys.getenv("TIDYCHAT_TYPE", NA)
+  sys_type <- Sys.getenv("chattr_TYPE", NA)
   if (!is.na(sys_type)) {
     type <- sys_type
   }
@@ -54,7 +54,7 @@ tc_defaults <- function(type = NULL,
     }
   }
 
-  if (is.null(tc_defaults_get(type)$provider) | force) {
+  if (is.null(ch_defaults_get(type)$provider) | force) {
     check_files <- package_file("configs", "default.yml")
 
     if (file_exists(yaml_file)) {
@@ -70,7 +70,7 @@ tc_defaults <- function(type = NULL,
           if (length(td$prompt) > 0 & any(grepl("\n", td$prompt))) {
             td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
-          tc_defaults_set(
+          ch_defaults_set(
             arguments = td,
             type = type
           )
@@ -79,18 +79,18 @@ tc_defaults <- function(type = NULL,
     }
   }
 
-  tc_defaults_set(
+  ch_defaults_set(
     arguments = function_args,
     type = type
   )
 
-  ret <- tc_defaults_get(type)
+  ret <- ch_defaults_get(type)
   ret$type <- type
 
   class(ret) <- c(
-    "tc_model",
-    paste0("tc_provider_", prep_class_name(ret$provider)),
-    paste0("tc_model_", prep_class_name(ret$model))
+    "ch_model",
+    paste0("ch_provider_", prep_class_name(ret$provider)),
+    paste0("ch_model_", prep_class_name(ret$model))
   )
 
   ret
@@ -106,14 +106,14 @@ prep_class_name <- function(x) {
   x
 }
 
-tc_defaults_get <- function(type = "notebook") {
-  tc_env$defaults[[type]]
+ch_defaults_get <- function(type = "notebook") {
+  ch_env$defaults[[type]]
 }
 
 #' @export
-print.tc_model <- function(x, ...) {
+print.ch_model <- function(x, ...) {
   cli_colors()
-  cli_h1("tidychat")
+  cli_h1("chattr")
   type <- paste0(
     toupper(substr(x$type, 1, 1)),
     substr(x$type, 2, nchar(x$type))
@@ -154,9 +154,9 @@ print_include <- function(x, label) {
   }
 }
 
-tc_defaults_set <- function(arguments = list(),
+ch_defaults_set <- function(arguments = list(),
                             type = NULL) {
-  td <- tc_defaults_get(type)
+  td <- ch_defaults_get(type)
 
   if (!is.null(td)) {
     for (i in seq_along(td)) {
@@ -168,7 +168,7 @@ tc_defaults_set <- function(arguments = list(),
   arguments$yaml_file <- NULL
   arguments$force <- NULL
 
-  tc_env$defaults[[type]] <- arguments
+  ch_env$defaults[[type]] <- arguments
 }
 
 process_prompt <- function(x) {

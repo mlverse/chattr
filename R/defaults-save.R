@@ -5,14 +5,14 @@
 #' @param type The type of UI to save the defaults for. It defaults to NULL which
 #' will save whatever types had been used during the current R session
 #' @export
-tc_defaults_save <- function(path = "tidychat.yml",
+ch_defaults_save <- function(path = "chattr.yml",
                              overwrite = FALSE,
                              type = NULL) {
-  invisible(tc_defaults(type = "default"))
+  invisible(ch_defaults(type = "default"))
 
   temp <- tempfile()
 
-  td <- tc_env$defaults
+  td <- ch_env$defaults
   td_names <- names(td)
   td_other <- td_names[td_names != "default"]
   td_default <- td$default

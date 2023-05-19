@@ -14,5 +14,5 @@
       |- test-context.R
       |- test-defaults.R
       |- test-ide.R
-      |- test-tidychat.R
+      |- test-chattr.R
 

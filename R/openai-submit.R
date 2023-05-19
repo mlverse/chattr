@@ -1,5 +1,5 @@
 #' @export
-tc_submit.tc_provider_open_ai <- function(defaults,
+ch_submit.ch_provider_open_ai <- function(defaults,
                                           prompt = NULL,
                                           stream = NULL,
                                           prompt_build = TRUE,
@@ -33,7 +33,7 @@ tc_submit.tc_provider_open_ai <- function(defaults,
 
   ret <- NULL
   if (preview) {
-    ret <- as_tc_request(new_prompt, defaults)
+    ret <- as_ch_request(new_prompt, defaults)
   } else {
     ret <- openai_completion(
       defaults = defaults,
@@ -57,7 +57,7 @@ openai_prompt <- function(defaults, prompt) {
   UseMethod("openai_prompt")
 }
 
-openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
+openai_prompt.ch_model_gpt_3.5_turbo <- function(defaults, prompt) {
   header <- build_header(defaults)
 
   if (!is.null(defaults$system_msg)) {
@@ -65,7 +65,7 @@ openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
   }
 
   if (defaults$include_history) {
-    history <- tc_history()
+    history <- ch_history()
   } else {
     history <- NULL
   }
@@ -80,7 +80,7 @@ openai_prompt.tc_model_gpt_3.5_turbo <- function(defaults, prompt) {
   ret
 }
 
-openai_prompt.tc_model_davinci_3 <- function(defaults, prompt) {
+openai_prompt.ch_model_davinci_3 <- function(defaults, prompt) {
   header <- build_header(defaults)
   prompt <- paste("\n *", prompt)
   ret <- paste0(header, prompt)
@@ -108,7 +108,7 @@ openai_completion <- function(defaults,
   UseMethod("openai_completion")
 }
 
-openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
+openai_completion.ch_model_gpt_3.5_turbo <- function(defaults,
                                                      prompt,
                                                      new_prompt,
                                                      r_file_stream,
@@ -130,7 +130,7 @@ openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
     r_file_complete = r_file_complete
   )
 
-  if (tc_debug_get()) {
+  if (ch_debug_get()) {
     return(ret)
   }
 
@@ -141,7 +141,7 @@ openai_completion.tc_model_gpt_3.5_turbo <- function(defaults,
   ret
 }
 
-openai_completion.tc_model_davinci_3 <- function(defaults,
+openai_completion.ch_model_davinci_3 <- function(defaults,
                                                  prompt,
                                                  new_prompt,
                                                  r_file_stream,
@@ -163,7 +163,7 @@ openai_completion.tc_model_davinci_3 <- function(defaults,
     r_file_complete = r_file_complete
   )
 
-  if (tc_debug_get()) {
+  if (ch_debug_get()) {
     return(ret)
   }
 
@@ -200,7 +200,7 @@ openai_switch <- function(prompt,
   }
 
   if (defaults$include_history) {
-    tc_history_append(prompt, ret)
+    ch_history_append(prompt, ret)
   }
 
   if (!return_result) {
