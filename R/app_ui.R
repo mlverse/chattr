@@ -37,7 +37,6 @@ app_ui <- function() {
     actionButton(
       inputId = "close",
       label = NULL,
-      icon = icon("close"),
       style = style$ui_submit
     ),
     fixedPanel(
