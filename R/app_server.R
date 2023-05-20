@@ -175,7 +175,7 @@ app_add_assistant <- function(content, style, input) {
     insertUI(
       selector = "#tabs",
       where = "afterEnd",
-      ui = app_entry(
+      ui = app_ui_entry(
         content = curr_content,
         is_code = current_code[i],
         no_id = length(content_hist)
@@ -205,55 +205,4 @@ app_add_assistant <- function(content, style, input) {
   )
 
   ch_env$content_hist <- content_hist
-}
-
-app_entry <- function(content, is_code, no_id) {
-  app_style <- app_theme_style()
-  style <- app_style$ui_assistant
-  fluidRow(
-    style = style,
-    column(
-      width = 12,
-      fluidRow(
-        align = "right",
-        column(width = 10, div()) %>%
-          tagAppendAttributes(style = "width: 80%;"),
-        column(
-          width = 2,
-          if (is_code) {
-            tags$div(
-              style = "display:inline-block",
-              title = "Copy to clipboard",
-              actionButton(
-                paste0("copy", no_id),
-                icon = icon("clipboard"),
-                label = "",
-                style = app_style$ui_paste
-              )
-            )
-          },
-          if (is_code & ide_is_rstudio()) {
-            tags$div(
-              style = "display:inline-block",
-              title = "Send to document",
-              actionButton(
-                paste0("doc", no_id),
-                icon = icon("file"),
-                label = "",
-                style = app_style$ui_paste
-              )
-            )
-          },
-          style = "padding: 0px"
-        ) %>%
-          tagAppendAttributes(style = "width: 20%;")
-      ),
-      fluidRow(
-        column(
-          width = 12,
-          markdown(content)
-        )
-      )
-    )
-  )
 }

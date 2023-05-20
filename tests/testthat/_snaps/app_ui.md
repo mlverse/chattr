@@ -87,3 +87,50 @@
       [52] "      }</script>"                                                                                                                                                                                                                            
       [53] "</div>"                                                                                                                                                                                                                                      
 
+# UI entry for assistant reponse works as expected
+
+    Code
+      capture.output(app_ui_entry("test", TRUE, 1))
+    Output
+       [1] "<div class=\"row\" style=\"margin: 0px;padding: 0px;font-size: 80%;color:#000;background-color:#3E4A56;border-color:#fff;\">"                                                                                                     
+       [2] "  <div class=\"col-sm-12\">"                                                                                                                                                                                                      
+       [3] "    <div class=\"row\" align=\"right\">"                                                                                                                                                                                          
+       [4] "      <div class=\"col-sm-10\" style=\"width: 80%;\">"                                                                                                                                                                            
+       [5] "        <div></div>"                                                                                                                                                                                                              
+       [6] "      </div>"                                                                                                                                                                                                                     
+       [7] "      <div class=\"col-sm-2\" style=\"padding: 0px width: 20%;\">"                                                                                                                                                                
+       [8] "        <div style=\"display:inline-block\" title=\"Copy to clipboard\">"                                                                                                                                                         
+       [9] "          <button id=\"copy1\" type=\"button\" class=\"btn btn-default action-button\" style=\"padding-top: 4px;padding-bottom: 4px;padding-left: 10px;padding-right: 10px;font-size: 60%;color:#fff;background-color:#f1f6f8;\">"
+      [10] "            <i class=\"far fa-clipboard\" role=\"presentation\" aria-label=\"clipboard icon\"></i>"                                                                                                                               
+      [11] "            "                                                                                                                                                                                                                     
+      [12] "          </button>"                                                                                                                                                                                                              
+      [13] "        </div>"                                                                                                                                                                                                                   
+      [14] "      </div>"                                                                                                                                                                                                                     
+      [15] "    </div>"                                                                                                                                                                                                                       
+      [16] "    <div class=\"row\">"                                                                                                                                                                                                          
+      [17] "      <div class=\"col-sm-12\"><p>test</p>"                                                                                                                                                                                       
+      [18] "</div>"                                                                                                                                                                                                                           
+      [19] "    </div>"                                                                                                                                                                                                                       
+      [20] "  </div>"                                                                                                                                                                                                                         
+      [21] "</div>"                                                                                                                                                                                                                           
+
+---
+
+    Code
+      capture.output(app_ui_entry("test", FALSE, 2))
+    Output
+       [1] "<div class=\"row\" style=\"margin: 0px;padding: 0px;font-size: 80%;color:#000;background-color:#3E4A56;border-color:#fff;\">"
+       [2] "  <div class=\"col-sm-12\">"                                                                                                 
+       [3] "    <div class=\"row\" align=\"right\">"                                                                                     
+       [4] "      <div class=\"col-sm-10\" style=\"width: 80%;\">"                                                                       
+       [5] "        <div></div>"                                                                                                         
+       [6] "      </div>"                                                                                                                
+       [7] "      <div class=\"col-sm-2\" style=\"padding: 0px width: 20%;\"></div>"                                                     
+       [8] "    </div>"                                                                                                                  
+       [9] "    <div class=\"row\">"                                                                                                     
+      [10] "      <div class=\"col-sm-12\"><p>test</p>"                                                                                  
+      [11] "</div>"                                                                                                                      
+      [12] "    </div>"                                                                                                                  
+      [13] "  </div>"                                                                                                                    
+      [14] "</div>"                                                                                                                      
+

@@ -11,3 +11,8 @@ test_that("UI output is as expected",  {
 test_that("UI modal output is as expected",  {
   expect_snapshot(capture.output(app_ui_modal()))
 })
+
+test_that("UI entry for assistant reponse works as expected",  {
+  expect_snapshot(capture.output(app_ui_entry("test", TRUE, 1)))
+  expect_snapshot(capture.output(app_ui_entry("test", FALSE, 2)))
+})
