@@ -15,28 +15,7 @@ app_server <- function(input, output, session) {
   )
 
   observeEvent(input$options, {
-    tc <- ch_defaults(type = "chat")
-
-    prompt2 <- tc$prompt %>%
-      process_prompt() %>%
-      paste(collapse = "\n")
-
-    showModal(
-      modalDialog(
-        p("Save / Load Chat"),
-        if (ide_is_rstudio()) actionButton("save", "Save chat", style = style$ui_paste),
-        if (ide_is_rstudio()) actionButton("open", "Open chat", style = style$ui_paste),
-        hr(),
-        textAreaInput("prompt2", "Prompt", prompt2),
-        br(),
-        checkboxInput("i_data", "Include Data Frames", tc$include_data_frames),
-        checkboxInput("i_files", "Include Data Files", tc$include_data_files),
-        checkboxInput("i_history", "Include Chat History", tc$include_history),
-        actionButton("saved", "Save", style = style$ui_paste),
-        easyClose = TRUE,
-        footer = tagList()
-      )
-    )
+    showModal(app_ui_modal())
   })
 
   app_add_history(

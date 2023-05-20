@@ -7,3 +7,7 @@ test_that("UI output is as expected",  {
   out <- out[!tabsets]
   expect_snapshot(out)
 })
+
+test_that("UI modal output is as expected",  {
+  expect_snapshot(capture.output(app_ui_modal()))
+})
