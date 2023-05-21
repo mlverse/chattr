@@ -148,61 +148,62 @@ app_add_user <- function(content, style) {
 }
 
 app_add_assistant <- function(content, style, input) {
-  if (grepl("```", content)) {
-    split_content <- unlist(strsplit(content, "```"))
-  } else {
-    split_content <- content
-  }
-  content_hist <- ch_env$content_hist
-  current_history <- NULL
-  current_code <- NULL
-  for (i in seq_along(split_content)) {
-    curr_content <- split_content[i]
-    if ((i / 2) == floor(i / 2)) {
-      curr_content <- paste0("```", curr_content, "\n```")
-      curr_split <- strsplit(curr_content, "\n")
-      content_hist <- c(content_hist, curr_content)
-      current_history <- c(current_history, curr_content)
-      current_code <- c(current_code, TRUE)
-    } else {
-      current_history <- c(current_history, curr_content)
-      current_code <- c(current_code, FALSE)
-    }
-  }
-
-  for (i in seq_along(current_history)) {
-    curr_content <- current_history[length(current_history) - i + 1]
-    insertUI(
-      selector = "#tabs",
-      where = "afterEnd",
-      ui = app_ui_entry(
-        content = curr_content,
-        is_code = current_code[i],
-        no_id = length(content_hist)
-        ) %>%
-        tagAppendAttributes(style = "width: 100%;")
-    )
-  }
+  len_hist <- length(ch_env$content_hist)
+  ch <- app_split_content(content)
 
   walk(
-    seq_along(content_hist),
+    order(seq_along(ch), decreasing = TRUE),
     ~ {
-      observeEvent(input[[paste0("copy", .x)]], {
-        write_clip(content_hist[.x], allow_non_interactive = TRUE)
-        if (ide_is_rstudio()) stopApp()
-      })
-      observeEvent(input[[paste0("doc", .x)]], {
-        ch <- content_hist[.x]
-        if (!ui_current_markdown()) {
-          split_ch <- unlist(strsplit(ch, "\n"))
-          ch <- split_ch[2:(length(split_ch) - 1)]
-          ch <- paste0(ch, collapse = "\n")
-        }
-        insertText(text = ch)
-        stopApp()
-      })
+      len <- len_hist + .x
+      insertUI(
+        selector = "#tabs",
+        where = "afterEnd",
+        ui = app_ui_entry(
+          content = ch[[.x]]$content,
+          is_code = ch[[.x]]$is_code,
+          no_id = len
+        ) %>%
+          tagAppendAttributes(style = "width: 100%;")
+      )
+      if (ch[[.x]]$is_code) {
+        observeEvent(input[[paste0("copy", len)]], {
+          write_clip(ch[[.x]]$content, allow_non_interactive = TRUE)
+          if (ide_is_rstudio()) stopApp()
+        })
+        observeEvent(input[[paste0("doc", len)]], {
+          ch <- ch[[.x]]$content
+          if (!ui_current_markdown()) {
+            split_ch <- unlist(strsplit(ch, "\n"))
+            ch <- split_ch[2:(length(split_ch) - 1)]
+            ch <- paste0(ch, collapse = "\n")
+          }
+          insertText(text = ch)
+          stopApp()
+        })
+      }
     }
   )
 
-  ch_env$content_hist <- content_hist
+  ch_env$content_hist <- c(
+    ch_env$content_hist,
+    map_chr(ch, ~ .x$content)
+  )
+}
+
+app_split_content <- function(content) {
+  split_content <- unlist(strsplit(content, "```"))
+  map(
+    seq_along(split_content), ~ {
+      is_code <- (.x / 2) == floor(.x / 2)
+      content <- split_content[.x]
+      code <- NULL
+      if (is_code) {
+        content <- paste0("```", content, "\n```")
+      }
+      list(
+        is_code = is_code,
+        content = content
+      )
+    }
+  )
 }

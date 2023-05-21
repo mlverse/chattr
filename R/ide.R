@@ -17,11 +17,13 @@ ide_is_rstudio <- function() {
 # -------------------------- UI Identification ---------------------------------
 
 ui_current <- function() {
-  ret <- NULL
+  ret <- ""
   if (ide_is_rstudio()) {
     cont <- getActiveDocumentContext()
-    if (cont$id == "#console") ret <- "console"
-    if (is.null(ret)) {
+    if (cont$id == "#console") {
+      ret <- "console"
+      }
+    if (ret == "") {
       if (cont$contents[1] == "---") {
         ret <- "markdown"
       } else {
