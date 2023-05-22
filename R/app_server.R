@@ -35,7 +35,7 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "") {
+    if (input$prompt != "" && is.null(ch_env$current_stream)) {
       ch_history_append(user = input$prompt)
       app_add_user(input$prompt, style$ui_user)
 
@@ -49,7 +49,7 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "") {
+    if (input$prompt != "" && is.null(ch_env$current_stream)) {
       ch_submit_job(
         prompt = input$prompt,
         defaults = ch_defaults(type = "chat"),
