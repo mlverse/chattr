@@ -29,6 +29,7 @@ toc()
     - [The App](#the-app)
     - [Keyboard Shortcut](#keyboard-shortcut)
 - [How it works](#how-it-works)
+    - [Prompt defaults](#prompt-defaults)
 - [Appendix](#appendix)
     - [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
 
@@ -84,7 +85,7 @@ The main way to use `chattr` is through the Shiny Gadget app. By default, it run
 chattr::chattr_app()
 ```
 
-![](man/figures/readme/chat1.png)
+![Screenshot of the Sniny gadget app in a dark mode RStudio theme](man/figures/readme/chat1.png)
 
 A lot of effort was put in to make the app's appearance as close as possible to the IDE. This way it feels more integrated with your work space. This includes switching the color scheme based on the current RStudio theme being light, or dark.
 
@@ -94,10 +95,36 @@ Automatically, the app will automatically add buttons to each code section. The 
 
 The best way to access `chattr`'s app is by setting up a keyboard shortcut for it. This package includes an RStudio Addin that gives us direct access to the app, which in turn, allows a **keyboard shortcut** to be assigned to the addin. The name of the addin is: "Open Chat". If you are not familiar with how to assign a keyboard shortcut to the adding see the Appendix section: [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut).
 
-## How it works
+## How it works {#how-it-works}
 
-![](images/chattr-diagram.png)
+![Diagram that illustrates how chattr handles model requests](images/chattr-diagram.png)
 
+`chattr` enriches your request with additional instructions, name and structure of data frames currently in your environment, the path for the data files in your working directory. If supported by the model, `chattr` will include the current chat history.
+
+To see what `chattr` will send to the model, set the `preview` argument to `TRUE`:
+
+```{r}
+library(chattr)
+
+data(mtcars)
+data(iris)
+
+chattr(preview = TRUE)
+```
+
+### Prompt defaults
+
+To edit what `chattr` is sending to the model you can use `ch_defaults()`:
+
+```{r}
+ch_defaults()
+```
+
+To modify, simply pass the new value as an argument to the function:
+
+```{r}
+ch_defaults(prompt = c("New instructions", "New line"))
+```
 
 ## Appendix {#appendix}
 
@@ -105,12 +132,12 @@ The best way to access `chattr`'s app is by setting up a keyboard shortcut for i
 
 -   Select *Tools* in the top menu, and then select *Modify Keyboard Shortcuts*
 
-    ![](man/figures/readme/keyboard-shortcuts.png){width="800"}
+    ![Screenshot that shows where to find the option to modify the keyboard shortcuts](man/figures/readme/keyboard-shortcuts.png){width="800"}
 
 -   Search for the `chattr` adding by writing "open chat", in the search box
 
-    ![](man/figures/readme/addin-find.png){width="500"}
+    ![Screenshot that shows where to input the addin search](man/figures/readme/addin-find.png){width="500"}
 
 -   To select a key combination for your shortcut, click on the Shortcut box and then type *press* the key combination in your keyboard. In my case, I chose *Ctrl+Shift+C*
 
-    ![](man/figures/readme/addin-assign.png){width="600"}
+    ![Screenshot that shows what the interface looks like when a shortcut has been selected](man/figures/readme/addin-assign.png){width="600"}
