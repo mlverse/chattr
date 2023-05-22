@@ -3,8 +3,8 @@ default:
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: Open AI
   model: DaVinci 3
-  include_data_files: TRUE
-  include_data_frames: TRUE
+  max_data_files: 100
+  max_data_frames: "{Inf}"
   include_doc_contents: FALSE
   system_msg: You are a helpful coding assistant
   model_arguments:

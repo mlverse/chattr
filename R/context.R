@@ -1,13 +1,14 @@
-context_data_files <- function(
-    file_types = c("csv", "parquet", "xls", "xlsx", "txt")
-    ) {
+context_data_files <- function(max = "{Inf}",
+                               file_types = c("csv", "parquet", "xls", "xlsx", "txt")
+                               ) {
   all_files <- dir_ls(recurse = TRUE)
 
   files <- file_types %>%
     map(~ {
       all_files[path_ext(all_files) == .x]
     }) %>%
-    reduce(c)
+    reduce(c) %>%
+    head(glue(max))
 
   if (length(files) > 0) {
     ret <- paste0(
@@ -21,7 +22,7 @@ context_data_files <- function(
   ret
 }
 
-context_data_frames <- function() {
+context_data_frames <- function(max = "{Inf}") {
 
   dfs <- ls(envir = .GlobalEnv) %>%
     map(~ mget(.x, .GlobalEnv)) %>%
@@ -36,6 +37,7 @@ context_data_frames <- function() {
 
         paste0("|--  ", names(.x), " (", fields, ")")
       }) %>%
+      head(glue(max)) %>%
       paste0(collapse = " \n")
 
     ret <- paste0(
