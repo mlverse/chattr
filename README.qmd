@@ -104,7 +104,7 @@ The best way to access `chattr`'s app is by setting up a keyboard shortcut for i
 
 ## How it works {#how-it-works}
 
-![Diagram that illustrates how chattr handles model requests](images/chattr-diagram.png)
+![Diagram that illustrates how chattr handles model requests](man/figures/readme/chattr-diagram.png)
 
 `chattr` enriches your request with additional instructions, name and structure of data frames currently in your environment, the path for the data files in your working directory. If supported by the model, `chattr` will include the current chat history.
 

@@ -130,7 +130,7 @@ shortcut](#how-to-setup-the-keyboard-shortcut).
 ## How it works
 
 ![Diagram that illustrates how chattr handles model
-requests](images/chattr-diagram.png)
+requests](man/figures/readme/chattr-diagram.png)
 
 `chattr` enriches your request with additional instructions, name and
 structure of data frames currently in your environment, the path for the
