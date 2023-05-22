@@ -7,7 +7,7 @@ format: md
 
 [![R-CMD-check](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/edgararuiz/chattr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/edgararuiz/chattr?branch=main) [![CRAN status](https://www.r-pkg.org/badges/version/chattr)](https://CRAN.R-project.org/package=chattr) [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
-![](man/readme/chattr.gif)
+![](man/figures/readme/chattr.gif)
 
 <!-- badges: end -->
 
@@ -21,16 +21,16 @@ toc()
 ```
 
 <!-- toc: start -->
-
--   [Install](#install)
--   [Getting Started](#getting-started)
-    -   [Secret key](#secret-key)
-    -   [Test connection](#test-connection)
--   [Using](#using)
-    -   [The App](#the-app)
-    -   [Keyboard Shortcut](#keyboard-shortcut)
--   [Appendix](#appendix)
-    -   [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
+- [Install](#install)
+- [Getting Started](#getting-started)
+    - [Secret key](#secret-key)
+    - [Test connection](#test-connection)
+- [Using](#using)
+    - [The App](#the-app)
+    - [Keyboard Shortcut](#keyboard-shortcut)
+- [How it works](#how-it-works)
+- [Appendix](#appendix)
+    - [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
 
 <!-- toc: end -->
 
@@ -93,6 +93,11 @@ Automatically, the app will automatically add buttons to each code section. The 
 ### Keyboard Shortcut {#keyboard-shortcut}
 
 The best way to access `chattr`'s app is by setting up a keyboard shortcut for it. This package includes an RStudio Addin that gives us direct access to the app, which in turn, allows a **keyboard shortcut** to be assigned to the addin. The name of the addin is: "Open Chat". If you are not familiar with how to assign a keyboard shortcut to the adding see the Appendix section: [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut).
+
+## How it works
+
+![](images/chattr-diagram.png)
+
 
 ## Appendix {#appendix}
 

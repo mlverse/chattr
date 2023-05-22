@@ -9,7 +9,7 @@ coverage](https://codecov.io/gh/edgararuiz/chattr/branch/main/graph/badge.svg)](
 status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project.org/package=chattr)
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
-![](man/readme/chattr.gif)
+![](man/figures/readme/chattr.gif)
 
 <!-- badges: end -->
 <!-- toc: start -->
@@ -21,6 +21,7 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 -   [Using](#using)
     -   [The App](#the-app)
     -   [Keyboard Shortcut](#keyboard-shortcut)
+-   [How it works](#how-it-works)
 -   [Appendix](#appendix)
     -   [How to setup the keyboard
         shortcut](#how-to-setup-the-keyboard-shortcut)
@@ -109,6 +110,10 @@ to be assigned to the addin. The name of the addin is: “Open Chat”. If
 you are not familiar with how to assign a keyboard shortcut to the
 adding see the Appendix section: [How to setup the keyboard
 shortcut](#how-to-setup-the-keyboard-shortcut).
+
+## How it works
+
+![](images/chattr-diagram.png)
 
 ## Appendix
 
