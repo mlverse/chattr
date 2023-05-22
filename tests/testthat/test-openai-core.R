@@ -4,7 +4,7 @@ test_that("Missing token returns error", {
 })
 
 test_that("Stream parser works", {
-  raw <- readRDS(test_path("data", "raw.rds"))
+  raw <- readRDS(test_path("data", "gpt35-stream.rds"))
   stream <- openai_stream_parse(raw, "chat/completions")
   expect_equal(
     stream,
