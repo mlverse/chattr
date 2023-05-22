@@ -11,8 +11,8 @@
 #' @importFrom grDevices rgb
 #' @importFrom utils capture.output
 #' @importFrom rlang %||% abort is_named is_interactive
-#' @importFrom purrr map_chr map_lgl map imap set_names walk
-#' @importFrom purrr iwalk discard keep imap_lgl reduce
+#' @importFrom purrr map_chr map_lgl map imap set_names walk flatten
+#' @importFrom purrr iwalk discard keep imap_lgl reduce transpose
 
 ## usethis namespace: start
 #' @importFrom lifecycle deprecated
