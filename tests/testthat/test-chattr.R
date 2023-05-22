@@ -1,5 +1,5 @@
 test_that("Basic chattr() tests", {
-  Sys.setenv("chattr_TYPE" = "console")
+  Sys.setenv("CHATTR_TYPE" = "console")
   expect_snapshot(chattr("test", preview = TRUE))
   expect_snapshot(chattr("test", preview = TRUE, prompt_build = FALSE))
   expect_snapshot(chattr("test", preview = TRUE, stream = FALSE))
@@ -9,7 +9,7 @@ test_that("Basic chattr() tests", {
 })
 
 test_that("Using DaVinci", {
-  Sys.setenv("chattr_TYPE" = "console")
+  Sys.setenv("CHATTR_TYPE" = "console")
   ch_debug_set_false()
   expect_snapshot(ch_use_openai_davinci())
   expect_snapshot(chattr("test", preview = TRUE))

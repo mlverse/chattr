@@ -15,7 +15,15 @@ openai_token <- function() {
 }
 
 openai_request <- function(endpoint, req_body) {
-  "https://api.openai.com/v1/" %>%
+  env_url <- Sys.getenv("CHATTR_OPENAI_URL", NA)
+
+  if(is.na(env_url)) {
+    url <- "https://api.openai.com/v1/"
+  } else {
+    url <- env_url
+  }
+
+  url %>%
     paste0(endpoint) %>%
     request() %>%
     req_auth_bearer_token(openai_token()) %>%

@@ -40,7 +40,7 @@ ch_defaults <- function(type = NULL,
                         force = FALSE) {
   function_args <- as.list(environment())
 
-  sys_type <- Sys.getenv("chattr_TYPE", NA)
+  sys_type <- Sys.getenv("CHATTR_TYPE", NA)
   if (!is.na(sys_type)) {
     type <- sys_type
   }
