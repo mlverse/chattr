@@ -14,6 +14,7 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 <!-- badges: end -->
 <!-- toc: start -->
 
+-   [Intro](#intro)
 -   [Install](#install)
 -   [Getting Started](#getting-started)
     -   [Secret key](#secret-key)
@@ -28,6 +29,19 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
         shortcut](#how-to-setup-the-keyboard-shortcut)
 
 <!-- toc: end -->
+
+## Intro
+
+`chattr` is an interface to LLMs (Large Language Models). At this time,
+it integrates with OpenAI’s GPT 3.5 and DaVinci models. In the future,
+`chattr` will be extended to support other LLM’s. `chattr` enriches your
+request with additional context to improve the quality of the model’s
+response. For more info, see the [How it works](#how-it-works) section.
+
+`chattr`’s main goal is to aid in EDA tasks. The additional information
+appended to your request, provides a sort of “guard rails”, so that the
+packages and techniques we usually recommend as best practice, are used
+in the model’s responses.
 
 ## Install
 
@@ -229,7 +243,7 @@ ch_defaults(prompt = c("New instructions", "New line"))
 -   Select *Tools* in the top menu, and then select *Modify Keyboard
     Shortcuts*
 
-    <img src="man/figures/readme/keyboard-shortcuts.png" width="800"
+    <img src="man/figures/readme/keyboard-shortcuts.png" width="700"
     alt="Screenshot that shows where to find the option to modify the keyboard shortcuts" />
 
 -   Search for the `chattr` adding by writing “open chat”, in the search
@@ -242,5 +256,5 @@ ch_defaults(prompt = c("New instructions", "New line"))
     box and then type *press* the key combination in your keyboard. In
     my case, I chose *Ctrl+Shift+C*
 
-    <img src="man/figures/readme/addin-assign.png" width="600"
+    <img src="man/figures/readme/addin-assign.png" width="500"
     alt="Screenshot that shows what the interface looks like when a shortcut has been selected" />

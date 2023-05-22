@@ -21,6 +21,7 @@ toc()
 ```
 
 <!-- toc: start -->
+- [Intro](#intro)
 - [Install](#install)
 - [Getting Started](#getting-started)
     - [Secret key](#secret-key)
@@ -34,6 +35,12 @@ toc()
     - [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
 
 <!-- toc: end -->
+
+## Intro
+
+`chattr` is an interface to LLMs (Large Language Models). At this time, it integrates with OpenAI's GPT 3.5 and DaVinci models. In the future, `chattr` will be extended to support other LLM's. `chattr` enriches your request with additional context to improve the quality of the model's response. For more info, see the [How it works](#how-it-works) section.
+
+`chattr`'s main goal is to aid in EDA tasks. The additional information appended to your request, provides a sort of "guard rails", so that the packages and techniques we usually recommend as best practice, are used in the model's responses.
 
 ## Install {#install}
 
@@ -113,7 +120,7 @@ data(iris)
 chattr(preview = TRUE)
 ```
 
-```
+```         
 ── chattr ───────────────────────────────────────────────────
 
 ── Preview for: Console 
@@ -141,7 +148,7 @@ content:
 [Your future prompt goes here]
 ```
 
-### Prompt defaults
+### Prompt defaults {#prompt-defaults}
 
 To edit what `chattr` is sending to the model you can use `ch_defaults()`:
 
@@ -150,7 +157,7 @@ To edit what `chattr` is sending to the model you can use `ch_defaults()`:
 ch_defaults()
 ```
 
-```
+```         
 ── chattr ─────────────────────────────────────────────────
 
 ── Defaults for: Notebook ──
@@ -174,13 +181,15 @@ Model: GPT 3.5 Turbo
 ✔ Data Frames
 ✖ Document contents
 ```
+
 To modify, simply pass the new value as an argument to the function:
 
 ```{r}
 #| eval: false
 ch_defaults(prompt = c("New instructions", "New line"))
 ```
-```
+
+```         
 ── chattr ───────────────────────────────────────────────────
 
 ── Defaults for: Notebook ──
@@ -204,13 +213,14 @@ Model: GPT 3.5 Turbo
 ✔ Data Frames
 ✖ Document contents
 ```
+
 ## Appendix {#appendix}
 
 ### How to setup the keyboard shortcut {#how-to-setup-the-keyboard-shortcut}
 
 -   Select *Tools* in the top menu, and then select *Modify Keyboard Shortcuts*
 
-    ![Screenshot that shows where to find the option to modify the keyboard shortcuts](man/figures/readme/keyboard-shortcuts.png){width="800"}
+    ![Screenshot that shows where to find the option to modify the keyboard shortcuts](man/figures/readme/keyboard-shortcuts.png){width="700"}
 
 -   Search for the `chattr` adding by writing "open chat", in the search box
 
@@ -218,4 +228,4 @@ Model: GPT 3.5 Turbo
 
 -   To select a key combination for your shortcut, click on the Shortcut box and then type *press* the key combination in your keyboard. In my case, I chose *Ctrl+Shift+C*
 
-    ![Screenshot that shows what the interface looks like when a shortcut has been selected](man/figures/readme/addin-assign.png){width="600"}
+    ![Screenshot that shows what the interface looks like when a shortcut has been selected](man/figures/readme/addin-assign.png){width="500"}
