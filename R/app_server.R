@@ -92,6 +92,16 @@ app_server <- function(input, output, session) {
     }
   })
 
+  observe({
+    auto_invalidate()
+    error <- r_session_error()
+    if (!is.null(error)) {
+      stopApp()
+      print(error)
+      abort("Streaming returned error")
+    }
+  })
+
   observeEvent(input$open, {
     file <- try(file.choose(), silent = TRUE)
     ext <- path_ext(file)
