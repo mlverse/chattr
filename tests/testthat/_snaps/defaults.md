@@ -21,8 +21,8 @@
       * stream: TRUE
       
       -- Context: 
+      Max Data Files: 20
+      Max Data Frames: 20
       v Chat History
-      v Data Files
-      v Data Frames
       x Document contents
 

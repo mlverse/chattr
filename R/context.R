@@ -1,13 +1,21 @@
-context_data_files <- function(
-    file_types = c("csv", "parquet", "xls", "xlsx", "txt")
-    ) {
+context_data_files <- function(max = "{Inf}",
+                               file_types = c("csv", "parquet", "xls", "xlsx", "txt")
+                               ) {
+  max <- glue(max)
+  if(glue("{Inf}") == "Inf"){
+    max <- Inf
+  } else {
+    max <- as.integer(max)
+  }
+
   all_files <- dir_ls(recurse = TRUE)
 
   files <- file_types %>%
     map(~ {
       all_files[path_ext(all_files) == .x]
     }) %>%
-    reduce(c)
+    reduce(c) %>%
+    head(max)
 
   if (length(files) > 0) {
     ret <- paste0(
@@ -21,14 +29,21 @@ context_data_files <- function(
   ret
 }
 
-context_data_frames <- function() {
+context_data_frames <- function(max = "{Inf}") {
+
+  max <- glue(max)
+  if(glue("{Inf}") == "Inf"){
+    max <- Inf
+  } else {
+    max <- as.integer(max)
+  }
 
   dfs <- ls(envir = .GlobalEnv) %>%
     map(~ mget(.x, .GlobalEnv)) %>%
     keep(~ inherits(.x[[1]], "data.frame"))
 
   if (length(dfs) > 0) {
-    data_frames <- dfs %>%
+    dfs <- dfs %>%
       map(~ {
         fields <- .x[[1]] %>%
           imap(~ paste0(.y)) %>%
@@ -36,12 +51,20 @@ context_data_frames <- function() {
 
         paste0("|--  ", names(.x), " (", fields, ")")
       }) %>%
+      head(max)
+
+    data_frames <- dfs %>%
       paste0(collapse = " \n")
 
-    ret <- paste0(
-      "Data frames currently in R memory (and columns): \n",
-      data_frames
+    if(length(dfs) > 0) {
+      ret <- paste0(
+        "Data frames currently in R memory (and columns): \n",
+        data_frames
       )
+    } else {
+      ret <- NULL
+    }
+
   } else {
     ret <- NULL
   }

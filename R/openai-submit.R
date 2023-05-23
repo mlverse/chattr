@@ -90,8 +90,8 @@ openai_prompt.ch_model_davinci_3 <- function(defaults, prompt) {
 build_header <- function(defaults) {
   header <- c(
     process_prompt(defaults$prompt),
-    if (defaults$include_data_files) context_data_files(),
-    if (defaults$include_data_frames) context_data_frames()
+    context_data_files(defaults$max_data_files),
+    context_data_frames(defaults$max_data_frames)
   )
 
   paste0("* ", header, collapse = " \n")

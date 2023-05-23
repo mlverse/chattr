@@ -7,8 +7,8 @@
 ch_defaults(
   type = NULL,
   prompt = NULL,
-  include_data_files = NULL,
-  include_data_frames = NULL,
+  max_data_files = NULL,
+  max_data_frames = NULL,
   include_doc_contents = NULL,
   include_history = NULL,
   provider = NULL,
@@ -25,11 +25,12 @@ ch_defaults(
 
 \item{prompt}{Request to send to LLM. Defaults to NULL}
 
-\item{include_data_files}{Send the list of data files found in the working
-directory? Defaults to NULL}
+\item{max_data_files}{Sets the maximum number of data files to send to the
+model. It defaults to 20. To send all, set to \code{Inf}}
 
-\item{include_data_frames}{Send the list of data.frames currently in the R
-environment? Defaults to NULL}
+\item{max_data_frames}{Sets the maximum number of data frames loaded in the
+current R session to send to the model. It defaults to 20. To send all,
+set to \code{Inf}}
 
 \item{include_doc_contents}{Send the current code in the document}
 

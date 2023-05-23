@@ -15,7 +15,15 @@ openai_token <- function() {
 }
 
 openai_request <- function(endpoint, req_body) {
-  "https://api.openai.com/v1/" %>%
+  env_url <- Sys.getenv("CHATTR_OPENAI_URL", NA)
+
+  if(is.na(env_url)) {
+    url <- "https://api.openai.com/v1/"
+  } else {
+    url <- env_url
+  }
+
+  url %>%
     paste0(endpoint) %>%
     request() %>%
     req_auth_bearer_token(openai_token()) %>%
@@ -47,40 +55,7 @@ openai_stream_ide <- function(endpoint, req_body) {
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          ch_env$stream$raw <- paste0(
-            ch_env$stream$raw,
-            rawToChar(x),
-            collapse = ""
-          )
-          current <- openai_stream_parse(
-            x = ch_env$stream$raw,
-            endpoint = endpoint
-          )
-          if (!is.null(current)) {
-            if (is.null(ch_env$stream$response)) {
-              if (ui_current_console()) {
-                cat(current)
-              } else {
-                ide_paste_text(current)
-              }
-            } else {
-              if (nchar(current) != nchar(ch_env$stream$response)) {
-                delta <- substr(
-                  current,
-                  nchar(ch_env$stream$response) + 1,
-                  nchar(current)
-                )
-                if (ui_current_console()) {
-                  cat(delta)
-                } else {
-                  for (i in 1:nchar(delta)) {
-                    ide_paste_text(substr(delta, i, i))
-                  }
-                }
-              }
-            }
-          }
-          ch_env$stream$response <- current
+          openai_stream_ide_delta(x, endpoint)
           TRUE
         },
         buffer_kb = 0.1
@@ -90,6 +65,44 @@ openai_stream_ide <- function(endpoint, req_body) {
   }
   ret
 }
+
+openai_stream_ide_delta <- function(x, endpoint, testing = FALSE) {
+  ch_env$stream$raw <- paste0(
+    ch_env$stream$raw,
+    rawToChar(x),
+    collapse = ""
+  )
+  current <- openai_stream_parse(
+    x = ch_env$stream$raw,
+    endpoint = endpoint
+  )
+  if (!is.null(current)) {
+    if (is.null(ch_env$stream$response)) {
+      if (ui_current_console()) {
+        if(!testing) cat(current)
+      } else {
+        if(!testing) ide_paste_text(current)
+      }
+    } else {
+      if (nchar(current) != nchar(ch_env$stream$response)) {
+        delta <- substr(
+          current,
+          nchar(ch_env$stream$response) + 1,
+          nchar(current)
+        )
+        if (ui_current_console()) {
+          if(!testing) cat(delta)
+        } else {
+          for (i in 1:nchar(delta)) {
+            if(!testing) ide_paste_text(substr(delta, i, i))
+          }
+        }
+      }
+    }
+  }
+  ch_env$stream$response <- current
+}
+
 
 openai_stream_file <- function(endpoint,
                                req_body,

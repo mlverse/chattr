@@ -1,9 +1,22 @@
 test_that("Data frames context", {
-  expect_snapshot(context_data_frames())
+  data(mtcars)
+  data(iris)
+
+  context_data_frames() %>%
+    cat() %>%
+    expect_snapshot()
+
+  context_data_frames(max = 2) %>%
+    cat() %>%
+    expect_snapshot()
 })
 
 test_that("File finder works", {
-  context_data_files("R") %>%
+  context_data_files(file_types = "R") %>%
+    cat() %>%
+    expect_snapshot()
+
+  context_data_files(max = 2, file_types = "R") %>%
     cat() %>%
     expect_snapshot()
 })
