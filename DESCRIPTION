@@ -1,6 +1,6 @@
 Package: chattr
 Title: Integrates LLM's with the RStudio IDE
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: 
     person("Edgar", "Ruiz", , "edgar@posit.co", role = c("aut", "cre"))
 Description: Integrates LLM's with the RStudio IDE.
