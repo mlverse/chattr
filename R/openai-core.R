@@ -3,10 +3,13 @@ openai_token <- function() {
 
   ret <- NULL
   if (!is.na(env_key)) ret <- env_key
-  if (is.null(ret)) ret <- config::get("openai-api-key")
+  if (is.null(ret) && file_exists(Sys.getenv("R_CONFIG_FILE", "config.yml"))) {
+    ret <- config::get("openai-api-key")
+  }
+
 
   if (is.null(ret)) {
-    stop("No token found
+    abort("No token found
        - Add your key to the \"OPENAI_API_KEY\" environment variable
        - or - Add  \"open-ai-api-key\" to a `config` YAML file")
   }
@@ -17,7 +20,7 @@ openai_token <- function() {
 openai_request <- function(endpoint, req_body) {
   env_url <- Sys.getenv("CHATTR_OPENAI_URL", NA)
 
-  if(is.na(env_url)) {
+  if (is.na(env_url)) {
     url <- "https://api.openai.com/v1/"
   } else {
     url <- env_url
@@ -63,6 +66,7 @@ openai_stream_ide <- function(endpoint, req_body) {
     if (!ui_current_console()) ide_paste_text("\n\n")
     ret <- ch_env$stream$response
   }
+  openai_check_error(ret)
   ret
 }
 
@@ -76,12 +80,15 @@ openai_stream_ide_delta <- function(x, endpoint, testing = FALSE) {
     x = ch_env$stream$raw,
     endpoint = endpoint
   )
+
+  has_error <- substr(current, 1, 9) == "{{error}}"
+
   if (!is.null(current)) {
     if (is.null(ch_env$stream$response)) {
       if (ui_current_console()) {
-        if(!testing) cat(current)
+        if (!testing && !has_error) cat(current)
       } else {
-        if(!testing) ide_paste_text(current)
+        if (!testing && !has_error) ide_paste_text(current)
       }
     } else {
       if (nchar(current) != nchar(ch_env$stream$response)) {
@@ -91,10 +98,10 @@ openai_stream_ide_delta <- function(x, endpoint, testing = FALSE) {
           nchar(current)
         )
         if (ui_current_console()) {
-          if(!testing) cat(delta)
+          if (!testing && !has_error) cat(delta)
         } else {
           for (i in 1:nchar(delta)) {
-            if(!testing) ide_paste_text(substr(delta, i, i))
+            if (!testing && !has_error) ide_paste_text(substr(delta, i, i))
           }
         }
       }
@@ -135,7 +142,19 @@ openai_stream_file <- function(endpoint,
     saveRDS(ret, r_file_complete)
     file_delete(r_file_stream)
   }
+  openai_check_error(ret)
   ret
+}
+
+openai_check_error <- function(x) {
+  if (substr(x, 1, 9) == "{{error}}") {
+    error_msg <- paste0(
+      "Error from OpenAI\n",
+      substr(x, 10, nchar(x))
+    )
+    abort(error_msg)
+  }
+  invisible()
 }
 
 openai_stream_parse <- function(x, endpoint) {
@@ -162,6 +181,21 @@ openai_stream_parse <- function(x, endpoint) {
 
     if (length(res) > 0) {
       return(res)
+    }
+  } else {
+    json_res <- try(jsonlite::fromJSON(x), silent = TRUE)
+    if (!inherits(json_res, "try-error")) {
+      if ("error" %in% names(json_res)) {
+        json_error <- json_res$error
+        return(
+          paste0(
+            "{{error}}Type:",
+            json_error$type,
+            "\nMessage: ",
+            json_error$message
+          )
+        )
+      }
     }
   }
 }

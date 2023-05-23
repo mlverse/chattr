@@ -22,7 +22,7 @@ ui_current <- function() {
     cont <- getActiveDocumentContext()
     if (cont$id == "#console") {
       ret <- "console"
-      }
+    }
     if (ret == "") {
       if (cont$contents[1] == "---") {
         ret <- "markdown"

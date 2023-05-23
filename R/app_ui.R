@@ -85,7 +85,6 @@ app_ui <- function() {
 }
 
 app_ui_modal <- function() {
-
   style <- app_theme_style()
 
   tc <- ch_defaults(type = "chat")
@@ -93,21 +92,21 @@ app_ui_modal <- function() {
   prompt2 <- tc$prompt %>%
     process_prompt() %>%
     paste(collapse = "\n")
-    modalDialog(
+  modalDialog(
 
-      p("Save / Load Chat"),
-      if (ide_is_rstudio()) actionButton("save", "Save chat", style = style$ui_paste),
-      if (ide_is_rstudio()) actionButton("open", "Open chat", style = style$ui_paste),
-      hr(),
-      textAreaInput("prompt2", "Prompt", prompt2),
-      br(),
-      textInput("i_data", "Max Data Frames", tc$max_data_frames),
-      textInput("i_files", "Max Data Files", tc$max_data_files),
-      checkboxInput("i_history", "Include Chat History", tc$include_history),
-      actionButton("saved", "Save", style = style$ui_paste),
-      easyClose = TRUE,
-      footer = tagList()
-    )
+    p("Save / Load Chat"),
+    if (ide_is_rstudio()) actionButton("save", "Save chat", style = style$ui_paste),
+    if (ide_is_rstudio()) actionButton("open", "Open chat", style = style$ui_paste),
+    hr(),
+    textAreaInput("prompt2", "Prompt", prompt2),
+    br(),
+    textInput("i_data", "Max Data Frames", tc$max_data_frames),
+    textInput("i_files", "Max Data Files", tc$max_data_files),
+    checkboxInput("i_history", "Include Chat History", tc$include_history),
+    actionButton("saved", "Save", style = style$ui_paste),
+    easyClose = TRUE,
+    footer = tagList()
+  )
 }
 
 app_ui_entry <- function(content, is_code, no_id) {

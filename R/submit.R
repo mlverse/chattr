@@ -76,8 +76,21 @@ ch_submit_job_stop <- function() {
 }
 
 r_session_start <- function() {
-  ch_env$r_session <- r_session$new()
+  if (is.null(ch_env$r_session)) {
+    ch_env$r_session <- r_session$new()
+  }
   ch_env$r_session
+}
+
+r_session_error <- function() {
+  out <- NULL
+  if (!is.null(ch_env$r_session)) {
+    read_session <- ch_env$r_session$read()
+    if (!is.null(read_session)) {
+      out <- read_session$error
+    }
+  }
+  out
 }
 
 r_session_get <- function() {

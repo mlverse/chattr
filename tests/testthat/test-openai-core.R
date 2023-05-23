@@ -16,13 +16,21 @@ test_that("Stream parser works", {
 
   out <- raw %>%
     charToRaw() %>%
-    openai_stream_ide_delta("chat/completions", testing =  TRUE)
+    openai_stream_ide_delta("chat/completions", testing = TRUE)
 
   expect_equal(out, msg_gpt)
 
   out2 <- raw %>%
     charToRaw() %>%
-    openai_stream_ide_delta("chat/completions", testing =  TRUE)
+    openai_stream_ide_delta("chat/completions", testing = TRUE)
 
   expect_equal(out2, paste0(msg_gpt, msg_gpt))
+})
+
+test_that("Error handling works", {
+  x <- readRDS(test_path("data/gpt35-error.rds"))
+  parsed <- openai_stream_parse(x, "chat/completions")
+  expect_snapshot(parsed)
+  expect_error(openai_check_error(parsed))
+  expect_error(openai_check_error(parsed))
 })

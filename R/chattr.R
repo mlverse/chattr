@@ -3,9 +3,9 @@
 #' @inheritParams ch_submit
 #' @export
 chattr <- function(prompt = NULL,
-                     preview = FALSE,
-                     prompt_build = TRUE,
-                     stream = NULL) {
+                   preview = FALSE,
+                   prompt_build = TRUE,
+                   stream = NULL) {
   ret <- ch_submit(
     defaults = ch_defaults(),
     prompt = prompt,

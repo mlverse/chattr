@@ -22,13 +22,13 @@ ch_test.ch_provider_open_ai <- function(defaults = ch_defaults()) {
 
   models <- map_chr(req_content$data, ~ .x$id)
 
-  if(req$status_code == 200) {
+  if (req$status_code == 200) {
     cli_alert_success("Connection with OpenAI cofirmed")
   } else {
     cli_alert_danger("Connection with OpenAI failed")
   }
 
-  if(length(models) > 0) {
+  if (length(models) > 0) {
     cli_alert_success("Access to models confirmed")
   } else {
     cli_alert_success("Failed to access model")

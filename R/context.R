@@ -1,8 +1,7 @@
 context_data_files <- function(max = "{Inf}",
-                               file_types = c("csv", "parquet", "xls", "xlsx", "txt")
-                               ) {
+                               file_types = c("csv", "parquet", "xls", "xlsx", "txt")) {
   max <- glue(max)
-  if(glue("{Inf}") == "Inf"){
+  if (glue("{Inf}") == "Inf") {
     max <- Inf
   } else {
     max <- as.integer(max)
@@ -30,9 +29,8 @@ context_data_files <- function(max = "{Inf}",
 }
 
 context_data_frames <- function(max = "{Inf}") {
-
   max <- glue(max)
-  if(glue("{Inf}") == "Inf"){
+  if (glue("{Inf}") == "Inf") {
     max <- Inf
   } else {
     max <- as.integer(max)
@@ -56,7 +54,7 @@ context_data_frames <- function(max = "{Inf}") {
     data_frames <- dfs %>%
       paste0(collapse = " \n")
 
-    if(length(dfs) > 0) {
+    if (length(dfs) > 0) {
       ret <- paste0(
         "Data frames currently in R memory (and columns): \n",
         data_frames
@@ -64,7 +62,6 @@ context_data_frames <- function(max = "{Inf}") {
     } else {
       ret <- NULL
     }
-
   } else {
     ret <- NULL
   }
