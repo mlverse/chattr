@@ -6,7 +6,7 @@ test_that("Data frames context", {
     cat() %>%
     expect_snapshot()
 
-  context_data_frames(max = 2) %>%
+  context_data_frames(max = 1) %>%
     cat() %>%
     expect_snapshot()
 })

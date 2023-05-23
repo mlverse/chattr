@@ -6,10 +6,10 @@
 #' by calling this function, even after the interactive session has started.
 #' @export
 #' @param max_data_files Sets the maximum number of data files to send to the
-#' model. It defaults to 20. To send all, set to `Inf`
+#' model. It defaults to 20. To send all, set to NULL
 #' @param max_data_frames Sets the maximum number of data frames loaded in the
 #' current R session to send to the model. It defaults to 20. To send all,
-#' set to `Inf`
+#' set to NULL
 #' @param include_doc_contents Send the current code in the document
 #' @param include_history Indicates weather to include the chat history when
 #' everytime a new prompt is submitted
