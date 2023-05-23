@@ -13,8 +13,7 @@
       .
     Output
       Data frames currently in R memory (and columns): 
-      |--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species) 
-      |--  mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+      |--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
 
 # File finder works
 
