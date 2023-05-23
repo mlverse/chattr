@@ -32,4 +32,5 @@ test_that("Error handling works", {
   parsed <- openai_stream_parse(x, "chat/completions")
   expect_snapshot(parsed)
   expect_error(openai_check_error(parsed))
+  expect_error(openai_check_error(parsed))
 })

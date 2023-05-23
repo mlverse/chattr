@@ -3,7 +3,10 @@ openai_token <- function() {
 
   ret <- NULL
   if (!is.na(env_key)) ret <- env_key
-  if (is.null(ret)) ret <- config::get("openai-api-key")
+  if (is.null(ret) && file_exists(Sys.getenv("R_CONFIG_FILE", "config.yml"))) {
+    ret <- config::get("openai-api-key")
+  }
+
 
   if (is.null(ret)) {
     abort("No token found
