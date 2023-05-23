@@ -1,20 +1,31 @@
-context_data_files <- function(max = "{Inf}",
-                               file_types = c("csv", "parquet", "xls", "xlsx", "txt")) {
-  max <- glue(max)
-  if (glue("{Inf}") == "Inf") {
-    max <- Inf
+context_data_files <- function(
+    max = NULL,
+    file_types = c("csv", "parquet", "xls", "xlsx", "txt"),
+    path = "."
+    ) {
+
+  if(is.null(max)) {
+    files <- get_files(
+      path = path,
+      file_types = file_types,
+      recurse = TRUE
+    )
   } else {
-    max <- as.integer(max)
+    total <- TRUE
+    for(i in 2:4) {
+      if(total) {
+        files <- get_files(
+          path = path,
+          file_types = file_types,
+          recurse = i
+        )
+        if(length(files) >= max) {
+          total <- FALSE
+          files <- files[seq_len(max)]
+        }
+      }
+    }
   }
-
-  all_files <- dir_ls(recurse = TRUE)
-
-  files <- file_types %>%
-    map(~ {
-      all_files[path_ext(all_files) == .x]
-    }) %>%
-    reduce(c) %>%
-    head(max)
 
   if (length(files) > 0) {
     ret <- paste0(
@@ -28,7 +39,18 @@ context_data_files <- function(max = "{Inf}",
   ret
 }
 
-context_data_frames <- function(max = "{Inf}") {
+get_files <- function(path, file_types, recurse) {
+  file_types %>%
+    map(~ dir_ls(
+      path = path,
+      type = "file",
+      glob = paste0("*.", .x),
+      recurse = recurse
+    )) %>%
+    reduce(c)
+}
+
+context_data_frames <- function(max = NULL) {
   max <- glue(max)
   if (glue("{Inf}") == "Inf") {
     max <- Inf
