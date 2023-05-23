@@ -29,7 +29,7 @@ context_data_frames <- function(max = "{Inf}") {
     keep(~ inherits(.x[[1]], "data.frame"))
 
   if (length(dfs) > 0) {
-    data_frames <- dfs %>%
+    dfs <- dfs %>%
       map(~ {
         fields <- .x[[1]] %>%
           imap(~ paste0(.y)) %>%
@@ -37,13 +37,20 @@ context_data_frames <- function(max = "{Inf}") {
 
         paste0("|--  ", names(.x), " (", fields, ")")
       }) %>%
-      head(glue(max)) %>%
+      head(glue(max))
+
+    data_frames <- dfs %>%
       paste0(collapse = " \n")
 
-    ret <- paste0(
-      "Data frames currently in R memory (and columns): \n",
-      data_frames
+    if(length(dfs) > 0) {
+      ret <- paste0(
+        "Data frames currently in R memory (and columns): \n",
+        data_frames
       )
+    } else {
+      ret <- NULL
+    }
+
   } else {
     ret <- NULL
   }

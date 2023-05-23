@@ -9,13 +9,4 @@
 
     Code
       .
-    Output
-      Data files available: 
-      |- test-app_server.R
-      |- test-app_ui.R
-      |- test-chattr.R
-      |- test-context.R
-      |- test-defaults.R
-      |- test-ide.R
-      |- test-openai-core.R
 

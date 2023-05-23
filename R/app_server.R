@@ -26,8 +26,8 @@ app_server <- function(input, output, session) {
   observeEvent(input$saved, {
     ch_defaults(
       type = "chat",
-      include_data_files = input$i_files,
-      include_data_frames = input$i_data,
+      max_data_files = input$i_files,
+      max_data_frames = input$i_data,
       include_history = input$i_history,
       prompt = input$prompt2
     )

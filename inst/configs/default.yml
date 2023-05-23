@@ -3,8 +3,8 @@ default:
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: Open AI
   model: GPT 3.5 Turbo
-  max_data_files: 100
-  max_data_frames: "{Inf}"
+  max_data_files: 20
+  max_data_frames: 20
   include_doc_contents: FALSE
   include_history: TRUE
   system_msg: You are a helpful coding assistant

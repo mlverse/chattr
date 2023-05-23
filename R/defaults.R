@@ -5,10 +5,11 @@
 #' found, then the defaults for GPT 3.5 will be used. The defaults can be modified
 #' by calling this function, even after the interactive session has started.
 #' @export
-#' @param include_data_files Send the list of data files found in the working
-#' directory? Defaults to NULL
-#' @param include_data_frames Send the list of data.frames currently in the R
-#' environment? Defaults to NULL
+#' @param max_data_files Sets the maximum number of data files to send to the
+#' model. It defaults to 20. To send all, set to `Inf`
+#' @param max_data_frames Sets the maximum number of data frames loaded in the
+#' current R session to send to the model. It defaults to 20. To send all,
+#' set to `Inf`
 #' @param include_doc_contents Send the current code in the document
 #' @param include_history Indicates weather to include the chat history when
 #' everytime a new prompt is submitted
@@ -28,8 +29,8 @@
 #' @inheritParams chattr
 ch_defaults <- function(type = NULL,
                         prompt = NULL,
-                        include_data_files = NULL,
-                        include_data_frames = NULL,
+                        max_data_files = NULL,
+                        max_data_frames = NULL,
                         include_doc_contents = NULL,
                         include_history = NULL,
                         provider = NULL,
@@ -137,9 +138,9 @@ print.ch_model <- function(x, ...) {
     )
   }
   cli_h3("Context:")
+  cli_text("Max Data Files: ", x$max_data_files)
+  cli_text("Max Data Frames: ", x$max_data_frames)
   print_include(x$include_history, "Chat History")
-  print_include(x$include_data_files, "Data Files")
-  print_include(x$include_data_frames, "Data Frames")
   print_include(x$include_doc_contents, "Document contents")
   cli_end()
 }
