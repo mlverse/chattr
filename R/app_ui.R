@@ -134,7 +134,7 @@ app_ui_entry <- function(content, is_code, no_id) {
               )
             )
           },
-          if (is_code & ide_is_rstudio()) {
+          if (is_code && ide_is_rstudio()) {
             tags$div(
               style = "display:inline-block",
               title = "Send to document",
@@ -146,7 +146,7 @@ app_ui_entry <- function(content, is_code, no_id) {
               )
             )
           },
-          if (is_code & ide_is_rstudio()) {
+          if (is_code && ide_is_rstudio()) {
             tags$div(
               style = "display:inline-block",
               title = "New script",

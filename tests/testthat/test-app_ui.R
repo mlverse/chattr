@@ -13,6 +13,10 @@ test_that("UI modal output is as expected", {
 })
 
 test_that("UI entry for assistant reponse works as expected", {
+  ch_debug_set_true()
+  expect_true(ch_debug_get())
   expect_snapshot(capture.output(app_ui_entry("test", TRUE, 1)))
   expect_snapshot(capture.output(app_ui_entry("test", FALSE, 2)))
+  ch_debug_set_false()
+  expect_false(ch_debug_get())
 })
