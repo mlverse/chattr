@@ -17,7 +17,9 @@ test_that("Submit job works as expected", {
 
   expect_snapshot(readRDS(complete_file))
 
-  ch_submit_job_stop()
+  expect_silent(ch_submit_job_stop())
+
+  expect_false(is.null(r_session_get()))
 
   expect_equal(
     ch_env$r_session$get_state(),

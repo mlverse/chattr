@@ -76,6 +76,7 @@ ch_submit_job <- function(prompt,
 #' @rdname ch_submit
 ch_submit_job_stop <- function() {
   ch_env$r_session$close()
+  invisible()
 }
 
 r_session_start <- function() {
