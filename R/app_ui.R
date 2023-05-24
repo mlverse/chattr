@@ -146,6 +146,18 @@ app_ui_entry <- function(content, is_code, no_id) {
               )
             )
           },
+          if (is_code & ide_is_rstudio()) {
+            tags$div(
+              style = "display:inline-block",
+              title = "New script",
+              actionButton(
+                paste0("new", no_id),
+                icon = icon("plus"),
+                label = "",
+                style = app_style$ui_paste
+              )
+            )
+          },
           style = "padding: 0px"
         ) %>%
           tagAppendAttributes(style = "width: 20%;")
