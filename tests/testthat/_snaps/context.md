@@ -28,6 +28,7 @@
       |- test-chattr.R
       |- test-context.R
       |- test-defaults.R
+      |- test-history.R
       |- test-ide.R
       |- test-openai-core.R
       |- test-submit.R
