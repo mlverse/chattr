@@ -1,4 +1,4 @@
-context_data_files <- function(
+ch_context_data_files <- function(
     max = NULL,
     file_types = c("csv", "parquet", "xls", "xlsx", "txt"),
     path = ".") {
@@ -48,14 +48,14 @@ get_files <- function(path, file_types, recurse) {
     reduce(c) %>%
     try(silent = TRUE)
 
-  if(inherits(x, "try-error")) {
+  if (inherits(x, "try-error")) {
     x <- NULL
   }
 
   x
 }
 
-context_data_frames <- function(max = NULL) {
+ch_context_data_frames <- function(max = NULL) {
   dfs <- ls(envir = .GlobalEnv) %>%
     map(~ mget(.x, .GlobalEnv)) %>%
     keep(~ inherits(.x[[1]], "data.frame"))

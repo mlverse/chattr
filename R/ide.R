@@ -11,7 +11,9 @@ ide_current <- function() {
 }
 
 ide_is_rstudio <- function() {
-  if(ch_debug_get()) return(TRUE)
+  if (ch_debug_get()) {
+    return(TRUE)
+  }
   ide_current() == "rstudio"
 }
 
@@ -81,7 +83,7 @@ ide_comment_selection <- function() {
 
     new_line <- paste0(replacement, "\n")
 
-    if(!ch_debug_get()) {
+    if (!ch_debug_get()) {
       doc_range <- document_range(
         document_position(start_row, 1),
         document_position(end_row, end_size + 1)
@@ -129,10 +131,9 @@ ide_build_prompt <- function(prompt = NULL,
 
 
 rstudio_active_contents <- function() {
-  if(ch_debug_get()) {
+  if (ch_debug_get()) {
     readRDS(package_file("tests", "rstudio-script.rds"))
   } else {
     getActiveDocumentContext()
   }
-
 }

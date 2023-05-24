@@ -34,7 +34,7 @@ ch_submit.ch_provider_open_ai <- function(defaults,
   ret <- NULL
   if (preview) {
     ret <- as_ch_request(new_prompt, defaults)
-    if(!is.null(r_file_complete)) {
+    if (!is.null(r_file_complete)) {
       saveRDS(ret, r_file_complete)
     }
   } else {
@@ -93,8 +93,8 @@ openai_prompt.ch_model_davinci_3 <- function(defaults, prompt) {
 build_header <- function(defaults) {
   header <- c(
     process_prompt(defaults$prompt),
-    context_data_files(defaults$max_data_files),
-    context_data_frames(defaults$max_data_frames)
+    ch_context_data_files(defaults$max_data_files),
+    ch_context_data_frames(defaults$max_data_frames)
   )
 
   paste0("* ", header, collapse = " \n")
