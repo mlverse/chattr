@@ -1,4 +1,5 @@
 test_that("Request submission works",{
+  Sys.setenv("OPENAI_API_KEY" = "test")
   expect_snapshot(openai_request("chat/completions", list()))
 })
 
