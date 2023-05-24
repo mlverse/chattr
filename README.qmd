@@ -121,7 +121,7 @@ chattr(preview = TRUE)
 ```
 
 ```         
-── chattr ───────────────────────────────────────────────────
+── chattr ────────────────────────────────────────────────────────────────
 
 ── Preview for: Console 
 • Provider: Open AI
@@ -158,7 +158,7 @@ ch_defaults()
 ```
 
 ```         
-── chattr ─────────────────────────────────────────────────
+── chattr ────────────────────────────────────────────────────────
 
 ── Defaults for: Notebook ──
 
@@ -176,9 +176,9 @@ Model: GPT 3.5 Turbo
 • stream: TRUE
 
 ── Context: 
+Max Data Files: 20
+Max Data Frames: 20
 ✔ Chat History
-✔ Data Files
-✔ Data Frames
 ✖ Document contents
 ```
 
@@ -190,7 +190,7 @@ ch_defaults(prompt = c("New instructions", "New line"))
 ```
 
 ```         
-── chattr ───────────────────────────────────────────────────
+── chattr ────────────────────────────────────────────────────────
 
 ── Defaults for: Notebook ──
 
@@ -208,9 +208,9 @@ Model: GPT 3.5 Turbo
 • stream: TRUE
 
 ── Context: 
+Max Data Files: 20
+Max Data Frames: 20
 ✔ Chat History
-✔ Data Files
-✔ Data Frames
 ✖ Document contents
 ```
 

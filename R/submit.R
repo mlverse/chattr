@@ -43,7 +43,8 @@ ch_submit_job <- function(prompt,
              r_file_complete,
              prompt_build,
              defaults,
-             ch_history) {
+             ch_history,
+             preview) {
       chattr::ch_history(ch_history)
       chattr::ch_submit(
         defaults = do.call(
@@ -54,7 +55,8 @@ ch_submit_job <- function(prompt,
         stream = stream,
         prompt_build = prompt_build,
         r_file_stream = r_file_stream,
-        r_file_complete = r_file_complete
+        r_file_complete = r_file_complete,
+        preview = preview
       )
     },
     args = list(
@@ -64,7 +66,8 @@ ch_submit_job <- function(prompt,
       prompt_build = prompt_build,
       defaults = defaults,
       stream = stream,
-      ch_history = ch_history()
+      ch_history = ch_history(),
+      preview = ch_debug_get()
     )
   )
 }
@@ -73,6 +76,7 @@ ch_submit_job <- function(prompt,
 #' @rdname ch_submit
 ch_submit_job_stop <- function() {
   ch_env$r_session$close()
+  invisible()
 }
 
 r_session_start <- function() {

@@ -6,6 +6,7 @@ test_that("Basic chattr() tests", {
   expect_snapshot(chattr(preview = TRUE))
   ch_debug_set_true()
   expect_snapshot(chattr("test", stream = FALSE))
+  ch_debug_set_false()
 })
 
 test_that("Using DaVinci", {
@@ -15,4 +16,10 @@ test_that("Using DaVinci", {
   expect_snapshot(chattr("test", preview = TRUE))
   ch_debug_set_true()
   expect_snapshot(chattr("test", stream = FALSE))
+})
+
+test_that("Data frames show up", {
+  data(mtcars)
+  data(iris)
+  expect_snapshot(chattr(preview = TRUE))
 })

@@ -1,3 +1,14 @@
+# Request submission works
+
+    Code
+      openai_request("chat/completions", list())
+    Message <cliMessage>
+      <httr2_request>
+      POST https://api.openai.com/v1/chat/completions
+      Headers:
+      * Authorization: '<REDACTED>'
+      Body: json encoded data
+
 # Error handling works
 
     Code

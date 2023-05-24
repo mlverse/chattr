@@ -1,3 +1,8 @@
+test_that("Request submission works",{
+  Sys.setenv("OPENAI_API_KEY" = "test")
+  expect_snapshot(openai_request("chat/completions", list()))
+})
+
 test_that("Missing token returns error", {
   Sys.unsetenv("OPENAI_API_KEY")
   expect_error(openai_token())
@@ -34,3 +39,4 @@ test_that("Error handling works", {
   expect_error(openai_check_error(parsed))
   expect_error(openai_check_error(parsed))
 })
+

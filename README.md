@@ -149,7 +149,7 @@ data(iris)
 chattr(preview = TRUE)
 ```
 
-    ── chattr ───────────────────────────────────────────────────
+    ── chattr ────────────────────────────────────────────────────────────────
 
     ── Preview for: Console 
     • Provider: Open AI
@@ -184,7 +184,7 @@ To edit what `chattr` is sending to the model you can use
 ch_defaults()
 ```
 
-    ── chattr ─────────────────────────────────────────────────
+    ── chattr ────────────────────────────────────────────────────────
 
     ── Defaults for: Notebook ──
 
@@ -202,9 +202,9 @@ ch_defaults()
     • stream: TRUE
 
     ── Context: 
+    Max Data Files: 20
+    Max Data Frames: 20
     ✔ Chat History
-    ✔ Data Files
-    ✔ Data Frames
     ✖ Document contents
 
 To modify, simply pass the new value as an argument to the function:
@@ -213,7 +213,7 @@ To modify, simply pass the new value as an argument to the function:
 ch_defaults(prompt = c("New instructions", "New line"))
 ```
 
-    ── chattr ───────────────────────────────────────────────────
+    ── chattr ────────────────────────────────────────────────────────
 
     ── Defaults for: Notebook ──
 
@@ -231,9 +231,9 @@ ch_defaults(prompt = c("New instructions", "New line"))
     • stream: TRUE
 
     ── Context: 
+    Max Data Files: 20
+    Max Data Frames: 20
     ✔ Chat History
-    ✔ Data Files
-    ✔ Data Frames
     ✖ Document contents
 
 ## Appendix

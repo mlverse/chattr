@@ -10,7 +10,7 @@ context_data_files <- function(
     )
   } else {
     total <- TRUE
-    for (i in 2:4) {
+    for (i in 0:4) {
       if (total) {
         files <- get_files(
           path = path,
@@ -38,14 +38,21 @@ context_data_files <- function(
 }
 
 get_files <- function(path, file_types, recurse) {
-  file_types %>%
+  x <- file_types %>%
     map(~ dir_ls(
       path = path,
       type = "file",
       glob = paste0("*.", .x),
       recurse = recurse
     )) %>%
-    reduce(c)
+    reduce(c) %>%
+    try(silent = TRUE)
+
+  if(inherits(x, "try-error")) {
+    x <- NULL
+  }
+
+  x
 }
 
 context_data_frames <- function(max = NULL) {
@@ -60,6 +67,8 @@ context_data_frames <- function(max = NULL) {
     }
 
     dfs <- dfs %>%
+      discard(is.null) %>%
+      discard(is.na) %>%
       map(~ {
         fields <- .x[[1]] %>%
           imap(~ paste0(.y)) %>%
