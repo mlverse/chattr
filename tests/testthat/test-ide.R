@@ -1,6 +1,21 @@
 test_that("Testing IDE functions", {
+  ch_debug_set_false()
+  expect_false(ch_debug_get())
   expect_equal(ide_current(), "")
   expect_false(ide_is_rstudio())
   expect_equal(ui_current(), "console")
   expect_false(ui_current_markdown())
+})
+
+test_that("IDE functions work in debug mode", {
+  script <- readRDS(package_file("tests", "rstudio-script.rds"))
+  ch_debug_set_true()
+  expect_true(ch_debug_get())
+  expect_true(ide_is_rstudio())
+  expect_equal(ui_current(), "script")
+  expect_false(ui_current_console())
+  expect_false(ui_current_markdown())
+  expect_equal(ide_comment_selection(), script$contents)
+  ch_debug_set_false()
+  expect_false(ch_debug_get())
 })

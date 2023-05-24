@@ -17,10 +17,7 @@ ch_test.ch_provider_open_ai <- function(defaults = ch_defaults()) {
     req_auth_bearer_token(openai_token()) %>%
     req_perform()
 
-  req_content <- req %>%
-    resp_body_json()
-
-  models <- map_chr(req_content$data, ~ .x$id)
+  models <- map_chr(resp_body_json(req)$data, ~ .x$id)
 
   if (req$status_code == 200) {
     cli_alert_success("Connection with OpenAI cofirmed")
@@ -31,6 +28,6 @@ ch_test.ch_provider_open_ai <- function(defaults = ch_defaults()) {
   if (length(models) > 0) {
     cli_alert_success("Access to models confirmed")
   } else {
-    cli_alert_success("Failed to access model")
+    cli_alert_danger("Failed to access model")
   }
 }
