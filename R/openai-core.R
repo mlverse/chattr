@@ -126,14 +126,7 @@ openai_stream_file <- function(endpoint,
     openai_request(endpoint, req_body) %>%
       req_stream(
         function(x) {
-          ch_env$stream$response <- paste0(
-            ch_env$stream$response,
-            rawToChar(x),
-            collapse = ""
-          )
-          ch_env$stream$response %>%
-            openai_stream_parse(endpoint) %>%
-            saveRDS(r_file_stream)
+          openai_stream_file_delta(x, endpoint, r_file_stream)
           TRUE
         },
         buffer_kb = 0.05
@@ -144,6 +137,17 @@ openai_stream_file <- function(endpoint,
   }
   openai_check_error(ret)
   ret
+}
+
+openai_stream_file_delta <- function(x, endpoint, r_file_stream) {
+  ch_env$stream$response <- paste0(
+    ch_env$stream$response,
+    rawToChar(x),
+    collapse = ""
+  )
+  ch_env$stream$response %>%
+    openai_stream_parse(endpoint) %>%
+    saveRDS(r_file_stream)
 }
 
 openai_check_error <- function(x) {

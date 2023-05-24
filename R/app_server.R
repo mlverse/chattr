@@ -18,10 +18,7 @@ app_server <- function(input, output, session) {
     showModal(app_ui_modal())
   })
 
-  app_add_history(
-    style = style,
-    input = input
-  )
+  app_add_history(style, input)
 
   observeEvent(input$saved, {
     ch_defaults(
@@ -65,29 +62,19 @@ app_server <- function(input, output, session) {
   observe({
     auto_invalidate()
     if (file_exists(r_file_complete)) {
-      out <- readRDS(r_file_complete)
+      out <- app_server_file_complete(r_file_complete)
       app_add_assistant(
         content = out,
         style = style$ui_assistant,
         input = input
       )
-      ch_history_append(
-        assistant = out
-      )
-      file_delete(r_file_complete)
-      ch_env$current_stream <- NULL
     }
   })
 
   output$stream <- renderText({
     auto_invalidate()
     if (file_exists(r_file_stream)) {
-      current_stream <- r_file_stream %>%
-        readRDS() %>%
-        try(silent = TRUE)
-      if (!inherits(current_stream, "try-error")) {
-        ch_env$current_stream <- current_stream
-      }
+      app_server_file_stream(r_file_stream)
       markdown(ch_env$current_stream)
     }
   })
@@ -118,8 +105,7 @@ app_server <- function(input, output, session) {
 
   observeEvent(input$save, {
     file <- try(file.choose(new = TRUE), silent = TRUE)
-    ext <- path_ext(file)
-    if (ext == "rds") {
+    if (path_ext(file) == "rds") {
       saveRDS(
         ch_history(),
         file
@@ -221,4 +207,25 @@ app_split_content <- function(content) {
       )
     }
   )
+}
+
+app_server_file_complete <- function(r_file_complete) {
+  Sys.sleep(0.02)
+  out <- readRDS(r_file_complete)
+  ch_history_append(
+    assistant = out
+  )
+  file_delete(r_file_complete)
+  ch_env$current_stream <- NULL
+  out
+}
+
+app_server_file_stream <- function(r_file_stream) {
+  current_stream <- r_file_stream %>%
+    readRDS() %>%
+    try(silent = TRUE)
+  if (!inherits(current_stream, "try-error")) {
+    ch_env$current_stream <- current_stream
+  }
+  invisible()
 }
