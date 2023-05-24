@@ -6,7 +6,7 @@
       
       -- chattr ----------------------------------------------------------------------
       
-      -- Preview for: Chat 
+      -- Preview for: Console 
       * Provider: Open AI
       * Model: GPT 3.5 Turbo
       * temperature: 0.01
@@ -24,7 +24,5 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
-      * For code output, use RMarkdown code chunks
-      * Avoid all code chunk options
       TEST
 
