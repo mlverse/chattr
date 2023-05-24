@@ -67,6 +67,8 @@ context_data_frames <- function(max = NULL) {
     }
 
     dfs <- dfs %>%
+      discard(is.null) %>%
+      discard(is.na) %>%
       map(~ {
         fields <- .x[[1]] %>%
           imap(~ paste0(.y)) %>%

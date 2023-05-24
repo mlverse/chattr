@@ -191,3 +191,32 @@
       [1] FALSE
       
 
+# Data frames show up
+
+    Code
+      chattr(preview = TRUE)
+    Message <cliMessage>
+      
+      -- chattr ----------------------------------------------------------------------
+      
+      -- Preview for: Console 
+      * Provider: Open AI
+      * Model: DaVinci 3
+      * temperature: 0.01
+      * max_tokens: 1000
+      * stream: TRUE
+      
+      -- Prompt: 
+      
+      * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
+      * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
+      * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
+      * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
+      broom
+      * Avoid explanations unless requested by user, expecting code only
+      * For any line that is not code, prefix it with a: #
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+      * [Your future prompt goes here]
+
