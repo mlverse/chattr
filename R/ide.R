@@ -11,6 +11,7 @@ ide_current <- function() {
 }
 
 ide_is_rstudio <- function() {
+  if(ch_debug_get()) return(TRUE)
   ide_current() == "rstudio"
 }
 
@@ -19,7 +20,7 @@ ide_is_rstudio <- function() {
 ui_current <- function() {
   ret <- ""
   if (ide_is_rstudio()) {
-    cont <- getActiveDocumentContext()
+    cont <- rstudio_active_contents()
     if (cont$id == "#console") {
       ret <- "console"
     }
@@ -46,32 +47,17 @@ ui_current_markdown <- function() {
 
 # -------------------------- Document contents ---------------------------------
 
-ide_paste_text <- function(x, loc = NULL) {
+ide_paste_text <- function(x) {
   if (ide_is_rstudio()) {
-    if (is.null(loc)) {
-      insertText(text = x)
-    } else {
-      loc <- document_range(c(loc, 0), c(loc, 0))
-      insertText(text = x, location = loc)
-    }
+    insertText(text = x)
   }
   invisible()
-}
-
-ide_active_document_contents <- function(remove_blanks = TRUE) {
-  cont <- NULL
-  if (ide_is_rstudio()) {
-    ad <- getActiveDocumentContext()
-    cont <- ad$contents
-    if (remove_blanks) cont <- cont[cont != ""]
-  }
-  cont
 }
 
 ide_comment_selection <- function() {
   prompt <- NULL
   if (ide_is_rstudio()) {
-    active_doc <- getActiveDocumentContext()
+    active_doc <- rstudio_active_contents()
 
     text_range <- active_doc$selection[[1]]$range
     start_row <- text_range$start[[1]]
@@ -81,11 +67,6 @@ ide_comment_selection <- function() {
 
     selected <- active_doc$contents[start_row:end_row]
     end_size <- nchar(selected[length(selected)])
-
-    doc_range <- document_range(
-      document_position(start_row, 1),
-      document_position(end_row, end_size + 1)
-    )
 
     first_letter <- substr(selected, 1, 1)
     commented <- first_letter == "#"
@@ -100,10 +81,17 @@ ide_comment_selection <- function() {
 
     new_line <- paste0(replacement, "\n")
 
-    modifyRange(
-      location = doc_range,
-      text = new_line
-    )
+    if(!ch_debug_get()) {
+      doc_range <- document_range(
+        document_position(start_row, 1),
+        document_position(end_row, end_size + 1)
+      )
+
+      modifyRange(
+        location = doc_range,
+        text = new_line
+      )
+    }
   }
   prompt
 }
@@ -137,4 +125,14 @@ ide_build_prompt <- function(prompt = NULL,
   if (err_flag) abort(err)
 
   prompt
+}
+
+
+rstudio_active_contents <- function() {
+  if(ch_debug_get()) {
+    readRDS(package_file("tests", "rstudio-script.rds"))
+  } else {
+    getActiveDocumentContext()
+  }
+
 }
