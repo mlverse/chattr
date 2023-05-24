@@ -163,13 +163,18 @@ app_add_assistant <- function(content, style, input) {
       )
       if (ch[[.x]]$is_code) {
         observeEvent(input[[paste0("copy", len)]], {
-          ch <- prep_entry(ch[[.x]]$content)
+          ch <- prep_entry(ch[[.x]]$content, !ui_current_markdown())
           write_clip(ch, allow_non_interactive = TRUE)
           if (ide_is_rstudio()) stopApp()
         })
         observeEvent(input[[paste0("doc", len)]], {
-          ch <- prep_entry(ch[[.x]]$content)
+          ch <- prep_entry(ch[[.x]]$content, !ui_current_markdown())
           insertText(text = ch)
+          stopApp()
+        })
+        observeEvent(input[[paste0("new", len)]], {
+          ch <- prep_entry(ch[[.x]]$content, TRUE)
+          documentNew(ch)
           stopApp()
         })
       }
@@ -182,8 +187,8 @@ app_add_assistant <- function(content, style, input) {
   )
 }
 
-prep_entry <- function(x) {
-  if (!ui_current_markdown()) {
+prep_entry <- function(x, remove) {
+  if (remove) {
     split_ch <- unlist(strsplit(x, "\n"))
     ch <- split_ch[2:(length(split_ch) - 1)]
     x <- paste0(ch, collapse = "\n")

@@ -1,5 +1,5 @@
 app_theme_style <- function() {
-  if (ide_is_rstudio()) {
+  if (ide_is_rstudio() && !ch_debug_get()) {
     ti <- getThemeInfo()
     color_bg <- app_theme_rgb_to_hex(ti$background)
     color_fg <- app_theme_rgb_to_hex(ti$foreground)

@@ -134,13 +134,25 @@ app_ui_entry <- function(content, is_code, no_id) {
               )
             )
           },
-          if (is_code & ide_is_rstudio()) {
+          if (is_code && ide_is_rstudio()) {
             tags$div(
               style = "display:inline-block",
               title = "Send to document",
               actionButton(
                 paste0("doc", no_id),
                 icon = icon("file"),
+                label = "",
+                style = app_style$ui_paste
+              )
+            )
+          },
+          if (is_code && ide_is_rstudio()) {
+            tags$div(
+              style = "display:inline-block",
+              title = "New script",
+              actionButton(
+                paste0("new", no_id),
+                icon = icon("plus"),
                 label = "",
                 style = app_style$ui_paste
               )
