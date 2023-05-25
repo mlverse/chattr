@@ -1,4 +1,4 @@
-app_theme_style <- function() {
+app_theme_style <- function(x = NULL) {
   if (ide_is_rstudio() && !ch_debug_get()) {
     ti <- getThemeInfo()
     color_bg <- app_theme_rgb_to_hex(ti$background)
@@ -89,7 +89,7 @@ app_theme_style <- function() {
     paste("border-color:", color_bg)
   )
 
-  list(
+  out <- list(
     color_bg = color_bg,
     color_fg = color_fg,
     color_top = color_top,
@@ -102,6 +102,10 @@ app_theme_style <- function() {
     ui_panel = style_collapse(ui_panel),
     ui_options = style_collapse(ui_options)
   )
+  if(!is.null(x)) {
+    out <- out[[x]]
+  }
+  out
 }
 
 style_collapse <- function(x) {

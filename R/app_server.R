@@ -63,11 +63,7 @@ app_server <- function(input, output, session) {
     auto_invalidate()
     if (file_exists(r_file_complete)) {
       out <- app_server_file_complete(r_file_complete)
-      app_add_assistant(
-        content = out,
-        style = style$ui_assistant,
-        input = input
-      )
+      app_add_assistant(out, input)
     }
   })
 
@@ -127,7 +123,7 @@ app_add_history <- function(style, input) {
       app_add_user(curr$content, style$ui_user)
     }
     if (curr$role == "assistant") {
-      app_add_assistant(curr$content, style$ui_assistant, input)
+      app_add_assistant(curr$content, input)
     }
   }
 }
@@ -143,7 +139,8 @@ app_add_user <- function(content, style) {
   )
 }
 
-app_add_assistant <- function(content, style, input) {
+app_add_assistant <- function(content, input) {
+  style <- app_theme_style("ui_assistant")
   len_hist <- length(ch_env$content_hist)
   ch <- app_split_content(content)
 
