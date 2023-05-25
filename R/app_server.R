@@ -14,9 +14,7 @@ app_server <- function(input, output, session) {
     )
   )
 
-  observeEvent(input$options, {
-    showModal(app_ui_modal())
-  })
+  observeEvent(input$options, showModal(app_ui_modal()))
 
   app_add_history(style, input)
 
@@ -34,7 +32,7 @@ app_server <- function(input, output, session) {
   observeEvent(input$submit, {
     if (input$prompt != "" && is.null(ch_env$current_stream)) {
       ch_history_append(user = input$prompt)
-      app_add_user(input$prompt, style$ui_user)
+      app_add_user(input$prompt)
 
       updateTextAreaInput(
         inputId = "prompt",
@@ -91,10 +89,7 @@ app_server <- function(input, output, session) {
     if (ext == "rds") {
       rds <- readRDS(file)
       ch_history_set(rds)
-      app_add_history(
-        style = style,
-        input = input
-      )
+      app_add_history(style, input)
       removeModal()
     }
   })
@@ -102,17 +97,12 @@ app_server <- function(input, output, session) {
   observeEvent(input$save, {
     file <- try(file.choose(new = TRUE), silent = TRUE)
     if (path_ext(file) == "rds") {
-      saveRDS(
-        ch_history(),
-        file
-      )
+      saveRDS(ch_history(), file)
       removeModal()
     }
   })
 
-  observeEvent(input$close, {
-    stopApp()
-  })
+  observeEvent(input$close, stopApp())
 }
 
 app_add_history <- function(style, input) {
@@ -120,7 +110,7 @@ app_add_history <- function(style, input) {
   for (i in seq_along(th)) {
     curr <- th[[i]]
     if (curr$role == "user") {
-      app_add_user(curr$content, style$ui_user)
+      app_add_user(curr$content)
     }
     if (curr$role == "assistant") {
       app_add_assistant(curr$content, input)
@@ -128,12 +118,12 @@ app_add_history <- function(style, input) {
   }
 }
 
-app_add_user <- function(content, style) {
+app_add_user <- function(content) {
   insertUI(
     selector = "#tabs",
     where = "afterEnd",
     ui = fluidRow(
-      style = style,
+      style = app_theme_style("ui_user"),
       markdown(content)
     )
   )
@@ -147,31 +137,29 @@ app_add_assistant <- function(content, input) {
   walk(
     order(seq_along(ch), decreasing = TRUE),
     ~ {
+
       len <- len_hist + .x
+      content <- ch[[.x]]$content
+      prep_content <- prep_entry(content, !ui_current_markdown())
+      is_code <- ch[[.x]]$is_code
+
       insertUI(
         selector = "#tabs",
         where = "afterEnd",
-        ui = app_ui_entry(
-          content = ch[[.x]]$content,
-          is_code = ch[[.x]]$is_code,
-          no_id = len
-        ) %>%
+        ui = app_ui_entry(content, is_code, len) %>%
           tagAppendAttributes(style = "width: 100%;")
       )
-      if (ch[[.x]]$is_code) {
+      if (is_code) {
         observeEvent(input[[paste0("copy", len)]], {
-          ch <- prep_entry(ch[[.x]]$content, !ui_current_markdown())
-          write_clip(ch, allow_non_interactive = TRUE)
+          write_clip(prep_content, allow_non_interactive = TRUE)
           if (ide_is_rstudio()) stopApp()
         })
         observeEvent(input[[paste0("doc", len)]], {
-          ch <- prep_entry(ch[[.x]]$content, !ui_current_markdown())
-          insertText(text = ch)
+          insertText(text = prep_content)
           stopApp()
         })
         observeEvent(input[[paste0("new", len)]], {
-          ch <- prep_entry(ch[[.x]]$content, TRUE)
-          documentNew(ch)
+          documentNew(prep_entry(content, TRUE))
           stopApp()
         })
       }
@@ -214,9 +202,7 @@ app_split_content <- function(content) {
 app_server_file_complete <- function(r_file_complete) {
   Sys.sleep(0.02)
   out <- readRDS(r_file_complete)
-  ch_history_append(
-    assistant = out
-  )
+  ch_history_append(assistant = out)
   file_delete(r_file_complete)
   ch_env$current_stream <- NULL
   out
