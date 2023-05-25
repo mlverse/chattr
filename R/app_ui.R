@@ -92,11 +92,15 @@ app_ui_modal <- function() {
   prompt2 <- tc$prompt %>%
     process_prompt() %>%
     paste(collapse = "\n")
-  modalDialog(
 
+  modalDialog(
     p("Save / Load Chat"),
-    if (ide_is_rstudio()) actionButton("save", "Save chat", style = style$ui_paste),
-    if (ide_is_rstudio()) actionButton("open", "Open chat", style = style$ui_paste),
+    if (ide_is_rstudio()) {
+      actionButton("save", "Save chat", style = style$ui_paste)
+    },
+    if (ide_is_rstudio()) {
+      actionButton("open", "Open chat", style = style$ui_paste)
+    },
     hr(),
     textAreaInput("prompt2", "Prompt", prompt2),
     br(),
@@ -123,40 +127,13 @@ app_ui_entry <- function(content, is_code, no_id) {
         column(
           width = 2,
           if (is_code) {
-            tags$div(
-              style = "display:inline-block",
-              title = "Copy to clipboard",
-              actionButton(
-                paste0("copy", no_id),
-                icon = icon("clipboard"),
-                label = "",
-                style = app_style$ui_paste
-              )
-            )
+            app_ui_button("Copy to clipboard", "copy", "clipboard", no_id)
           },
           if (is_code && ide_is_rstudio()) {
-            tags$div(
-              style = "display:inline-block",
-              title = "Send to document",
-              actionButton(
-                paste0("doc", no_id),
-                icon = icon("file"),
-                label = "",
-                style = app_style$ui_paste
-              )
-            )
+            app_ui_button("Send to document", "doc", "file", no_id)
           },
           if (is_code && ide_is_rstudio()) {
-            tags$div(
-              style = "display:inline-block",
-              title = "New script",
-              actionButton(
-                paste0("new", no_id),
-                icon = icon("plus"),
-                label = "",
-                style = app_style$ui_paste
-              )
-            )
+            app_ui_button("New script", "new", "plus", no_id)
           },
           style = "padding: 0px"
         ) %>%
@@ -168,6 +145,19 @@ app_ui_entry <- function(content, is_code, no_id) {
           markdown(content)
         )
       )
+    )
+  )
+}
+
+app_ui_button <- function(title, prefix, icon, no_id) {
+  tags$div(
+    style = "display:inline-block",
+    title = title,
+    actionButton(
+      paste0(prefix, no_id),
+      icon = icon(icon),
+      label = "",
+      style = app_theme_style()$ui_paste
     )
   )
 }
