@@ -1,7 +1,6 @@
 default:
   prompt: |
-    Use the R language
-    Use the tidyverse package
+    Use the R language, the tidyverse, and tidymodels
   provider: LlamaGPT
   model: LlamaGPT
   max_data_files: 0
@@ -13,3 +12,4 @@ default:
     temp: 0.01
     model: ~/ggml-gpt4all-j-v1.3-groovy.bin
     chat_path: ~/LlamaGPTJ-chat/build/bin/chat
+    n_predict: 1000

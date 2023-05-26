@@ -18,11 +18,12 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
   )
 
   if (prompt_build) {
-    new_prompt <- paste0("* ", defaults$prompt, collapse = "\n")
-    new_prompt <- paste0(prompt, "\n", new_prompt)
+    new_prompt <- paste0(prompt, "(", defaults$prompt[[1]], ")")
   } else {
     new_prompt <- prompt
   }
+
+  new_prompt <- prompt
 
   ret <- NULL
   if (preview) {
@@ -92,7 +93,7 @@ ch_llamagpt_output <- function(stream_to,
                                ) {
   all_output <- NULL
   stop_stream <- FALSE
-  for(j in 1:1000) {
+  for(j in 1:10000) {
     Sys.sleep(0.01)
     output <- cli::ansi_strip(ch_env$llamagpt$session$read_output())
     last_chars <- substr(output, nchar(output) - 2, nchar(output))
