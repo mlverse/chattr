@@ -23,8 +23,6 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
     new_prompt <- prompt
   }
 
-  new_prompt <- prompt
-
   ret <- NULL
   if (preview) {
     ret <- as_ch_request(new_prompt, defaults)
