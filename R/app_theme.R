@@ -1,4 +1,4 @@
-app_theme_style <- function() {
+app_theme_style <- function(x = NULL) {
   if (ide_is_rstudio() && !ch_debug_get()) {
     ti <- getThemeInfo()
     color_bg <- app_theme_rgb_to_hex(ti$background)
@@ -20,9 +20,12 @@ app_theme_style <- function() {
     color_bk <- "#3E4A56"
   }
 
+  ui_color_bg <- paste("color:", color_bg)
+  ui_color_bk <- paste("background-color:", color_bk)
+
   ui_panel <- c(
     "z-index: 10",
-    paste0("background-color:", color_top)
+    paste("background-color:", color_top)
   )
 
   ui_paste <- c(
@@ -31,8 +34,8 @@ app_theme_style <- function() {
     "padding-left: 10px",
     "padding-right: 10px",
     "font-size: 60%",
-    paste0("color:", color_bg),
-    paste0("background-color:", color_bk)
+    ui_color_bg,
+    ui_color_bk
   )
 
   ui_text <- c(
@@ -41,24 +44,23 @@ app_theme_style <- function() {
     "padding: 5px"
   )
 
-  ui_submit <- c(
-    "font-size: 55%",
+  ui_general <- c(
     "padding-top: 3px",
     "padding-bottom: 3px",
     "padding-left: 5px",
     "padding-right: 5px",
-    paste0("color:", color_bg),
-    paste0("background-color:", color_bk)
+    ui_color_bg,
+    ui_color_bk
+  )
+
+  ui_submit <- c(
+    "font-size: 55%",
+    ui_general
   )
 
   ui_options <- c(
     "font-size: 90%",
-    "padding-top: 3px",
-    "padding-bottom: 3px",
-    "padding-left: 5px",
-    "padding-right: 5px",
-    paste0("color:", color_bg),
-    paste0("background-color:", color_bk)
+    ui_general
   )
 
   ui_user <- c(
@@ -73,21 +75,21 @@ app_theme_style <- function() {
     "padding-left: 0px",
     "padding-right: 0px",
     "font-size: 80%",
-    paste0("color:", color_bg),
-    paste0("background-color:", color_bk),
-    paste0("border-color:", color_top)
+    ui_color_bg,
+    ui_color_bk,
+    paste("border-color:", color_top)
   )
 
   ui_assistant <- c(
     "margin: 0px",
     "padding: 0px",
     "font-size: 80%",
-    paste0("color:", color_fg),
-    paste0("background-color:", color_user),
-    paste0("border-color:", color_bg)
+    paste("color:", color_fg),
+    paste("background-color:", color_user),
+    paste("border-color:", color_bg)
   )
 
-  list(
+  out <- list(
     color_bg = color_bg,
     color_fg = color_fg,
     color_top = color_top,
@@ -100,6 +102,10 @@ app_theme_style <- function() {
     ui_panel = style_collapse(ui_panel),
     ui_options = style_collapse(ui_options)
   )
+  if(!is.null(x)) {
+    out <- out[[x]]
+  }
+  out
 }
 
 style_collapse <- function(x) {
