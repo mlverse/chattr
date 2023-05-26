@@ -10,23 +10,43 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
   if (ui_current_markdown()) {
     return(invisible())
   }
-  x <- ch_llamagpt_session()
 
-  ch_llamagpt_prompt(prompt)
+  prompt <- ide_build_prompt(
+    prompt = prompt,
+    defaults = defaults,
+    preview = preview
+  )
 
-  if(ui_current_console()) {
-    ch_llamagpt_output("console")
+  if (prompt_build) {
+    new_prompt <- paste0("* ", defaults$prompt, collapse = "\n")
+    new_prompt <- paste0(prompt, "\n", new_prompt)
+  } else {
+    new_prompt <- prompt
   }
 
-  if(ui_current() == "script") {
-    ch_llamagpt_output("script")
+  ret <- NULL
+  if (preview) {
+    ret <- as_ch_request(new_prompt, defaults)
+  } else {
+    ch_llamagpt_session(defaults = defaults)
+
+    ch_llamagpt_prompt(new_prompt)
+
+    if(defaults$type == "default") {
+      ui <- ui_current()
+    } else {
+      ui <- defaults$type
+    }
+
+    ret <- ch_llamagpt_output(ui, r_file_stream, r_file_complete)
+
   }
 
-  NULL
+  ret
 }
 
 #' @import processx
-ch_llamagpt_session <- function(silent = FALSE) {
+ch_llamagpt_session <- function(silent = FALSE, defaults = ch_defaults()) {
   init_session <- FALSE
   if(is.null(ch_env$llamagpt$session)) {
     init_session <- TRUE
@@ -36,8 +56,7 @@ ch_llamagpt_session <- function(silent = FALSE) {
     }
   }
   if(init_session) {
-    ch <- ch_defaults()
-    args <- ch$model_arguments
+    args <- defaults$model_arguments
     chat_path <- path_expand(args$chat_path)
     args$model <- path_expand(args$model)
     args <- args[names(args) != "chat_path"]
@@ -67,7 +86,10 @@ ch_llamagpt_prompt <- function(prompt) {
   ch_env$llamagpt$session$write_input(prompt)
 }
 
-ch_llamagpt_output <- function(stream_to) {
+ch_llamagpt_output <- function(stream_to,
+                               stream_file = NULL,
+                               output_file = NULL
+                               ) {
   all_output <- NULL
   stop_stream <- FALSE
   for(j in 1:1000) {
@@ -78,11 +100,20 @@ ch_llamagpt_output <- function(stream_to) {
       output <- substr(output, 1, nchar(output) - 2)
       stop_stream <- TRUE
     }
+    all_output <- paste0(all_output, output)
+
     if(stream_to == "console") cat(output)
     if(stream_to == "script") ide_paste_text(output)
-    all_output <- paste0(all_output, output)
+    if(stream_to == "chat") saveRDS(all_output, stream_file)
+
     if(stop_stream) {
-      return(all_output)
+      if(stream_to == "chat") {
+        saveRDS(all_output, output_file)
+        file_delete(stream_file)
+        return(NULL)
+      } else {
+        return(all_output)
+      }
     }
   }
   all_output
