@@ -27,7 +27,7 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
   if (preview) {
     ret <- as_ch_request(new_prompt, defaults)
   } else {
-    ch_llamagpt_session(defaults = defaults)
+    ch_llamagpt_session(defaults, r_file_stream, r_file_complete)
 
     ch_llamagpt_prompt(new_prompt)
 
@@ -45,7 +45,10 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
 }
 
 #' @import processx
-ch_llamagpt_session <- function(silent = FALSE, defaults = ch_defaults()) {
+ch_llamagpt_session <- function(defaults = ch_defaults(),
+                                r_file_stream = NULL,
+                                r_file_complete = NULL
+                                ) {
   init_session <- FALSE
   if(is.null(ch_env$llamagpt$session)) {
     init_session <- TRUE
@@ -73,9 +76,13 @@ ch_llamagpt_session <- function(silent = FALSE, defaults = ch_defaults()) {
       stdin = "|"
     )
     ch_env$llamagpt$session
-    cli_h2("chattr")
-    cli_h3("Initializing model")
-    ch_llamagpt_output("console")
+    if(defaults$type == "chat") {
+      ch_llamagpt_output("chat", r_file_stream)
+    } else {
+      cli_h2("chattr")
+      cli_h3("Initializing model")
+      ch_llamagpt_output("console")
+    }
   }
   ch_env$llamagpt$session
 }
@@ -107,7 +114,7 @@ ch_llamagpt_output <- function(stream_to,
 
     if(stop_stream) {
       if(stream_to == "chat") {
-        saveRDS(all_output, output_file)
+        if(!is.null(output_file)) saveRDS(all_output, output_file)
         file_delete(stream_file)
         return(NULL)
       } else {
