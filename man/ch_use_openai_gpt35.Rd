@@ -3,11 +3,14 @@
 \name{ch_use_openai_gpt35}
 \alias{ch_use_openai_gpt35}
 \alias{ch_use_openai_davinci}
+\alias{ch_use_llamagpt}
 \title{Sets base defaults for specific LLM model}
 \usage{
 ch_use_openai_gpt35()
 
 ch_use_openai_davinci()
+
+ch_use_llamagpt()
 }
 \description{
 Sets base defaults for specific LLM model
