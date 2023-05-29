@@ -47,7 +47,8 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
 #' @import processx
 ch_llamagpt_session <- function(defaults = ch_defaults(),
                                 r_file_stream = NULL,
-                                r_file_complete = NULL
+                                r_file_complete = NULL,
+                                testing = FALSE
                                 ) {
   init_session <- FALSE
   if(is.null(ch_env$llamagpt$session)) {
@@ -58,8 +59,8 @@ ch_llamagpt_session <- function(defaults = ch_defaults(),
     }
   }
   if(init_session) {
-    args <- ch_llamagpt_args(default)
-
+    args <- ch_llamagpt_args(defaults)
+    chat_path <- path_expand(defaults$model_arguments$chat_path)
     ch_env$llamagpt$session <- process$new(
       chat_path,
       args = args,
@@ -67,8 +68,9 @@ ch_llamagpt_session <- function(defaults = ch_defaults(),
       stderr = "|",
       stdin = "|"
     )
-
-    ch_llamagpt_pritout(defaults)
+    if(!testing) {
+      ch_llamagpt_printout(defaults, r_file_stream)
+    }
   }
   ch_env$llamagpt$session
 }
@@ -127,11 +129,14 @@ ch_llamagpt_stop <- function() {
 
 #' @export
 ch_test.ch_provider_llamagpt <- function(defaults = ch_defaults()) {
-  ch_llamagpt_session(defaults = defaults)
+  ch_llamagpt_session(defaults = defaults, testing = TRUE)
   session <- ch_llamagpt_session()
-  if(session$read_error() == "") {
+  Sys.sleep(0.1)
+  error <- session$read_error()
+  if(error == "") {
     cli_alert_success("Model started sucessfully")
   } else {
+    cli_text(error)
     cli_alert_danger("Errors loading model")
   }
   x <- ch_llamagpt_stop()

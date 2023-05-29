@@ -202,7 +202,7 @@ openai_switch <- function(prompt,
     ret <- openai_perform(endpoint, req_body)
   }
 
-  if (defaults$include_history) {
+  if (defaults$include_history %||% FALSE) {
     ch_history_append(prompt, ret)
   }
 

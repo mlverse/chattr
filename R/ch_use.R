@@ -20,6 +20,13 @@ use_switch <- function(...) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
   file <- package_file(...)
+
+  label <- file %>%
+    path_file() %>%
+    path_ext_remove()
+
+  Sys.setenv("CHATTR_MODEL" = label)
+
   walk(
     c("default", "console", "chat", "notebook", "script"),
     ~ {

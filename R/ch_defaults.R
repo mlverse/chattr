@@ -55,7 +55,11 @@ ch_defaults <- function(type = NULL,
     }
   }
 
-  if (is.null(ch_defaults_get(type)$provider) | force) {
+  if(force) {
+    ch_env$defaults <- NULL
+  }
+
+  if (is.null(ch_defaults_get(type))) {
 
     env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
 

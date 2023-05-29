@@ -19,20 +19,14 @@
     Code
       ch_llamagpt_args(ch_defaults())
     Output
-       [1] "--threads"                                  
-       [2] "4"                                          
-       [3] "--temp"                                     
-       [4] "0.01"                                       
-       [5] "--model"                                    
-       [6] "/Users/edgar/ggml-gpt4all-j-v1.3-groovy.bin"
-       [7] "--n_predict"                                
-       [8] "1000"                                       
-       [9] "--temperature"                              
-      [10] "0.01"                                       
-      [11] "--max_tokens"                               
-      [12] "1000"                                       
-      [13] "--stream"                                   
-      [14] "TRUE"                                       
+      [1] "--threads"                                  
+      [2] "4"                                          
+      [3] "--temp"                                     
+      [4] "0.01"                                       
+      [5] "--model"                                    
+      [6] "/Users/edgar/ggml-gpt4all-j-v1.3-groovy.bin"
+      [7] "--n_predict"                                
+      [8] "1000"                                       
 
 # Printout works
 
