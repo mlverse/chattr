@@ -58,15 +58,7 @@ ch_llamagpt_session <- function(defaults = ch_defaults(),
     }
   }
   if(init_session) {
-    args <- defaults$model_arguments
-    chat_path <- path_expand(args$chat_path)
-    args$model <- path_expand(args$model)
-    args <- args[names(args) != "chat_path"]
-    args <- imap(
-      args,
-      ~ c(paste0("--", .y), .x)
-    ) %>%
-      reduce(c)
+    args <- ch_llamagpt_args(default)
 
     ch_env$llamagpt$session <- process$new(
       chat_path,
@@ -75,14 +67,8 @@ ch_llamagpt_session <- function(defaults = ch_defaults(),
       stderr = "|",
       stdin = "|"
     )
-    ch_env$llamagpt$session
-    if(defaults$type == "chat") {
-      ch_llamagpt_output("chat", r_file_stream)
-    } else {
-      cli_h2("chattr")
-      cli_h3("Initializing model")
-      ch_llamagpt_output("console")
-    }
+
+    ch_llamagpt_pritout(defaults)
   }
   ch_env$llamagpt$session
 }
@@ -94,13 +80,19 @@ ch_llamagpt_prompt <- function(prompt) {
 
 ch_llamagpt_output <- function(stream_to,
                                stream_file = NULL,
-                               output_file = NULL
+                               output_file = NULL,
+                               timeout = 1000,
+                               output = NULL
                                ) {
   all_output <- NULL
   stop_stream <- FALSE
-  for(j in 1:10000) {
+  timeout <- timeout / 0.01
+  for(j in 1:timeout) {
     Sys.sleep(0.01)
-    output <- cli::ansi_strip(ch_env$llamagpt$session$read_output())
+    if(is.null(output)) {
+      output <- ch_env$llamagpt$session$read_output()
+    }
+    output <- cli::ansi_strip(output)
     last_chars <- substr(output, nchar(output) - 2, nchar(output))
     if(last_chars == "\n> ") {
       output <- substr(output, 1, nchar(output) - 2)
@@ -149,4 +141,29 @@ ch_test.ch_provider_llamagpt <- function(defaults = ch_defaults()) {
     cli_alert_danger("Errors closing model session")
   }
   invisible()
+}
+
+ch_llamagpt_args <- function(defaults) {
+  args <- defaults$model_arguments
+  chat_path <- path_expand(args$chat_path)
+  args$model <- path_expand(args$model)
+  args <- args[names(args) != "chat_path"]
+  imap(
+    args,
+    ~ c(paste0("--", .y), .x)
+    ) %>%
+    reduce(c)
+}
+
+ch_llamagpt_printout <- function(defaults,
+                                 r_file_stream = NULL,
+                                 output = NULL
+                                 ) {
+  if(defaults$type == "chat") {
+    ch_llamagpt_output("chat", r_file_stream)
+  } else {
+    cli_h2("chattr")
+    cli_h3("Initializing model")
+    ch_llamagpt_output("console", output = output)
+  }
 }

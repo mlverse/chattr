@@ -25,6 +25,8 @@
       |- test-app_server.R
       |- test-app_ui.R
       |- test-app_utils.R
+      |- test-backend-llamagpt.R
+      |- test-chatter-use.R
       |- test-chattr.R
       |- test-context.R
       |- test-defaults.R
