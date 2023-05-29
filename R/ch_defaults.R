@@ -15,7 +15,9 @@
 #' everytime a new prompt is submitted
 #' @param provider The name of the provider of the LLM. Today, only "openai" is
 #' is available
-#' @param model The name of the model to use, based on the provider
+#' @param model_label The name of the model to use, based on the provider
+#' @param path The location of the model. It could be an URL or a file path.
+#' @param model The name or path to the model to use.
 #' @param system_msg For GPT 3.5 or above, the system message to send as part of
 #' the request
 #' @param yaml_file The path to a valid `config` YAML file that contains the
@@ -34,6 +36,8 @@ ch_defaults <- function(type = NULL,
                         include_doc_contents = NULL,
                         include_history = NULL,
                         provider = NULL,
+                        model_label = NULL,
+                        path = NULL,
                         model = NULL,
                         model_arguments = NULL,
                         system_msg = NULL,

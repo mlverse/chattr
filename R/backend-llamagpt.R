@@ -44,7 +44,6 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
   ret
 }
 
-#' @import processx
 ch_llamagpt_session <- function(defaults = ch_defaults(),
                                 r_file_stream = NULL,
                                 r_file_complete = NULL,
@@ -60,7 +59,7 @@ ch_llamagpt_session <- function(defaults = ch_defaults(),
   }
   if(init_session) {
     args <- ch_llamagpt_args(defaults)
-    chat_path <- path_expand(defaults$model_arguments$chat_path)
+    chat_path <- path_expand(defaults$path)
     ch_env$llamagpt$session <- process$new(
       chat_path,
       args = args,
@@ -92,9 +91,11 @@ ch_llamagpt_output <- function(stream_to,
   for(j in 1:timeout) {
     Sys.sleep(0.01)
     if(is.null(output)) {
-      output <- ch_env$llamagpt$session$read_output()
+      x <- ch_env$llamagpt$session$read_output()
+    } else {
+      x <- output
     }
-    output <- cli::ansi_strip(output)
+    output <- cli::ansi_strip(x)
     last_chars <- substr(output, nchar(output) - 2, nchar(output))
     if(last_chars == "\n> ") {
       output <- substr(output, 1, nchar(output) - 2)
@@ -106,17 +107,18 @@ ch_llamagpt_output <- function(stream_to,
     if(stream_to == "script") ide_paste_text(output)
     if(stream_to == "chat") saveRDS(all_output, stream_file)
 
+    output <- NULL
+
     if(stop_stream) {
       if(stream_to == "chat") {
         if(!is.null(output_file)) saveRDS(all_output, output_file)
         file_delete(stream_file)
         return(NULL)
       } else {
-        return(all_output)
+        return(NULL)
       }
     }
   }
-  all_output
 }
 
 ch_llamagpt_stop <- function() {
@@ -150,9 +152,8 @@ ch_test.ch_provider_llamagpt <- function(defaults = ch_defaults()) {
 
 ch_llamagpt_args <- function(defaults) {
   args <- defaults$model_arguments
-  chat_path <- path_expand(args$chat_path)
-  args$model <- path_expand(args$model_label)
-  args <- args[names(args) != "chat_path"]
+  args$model <- path_expand(defaults$model)
+
   imap(
     args,
     ~ c(paste0("--", .y), .x)

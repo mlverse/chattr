@@ -23,10 +23,10 @@
       [2] "4"                                          
       [3] "--temp"                                     
       [4] "0.01"                                       
-      [5] "--model"                                    
-      [6] "/Users/edgar/ggml-gpt4all-j-v1.3-groovy.bin"
-      [7] "--n_predict"                                
-      [8] "1000"                                       
+      [5] "--n_predict"                                
+      [6] "1000"                                       
+      [7] "--model"                                    
+      [8] "/Users/edgar/ggml-gpt4all-j-v1.3-groovy.bin"
 
 # Printout works
 
@@ -39,14 +39,14 @@
       -- Initializing model 
     Output
       xxx
-      [1] "xxx\n"
+      NULL
 
 # Console works
 
     Code
       capture.output(ch_llamagpt_output(stream_to = "console", output = "xxx\n> "))
     Output
-      [1] "xxx"            "[1] \"xxx\\n\""
+      [1] "xxx"  "NULL"
 
 # Restore to previews defaults
 

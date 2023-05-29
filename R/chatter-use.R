@@ -8,7 +8,7 @@ chattr_use <- function(model_label = NULL) {
 
   if(is_interactive() && is.null(model_label)) {
     prep_files <- ch_get_ymls()
-    model_no <- readline("Select the model number: ")
+    model_no <- readline("Select the number of the model you would like to use: ")
     model_label <- names(prep_files[as.integer(model_no)])
   }
 
@@ -38,7 +38,7 @@ ch_get_ymls <- function() {
       } else {
         x <- paste(.x[[1]], "-", .x[[2]])
       }
-      paste0(trimws(.y), " - ", x, " (", .x[[3]], ")\n\n")
+      paste0(trimws(.y), ": ", x, " (", .x[[3]], ") \n")
     }) %>%
     set_names(
       files %>%
@@ -46,10 +46,11 @@ ch_get_ymls <- function() {
         path_ext_remove()
     )
 
+  cli_h3("chattr - Available models")
+  cli_text()
   prep_files %>%
     as.character() %>%
-    cli_text()
-
+    cli_code()
   cli_text()
 
   prep_files

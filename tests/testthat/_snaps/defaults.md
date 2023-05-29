@@ -13,7 +13,7 @@
       
       -- Model 
       * Provider: Open AI
-      Model: GPT 3.5 Turbo
+      * Model: GPT 3.5 Turbo
       
       -- Model Arguments: 
       * temperature: 0.01
