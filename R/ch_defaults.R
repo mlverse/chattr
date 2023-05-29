@@ -102,7 +102,7 @@ ch_defaults <- function(type = NULL,
   class(ret) <- c(
     "ch_model",
     paste0("ch_provider_", prep_class_name(ret$provider)),
-    paste0("ch_model_", prep_class_name(ret$model))
+    paste0("ch_model_", prep_class_name(ret$model_label))
   )
 
   ret
@@ -140,7 +140,7 @@ print.ch_model <- function(x, ...) {
   cli_colors()
   cli_h3("Model")
   cli_li("Provider: {.val0 {x$provider}}")
-  cli_bullets("Model: {.val0 {x$model}}")
+  cli_li("Model: {.val0 {x$model_label}}")
   if (!is.null(x$model_arguments)) {
     cli_h3("Model Arguments:")
     iwalk(

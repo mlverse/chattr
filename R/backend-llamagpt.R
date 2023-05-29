@@ -151,7 +151,7 @@ ch_test.ch_provider_llamagpt <- function(defaults = ch_defaults()) {
 ch_llamagpt_args <- function(defaults) {
   args <- defaults$model_arguments
   chat_path <- path_expand(args$chat_path)
-  args$model <- path_expand(args$model)
+  args$model <- path_expand(args$model_label)
   args <- args[names(args) != "chat_path"]
   imap(
     args,

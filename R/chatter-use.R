@@ -29,7 +29,7 @@ ch_get_ymls <- function() {
       name <- .y %>%
         path_file() %>%
         path_ext_remove()
-      c(.x$default$provider, .x$default$model, name)
+      c(.x$default$provider, .x$default$model_label, name)
     }) %>%
     set_names(seq_along(files)) %>%
     imap(~{
