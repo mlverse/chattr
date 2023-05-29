@@ -126,9 +126,27 @@ ch_llamagpt_output <- function(stream_to,
 }
 
 ch_llamagpt_stop <- function() {
-  if(is.null(ch_env$llamagpt$session)) {
+  if(!is.null(ch_env$llamagpt$session)) {
     ch_env$llamagpt$session$kill()
   } else {
-    TRUE
+    FALSE
   }
+}
+
+#' @export
+ch_test.ch_provider_llamagpt <- function(defaults = ch_defaults()) {
+  ch_llamagpt_session(defaults = defaults)
+  session <- ch_llamagpt_session()
+  if(session$read_error() == "") {
+    cli_alert_success("Model started sucessfully")
+  } else {
+    cli_alert_danger("Errors loading model")
+  }
+  x <- ch_llamagpt_stop()
+  if(x) {
+    cli_alert_success("Model session closed sucessfully")
+  } else {
+    cli_alert_danger("Errors closing model session")
+  }
+  invisible()
 }

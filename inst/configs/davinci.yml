@@ -2,7 +2,7 @@ default:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: Open AI
-  model: DaVinci 3
+  model: davinci
   max_data_files: 20
   max_data_frames: 20
   include_doc_contents: FALSE

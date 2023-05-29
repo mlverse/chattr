@@ -1,11 +1,10 @@
+#' Sets the LLM model to use in your session
+#' @param model_label The label of the LLM model to use. Valid values are
+#' gpt35, davinci, and llamagpt.
+#' @details Use the 'CHATTR_MODEL' environment variable to set it for the
+#' R session.
 #' @export
 chattr_use <- function(model_label = NULL) {
-
-  env_var <- Sys.getenv("CHATTR_MODEL", unset = NA)
-
-  if(!is.na(env_var)) {
-    model_label <- env_var
-  }
 
   if(is_interactive() && is.null(model_label)) {
     prep_files <- ch_get_ymls()

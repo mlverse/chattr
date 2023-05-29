@@ -56,7 +56,14 @@ ch_defaults <- function(type = NULL,
   }
 
   if (is.null(ch_defaults_get(type)$provider) | force) {
-    check_files <- package_file("configs", "gpt35.yml")
+
+    env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
+
+    if(!is.na(env_model)) {
+      check_files <- package_file("configs", path_ext_set(env_model, "yml"))
+    } else {
+      check_files <- package_file("configs", "gpt35.yml")
+    }
 
     if (file_exists(yaml_file)) {
       check_files <- c(check_files, yaml_file)
@@ -161,7 +168,18 @@ ch_defaults_set <- function(arguments = list(),
 
   if (!is.null(td)) {
     for (i in seq_along(td)) {
-      arguments[[names(td[i])]] <- arguments[[names(td[i])]] %||% td[[i]]
+      ctd <- td[[i]]
+      name_ctd <- names(td[i])
+      if(inherits(ctd, "list")) {
+        args_list <- arguments[[name_ctd]]
+        for (j in seq_along(ctd)) {
+            ct <- ctd[j]
+            args_list[[names(ct)]] <- args_list[[names(ct)]] %||% ct[[1]]
+        }
+        arguments[[name_ctd]] <- args_list
+      } else {
+        arguments[[name_ctd]] <- arguments[[name_ctd]] %||% ctd
+      }
     }
   }
 
