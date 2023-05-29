@@ -1,7 +1,7 @@
 #' Sets base defaults for specific LLM model
 #' @export
 ch_use_openai_gpt35 <- function() {
-  use_switch("configs", "default.yml")
+  use_switch("configs", "gpt35.yml")
 }
 
 #' @export

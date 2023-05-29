@@ -56,7 +56,7 @@ ch_defaults <- function(type = NULL,
   }
 
   if (is.null(ch_defaults_get(type)$provider) | force) {
-    check_files <- package_file("configs", "default.yml")
+    check_files <- package_file("configs", "gpt35.yml")
 
     if (file_exists(yaml_file)) {
       check_files <- c(check_files, yaml_file)
