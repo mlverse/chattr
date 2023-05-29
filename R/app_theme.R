@@ -102,7 +102,7 @@ app_theme_style <- function(x = NULL) {
     ui_panel = style_collapse(ui_panel),
     ui_options = style_collapse(ui_options)
   )
-  if(!is.null(x)) {
+  if (!is.null(x)) {
     out <- out[[x]]
   }
   out

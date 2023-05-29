@@ -31,14 +31,13 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
 
     ch_llamagpt_prompt(new_prompt)
 
-    if(defaults$type == "default") {
+    if (defaults$type == "default") {
       ui <- ui_current()
     } else {
       ui <- defaults$type
     }
 
     ret <- ch_llamagpt_output(ui, r_file_stream, r_file_complete)
-
   }
 
   ret
@@ -47,17 +46,16 @@ ch_submit.ch_provider_llamagpt <- function(defaults,
 ch_llamagpt_session <- function(defaults = ch_defaults(),
                                 r_file_stream = NULL,
                                 r_file_complete = NULL,
-                                testing = FALSE
-                                ) {
+                                testing = FALSE) {
   init_session <- FALSE
-  if(is.null(ch_env$llamagpt$session)) {
+  if (is.null(ch_env$llamagpt$session)) {
     init_session <- TRUE
   } else {
-    if(!ch_env$llamagpt$session$is_alive()) {
+    if (!ch_env$llamagpt$session$is_alive()) {
       init_session <- TRUE
     }
   }
-  if(init_session) {
+  if (init_session) {
     args <- ch_llamagpt_args(defaults)
     chat_path <- path_expand(defaults$path)
     ch_env$llamagpt$session <- process$new(
@@ -67,7 +65,7 @@ ch_llamagpt_session <- function(defaults = ch_defaults(),
       stderr = "|",
       stdin = "|"
     )
-    if(!testing) {
+    if (!testing) {
       ch_llamagpt_printout(defaults, r_file_stream)
     }
   }
@@ -83,35 +81,34 @@ ch_llamagpt_output <- function(stream_to,
                                stream_file = NULL,
                                output_file = NULL,
                                timeout = 1000,
-                               output = NULL
-                               ) {
+                               output = NULL) {
   all_output <- NULL
   stop_stream <- FALSE
   timeout <- timeout / 0.01
-  for(j in 1:timeout) {
+  for (j in 1:timeout) {
     Sys.sleep(0.01)
-    if(is.null(output)) {
+    if (is.null(output)) {
       x <- ch_env$llamagpt$session$read_output()
     } else {
       x <- output
     }
     output <- cli::ansi_strip(x)
     last_chars <- substr(output, nchar(output) - 2, nchar(output))
-    if(last_chars == "\n> ") {
+    if (last_chars == "\n> ") {
       output <- substr(output, 1, nchar(output) - 2)
       stop_stream <- TRUE
     }
     all_output <- paste0(all_output, output)
 
-    if(stream_to == "console") cat(output)
-    if(stream_to == "script") ide_paste_text(output)
-    if(stream_to == "chat") saveRDS(all_output, stream_file)
+    if (stream_to == "console") cat(output)
+    if (stream_to == "script") ide_paste_text(output)
+    if (stream_to == "chat") saveRDS(all_output, stream_file)
 
     output <- NULL
 
-    if(stop_stream) {
-      if(stream_to == "chat") {
-        if(!is.null(output_file)) saveRDS(all_output, output_file)
+    if (stop_stream) {
+      if (stream_to == "chat") {
+        if (!is.null(output_file)) saveRDS(all_output, output_file)
         file_delete(stream_file)
         return(NULL)
       } else {
@@ -122,7 +119,7 @@ ch_llamagpt_output <- function(stream_to,
 }
 
 ch_llamagpt_stop <- function() {
-  if(!is.null(ch_env$llamagpt$session)) {
+  if (!is.null(ch_env$llamagpt$session)) {
     ch_env$llamagpt$session$kill()
   } else {
     FALSE
@@ -135,14 +132,14 @@ ch_test.ch_provider_llamagpt <- function(defaults = ch_defaults()) {
   session <- ch_llamagpt_session()
   Sys.sleep(0.1)
   error <- session$read_error()
-  if(error == "") {
+  if (error == "") {
     cli_alert_success("Model started sucessfully")
   } else {
     cli_text(error)
     cli_alert_danger("Errors loading model")
   }
   x <- ch_llamagpt_stop()
-  if(x) {
+  if (x) {
     cli_alert_success("Model session closed sucessfully")
   } else {
     cli_alert_danger("Errors closing model session")
@@ -157,15 +154,14 @@ ch_llamagpt_args <- function(defaults) {
   imap(
     args,
     ~ c(paste0("--", .y), .x)
-    ) %>%
+  ) %>%
     reduce(c)
 }
 
 ch_llamagpt_printout <- function(defaults,
                                  r_file_stream = NULL,
-                                 output = NULL
-                                 ) {
-  if(defaults$type == "chat") {
+                                 output = NULL) {
+  if (defaults$type == "chat") {
     ch_llamagpt_output("chat", r_file_stream)
   } else {
     cli_h2("chattr")

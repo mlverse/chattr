@@ -5,14 +5,13 @@
 #' R session.
 #' @export
 chattr_use <- function(model_label = NULL) {
-
-  if(is_interactive() && is.null(model_label)) {
+  if (is_interactive() && is.null(model_label)) {
     prep_files <- ch_get_ymls()
     model_no <- readline("Select the number of the model you would like to use: ")
     model_label <- names(prep_files[as.integer(model_no)])
   }
 
-  if(is.null(model_label)) {
+  if (is.null(model_label)) {
     model_label <- "gpt35"
   }
 
@@ -32,8 +31,8 @@ ch_get_ymls <- function() {
       c(.x$default$provider, .x$default$model_label, name)
     }) %>%
     set_names(seq_along(files)) %>%
-    imap(~{
-      if(.x[[1]] == .x[[2]]) {
+    imap(~ {
+      if (.x[[1]] == .x[[2]]) {
         x <- .x[[1]]
       } else {
         x <- paste(.x[[1]], "-", .x[[2]])

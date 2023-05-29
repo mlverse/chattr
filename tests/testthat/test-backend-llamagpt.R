@@ -3,7 +3,6 @@ test_that("Sets to LLamaGPT model", {
 })
 
 test_that("Session management works", {
-
   expect_false(ch_llamagpt_stop())
 
 
