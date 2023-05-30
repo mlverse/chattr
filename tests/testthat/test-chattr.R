@@ -1,5 +1,5 @@
 test_that("Basic chattr() tests", {
-  Sys.setenv("CHATTR_TYPE" = "console")
+  #Sys.setenv("CHATTR_TYPE" = "console")
   expect_snapshot(chattr("test", preview = TRUE))
   expect_snapshot(chattr("test", preview = TRUE, prompt_build = FALSE))
   expect_snapshot(chattr("test", preview = TRUE, stream = FALSE))

@@ -21,7 +21,7 @@
       .
     Output
       Data files available: 
-      |- helper-setup.R
+      |- setup.R
       |- test-app_server.R
       |- test-app_ui.R
       |- test-app_utils.R
@@ -42,6 +42,6 @@
       .
     Output
       Data files available: 
-      |- helper-setup.R
+      |- setup.R
       |- test-app_server.R
 

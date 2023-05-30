@@ -1,6 +1,14 @@
 # Basic default tests
 
     Code
+      chattr_use("llamagpt")
+    Message <cliMessage>
+      * Provider: LlamaGPT
+      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
+
+---
+
+    Code
       ch_defaults()
     Message <cliMessage>
       
@@ -9,21 +17,21 @@
       -- Defaults for: Console --
       
       -- Prompt: 
-      * {{readLines(system.file('prompt/base.txt', package = 'chattr'))}}
+      * Use the R language, the tidyverse, and tidymodels
       
       -- Model 
-      * Provider: Open AI - Chat Completions
-      * Path: https://api.openai.com/v1/chat/completions
-      * Model: gpt-3.5-turbo
+      * Provider: LlamaGPT
+      * Path: ~/LlamaGPTJ-chat/build/bin/chat
+      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
       
       -- Model Arguments: 
-      * temperature: 0.01
-      * max_tokens: 1000
-      * stream: TRUE
+      * threads: 4
+      * temp: 0.01
+      * n_predict: 1000
       
       -- Context: 
-      Max Data Files: 20
-      Max Data Frames: 20
-      v Chat History
+      Max Data Files: 0
+      Max Data Frames: 0
+      x Chat History
       x Document contents
 

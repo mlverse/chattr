@@ -27,13 +27,18 @@ use_switch <- function(...) {
 
   Sys.setenv("CHATTR_MODEL" = label)
 
+  ch_defaults(
+    type = "default",
+    yaml_file = file,
+    force = TRUE
+  )
+
   walk(
-    c("default", "console", "chat", "notebook", "script"),
+    c("console", "chat", "notebook", "script"),
     ~ {
       ch_defaults(
         type = .x,
-        yaml_file = file,
-        force = TRUE
+        yaml_file = file
       )
     }
   )
