@@ -24,6 +24,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       test
 
 ---
@@ -70,6 +73,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       test
 
 ---
@@ -98,6 +104,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       [Your future prompt goes here]
 
 ---
@@ -122,7 +131,7 @@
       [1] "user"
       
       $messages[[2]]$content
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only\ntest"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* Data frames currently in R memory (and columns): \n|--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species) \n|--  mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)\ntest"
       
       
       
@@ -168,6 +177,9 @@
       broom
       * Avoid explanations unless requested by user, expecting code only
       * For any line that is not code, prefix it with a: #
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       * test
 
 ---
@@ -179,7 +191,7 @@
       [1] "text-davinci-003"
       
       $prompt
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* For any line that is not code, prefix it with a: #\n * test"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* For any line that is not code, prefix it with a: # \n* Data frames currently in R memory (and columns): \n|--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species) \n|--  mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)\n * test"
       
       $temperature
       [1] 0.01

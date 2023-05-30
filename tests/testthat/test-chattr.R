@@ -19,7 +19,5 @@ test_that("Using DaVinci", {
 })
 
 test_that("Data frames show up", {
-  data(mtcars)
-  data(iris)
   expect_snapshot(chattr(preview = TRUE))
 })

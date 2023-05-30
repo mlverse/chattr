@@ -21,7 +21,12 @@ test_that("Session management works", {
 
 
 test_that("Args output is correct", {
-  expect_snapshot(ch_llamagpt_args(ch_defaults()))
+  out <- ch_llamagpt_args(ch_defaults())
+  model_line <- grepl("ggml-gpt4all-j-v1.3-groovy.bin", out)
+  # Removes expanded path because it will be different based
+  # on the user who is running the tests
+  out <- out[!model_line]
+  expect_snapshot(out)
 })
 
 test_that("Printout works", {

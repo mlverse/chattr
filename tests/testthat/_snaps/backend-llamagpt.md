@@ -17,16 +17,10 @@
 # Args output is correct
 
     Code
-      ch_llamagpt_args(ch_defaults())
+      out
     Output
-      [1] "--threads"                                  
-      [2] "4"                                          
-      [3] "--temp"                                     
-      [4] "0.01"                                       
-      [5] "--n_predict"                                
-      [6] "1000"                                       
-      [7] "--model"                                    
-      [8] "/Users/edgar/ggml-gpt4all-j-v1.3-groovy.bin"
+      [1] "--threads"   "4"           "--temp"      "0.01"        "--n_predict"
+      [6] "1000"        "--model"    
 
 # Printout works
 
