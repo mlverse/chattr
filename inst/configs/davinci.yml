@@ -1,8 +1,7 @@
 default:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-  provider: Open AI
-  model_label: DaVinci 3
+  provider: Open AI - Completions
   path: https://api.openai.com/v1/completions
   model: text-davinci-003
   max_data_files: 20

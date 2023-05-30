@@ -1,12 +1,12 @@
 #' @export
-ch_submit.ch_provider_llamagpt <- function(defaults,
-                                           prompt = NULL,
-                                           stream = NULL,
-                                           prompt_build = TRUE,
-                                           preview = FALSE,
-                                           r_file_stream = NULL,
-                                           r_file_complete = NULL,
-                                           ...) {
+ch_submit.ch_llamagpt <- function(defaults,
+                                  prompt = NULL,
+                                  stream = NULL,
+                                  prompt_build = TRUE,
+                                  preview = FALSE,
+                                  r_file_stream = NULL,
+                                  r_file_complete = NULL,
+                                  ...) {
   if (ui_current_markdown()) {
     return(invisible())
   }

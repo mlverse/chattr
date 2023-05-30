@@ -1,12 +1,54 @@
 #' @export
-ch_submit.ch_provider_open_ai <- function(defaults,
-                                          prompt = NULL,
-                                          stream = NULL,
-                                          prompt_build = TRUE,
-                                          preview = FALSE,
-                                          r_file_stream = NULL,
-                                          r_file_complete = NULL,
-                                          ...) {
+ch_submit.ch_open_ai_chat_completions <- function(defaults,
+                                                  prompt = NULL,
+                                                  stream = NULL,
+                                                  prompt_build = TRUE,
+                                                  preview = FALSE,
+                                                  r_file_stream = NULL,
+                                                  r_file_complete = NULL,
+                                                  ...) {
+  ch_submit_open_ai(
+    defaults = defaults,
+    prompt = prompt,
+    stream = stream,
+    prompt_build = prompt_build,
+    preview = preview,
+    r_file_stream = r_file_stream,
+    r_file_complete = r_file_complete,
+    ... = ...
+  )
+}
+
+#' @export
+ch_submit.ch_open_ai_completions <- function(defaults,
+                                             prompt = NULL,
+                                             stream = NULL,
+                                             prompt_build = TRUE,
+                                             preview = FALSE,
+                                             r_file_stream = NULL,
+                                             r_file_complete = NULL,
+                                             ...) {
+  ch_submit_open_ai(
+    defaults = defaults,
+    prompt = prompt,
+    stream = stream,
+    prompt_build = prompt_build,
+    preview = preview,
+    r_file_stream = r_file_stream,
+    r_file_complete = r_file_complete,
+    ... = ...
+  )
+}
+
+
+ch_submit_open_ai <- function(defaults,
+                              prompt = NULL,
+                              stream = NULL,
+                              prompt_build = TRUE,
+                              preview = FALSE,
+                              r_file_stream = NULL,
+                              r_file_complete = NULL,
+                              ...) {
   if (ui_current_markdown()) {
     return(invisible())
   }
@@ -60,7 +102,7 @@ openai_prompt <- function(defaults, prompt) {
   UseMethod("openai_prompt")
 }
 
-openai_prompt.ch_model_gpt_3.5_turbo <- function(defaults, prompt) {
+openai_prompt.ch_open_ai_chat_completions <- function(defaults, prompt) {
   header <- build_header(defaults)
 
   if (!is.null(defaults$system_msg)) {
@@ -76,14 +118,13 @@ openai_prompt.ch_model_gpt_3.5_turbo <- function(defaults, prompt) {
   ret <- c(
     system_msg,
     history,
-    # list(list(role = "user", content = header)),
     list(list(role = "user", content = paste0(header, "\n", prompt)))
   )
 
   ret
 }
 
-openai_prompt.ch_model_davinci_3 <- function(defaults, prompt) {
+openai_prompt.ch_open_ai_completions <- function(defaults, prompt) {
   header <- build_header(defaults)
   prompt <- paste("\n *", prompt)
   ret <- paste0(header, prompt)
@@ -111,14 +152,14 @@ openai_completion <- function(defaults,
   UseMethod("openai_completion")
 }
 
-openai_completion.ch_model_gpt_3.5_turbo <- function(defaults,
-                                                     prompt,
-                                                     new_prompt,
-                                                     r_file_stream,
-                                                     r_file_complete) {
+openai_completion.ch_open_ai_chat_completions <- function(defaults,
+                                                          prompt,
+                                                          new_prompt,
+                                                          r_file_stream,
+                                                          r_file_complete) {
   req_body <- c(
     list(
-      model = "gpt-3.5-turbo",
+      model = defaults$model,
       messages = new_prompt
     ),
     defaults$model_arguments
@@ -126,7 +167,6 @@ openai_completion.ch_model_gpt_3.5_turbo <- function(defaults,
 
   ret <- openai_switch(
     prompt = prompt,
-    endpoint = "chat/completions",
     req_body = req_body,
     defaults = defaults,
     r_file_stream = r_file_stream,
@@ -144,14 +184,14 @@ openai_completion.ch_model_gpt_3.5_turbo <- function(defaults,
   ret
 }
 
-openai_completion.ch_model_davinci_3 <- function(defaults,
-                                                 prompt,
-                                                 new_prompt,
-                                                 r_file_stream,
-                                                 r_file_complete) {
+openai_completion.ch_open_ai_completions <- function(defaults,
+                                                     prompt,
+                                                     new_prompt,
+                                                     r_file_stream,
+                                                     r_file_complete) {
   req_body <- c(
     list(
-      model = "text-davinci-003",
+      model = defaults$model,
       prompt = new_prompt
     ),
     defaults$model_arguments
@@ -159,7 +199,6 @@ openai_completion.ch_model_davinci_3 <- function(defaults,
 
   ret <- openai_switch(
     prompt = prompt,
-    endpoint = "completions",
     req_body = req_body,
     defaults = defaults,
     r_file_stream = r_file_stream,
@@ -178,7 +217,6 @@ openai_completion.ch_model_davinci_3 <- function(defaults,
 }
 
 openai_switch <- function(prompt,
-                          endpoint,
                           req_body,
                           defaults,
                           r_file_stream,
@@ -189,17 +227,17 @@ openai_switch <- function(prompt,
   if (stream) {
     if (defaults$type == "chat") {
       ret <- openai_stream_file(
-        endpoint = endpoint,
+        defaults = defaults,
         req_body = req_body,
         r_file_stream = r_file_stream,
         r_file_complete = r_file_complete
-      )
+        )
     } else {
       return_result <- FALSE
-      ret <- openai_stream_ide(endpoint, req_body)
+      ret <- openai_stream_ide(defaults, req_body)
     }
   } else {
-    ret <- openai_perform(endpoint, req_body)
+    ret <- openai_perform(defaults, req_body)
   }
 
   if (defaults$include_history %||% FALSE) {

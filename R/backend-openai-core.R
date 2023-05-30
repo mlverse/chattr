@@ -17,35 +17,26 @@ openai_token <- function() {
   ret
 }
 
-openai_request <- function(endpoint, req_body) {
-  env_url <- Sys.getenv("CHATTR_OPENAI_URL", NA)
-
-  if (is.na(env_url)) {
-    url <- "https://api.openai.com/v1/"
-  } else {
-    url <- env_url
-  }
-
-  url %>%
-    paste0(endpoint) %>%
+openai_request <- function(defaults, req_body) {
+  defaults$path %>%
     request() %>%
     req_auth_bearer_token(openai_token()) %>%
     req_body_json(req_body)
 }
 
-openai_perform <- function(endpoint, req_body) {
+openai_perform <- function(defaults, req_body) {
   ret <- NULL
   if (ch_debug_get()) {
     ret <- req_body
   } else {
-    ret <- openai_request(endpoint, req_body) %>%
+    ret <- openai_request(defaults, req_body) %>%
       req_perform() %>%
       resp_body_json()
   }
   ret
 }
 
-openai_stream_ide <- function(endpoint, req_body) {
+openai_stream_ide <- function(defaults, req_body) {
   ch_env$stream <- list()
   ch_env$stream$raw <- NULL
   ch_env$stream$response <- NULL
@@ -55,10 +46,10 @@ openai_stream_ide <- function(endpoint, req_body) {
     ret <- req_body
   } else {
     if (!ui_current_console()) ide_paste_text("\n\n")
-    openai_request(endpoint, req_body) %>%
+    openai_request(defaults, req_body) %>%
       req_stream(
         function(x) {
-          openai_stream_ide_delta(x, endpoint)
+          openai_stream_ide_delta(x, defaults)
           TRUE
         },
         buffer_kb = 0.1
@@ -70,7 +61,7 @@ openai_stream_ide <- function(endpoint, req_body) {
   ret
 }
 
-openai_stream_ide_delta <- function(x, endpoint, testing = FALSE) {
+openai_stream_ide_delta <- function(x, defaults, testing = FALSE) {
   ch_env$stream$raw <- paste0(
     ch_env$stream$raw,
     rawToChar(x),
@@ -78,7 +69,7 @@ openai_stream_ide_delta <- function(x, endpoint, testing = FALSE) {
   )
   current <- openai_stream_parse(
     x = ch_env$stream$raw,
-    endpoint = endpoint
+    defaults = defaults
   )
 
   has_error <- substr(current, 1, 9) == "{{error}}"
@@ -111,7 +102,7 @@ openai_stream_ide_delta <- function(x, endpoint, testing = FALSE) {
 }
 
 
-openai_stream_file <- function(endpoint,
+openai_stream_file <- function(defaults,
                                req_body,
                                r_file_stream,
                                r_file_complete) {
@@ -123,10 +114,10 @@ openai_stream_file <- function(endpoint,
   } else {
     ch_env$stream$response <- NULL
 
-    openai_request(endpoint, req_body) %>%
+    openai_request(defaults, req_body) %>%
       req_stream(
         function(x) {
-          openai_stream_file_delta(x, endpoint, r_file_stream)
+          openai_stream_file_delta(x, endpoint, defaults, r_file_stream)
           TRUE
         },
         buffer_kb = 0.05
@@ -139,14 +130,14 @@ openai_stream_file <- function(endpoint,
   ret
 }
 
-openai_stream_file_delta <- function(x, endpoint, r_file_stream) {
+openai_stream_file_delta <- function(x, endpoint, defaults, r_file_stream) {
   ch_env$stream$response <- paste0(
     ch_env$stream$response,
     rawToChar(x),
     collapse = ""
   )
   ch_env$stream$response %>%
-    openai_stream_parse(endpoint) %>%
+    openai_stream_parse(defaults) %>%
     saveRDS(r_file_stream)
 }
 
@@ -161,7 +152,7 @@ openai_check_error <- function(x) {
   invisible()
 }
 
-openai_stream_parse <- function(x, endpoint) {
+openai_stream_parse <- function(x, defaults) {
   res <- x %>%
     paste0(collapse = "") %>%
     strsplit("data: ") %>%
@@ -171,18 +162,7 @@ openai_stream_parse <- function(x, endpoint) {
     map(jsonlite::fromJSON)
 
   if (length(res) > 0) {
-    if (endpoint == "completions") {
-      res <- res %>%
-        map(~ .x$choices$text) %>%
-        reduce(paste0)
-    }
-
-    if (endpoint == "chat/completions") {
-      res <- res %>%
-        map(~ .x$choices$delta$content) %>%
-        reduce(paste0)
-    }
-
+    res <- openai_stream_content(defaults, res)
     if (length(res) > 0) {
       return(res)
     }
@@ -202,4 +182,20 @@ openai_stream_parse <- function(x, endpoint) {
       }
     }
   }
+}
+
+openai_stream_content <- function(defaults, res) {
+  UseMethod("openai_stream_content")
+}
+
+openai_stream_content.ch_open_ai_chat_completions <- function(defaults, res) {
+  res %>%
+    map(~ .x$choices$delta$content) %>%
+    reduce(paste0)
+}
+
+openai_stream_content.ch_open_ai_completions <- function(defaults, res) {
+  res %>%
+    map(~ .x$choices$text) %>%
+    reduce(paste0)
 }
