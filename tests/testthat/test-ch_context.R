@@ -10,11 +10,7 @@ test_that("Data frames context", {
 })
 
 test_that("File finder works", {
-  ch_context_data_files(file_types = "R") %>%
-    cat() %>%
-    expect_snapshot()
+  expect_snapshot(ch_context_data_files(file_types = "R"))
 
-  ch_context_data_files(max = 2, file_types = "R") %>%
-    cat() %>%
-    expect_snapshot()
+  expect_snapshot(ch_context_data_files(max = 2, file_types = "R"))
 })
