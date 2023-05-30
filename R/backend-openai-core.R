@@ -117,7 +117,7 @@ openai_stream_file <- function(defaults,
     openai_request(defaults, req_body) %>%
       req_stream(
         function(x) {
-          openai_stream_file_delta(x, endpoint, defaults, r_file_stream)
+          openai_stream_file_delta(x, defaults, r_file_stream)
           TRUE
         },
         buffer_kb = 0.05
@@ -130,7 +130,7 @@ openai_stream_file <- function(defaults,
   ret
 }
 
-openai_stream_file_delta <- function(x, endpoint, defaults, r_file_stream) {
+openai_stream_file_delta <- function(x, defaults, r_file_stream) {
   ch_env$stream$response <- paste0(
     ch_env$stream$response,
     rawToChar(x),
