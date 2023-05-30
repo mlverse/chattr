@@ -1,6 +1,14 @@
 # Basic chattr() tests
 
     Code
+      chattr_use("gpt35")
+    Message <cliMessage>
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
+
+---
+
+    Code
       chattr("test", preview = TRUE)
     Message <cliMessage>
       
