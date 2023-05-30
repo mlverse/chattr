@@ -26,6 +26,7 @@ ch_context_data_files <- function(
   }
 
   if (length(files) > 0) {
+    files <- sort(files)
     ret <- paste0(
       "Data files available: \n",
       paste("|-", files, collapse = "\n")
