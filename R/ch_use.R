@@ -39,5 +39,5 @@ use_switch <- function(...) {
   )
   tc <- ch_defaults()
   cli_li("Provider: {tc$provider}")
-  cli_li("Model: {tc$model_label}")
+  cli_li("Model: {tc$model}")
 }

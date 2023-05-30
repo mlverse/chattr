@@ -32,7 +32,7 @@ print.ch_request <- function(x, ...) {
   cli_colors()
   cli_h3("Preview for: {.val0 {type}}")
   cli_li("Provider: {.val0 {x$defaults$provider}}")
-  cli_li("Model: {.val0 {x$defaults$model_label}}")
+  cli_li("Model: {.val0 {x$defaults$model}}")
   if (!is.null(x$defaults$model_arguments)) {
     iwalk(
       x$defaults$model_arguments,

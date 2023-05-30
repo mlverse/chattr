@@ -4,7 +4,7 @@
       chattr_use("llamagpt")
     Message <cliMessage>
       * Provider: LlamaGPT
-      * Model: LlamaGPT
+      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
 
 # Session management works
 
@@ -53,6 +53,6 @@
     Code
       chattr_use("gpt35")
     Message <cliMessage>
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
 

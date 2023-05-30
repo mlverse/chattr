@@ -12,8 +12,9 @@
       * {{readLines(system.file('prompt/base.txt', package = 'chattr'))}}
       
       -- Model 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Path: https://api.openai.com/v1/chat/completions
+      * Model: gpt-3.5-turbo
       
       -- Model Arguments: 
       * temperature: 0.01

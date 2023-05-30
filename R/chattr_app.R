@@ -14,11 +14,11 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
                        as_job_host = getOption("shiny.host", "127.0.0.1")) {
   td <- ch_defaults(type = "chat")
   cli_li("Provider: {td$provider}")
-  cli_li("Model: {td$model_label}")
+  cli_li("Model: {td$model}")
 
   if (viewer[1] == "dialog") {
     viewer <- dialogViewer(
-      dialogName = glue("chattr - {td$provider} - {td$model_label}"),
+      dialogName = glue("chattr - {td$provider} - {td$model}"),
       width = 800
     )
   } else {

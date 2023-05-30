@@ -12,7 +12,6 @@ ch_defaults(
   include_doc_contents = NULL,
   include_history = NULL,
   provider = NULL,
-  model_label = NULL,
   path = NULL,
   model = NULL,
   model_arguments = NULL,
@@ -41,8 +40,6 @@ everytime a new prompt is submitted}
 
 \item{provider}{The name of the provider of the LLM. Today, only "openai" is
 is available}
-
-\item{model_label}{The name of the model to use, based on the provider}
 
 \item{path}{The location of the model. It could be an URL or a file path.}
 

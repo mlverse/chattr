@@ -7,8 +7,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -35,8 +35,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -53,8 +53,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: FALSE
@@ -81,8 +81,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -141,8 +141,8 @@
     Code
       ch_use_openai_davinci()
     Message <cliMessage>
-      * Provider: Open AI
-      * Model: DaVinci 3
+      * Provider: Open AI - Completions
+      * Model: text-davinci-003
 
 ---
 
@@ -153,8 +153,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: DaVinci 3
+      * Provider: Open AI - Completions
+      * Model: text-davinci-003
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -200,8 +200,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: DaVinci 3
+      * Provider: Open AI - Completions
+      * Model: text-davinci-003
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
