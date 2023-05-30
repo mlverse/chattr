@@ -1,7 +1,7 @@
 # Request submission works
 
     Code
-      openai_request("chat/completions", list())
+      openai_request(ch_defaults(), list())
     Message <cliMessage>
       <httr2_request>
       POST https://api.openai.com/v1/chat/completions

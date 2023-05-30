@@ -6,6 +6,7 @@
 #' @importFrom bslib bs_theme
 #' @importFrom grDevices rgb
 #' @import rstudioapi
+#' @import processx
 #' @import callr
 #' @import httr2
 #' @import shiny

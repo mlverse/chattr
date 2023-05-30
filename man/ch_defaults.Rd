@@ -12,6 +12,7 @@ ch_defaults(
   include_doc_contents = NULL,
   include_history = NULL,
   provider = NULL,
+  path = NULL,
   model = NULL,
   model_arguments = NULL,
   system_msg = NULL,
@@ -40,7 +41,9 @@ everytime a new prompt is submitted}
 \item{provider}{The name of the provider of the LLM. Today, only "openai" is
 is available}
 
-\item{model}{The name of the model to use, based on the provider}
+\item{path}{The location of the model. It could be an URL or a file path.}
+
+\item{model}{The name or path to the model to use.}
 
 \item{model_arguments}{Additional arguments to pass to the model as part of the
 request, it requires a list. Examples of arguments: temperature, top_p,

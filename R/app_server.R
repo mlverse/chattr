@@ -137,7 +137,6 @@ app_add_assistant <- function(content, input) {
   walk(
     order(seq_along(ch), decreasing = TRUE),
     ~ {
-
       len <- len_hist + .x
       content <- ch[[.x]]$content
       prep_content <- prep_entry(content, !ui_current_markdown())

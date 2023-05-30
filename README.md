@@ -149,11 +149,11 @@ data(iris)
 chattr(preview = TRUE)
 ```
 
-    ── chattr ────────────────────────────────────────────────────────────────
+    ── chattr ──────────────────────────────────────────────────────────────────────────────
 
     ── Preview for: Console 
-    • Provider: Open AI
-    • Model: GPT 3.5 Turbo
+    • Provider: Open AI - Chat Completions
+    • Model: gpt-3.5-turbo
     • temperature: 0.01
     • max_tokens: 1000
     • stream: TRUE
@@ -184,17 +184,17 @@ To edit what `chattr` is sending to the model you can use
 ch_defaults()
 ```
 
-    ── chattr ────────────────────────────────────────────────────────
+    ── chattr ───────────────────────────────────────────────────────────────────────
 
     ── Defaults for: Notebook ──
 
     ── Prompt: 
-    • {{readLines(system.file('prompt/base.txt', package =
-    'chattr'))}}
+    • {{readLines(system.file('prompt/base.txt', package = 'chattr'))}}
 
     ── Model 
-    • Provider: Open AI
-    Model: GPT 3.5 Turbo
+    • Provider: Open AI - Chat Completions
+    • Path: https://api.openai.com/v1/chat/completions
+    • Model: gpt-3.5-turbo
 
     ── Model Arguments: 
     • temperature: 0.01
@@ -213,7 +213,7 @@ To modify, simply pass the new value as an argument to the function:
 ch_defaults(prompt = c("New instructions", "New line"))
 ```
 
-    ── chattr ────────────────────────────────────────────────────────
+    ── chattr ───────────────────────────────────────────────────────────────────────
 
     ── Defaults for: Notebook ──
 
@@ -222,8 +222,9 @@ ch_defaults(prompt = c("New instructions", "New line"))
     • New line
 
     ── Model 
-    • Provider: Open AI
-    Model: GPT 3.5 Turbo
+    • Provider: Open AI - Chat Completions
+    • Path: https://api.openai.com/v1/chat/completions
+    • Model: gpt-3.5-turbo
 
     ── Model Arguments: 
     • temperature: 0.01

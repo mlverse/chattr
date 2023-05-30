@@ -1,14 +1,22 @@
 # Basic chattr() tests
 
     Code
+      chattr_use("gpt35")
+    Message <cliMessage>
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
+
+---
+
+    Code
       chattr("test", preview = TRUE)
     Message <cliMessage>
       
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -24,6 +32,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       test
 
 ---
@@ -35,8 +46,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -53,8 +64,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: FALSE
@@ -70,6 +81,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       test
 
 ---
@@ -81,8 +95,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -98,6 +112,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       [Your future prompt goes here]
 
 ---
@@ -122,7 +139,7 @@
       [1] "user"
       
       $messages[[2]]$content
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only\ntest"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* Data frames currently in R memory (and columns): \n|--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species) \n|--  mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)\ntest"
       
       
       
@@ -141,8 +158,8 @@
     Code
       ch_use_openai_davinci()
     Message <cliMessage>
-      * Provider: Open AI
-      * Model: DaVinci 3
+      * Provider: Open AI - Completions
+      * Model: text-davinci-003
 
 ---
 
@@ -153,8 +170,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: DaVinci 3
+      * Provider: Open AI - Completions
+      * Model: text-davinci-003
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -168,6 +185,9 @@
       broom
       * Avoid explanations unless requested by user, expecting code only
       * For any line that is not code, prefix it with a: #
+      * Data frames currently in R memory (and columns):
+      |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+      |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
       * test
 
 ---
@@ -179,7 +199,7 @@
       [1] "text-davinci-003"
       
       $prompt
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* For any line that is not code, prefix it with a: #\n * test"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* For any line that is not code, prefix it with a: # \n* Data frames currently in R memory (and columns): \n|--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species) \n|--  mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)\n * test"
       
       $temperature
       [1] 0.01
@@ -200,8 +220,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: DaVinci 3
+      * Provider: Open AI - Completions
+      * Model: text-davinci-003
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE

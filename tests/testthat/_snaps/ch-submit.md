@@ -7,8 +7,8 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI
-      * Model: GPT 3.5 Turbo
+      * Provider: Open AI - Chat Completions
+      * Model: gpt-3.5-turbo
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE

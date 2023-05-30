@@ -1,5 +1,6 @@
 test_that("Basic default tests", {
-  capture.output(ch_use_openai_gpt35())
+  expect_snapshot(chattr_use("llamagpt"))
   Sys.setenv("CHATTR_TYPE" = "console")
   expect_snapshot(ch_defaults())
+  Sys.unsetenv("CHATTR_TYPE")
 })

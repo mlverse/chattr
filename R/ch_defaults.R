@@ -15,7 +15,8 @@
 #' everytime a new prompt is submitted
 #' @param provider The name of the provider of the LLM. Today, only "openai" is
 #' is available
-#' @param model The name of the model to use, based on the provider
+#' @param path The location of the model. It could be an URL or a file path.
+#' @param model The name or path to the model to use.
 #' @param system_msg For GPT 3.5 or above, the system message to send as part of
 #' the request
 #' @param yaml_file The path to a valid `config` YAML file that contains the
@@ -34,6 +35,7 @@ ch_defaults <- function(type = NULL,
                         include_doc_contents = NULL,
                         include_history = NULL,
                         provider = NULL,
+                        path = NULL,
                         model = NULL,
                         model_arguments = NULL,
                         system_msg = NULL,
@@ -55,8 +57,18 @@ ch_defaults <- function(type = NULL,
     }
   }
 
-  if (is.null(ch_defaults_get(type)$provider) | force) {
-    check_files <- package_file("configs", "default.yml")
+  if (force) {
+    ch_env$defaults <- NULL
+  }
+
+  if (is.null(ch_defaults_get(type))) {
+    env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
+
+    if (!is.na(env_model)) {
+      check_files <- package_file("configs", path_ext_set(env_model, "yml"))
+    } else {
+      check_files <- package_file("configs", "gpt35.yml")
+    }
 
     if (file_exists(yaml_file)) {
       check_files <- c(check_files, yaml_file)
@@ -90,8 +102,7 @@ ch_defaults <- function(type = NULL,
 
   class(ret) <- c(
     "ch_model",
-    paste0("ch_provider_", prep_class_name(ret$provider)),
-    paste0("ch_model_", prep_class_name(ret$model))
+    paste0("ch_", prep_class_name(ret$provider))
   )
 
   ret
@@ -99,6 +110,8 @@ ch_defaults <- function(type = NULL,
 
 prep_class_name <- function(x) {
   x <- tolower(x)
+  x <- gsub(" - ", "_", x)
+  x <- gsub("-", "_", x)
   x <- gsub(" \\(", "_", x)
   x <- gsub(" ", "_", x)
   x <- gsub("\\(", "_", x)
@@ -129,7 +142,9 @@ print.ch_model <- function(x, ...) {
   cli_colors()
   cli_h3("Model")
   cli_li("Provider: {.val0 {x$provider}}")
-  cli_bullets("Model: {.val0 {x$model}}")
+  cli_li("Path: {.val0 {x$path}}")
+  cli_li("Model: {.val0 {x$model}}")
+
   if (!is.null(x$model_arguments)) {
     cli_h3("Model Arguments:")
     iwalk(
@@ -161,7 +176,18 @@ ch_defaults_set <- function(arguments = list(),
 
   if (!is.null(td)) {
     for (i in seq_along(td)) {
-      arguments[[names(td[i])]] <- arguments[[names(td[i])]] %||% td[[i]]
+      ctd <- td[[i]]
+      name_ctd <- names(td[i])
+      if (inherits(ctd, "list")) {
+        args_list <- arguments[[name_ctd]]
+        for (j in seq_along(ctd)) {
+          ct <- ctd[j]
+          args_list[[names(ct)]] <- args_list[[names(ct)]] %||% ct[[1]]
+        }
+        arguments[[name_ctd]] <- args_list
+      } else {
+        arguments[[name_ctd]] <- arguments[[name_ctd]] %||% ctd
+      }
     }
   }
 

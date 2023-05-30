@@ -1,6 +1,6 @@
 test_that("Request submission works", {
   Sys.setenv("OPENAI_API_KEY" = "test")
-  expect_snapshot(openai_request("chat/completions", list()))
+  expect_snapshot(openai_request(ch_defaults(), list()))
 })
 
 test_that("Missing token returns error", {
@@ -10,7 +10,7 @@ test_that("Missing token returns error", {
 
 test_that("Stream parser works", {
   raw <- readRDS(test_path("data", "gpt35-stream.rds"))
-  stream <- openai_stream_parse(raw, "chat/completions")
+  stream <- openai_stream_parse(raw, ch_defaults())
   msg_gpt <- paste(
     "I'm sorry, I don't understand what you are asking for.",
     "Could you please provide more information or a specific",
@@ -21,20 +21,20 @@ test_that("Stream parser works", {
 
   out <- raw %>%
     charToRaw() %>%
-    openai_stream_ide_delta("chat/completions", testing = TRUE)
+    openai_stream_ide_delta(ch_defaults(), testing = TRUE)
 
   expect_equal(out, msg_gpt)
 
   out2 <- raw %>%
     charToRaw() %>%
-    openai_stream_ide_delta("chat/completions", testing = TRUE)
+    openai_stream_ide_delta(ch_defaults(), testing = TRUE)
 
   expect_equal(out2, paste0(msg_gpt, msg_gpt))
 })
 
 test_that("Stream file parser works", {
   raw <- readRDS(test_path("data", "gpt35-stream.rds"))
-  stream <- openai_stream_parse(raw, "chat/completions")
+  stream <- openai_stream_parse(raw, ch_defaults())
   msg_gpt <- paste(
     "I'm sorry, I don't understand what you are asking for.",
     "Could you please provide more information or a specific",
@@ -46,8 +46,8 @@ test_that("Stream file parser works", {
   out_file <- tempfile()
 
   openai_stream_file_delta(
+    defaults = ch_defaults(),
     x = charToRaw(raw),
-    endpoint = "chat/completions",
     r_file_stream = out_file
   )
 
