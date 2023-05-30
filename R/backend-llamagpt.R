@@ -1,3 +1,4 @@
+# -------------------------------- Submit --------------------------------------
 #' @export
 ch_submit.ch_llamagpt <- function(defaults,
                                   prompt = NULL,
@@ -42,6 +43,8 @@ ch_submit.ch_llamagpt <- function(defaults,
 
   ret
 }
+
+# ----------------------------- Session ----------------------------------------
 
 ch_llamagpt_session <- function(defaults = ch_defaults(),
                                 r_file_stream = NULL,
@@ -125,6 +128,8 @@ ch_llamagpt_stop <- function() {
     FALSE
   }
 }
+
+# --------------------------------- Test ---------------------------------------
 
 #' @export
 ch_test.ch_llamagpt <- function(defaults = ch_defaults()) {

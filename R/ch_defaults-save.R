@@ -25,15 +25,19 @@ ch_defaults_save <- function(path = "chattr.yml",
         ~ {
           y <- td_default[[.y]]
           x <- .x
-          if (!inherits(x, "list")) {
-            if (inherits(x, "character")) {
-              x <- paste0(x, collapse = "")
-              y <- paste0(y, collapse = "")
+          if(!is.null(y) && !is.null(x)) {
+            if (!inherits(x, "list")) {
+              if (inherits(x, "character")) {
+                x <- paste0(x, collapse = "")
+                y <- paste0(y, collapse = "")
+              }
+              x != y
+            } else {
+              ma <- imap_lgl(x, ~ .x == y[[.y]])
+              !all(ma)
             }
-            x != y
           } else {
-            ma <- imap_lgl(x, ~ .x == y[[.y]])
-            !all(ma)
+            FALSE
           }
         }
       )
