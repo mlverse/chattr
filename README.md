@@ -16,9 +16,9 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 <!-- toc: start -->
 
 -   [Intro](#intro)
+-   [Available models](#available-models)
 -   [Install](#install)
--   [Getting Started with OpenAI
-    (“ChatGPT”)](#getting-started-with-openai-chatgpt)
+-   [Getting Started](#getting-started)
     -   [Secret key](#secret-key)
     -   [Test connection](#test-connection)
 -   [Using](#using)
@@ -33,27 +33,64 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 
 ## Intro
 
-`chattr` is an interface to LLMs (Large Language Models). At this time,
-it integrates with OpenAI’s GPT 3.5 and DaVinci models. In the future,
-`chattr` will be extended to support other LLM’s. `chattr` enriches your
-request with additional context to improve the quality of the model’s
-response. For more info, see the [How it works](#how-it-works) section.
+`chattr` is an interface to LLMs (Large Language Models). It enables
+interaction with the model directly from the RStudio IDE. `chattr`
+allows you to submit a prompt to the LLM from your script, or by using
+the provided Shiny Gadget.
 
 `chattr`’s main goal is to aid in EDA tasks. The additional information
 appended to your request, provides a sort of “guard rails”, so that the
 packages and techniques we usually recommend as best practice, are used
 in the model’s responses.
 
+## Available models
+
+`chattr` provides two main integration with two main LLM back-ends. Each
+back-end provides access to multiple LLM types:
+
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Provider</th>
+<th style="text-align: center;">Models</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><a
+href="https://platform.openai.com/docs/introduction">OpenAI</a></td>
+<td style="text-align: center;">GPT Models accessible via the OpenAI’s
+REST API. <code>chattr</code> provides a convenient way to interact with
+GPT 3.5, and DaVinci 3.</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><a
+href="https://github.com/kuvaus/LlamaGPTJ-chat">LLamaGPT-Chat</a></td>
+<td style="text-align: center;">LLM models available in your computer.
+Including GPT-J, LLaMA, and MPT. Tested on a <a
+href="https://gpt4all.io/index.html">GPT4ALL</a> model.
+<strong>LLamaGPT-Chat</strong> is a command line chat program for models
+written in C++.</td>
+</tr>
+</tbody>
+</table>
+
+The idea is that as time goes by, more back-ends will be added.
+
 ## Install
 
-Since this is a very early version of the package, you can either clone
-the repo, or install the package from GH:
+Since this is a very early version of the package install the package
+from Github:
 
 ``` r
 remotes::install_github("edgararuiz/chattr")
 ```
 
-## Getting Started with OpenAI (“ChatGPT”)
+## Getting Started
 
 ### Secret key
 
@@ -130,13 +167,13 @@ shortcut](#how-to-setup-the-keyboard-shortcut).
 
 ## How it works
 
-![Diagram that illustrates how chattr handles model
-requests](man/figures/readme/chattr-diagram.png)
-
 `chattr` enriches your request with additional instructions, name and
 structure of data frames currently in your environment, the path for the
 data files in your working directory. If supported by the model,
 `chattr` will include the current chat history.
+
+![Diagram that illustrates how chattr handles model
+requests](man/figures/readme/chattr-diagram.png)
 
 To see what `chattr` will send to the model, set the `preview` argument
 to `TRUE`:
@@ -152,30 +189,15 @@ chattr(preview = TRUE)
 #> ── chattr ──────────────────────────────────────────────────────────────────────
 #> 
 #> ── Preview for: Console
-#> • Provider: Open AI - Chat Completions
-#> • Model: gpt-3.5-turbo
-#> • temperature: 0.01
-#> • max_tokens: 1000
-#> • stream: TRUE
+#> • Provider: LlamaGPT
+#> • Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
+#> • threads: 4
+#> • temp: 0.01
+#> • n_predict: 1000
 #> 
 #> ── Prompt:
-#> role: system
-#> content: You are a helpful coding assistant
-#> role: user
-#> content:
-#> * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
-#> * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
-#> * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
-#> * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
-#> broom
-#> * Avoid explanations unless requested by user, expecting code only
-#> * Data files available:
-#> |- docs/deps/data-deps.txt
-#> |- inst/prompt/base.txt
-#> * Data frames currently in R memory (and columns):
-#> |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
-#> |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
-#> [Your future prompt goes here]
+#> [Your future prompt goes here](Use the R language, the tidyverse, and
+#> tidymodels)
 ```
 
 ## Appendix

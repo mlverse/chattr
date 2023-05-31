@@ -1,0 +1,96 @@
+---
+title: "Interact with local models"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Interact with local models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Intro
+
+[LlamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat) is a command line chat 
+application. It integrates with the LLM via C++. This means that it will only
+work with LLM's that have been in the same language.  There are few available
+today that are free to download and use. Because they are in C++, the models are 
+able to run locally on your computer, even if there is no GPU available.  Most 
+of the models are quite fast in their responses. By integrating with LlamaGPT-Chat, 
+ able to access multiple types of LLM's with only one additional back-end
+within `chattr`.
+
+## Installation
+
+To get LlamaGPT-Chat working you machine you will need two things:
+
+1. A version of LlamaGPT-Chat that works in your computer
+
+1. An LLM file that works with with the chat program
+
+### Install LLamaGPT-Chat
+
+LlamaGPT-Chat will need a "compiled binary" that is specific to your Operating
+System.  For example, for Windows, a compiled binary should be an *.exe* file. 
+
+
+The GitHub repository offers pre-compiled binaries that you can download and use: [Releases](https://github.com/kuvaus/LlamaGPTJ-chat/releases). Depending on the
+system's security, the pre-compiled program may blocked from running. If that is
+the case, you will need to "build" the program in your computer. The instructions
+to do this are [here](https://github.com/kuvaus/LlamaGPTJ-chat#download).
+
+### LLM file
+
+The GitHub repoisotry contains a [list of compatible models](https://github.com/kuvaus/LlamaGPTJ-chat#gpt-j-llama-and-mpt-models). 
+Download at least one of the models, and make note of where it was saved to
+in your computer. 
+
+
+## Setup
+
+To start, instruct `chattr` to switch the LLamaGPT back-end using `chattr_use()`
+
+```{r}
+library(chattr)
+
+chattr_use("llamagpt")
+```
+
+If this is the first time you use this interface, confirm that the path of to 
+the compiled program, and the model matches to what you have in your machine. 
+To check that use `ch_defaults()`
+
+```{r}
+ch_defaults()
+```
+
+If either, or both, paths are incorrect, correct them by updating the `path`,
+and `model` arguments in `ch_defaults()`
+
+```{r}
+ch_defaults(path = "[path to compiled program]", model = "[path to model]")
+```
+
+So that you do not need to change those defaults every time you start a new
+R session, use `ch_defaults_save()`. That will create a YAML file in your
+working directory. `chattr` will use that file to override the defaults.
+
+```{r, eval = FALSE}
+ch_defaults_save()
+```
+
+Use `chattr_test()` to confirm that the `chattr` is able to communicate with 
+LLamaGPT-Chat, and that the model it will use with your R session is accessible
+
+```r
+chattr_test()
+#> ✔ Model started sucessfully
+#> ✔ Model session closed sucessfully
+```
+
