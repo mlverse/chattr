@@ -61,6 +61,7 @@ app_server <- function(input, output, session) {
     auto_invalidate()
     if (file_exists(r_file_complete)) {
       out <- app_server_file_complete(r_file_complete)
+      Sys.sleep(0.01)
       app_add_assistant(out, input)
     }
   })
