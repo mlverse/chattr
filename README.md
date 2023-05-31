@@ -8,6 +8,7 @@ coverage](https://codecov.io/gh/edgararuiz/chattr/branch/main/graph/badge.svg)](
 [![CRAN
 status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project.org/package=chattr)
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 <!-- badges: end -->
 
 ![](man/figures/readme/chattr.gif)
@@ -16,14 +17,14 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 
 -   [Intro](#intro)
 -   [Install](#install)
--   [Getting Started](#getting-started)
+-   [Getting Started with OpenAI
+    (“ChatGPT”)](#getting-started-with-openai-chatgpt)
     -   [Secret key](#secret-key)
     -   [Test connection](#test-connection)
 -   [Using](#using)
     -   [The App](#the-app)
     -   [Keyboard Shortcut](#keyboard-shortcut)
 -   [How it works](#how-it-works)
-    -   [Prompt defaults](#prompt-defaults)
 -   [Appendix](#appendix)
     -   [How to setup the keyboard
         shortcut](#how-to-setup-the-keyboard-shortcut)
@@ -52,7 +53,7 @@ the repo, or install the package from GH:
 remotes::install_github("edgararuiz/chattr")
 ```
 
-## Getting Started
+## Getting Started with OpenAI (“ChatGPT”)
 
 ### Secret key
 
@@ -147,95 +148,35 @@ data(mtcars)
 data(iris)
 
 chattr(preview = TRUE)
+#> 
+#> ── chattr ──────────────────────────────────────────────────────────────────────
+#> 
+#> ── Preview for: Console
+#> • Provider: Open AI - Chat Completions
+#> • Model: gpt-3.5-turbo
+#> • temperature: 0.01
+#> • max_tokens: 1000
+#> • stream: TRUE
+#> 
+#> ── Prompt:
+#> role: system
+#> content: You are a helpful coding assistant
+#> role: user
+#> content:
+#> * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
+#> * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
+#> * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
+#> * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
+#> broom
+#> * Avoid explanations unless requested by user, expecting code only
+#> * Data files available:
+#> |- docs/deps/data-deps.txt
+#> |- inst/prompt/base.txt
+#> * Data frames currently in R memory (and columns):
+#> |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+#> |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+#> [Your future prompt goes here]
 ```
-
-    ── chattr ──────────────────────────────────────────────────────────────────────────────
-
-    ── Preview for: Console 
-    • Provider: Open AI - Chat Completions
-    • Model: gpt-3.5-turbo
-    • temperature: 0.01
-    • max_tokens: 1000
-    • stream: TRUE
-
-    ── Prompt: 
-    role: system
-    content: You are a helpful coding assistant
-    role: user
-    content:
-    * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
-    * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
-    * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
-    * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom
-    * Avoid explanations unless requested by user, expecting code only
-    * Data files available:
-    |- inst/prompt/base.txt
-    * Data frames currently in R memory (and columns):
-    |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
-    |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
-    [Your future prompt goes here]
-
-### Prompt defaults
-
-To edit what `chattr` is sending to the model you can use
-`ch_defaults()`:
-
-``` r
-ch_defaults()
-```
-
-    ── chattr ───────────────────────────────────────────────────────────────────────
-
-    ── Defaults for: Notebook ──
-
-    ── Prompt: 
-    • {{readLines(system.file('prompt/base.txt', package = 'chattr'))}}
-
-    ── Model 
-    • Provider: Open AI - Chat Completions
-    • Path: https://api.openai.com/v1/chat/completions
-    • Model: gpt-3.5-turbo
-
-    ── Model Arguments: 
-    • temperature: 0.01
-    • max_tokens: 1000
-    • stream: TRUE
-
-    ── Context: 
-    Max Data Files: 20
-    Max Data Frames: 20
-    ✔ Chat History
-    ✖ Document contents
-
-To modify, simply pass the new value as an argument to the function:
-
-``` r
-ch_defaults(prompt = c("New instructions", "New line"))
-```
-
-    ── chattr ───────────────────────────────────────────────────────────────────────
-
-    ── Defaults for: Notebook ──
-
-    ── Prompt: 
-    • New instructions
-    • New line
-
-    ── Model 
-    • Provider: Open AI - Chat Completions
-    • Path: https://api.openai.com/v1/chat/completions
-    • Model: gpt-3.5-turbo
-
-    ── Model Arguments: 
-    • temperature: 0.01
-    • max_tokens: 1000
-    • stream: TRUE
-
-    ── Context: 
-    Max Data Files: 20
-    Max Data Frames: 20
-    ✔ Chat History
-    ✖ Document contents
 
 ## Appendix
 

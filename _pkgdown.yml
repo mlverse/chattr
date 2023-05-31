@@ -1,6 +1,9 @@
 url: ~
 template:
   bootstrap: 5
+  bslib:
+    base_font: {google: "Lato"}
+    code_font: {google: "Roboto Mono"}
 reference:
 - title: "Main functions"
   contents:

@@ -28,3 +28,4 @@ vignettes/*.pdf
 .Renviron
 chattr.yml
 docs
+inst/doc

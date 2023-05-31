@@ -1,0 +1,32 @@
+---
+title: "Modify prompt enhancements"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Changing }
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(chattr)
+```
+
+To edit what `chattr` is sending to the model you can use `ch_defaults()`:
+
+```{r}
+ch_defaults()
+```
+
+
+To modify, simply pass the new value as an argument to the function:
+
+```{r}
+ch_defaults(prompt = c("New instructions", "New line"))
+```
