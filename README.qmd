@@ -6,10 +6,9 @@ format: md
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/edgararuiz/chattr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/edgararuiz/chattr?branch=main) [![CRAN status](https://www.r-pkg.org/badges/version/chattr)](https://CRAN.R-project.org/package=chattr) [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
 
 ![](man/figures/readme/chattr.gif)
-
-<!-- badges: end -->
 
 ```{r}
 #| echo: false

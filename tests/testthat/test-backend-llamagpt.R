@@ -13,7 +13,7 @@ test_that("Session management works", {
   ch_env$llamagpt$session <- x
 
   expect_named(ch_llamagpt_session())
-  expect_snapshot(ch_test(defaults = ch_defaults()))
+  expect_snapshot(chattr_test(defaults = ch_defaults()))
   expect_true(ch_llamagpt_stop())
 
   ch_env$llamagpt$session <- NULL

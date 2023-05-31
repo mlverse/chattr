@@ -1,17 +1,11 @@
-#' Sets base defaults for specific LLM model
-#' @export
 ch_use_openai_gpt35 <- function() {
   use_switch("configs", "gpt35.yml")
 }
 
-#' @export
-#' @rdname ch_use_openai_gpt35
 ch_use_openai_davinci <- function() {
   use_switch("configs", "davinci.yml")
 }
 
-#' @export
-#' @rdname ch_use_openai_gpt35
 ch_use_llamagpt <- function() {
   use_switch("configs", "llamagpt.yml")
 }

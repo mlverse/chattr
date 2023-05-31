@@ -2,10 +2,13 @@
 % Please edit documentation in R/ch_test.R
 \name{chattr_test}
 \alias{chattr_test}
-\title{Confirms connectivity with model}
+\title{Confirms conectivity to LLM interface}
 \usage{
-chattr_test()
+chattr_test(defaults = ch_defaults())
+}
+\arguments{
+\item{defaults}{Defaults object, generally puled from \code{ch_defaults()}}
 }
 \description{
-Confirms connectivity with model
+Confirms conectivity to LLM interface
 }

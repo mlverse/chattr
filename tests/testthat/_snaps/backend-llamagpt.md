@@ -9,7 +9,7 @@
 # Session management works
 
     Code
-      ch_test(defaults = ch_defaults())
+      chattr_test(defaults = ch_defaults())
     Message <cliMessage>
       v Model started sucessfully
       v Model session closed sucessfully

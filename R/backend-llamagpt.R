@@ -132,7 +132,7 @@ ch_llamagpt_stop <- function() {
 # --------------------------------- Test ---------------------------------------
 
 #' @export
-ch_test.ch_llamagpt <- function(defaults = ch_defaults()) {
+chattr_test.ch_llamagpt <- function(defaults = ch_defaults()) {
   ch_llamagpt_session(defaults = defaults, testing = TRUE)
   session <- ch_llamagpt_session()
   Sys.sleep(0.1)

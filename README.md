@@ -8,10 +8,10 @@ coverage](https://codecov.io/gh/edgararuiz/chattr/branch/main/graph/badge.svg)](
 [![CRAN
 status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project.org/package=chattr)
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
 
 ![](man/figures/readme/chattr.gif)
 
-<!-- badges: end -->
 <!-- toc: start -->
 
 -   [Intro](#intro)

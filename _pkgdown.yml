@@ -1,0 +1,13 @@
+url: ~
+template:
+  bootstrap: 5
+reference:
+- title: "Main functions"
+  contents:
+    starts_with("chattr")
+- title: "Defaults"
+  contents:
+    starts_with("ch_default")
+- title: "Other"
+  contents:
+    starts_with("ch_history")
