@@ -87,7 +87,7 @@ app_ui <- function() {
 app_ui_modal <- function() {
   style <- app_theme_style()
 
-  tc <- ch_defaults(type = "chat")
+  tc <- chattr_defaults(type = "chat")
 
   prompt2 <- tc$prompt %>%
     process_prompt() %>%

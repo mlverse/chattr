@@ -2,7 +2,7 @@ test_that("Saving defaults work", {
   expect_snapshot(chattr_use("gpt35"))
   defaults_file <- tempfile()
   expect_silent(
-    ch_defaults_save(
+    chattr_defaults_save(
       type = "console",
       path = defaults_file,
       overwrite = TRUE

@@ -10,7 +10,7 @@ test_that("Submit job works as expected", {
     prompt_build = TRUE,
     r_file_stream = tempfile(),
     r_file_complete = complete_file,
-    defaults = ch_defaults()
+    defaults = chattr_defaults()
   )
 
   Sys.sleep(1)

@@ -9,7 +9,7 @@
 ---
 
     Code
-      ch_defaults()
+      chattr_defaults()
     Message <cliMessage>
       
       -- chattr ----------------------------------------------------------------------

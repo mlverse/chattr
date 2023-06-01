@@ -7,10 +7,12 @@ template:
 reference:
 - title: "Main functions"
   contents:
-    starts_with("chattr")
+    - chattr_app
+    - chattr
 - title: "Defaults"
   contents:
-    starts_with("ch_default")
-- title: "Other"
+    - starts_with("chattr_defaults")
+- title: "Utilities"
   contents:
-    starts_with("ch_history")
+    - chattr_use
+    - chattr_test

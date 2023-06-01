@@ -64,25 +64,25 @@ chattr_use("llamagpt")
 
 If this is the first time you use this interface, confirm that the path of to 
 the compiled program, and the model matches to what you have in your machine. 
-To check that use `ch_defaults()`
+To check that use `chattr_defaults()`
 
 ```{r}
-ch_defaults()
+chattr_defaults()
 ```
 
 If either, or both, paths are incorrect, correct them by updating the `path`,
-and `model` arguments in `ch_defaults()`
+and `model` arguments in `chattr_defaults()`
 
 ```{r}
-ch_defaults(path = "[path to compiled program]", model = "[path to model]")
+chattr_defaults(path = "[path to compiled program]", model = "[path to model]")
 ```
 
 So that you do not need to change those defaults every time you start a new
-R session, use `ch_defaults_save()`. That will create a YAML file in your
+R session, use `chattr_defaults_save()`. That will create a YAML file in your
 working directory. `chattr` will use that file to override the defaults.
 
 ```{r, eval = FALSE}
-ch_defaults_save()
+chattr_defaults_save()
 ```
 
 Use `chattr_test()` to confirm that the `chattr` is able to communicate with 

@@ -9,7 +9,7 @@
 # Session management works
 
     Code
-      chattr_test(defaults = ch_defaults())
+      chattr_test(defaults = chattr_defaults())
     Message <cliMessage>
       v Model started sucessfully
       v Model session closed sucessfully
@@ -25,7 +25,7 @@
 # Printout works
 
     Code
-      ch_llamagpt_printout(ch_defaults(), output = "xxx\n> ")
+      ch_llamagpt_printout(chattr_defaults(), output = "xxx\n> ")
     Message <cliMessage>
       
       -- chattr --

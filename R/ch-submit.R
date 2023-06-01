@@ -1,5 +1,5 @@
 #' Method to easily integrate to new LLM's
-#' @param defaults Defaults object, generally puled from `ch_defaults()`
+#' @param defaults Defaults object, generally puled from `chattr_defaults()`
 #' @param prompt The prompt to send to the LLM
 #' @param stream To output the response from the LLM as it happens, or wait until
 #' the response is complete. Defaults to TRUE.
@@ -33,7 +33,7 @@ ch_submit_job <- function(prompt,
                           prompt_build = TRUE,
                           r_file_stream = tempfile(),
                           r_file_complete = tempfile(),
-                          defaults = ch_defaults(type = "chat")) {
+                          defaults = chattr_defaults(type = "chat")) {
   defaults$prompt <- process_prompt(defaults$prompt)
   rs <- r_session_start()
   rs$call(
@@ -48,7 +48,7 @@ ch_submit_job <- function(prompt,
       chattr::ch_history(ch_history)
       chattr::ch_submit(
         defaults = do.call(
-          what = chattr::ch_defaults,
+          what = chattr::chattr_defaults,
           args = defaults
         ),
         prompt = prompt,

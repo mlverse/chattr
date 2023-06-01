@@ -2,7 +2,7 @@
 title: "Modify prompt enhancements"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Changing }
+  %\VignetteIndexEntry{Modify prompt enhancements}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,15 +18,15 @@ knitr::opts_chunk$set(
 library(chattr)
 ```
 
-To edit what `chattr` is sending to the model you can use `ch_defaults()`:
+To edit what `chattr` is sending to the model you can use `chattr_defaults()`:
 
 ```{r}
-ch_defaults()
+chattr_defaults()
 ```
 
 
 To modify, simply pass the new value as an argument to the function:
 
 ```{r}
-ch_defaults(prompt = c("New instructions", "New line"))
+chattr_defaults(prompt = c("New instructions", "New line"))
 ```

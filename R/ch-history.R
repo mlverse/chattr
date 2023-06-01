@@ -1,6 +1,7 @@
 #' Displays the current session' chat history
 #' @param x An list object that contains chat history. Use this argument to
 #' override the current history.
+#' @keywords internal
 #' @export
 ch_history <- function(x = NULL) {
   if (!is.null(x)) {

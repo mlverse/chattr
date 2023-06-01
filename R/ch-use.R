@@ -21,7 +21,7 @@ use_switch <- function(...) {
 
   Sys.setenv("CHATTR_MODEL" = label)
 
-  ch_defaults(
+  chattr_defaults(
     type = "default",
     yaml_file = file,
     force = TRUE
@@ -30,13 +30,13 @@ use_switch <- function(...) {
   walk(
     c("console", "chat", "notebook", "script"),
     ~ {
-      ch_defaults(
+      chattr_defaults(
         type = .x,
         yaml_file = file
       )
     }
   )
-  tc <- ch_defaults()
+  tc <- chattr_defaults()
   cli_li("Provider: {tc$provider}")
   cli_li("Model: {tc$model}")
 }

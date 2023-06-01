@@ -19,7 +19,7 @@ app_server <- function(input, output, session) {
   app_add_history(style, input)
 
   observeEvent(input$saved, {
-    ch_defaults(
+    chattr_defaults(
       type = "chat",
       max_data_files = input$i_files,
       max_data_frames = input$i_data,
@@ -47,7 +47,7 @@ app_server <- function(input, output, session) {
     if (input$prompt != "" && is.null(ch_env$current_stream)) {
       ch_submit_job(
         prompt = input$prompt,
-        defaults = ch_defaults(type = "chat"),
+        defaults = chattr_defaults(type = "chat"),
         prompt_build = TRUE,
         r_file_complete = r_file_complete,
         r_file_stream = r_file_stream
