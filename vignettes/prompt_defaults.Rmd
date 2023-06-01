@@ -21,7 +21,7 @@ function `chattr_defaults()`:
 
 
 ```{r}
-library(chattr) 
+library(chattr)
 
 chattr_defaults()
 ```
@@ -45,7 +45,9 @@ Here is a simple example of a function that passes the variables currently in
 your R session that contain "x":
 
 ```{r}
-my_list <- function() return(ls(pattern = "x", envir = globalenv()))
+my_list <- function() {
+  return(ls(pattern = "x", envir = globalenv()))
+}
 ```
 
 The `my_list()` function is passed to the `prompt` argument enclosed in braces:

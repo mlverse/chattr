@@ -17,8 +17,8 @@
 #' is available
 #' @param path The location of the model. It could be an URL or a file path.
 #' @param model The name or path to the model to use.
-#' @param system_msg For GPT 3.5 or above, the system message to send as part of
-#' the request
+#' @param system_msg For OpenAI GPT 3.5 or above, the system message to send as
+#' part of the request
 #' @param yaml_file The path to a valid `config` YAML file that contains the
 #' defaults to use in a session
 #' @param model_arguments Additional arguments to pass to the model as part of the
@@ -29,18 +29,18 @@
 #' @param force Re-process the base and any work space level file defaults
 #' @inheritParams chattr
 chattr_defaults <- function(type = NULL,
-                        prompt = NULL,
-                        max_data_files = NULL,
-                        max_data_frames = NULL,
-                        include_doc_contents = NULL,
-                        include_history = NULL,
-                        provider = NULL,
-                        path = NULL,
-                        model = NULL,
-                        model_arguments = NULL,
-                        system_msg = NULL,
-                        yaml_file = "chattr.yml",
-                        force = FALSE) {
+                            prompt = NULL,
+                            max_data_files = NULL,
+                            max_data_frames = NULL,
+                            include_doc_contents = NULL,
+                            include_history = NULL,
+                            provider = NULL,
+                            path = NULL,
+                            model = NULL,
+                            model_arguments = NULL,
+                            system_msg = NULL,
+                            yaml_file = "chattr.yml",
+                            force = FALSE) {
   function_args <- as.list(environment())
 
   sys_type <- Sys.getenv("CHATTR_TYPE", NA)
@@ -171,7 +171,7 @@ print_include <- function(x, label) {
 }
 
 chattr_defaults_set <- function(arguments = list(),
-                            type = NULL) {
+                                type = NULL) {
   td <- chattr_defaults_get(type)
 
   if (!is.null(td)) {

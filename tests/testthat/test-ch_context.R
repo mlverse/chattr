@@ -6,7 +6,6 @@ test_that("Data frames context", {
   ch_context_data_frames(max = 1) %>%
     cat() %>%
     expect_snapshot()
-
 })
 
 test_that("File finder works", {
