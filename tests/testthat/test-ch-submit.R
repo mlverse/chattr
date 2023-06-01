@@ -1,3 +1,4 @@
+skip_on_covr()
 test_that("Submit job works as expected", {
   ch_debug_set_true()
   expect_true(ch_debug_get())

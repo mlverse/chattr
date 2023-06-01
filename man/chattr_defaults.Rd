@@ -49,8 +49,8 @@ is available}
 request, it requires a list. Examples of arguments: temperature, top_p,
 max_tokens}
 
-\item{system_msg}{For GPT 3.5 or above, the system message to send as part of
-the request}
+\item{system_msg}{For OpenAI GPT 3.5 or above, the system message to send as
+part of the request}
 
 \item{yaml_file}{The path to a valid \code{config} YAML file that contains the
 defaults to use in a session}

@@ -50,8 +50,8 @@ back-end provides access to multiple LLM types:
 
 <table>
 <colgroup>
-<col style="width: 29%" />
-<col style="width: 70%" />
+<col style="width: 22%" />
+<col style="width: 77%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -189,15 +189,30 @@ chattr(preview = TRUE)
 #> ── chattr ──────────────────────────────────────────────────────────────────────
 #> 
 #> ── Preview for: Console
-#> • Provider: LlamaGPT
-#> • Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-#> • threads: 4
-#> • temp: 0.01
-#> • n_predict: 1000
+#> • Provider: Open AI - Chat Completions
+#> • Model: gpt-3.5-turbo
+#> • temperature: 0.01
+#> • max_tokens: 1000
+#> • stream: TRUE
 #> 
 #> ── Prompt:
-#> [Your future prompt goes here](Use the R language, the tidyverse, and
-#> tidymodels)
+#> role: system
+#> content: You are a helpful coding assistant
+#> role: user
+#> content:
+#> * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
+#> * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
+#> * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
+#> * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
+#> broom
+#> * Avoid explanations unless requested by user, expecting code only
+#> * Data files available:
+#> |- docs/deps/data-deps.txt
+#> |- inst/prompt/base.txt
+#> * Data frames currently in R memory (and columns):
+#> |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
+#> |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+#> [Your future prompt goes here]
 ```
 
 ## Appendix
