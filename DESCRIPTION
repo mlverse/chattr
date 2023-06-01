@@ -6,7 +6,8 @@ Authors@R: c(
   person(given = "Posit Software, PBC", role = c("cph", "fnd"))
   )
 Description: Integrates LLM's with the RStudio IDE.
-URL: https://github.com/mlverse/chattr
+URL: https://github.com/mlverse/chattr,
+    https://mlverse.github.io/chattr/
 BugReports: https://github.com/mlverse/chattr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
