@@ -231,7 +231,7 @@ openai_switch <- function(prompt,
         req_body = req_body,
         r_file_stream = r_file_stream,
         r_file_complete = r_file_complete
-        )
+      )
     } else {
       return_result <- FALSE
       ret <- openai_stream_ide(defaults, req_body)

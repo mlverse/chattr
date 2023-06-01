@@ -1,17 +1,11 @@
-#' Sets base defaults for specific LLM model
-#' @export
 ch_use_openai_gpt35 <- function() {
   use_switch("configs", "gpt35.yml")
 }
 
-#' @export
-#' @rdname ch_use_openai_gpt35
 ch_use_openai_davinci <- function() {
   use_switch("configs", "davinci.yml")
 }
 
-#' @export
-#' @rdname ch_use_openai_gpt35
 ch_use_llamagpt <- function() {
   use_switch("configs", "llamagpt.yml")
 }
@@ -27,7 +21,7 @@ use_switch <- function(...) {
 
   Sys.setenv("CHATTR_MODEL" = label)
 
-  ch_defaults(
+  chattr_defaults(
     type = "default",
     yaml_file = file,
     force = TRUE
@@ -36,13 +30,13 @@ use_switch <- function(...) {
   walk(
     c("console", "chat", "notebook", "script"),
     ~ {
-      ch_defaults(
+      chattr_defaults(
         type = .x,
         yaml_file = file
       )
     }
   )
-  tc <- ch_defaults()
+  tc <- chattr_defaults()
   cli_li("Provider: {tc$provider}")
   cli_li("Model: {tc$model}")
 }

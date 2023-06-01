@@ -5,10 +5,10 @@
 #' @param type The type of UI to save the defaults for. It defaults to NULL which
 #' will save whatever types had been used during the current R session
 #' @export
-ch_defaults_save <- function(path = "chattr.yml",
-                             overwrite = FALSE,
-                             type = NULL) {
-  invisible(ch_defaults(type = "default"))
+chattr_defaults_save <- function(path = "chattr.yml",
+                                 overwrite = FALSE,
+                                 type = NULL) {
+  invisible(chattr_defaults(type = "default"))
 
   temp <- tempfile()
 
@@ -25,7 +25,7 @@ ch_defaults_save <- function(path = "chattr.yml",
         ~ {
           y <- td_default[[.y]]
           x <- .x
-          if(!is.null(y) && !is.null(x)) {
+          if (!is.null(y) && !is.null(x)) {
             if (!inherits(x, "list")) {
               if (inherits(x, "character")) {
                 x <- paste0(x, collapse = "")

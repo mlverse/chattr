@@ -17,8 +17,8 @@
 #' is available
 #' @param path The location of the model. It could be an URL or a file path.
 #' @param model The name or path to the model to use.
-#' @param system_msg For GPT 3.5 or above, the system message to send as part of
-#' the request
+#' @param system_msg For OpenAI GPT 3.5 or above, the system message to send as
+#' part of the request
 #' @param yaml_file The path to a valid `config` YAML file that contains the
 #' defaults to use in a session
 #' @param model_arguments Additional arguments to pass to the model as part of the
@@ -28,19 +28,19 @@
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
 #' @inheritParams chattr
-ch_defaults <- function(type = NULL,
-                        prompt = NULL,
-                        max_data_files = NULL,
-                        max_data_frames = NULL,
-                        include_doc_contents = NULL,
-                        include_history = NULL,
-                        provider = NULL,
-                        path = NULL,
-                        model = NULL,
-                        model_arguments = NULL,
-                        system_msg = NULL,
-                        yaml_file = "chattr.yml",
-                        force = FALSE) {
+chattr_defaults <- function(type = NULL,
+                            prompt = NULL,
+                            max_data_files = NULL,
+                            max_data_frames = NULL,
+                            include_doc_contents = NULL,
+                            include_history = NULL,
+                            provider = NULL,
+                            path = NULL,
+                            model = NULL,
+                            model_arguments = NULL,
+                            system_msg = NULL,
+                            yaml_file = "chattr.yml",
+                            force = FALSE) {
   function_args <- as.list(environment())
 
   sys_type <- Sys.getenv("CHATTR_TYPE", NA)
@@ -61,7 +61,7 @@ ch_defaults <- function(type = NULL,
     ch_env$defaults <- NULL
   }
 
-  if (is.null(ch_defaults_get(type))) {
+  if (is.null(chattr_defaults_get(type))) {
     env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
 
     if (!is.na(env_model)) {
@@ -83,7 +83,7 @@ ch_defaults <- function(type = NULL,
           if (length(td$prompt) > 0 & any(grepl("\n", td$prompt))) {
             td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
-          ch_defaults_set(
+          chattr_defaults_set(
             arguments = td,
             type = type
           )
@@ -92,12 +92,12 @@ ch_defaults <- function(type = NULL,
     }
   }
 
-  ch_defaults_set(
+  chattr_defaults_set(
     arguments = function_args,
     type = type
   )
 
-  ret <- ch_defaults_get(type)
+  ret <- chattr_defaults_get(type)
   ret$type <- type
 
   class(ret) <- c(
@@ -120,7 +120,7 @@ prep_class_name <- function(x) {
   x
 }
 
-ch_defaults_get <- function(type = "notebook") {
+chattr_defaults_get <- function(type = "notebook") {
   ch_env$defaults[[type]]
 }
 
@@ -170,9 +170,9 @@ print_include <- function(x, label) {
   }
 }
 
-ch_defaults_set <- function(arguments = list(),
-                            type = NULL) {
-  td <- ch_defaults_get(type)
+chattr_defaults_set <- function(arguments = list(),
+                                type = NULL) {
+  td <- chattr_defaults_get(type)
 
   if (!is.null(td)) {
     for (i in seq_along(td)) {

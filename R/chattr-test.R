@@ -1,27 +1,21 @@
-#' Confirms connectivity with model
-#' @export
-chattr_test <- function() {
-  ch_test(defaults = ch_defaults())
-}
-
-#' Confirms connectivity with model
+#' Confirms conectivity to LLM interface
 #' @inheritParams ch_submit
 #' @export
-ch_test <- function(defaults = ch_defaults()) {
-  UseMethod("ch_test")
+chattr_test <- function(defaults = chattr_defaults()) {
+  UseMethod("chattr_test")
 }
 
 #' @export
-ch_test.ch_open_ai_chat_completions <- function(defaults = ch_defaults()) {
-  ch_test_open_ai(defaults = defaults)
+chattr_test.ch_open_ai_chat_completions <- function(defaults = chattr_defaults()) {
+  chattr_test_open_ai(defaults = defaults)
 }
 
 #' @export
-ch_test.ch_open_ai_completions <- function(defaults = ch_defaults()) {
-  ch_test_open_ai(defaults = defaults)
+chattr_test.ch_open_ai_completions <- function(defaults = chattr_defaults()) {
+  chattr_test_open_ai(defaults = defaults)
 }
 
-ch_test_open_ai <- function(defaults = ch_defaults()) {
+chattr_test_open_ai <- function(defaults = chattr_defaults()) {
   req <- request("https://api.openai.com/v1/models") %>%
     req_auth_bearer_token(openai_token()) %>%
     req_perform()

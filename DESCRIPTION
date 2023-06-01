@@ -1,15 +1,22 @@
 Package: chattr
 Title: Integrates LLM's with the RStudio IDE
-Version: 0.0.0.9003
-Authors@R: 
-    person("Edgar", "Ruiz", , "edgar@posit.co", role = c("aut", "cre"))
+Version: 0.0.0.9004
+Authors@R: c(
+  person("Edgar", "Ruiz", , "edgar@posit.co", role = c("aut", "cre")),
+  person(given = "Posit Software, PBC", role = c("cph", "fnd"))
+  )
 Description: Integrates LLM's with the RStudio IDE.
+URL: https://github.com/mlverse/chattr,
+    https://mlverse.github.io/chattr/
+BugReports: https://github.com/mlverse/chattr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
     rstudioapi,
+    lifecycle,
+    processx,
     jsonlite,
     config,
     httr2,
@@ -22,13 +29,14 @@ Imports:
     yaml,
     glue,
     cli,
-    fs,
-    lifecycle,
-    processx
+    fs
 Depends: 
     R (>= 2.10)
 LazyData: true
 Suggests: 
     covr,
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
