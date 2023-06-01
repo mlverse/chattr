@@ -249,3 +249,37 @@ openai_switch <- function(prompt,
   }
   ret
 }
+
+app_init_message.ch_open_ai_completions <- function(defaults) {
+  app_init_openai(defaults)
+}
+
+app_init_message.ch_open_ai_chat_completions <- function(defaults) {
+  app_init_openai(defaults)
+}
+
+app_init_openai <- function(defaults) {
+  print_provider(defaults)
+  if(defaults$max_data_files) {
+    cli_alert_warning(
+      paste0(
+        "A list of the top {defaults$max_data_files} files will ",
+        "be sent externally to OpenAI with every request\n",
+        "To avoid this, set the number of files to be sent to 0 ",
+        "using {.run chattr::chattr_defaults(max_data_files = 0)}"
+        )
+      )
+  }
+
+  if(defaults$max_data_frames) {
+    cli_alert_warning(
+      paste0(
+        "A list of the top {defaults$max_data_frames} data.frames ",
+        "currently in your R session will be sent externally to ",
+        "OpenAI with every request\n To avoid this, set the number ",
+        "of data.frames to be sent to 0 using ",
+        "{.run chattr::chattr_defaults(max_data_frames = 0)}"
+      )
+    )
+  }
+}
