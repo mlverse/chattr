@@ -114,6 +114,6 @@ To see the most current list of available model arguments go to:
 [Detailed command list](https://github.com/kuvaus/LlamaGPTJ-chat#detailed-command-list).
 
 **IMPORTANT** - `chattr` passes the arguments directly to LLamaGPT-chat as a 
-command line flag, except `model`.  `chattr` will use the value in `chattr_defaults(model = "")`
-instead. 
+command line flag, except `model`.  `chattr` will use the value in 
+`chattr_defaults(model = "[path to model]")` instead. 
 
