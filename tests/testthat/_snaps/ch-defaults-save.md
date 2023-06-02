@@ -4,6 +4,7 @@
       chattr_use("gpt35")
     Message <cliMessage>
       * Provider: Open AI - Chat Completions
+      * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
 
 ---
@@ -13,8 +14,8 @@
     Output
        [1] "default:"                                                                       
        [2] "  prompt: '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"
-       [3] "  max_data_files: 20"                                                           
-       [4] "  max_data_frames: 20"                                                          
+       [3] "  max_data_files: 0"                                                            
+       [4] "  max_data_frames: 0"                                                           
        [5] "  include_doc_contents: no"                                                     
        [6] "  include_history: yes"                                                         
        [7] "  provider: Open AI - Chat Completions"                                         

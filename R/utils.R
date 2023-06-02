@@ -24,27 +24,24 @@ as_ch_request <- function(x, defaults) {
 
 #' @export
 print.ch_request <- function(x, ...) {
+  cli_div(theme = cli_colors())
   cli_h1("chattr")
   type <- paste0(
     toupper(substr(x$defaults$type, 1, 1)),
     substr(x$defaults$type, 2, nchar(x$defaults$type))
   )
-  cli_colors()
-  cli_h3("Preview for: {.val0 {type}}")
-  cli_li("Provider: {.val0 {x$defaults$provider}}")
-  cli_li("Model: {.val0 {x$defaults$model}}")
+  cli_h3("Preview for: {.val1 {type}}")
+  print_provider(x$defaults)
   if (!is.null(x$defaults$model_arguments)) {
     iwalk(
       x$defaults$model_arguments,
-      ~ cli_li("{.y}: {.val0 {.x}}")
+      ~ {
+        cli_div(theme = cli_colors())
+        cli_li("{.y}: {.val1 {.x}}")
+        }
     )
   }
   print_history(x$prompt)
-}
-
-#' @export
-print.ch_history <- function(x, ...) {
-  print_history(x)
 }
 
 print_history <- function(x) {
@@ -63,10 +60,10 @@ print_history <- function(x) {
         title <- NULL
       }
       if (length(split_x) == 1) {
-        cli_text("{title} {.val1 {.x}}")
+        cli_text("{title} {.val2 {.x}}")
       } else {
         cli_text("{title}")
-        walk(split_x, ~ cli_bullets("{.val1 {.x}}"))
+        walk(split_x, ~ cli_bullets("{.val2 {.x}}"))
       }
     })
   })
@@ -90,11 +87,16 @@ package_file <- function(...) {
 }
 
 cli_colors <- function(envir = parent.frame()) {
-  cli_div(
-    theme = list(
-      span.val0 = list(color = "blue"),
-      span.val1 = list(color = "darkgreen")
-    ),
-    .envir = envir
-  )
+  list(
+    span.val0 = list(color = "black"),
+    span.val1 = list(color = "blue"),
+    span.val2 = list(color = "darkgreen")
+    )
+}
+
+print_provider <- function(x) {
+  cli_div(theme = cli_colors())
+  cli_li("{.val0 Provider:} {.val1 {x$provider}}")
+  cli_li("{.val0 Path/URL:} {.val1 {x$path}}")
+  cli_li("{.val0 Model:} {.val1 {x$model}}")
 }

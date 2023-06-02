@@ -126,35 +126,35 @@ chattr_defaults_get <- function(type = "notebook") {
 
 #' @export
 print.ch_model <- function(x, ...) {
-  cli_colors()
+
+  cli_div(theme = cli_colors())
+
   cli_h1("chattr")
   type <- paste0(
     toupper(substr(x$type, 1, 1)),
     substr(x$type, 2, nchar(x$type))
   )
-  cli_h2("Defaults for: {.val0 {type}}")
+  cli_h2("Defaults for: {.val1 {type}}")
   cli_h3("Prompt:")
 
   prompt <- gsub("\\{", "\\{\\{", x$prompt)
   prompt <- gsub("\\}", "\\}\\}", prompt)
 
-  walk(prompt, ~ cli_li("{.val1 {.x}}"))
+  walk(prompt, ~ cli_li("{.val2 {.x}}"))
   cli_colors()
   cli_h3("Model")
-  cli_li("Provider: {.val0 {x$provider}}")
-  cli_li("Path: {.val0 {x$path}}")
-  cli_li("Model: {.val0 {x$model}}")
+  print_provider(x)
 
   if (!is.null(x$model_arguments)) {
     cli_h3("Model Arguments:")
     iwalk(
       x$model_arguments,
-      ~ cli_li("{.y}: {.val0 {.x}}")
+      ~ cli_li("{.y}: {.val1 {.x}}")
     )
   }
   cli_h3("Context:")
-  cli_text("Max Data Files: ", x$max_data_files)
-  cli_text("Max Data Frames: ", x$max_data_frames)
+  cli_text("Max Data Files: {.val1 {x$max_data_files}}")
+  cli_text("Max Data Frames: {.val1 {x$max_data_frames}}")
   print_include(x$include_history, "Chat History")
   print_include(x$include_doc_contents, "Document contents")
   cli_end()

@@ -36,7 +36,5 @@ use_switch <- function(...) {
       )
     }
   )
-  tc <- chattr_defaults()
-  cli_li("Provider: {tc$provider}")
-  cli_li("Model: {tc$model}")
+  print_provider(chattr_defaults())
 }

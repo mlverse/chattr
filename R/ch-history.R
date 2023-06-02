@@ -32,3 +32,9 @@ ch_history_append <- function(user = NULL, assistant = NULL) {
 ch_history_set <- function(x) {
   ch_env$chat_history <- x
 }
+
+#' @export
+print.ch_history <- function(x, ...) {
+  cli_div(theme = cli_colors())
+  print_history(x)
+}

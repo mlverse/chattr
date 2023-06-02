@@ -13,8 +13,8 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
                        as_job_port = getOption("shiny.port", 7788),
                        as_job_host = getOption("shiny.host", "127.0.0.1")) {
   td <- chattr_defaults(type = "chat")
-  cli_li("Provider: {td$provider}")
-  cli_li("Model: {td$model}")
+
+  app_init_message(td)
 
   if (viewer[1] == "dialog") {
     viewer <- dialogViewer(
@@ -52,4 +52,12 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
 
 app_interactive <- function(as_job = FALSE) {
   list(ui = app_ui(), server = app_server)
+}
+
+app_init_message <- function(defaults) {
+  UseMethod("app_init_message")
+}
+
+app_init_message.default <- function(defaults) {
+  print_provider(defaults)
 }

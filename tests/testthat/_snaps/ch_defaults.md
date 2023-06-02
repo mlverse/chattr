@@ -4,6 +4,7 @@
       chattr_use("llamagpt")
     Message <cliMessage>
       * Provider: LlamaGPT
+      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
 
 ---
@@ -21,7 +22,7 @@
       
       -- Model 
       * Provider: LlamaGPT
-      * Path: ~/LlamaGPTJ-chat/build/bin/chat
+      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
       
       -- Model Arguments: 

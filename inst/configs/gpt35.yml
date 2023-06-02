@@ -4,8 +4,8 @@ default:
   provider: Open AI - Chat Completions
   path: https://api.openai.com/v1/chat/completions
   model: gpt-3.5-turbo
-  max_data_files: 20
-  max_data_frames: 20
+  max_data_files: 0
+  max_data_frames: 0
   include_doc_contents: FALSE
   include_history: TRUE
   system_msg: You are a helpful coding assistant
