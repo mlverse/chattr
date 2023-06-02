@@ -129,29 +129,6 @@ ch_llamagpt_stop <- function() {
   }
 }
 
-# --------------------------------- Test ---------------------------------------
-
-#' @export
-chattr_test.ch_llamagpt <- function(defaults = chattr_defaults()) {
-  ch_llamagpt_session(defaults = defaults, testing = TRUE)
-  session <- ch_llamagpt_session()
-  Sys.sleep(0.1)
-  error <- session$read_error()
-  if (error == "") {
-    cli_alert_success("Model started sucessfully")
-  } else {
-    cli_text(error)
-    cli_alert_danger("Errors loading model")
-  }
-  x <- ch_llamagpt_stop()
-  if (x) {
-    cli_alert_success("Model session closed sucessfully")
-  } else {
-    cli_alert_danger("Errors closing model session")
-  }
-  invisible()
-}
-
 ch_llamagpt_args <- function(defaults) {
   args <- defaults$model_arguments
   args$model <- path_expand(defaults$model)

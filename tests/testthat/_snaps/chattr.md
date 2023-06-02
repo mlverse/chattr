@@ -3,6 +3,8 @@
     Code
       chattr_use("gpt35")
     Message <cliMessage>
+      
+      -- chattr 
       * Provider: Open AI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
@@ -154,6 +156,8 @@
     Code
       ch_use_openai_davinci()
     Message <cliMessage>
+      
+      -- chattr 
       * Provider: Open AI - Completions
       * Path/URL: https://api.openai.com/v1/completions
       * Model: text-davinci-003
