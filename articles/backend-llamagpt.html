@@ -138,8 +138,9 @@ back-end using <code><a href="../reference/chattr_use.html">chattr_use()</a></co
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"llamagpt"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; • Provider: LlamaGPT</span></span>
-<span><span class="co">#&gt; • Model: ~/ggml-gpt4all-j-v1.3-groovy.bin</span></span></code></pre></div>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">LlamaGPT</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">~/LlamaGPTJ-chat/build/bin/chat</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">~/ggml-gpt4all-j-v1.3-groovy.bin</span></span></span></code></pre></div>
 <p>If this is the first time you use this interface, confirm that the
 path of to the compiled program, and the model matches to what you have
 in your machine. To check that use <code><a href="../reference/chattr_defaults.html">chattr_defaults()</a></code></p>
@@ -151,21 +152,21 @@ in your machine. To check that use <code><a href="../reference/chattr_defaults.h
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Console</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; • Use the R language, the tidyverse, and tidymodels</span></span>
+<span><span class="co">#&gt; • <span style="color: #008700;">Use the R language, the tidyverse, and tidymodels</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • Provider: LlamaGPT</span></span>
-<span><span class="co">#&gt; • Path: ~/LlamaGPTJ-chat/build/bin/chat</span></span>
-<span><span class="co">#&gt; • Model: ~/ggml-gpt4all-j-v1.3-groovy.bin</span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">LlamaGPT</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">~/LlamaGPTJ-chat/build/bin/chat</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">~/ggml-gpt4all-j-v1.3-groovy.bin</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model Arguments:</span></span>
-<span><span class="co">#&gt; • threads: 4</span></span>
-<span><span class="co">#&gt; • temp: 0.01</span></span>
-<span><span class="co">#&gt; • n_predict: 1000</span></span>
+<span><span class="co">#&gt; • threads: <span style="color: #0000BB;">4</span></span></span>
+<span><span class="co">#&gt; • temp: <span style="color: #0000BB;">0.01</span></span></span>
+<span><span class="co">#&gt; • n_predict: <span style="color: #0000BB;">1000</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Context:</span></span>
-<span><span class="co">#&gt; Max Data Files: 0</span></span>
-<span><span class="co">#&gt; Max Data Frames: 0</span></span>
+<span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
+<span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Chat History</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p>If either, or both, paths are incorrect, correct them by updating the
@@ -182,9 +183,9 @@ in your machine. To check that use <code><a href="../reference/chattr_defaults.h
 <span><span class="co">#&gt; • <span style="color: #008700;">Use the R language, the tidyverse, and tidymodels</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • Provider: <span style="color: #0000BB;">LlamaGPT</span></span></span>
-<span><span class="co">#&gt; • Path: <span style="color: #0000BB;">[path to compiled program]</span></span></span>
-<span><span class="co">#&gt; • Model: <span style="color: #0000BB;">[path to model]</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">LlamaGPT</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">[path to compiled program]</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">[path to model]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model Arguments:</span></span>
 <span><span class="co">#&gt; • threads: <span style="color: #0000BB;">4</span></span></span>
@@ -192,8 +193,8 @@ in your machine. To check that use <code><a href="../reference/chattr_defaults.h
 <span><span class="co">#&gt; • n_predict: <span style="color: #0000BB;">1000</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Context:</span></span>
-<span><span class="co">#&gt; Max Data Files: 0</span></span>
-<span><span class="co">#&gt; Max Data Frames: 0</span></span>
+<span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
+<span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Chat History</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p>So that you do not need to change those defaults every time you start
@@ -240,9 +241,9 @@ defaults:</p>
 <span><span class="co">#&gt; • <span style="color: #008700;">Use the R language, the tidyverse, and tidymodels</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • Provider: <span style="color: #0000BB;">LlamaGPT</span></span></span>
-<span><span class="co">#&gt; • Path: <span style="color: #0000BB;">[path to compiled program]</span></span></span>
-<span><span class="co">#&gt; • Model: <span style="color: #0000BB;">[path to model]</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">LlamaGPT</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">[path to compiled program]</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">[path to model]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model Arguments:</span></span>
 <span><span class="co">#&gt; • batch_size: <span style="color: #0000BB;">40</span></span></span>
@@ -251,8 +252,8 @@ defaults:</p>
 <span><span class="co">#&gt; • n_predict: <span style="color: #0000BB;">1000</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Context:</span></span>
-<span><span class="co">#&gt; Max Data Files: 0</span></span>
-<span><span class="co">#&gt; Max Data Frames: 0</span></span>
+<span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
+<span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Chat History</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p>To see the most current list of available model arguments go to: <a href="https://github.com/kuvaus/LlamaGPTJ-chat#detailed-command-list" class="external-link">Detailed
