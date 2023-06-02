@@ -4,6 +4,7 @@
       chattr_use("llamagpt")
     Message <cliMessage>
       * Provider: LlamaGPT
+      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
 
 # Session management works
@@ -48,5 +49,6 @@
       chattr_use("gpt35")
     Message <cliMessage>
       * Provider: Open AI - Chat Completions
+      * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
 

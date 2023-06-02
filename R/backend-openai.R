@@ -260,7 +260,7 @@ app_init_message.ch_open_ai_chat_completions <- function(defaults) {
 
 app_init_openai <- function(defaults) {
   print_provider(defaults)
-  if(defaults$max_data_files) {
+  if(defaults$max_data_files > 0) {
     cli_alert_warning(
       paste0(
         "A list of the top {defaults$max_data_files} files will ",
@@ -271,7 +271,7 @@ app_init_openai <- function(defaults) {
       )
   }
 
-  if(defaults$max_data_frames) {
+  if(defaults$max_data_frames > 0) {
     cli_alert_warning(
       paste0(
         "A list of the top {defaults$max_data_frames} data.frames ",
