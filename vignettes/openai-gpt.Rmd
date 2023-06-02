@@ -24,17 +24,27 @@ to make the "chatting" experience with the GPT models seamless.
 
 ## Secret key
 
-OpenAI requires a **secret key** to authenticate your user. It is required for any application non-OpenAI application, such as `chattr`, to have one in order to function. A key is a long alphanumeric sequence. The sequence is created in the OpenAI portal. To obtain your **secret key**, follow this link: [OpenAI API Keys](https://platform.openai.com/account/api-keys)
+OpenAI requires a **secret key** to authenticate your user. It is required for 
+any application non-OpenAI application, such as `chattr`, to have one in order 
+to function. A key is a long alphanumeric sequence. The sequence is created in 
+the OpenAI portal. To obtain your **secret key**, follow this link: 
+[OpenAI API Keys](https://platform.openai.com/account/api-keys)
 
-By default, `chattr` will look for the **secret key** inside the a Environment Variable called `OPENAI_API_KEY`. Other packages that integrate with OpenAI use the same variable name.
+By default, `chattr` will look for the **secret key** inside the a Environment
+Variable called `OPENAI_API_KEY`. Other packages that integrate with OpenAI use 
+the same variable name.
 
-Use `Sys.setenv()` to set the variable. The downside of using this method is that the variable will only be available during the current R session:
+Use `Sys.setenv()` to set the variable. The downside of using this method is
+that the variable will only be available during the current R session:
 
 ``` r
 Sys.setenv("OPENAI_API_KEY" = "####################")
 ```
 
-A preferred method is to save the secret key to the `.Renviron` file. This way, there is no need to load the environment variable every time you start a new R session. The `.Renviron` file is available in your home directory. Here is an example of the entry:
+A preferred method is to save the secret key to the `.Renviron` file. This way, 
+there is no need to load the environment variable every time you start a new R
+session. The `.Renviron` file is available in your home directory. Here is an 
+example of the entry:
 
 ```         
 OPENAI_API_KEY=####################
@@ -52,3 +62,46 @@ chattr_test()
 ✔ Access to models confirmed
 ```
 
+## Change the model
+
+By default, `chattr` is setup to interact with GPT 3.5 (`gpt-3.5-turbo`). To
+switch to the DaVinci model (`text-davinci-003`) run:
+
+```{r}
+library(chattr)
+
+chattr_use("davinci")
+```
+
+To switch back to GPT 3.5, run:
+
+```{r}
+chattr_use("gpt35")
+```
+
+If you wish to switch to a model other than the two mentioned above, you will
+first need to note which of the two OpenAI endpoints you will need to reach: 
+`completions` or `chat/completions`. "gpt35" points to the `chat/completions` 
+endpoint, and "davinci" to the `completions` endpoint.
+
+For example, if you wish to switch to the Curie model, first run:
+
+```{r}
+chattr_use("davinci")
+```
+
+And then run:
+
+```{r}
+chattr_defaults(model = "text-curie-001")
+```
+If you are allowed to access GPT 4, and wish to use it via `chattr` then run:
+
+```{r}
+chattr_use("gpt35")
+```
+
+```{r}
+chattr_defaults(model = "gpt-4")
+```
+To see the latest list which endpoint to use, go to : [Model Endpoint Compatability](https://platform.openai.com/docs/models/model-endpoint-compatibility)

@@ -16,13 +16,12 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 <!-- toc: start -->
 
 -   [Intro](#intro)
--   [Available models](#available-models)
 -   [Install](#install)
+-   [Available models](#available-models)
 -   [Using](#using)
     -   [The App](#the-app)
-    -   [Keyboard Shortcut](#keyboard-shortcut)
 -   [How it works](#how-it-works)
--   [Appendix](#appendix)
+-   [Keyboard Shortcut](#keyboard-shortcut)
     -   [How to setup the keyboard
         shortcut](#how-to-setup-the-keyboard-shortcut)
 
@@ -39,6 +38,15 @@ the provided Shiny Gadget.
 appended to your request, provides a sort of “guard rails”, so that the
 packages and techniques we usually recommend as best practice, are used
 in the model’s responses.
+
+## Install
+
+Since this is a very early version of the package install the package
+from Github:
+
+``` r
+remotes::install_github("edgararuiz/chattr")
+```
 
 ## Available models
 
@@ -86,15 +94,6 @@ with local models</a></td>
 
 The idea is that as time goes by, more back-ends will be added.
 
-## Install
-
-Since this is a very early version of the package install the package
-from Github:
-
-``` r
-remotes::install_github("edgararuiz/chattr")
-```
-
 ## Using
 
 ### The App
@@ -119,16 +118,6 @@ Automatically, the app will automatically add buttons to each code
 section. The buttons lets us copy the code to the clipboard, or to send
 it to the document. If you [“call”](#keyboard-shortcut) the app from a
 Quarto document, the app will envelop the code inside a chunk.
-
-### Keyboard Shortcut
-
-The best way to access `chattr`’s app is by setting up a keyboard
-shortcut for it. This package includes an RStudio Addin that gives us
-direct access to the app, which in turn, allows a **keyboard shortcut**
-to be assigned to the addin. The name of the addin is: “Open Chat”. If
-you are not familiar with how to assign a keyboard shortcut to the
-adding see the Appendix section: [How to setup the keyboard
-shortcut](#how-to-setup-the-keyboard-shortcut).
 
 ## How it works
 
@@ -175,7 +164,14 @@ chattr(preview = TRUE)
 #> [Your future prompt goes here]
 ```
 
-## Appendix
+## Keyboard Shortcut
+
+The best way to access `chattr`’s app is by setting up a keyboard
+shortcut for it. This package includes an RStudio Addin that gives us
+direct access to the app, which in turn, allows a **keyboard shortcut**
+to be assigned to the addin. The name of the addin is: “Open Chat”. If
+you are not familiar with how to assign a keyboard shortcut see the next
+section.
 
 ### How to setup the keyboard shortcut
 
