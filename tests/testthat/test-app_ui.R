@@ -1,3 +1,7 @@
+test_that("Set to GPT3.5", {
+  expect_snapshot(chattr_use("gpt35"))
+})
+
 test_that("UI output is as expected", {
   out <- capture.output(app_ui())
   # Removing lines with tabsetid to avoid failures due

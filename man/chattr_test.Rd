@@ -2,9 +2,12 @@
 % Please edit documentation in R/chattr-test.R
 \name{chattr_test}
 \alias{chattr_test}
+\alias{ch_test}
 \title{Confirms conectivity to LLM interface}
 \usage{
-chattr_test(defaults = chattr_defaults())
+chattr_test(defaults = NULL)
+
+ch_test(defaults = NULL)
 }
 \arguments{
 \item{defaults}{Defaults object, generally puled from \code{chattr_defaults()}}

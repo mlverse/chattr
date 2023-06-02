@@ -1,36 +1,85 @@
 #' Confirms conectivity to LLM interface
 #' @inheritParams ch_submit
 #' @export
-chattr_test <- function(defaults = chattr_defaults()) {
-  UseMethod("chattr_test")
+chattr_test <- function(defaults = NULL) {
+  if(is.null(defaults)) defaults <- chattr_defaults()
+  ch_test(defaults)
+}
+
+#' @rdname chattr_test
+#' @export
+ch_test <- function(defaults = NULL) {
+  UseMethod("ch_test")
+}
+
+# ------------------------------ OpenAI ----------------------------------------
+#' @export
+ch_test.ch_open_ai_chat_completions <- function(defaults = NULL) {
+  ch_test_open_ai(defaults = defaults)
 }
 
 #' @export
-chattr_test.ch_open_ai_chat_completions <- function(defaults = chattr_defaults()) {
-  chattr_test_open_ai(defaults = defaults)
+ch_test.ch_open_ai_completions <- function(defaults = NULL) {
+  ch_test_open_ai(defaults = defaults)
 }
 
-#' @export
-chattr_test.ch_open_ai_completions <- function(defaults = chattr_defaults()) {
-  chattr_test_open_ai(defaults = defaults)
-}
+ch_test_open_ai <- function(defaults = NULL) {
 
-chattr_test_open_ai <- function(defaults = chattr_defaults()) {
-  req <- request("https://api.openai.com/v1/models") %>%
-    req_auth_bearer_token(openai_token()) %>%
-    req_perform()
+  if(ch_debug_get()) {
+    prompt <- "TEST"
+    out <- "TEST"
+  } else {
+    prompt <- "Hi!"
+    out <- capture.output(chattr(prompt))
+  }
 
-  models <- map_chr(resp_body_json(req)$data, ~ .x$id)
+  if(is.null(out)) out <- ""
 
-  if (req$status_code == 200) {
+  cli_div(theme = cli_colors())
+  cli_h3("Testing chattr")
+  print_provider(defaults)
+
+  if (nchar(out) > 0) {
     cli_alert_success("Connection with OpenAI cofirmed")
+    cli_text("|--Prompt: {.val2 {prompt}}")
+    cli_text("|--Response: {.val1 {out}}")
   } else {
     cli_alert_danger("Connection with OpenAI failed")
   }
-
-  if (length(models) > 0) {
-    cli_alert_success("Access to models confirmed")
-  } else {
-    cli_alert_danger("Failed to access model")
-  }
 }
+
+# ----------------------------- LlamaGPT ---------------------------------------
+
+#' @export
+ch_test.ch_llamagpt <- function(defaults = NULL) {
+  if(ch_debug_get()) {
+    error <- ""
+    x <- TRUE
+  } else {
+    ch_llamagpt_session(defaults = defaults, testing = TRUE)
+    session <- ch_llamagpt_session()
+    Sys.sleep(0.1)
+    error <- session$read_error()
+    x <- ch_llamagpt_stop()
+  }
+
+  cli_div(theme = cli_colors())
+  cli_h3("Testing chattr")
+  print_provider(defaults)
+
+  if (error == "") {
+    cli_alert_success("Model started sucessfully")
+  } else {
+    cli_text(error)
+    cli_alert_danger("Errors loading model")
+  }
+
+  if (x) {
+    cli_alert_success("Model session closed sucessfully")
+  } else {
+    cli_alert_danger("Errors closing model session")
+  }
+  invisible()
+}
+
+

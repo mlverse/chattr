@@ -1,3 +1,14 @@
+# Set to GPT3.5
+
+    Code
+      chattr_use("gpt35")
+    Message <cliMessage>
+      
+      -- chattr 
+      * Provider: Open AI - Chat Completions
+      * Path/URL: https://api.openai.com/v1/chat/completions
+      * Model: gpt-3.5-turbo
+
 # UI output is as expected
 
     Code

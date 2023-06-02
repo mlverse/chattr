@@ -3,6 +3,8 @@
     Code
       chattr_use("llamagpt")
     Message <cliMessage>
+      
+      -- chattr 
       * Provider: LlamaGPT
       * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin

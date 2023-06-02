@@ -3,6 +3,8 @@
     Code
       chattr_use("llamagpt")
     Message <cliMessage>
+      
+      -- chattr 
       * Provider: LlamaGPT
       * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
@@ -12,6 +14,11 @@
     Code
       chattr_test(defaults = chattr_defaults())
     Message <cliMessage>
+      
+      -- Testing chattr 
+      * Provider: LlamaGPT
+      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
+      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
       v Model started sucessfully
       v Model session closed sucessfully
 
@@ -48,6 +55,8 @@
     Code
       chattr_use("gpt35")
     Message <cliMessage>
+      
+      -- chattr 
       * Provider: Open AI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
