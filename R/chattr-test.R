@@ -52,10 +52,16 @@ ch_test_open_ai <- function(defaults = NULL) {
 
 #' @export
 ch_test.ch_llamagpt <- function(defaults = NULL) {
-  ch_llamagpt_session(defaults = defaults, testing = TRUE)
-  session <- ch_llamagpt_session()
-  Sys.sleep(0.1)
-  error <- session$read_error()
+  if(ch_debug_get()) {
+    error <- ""
+    x <- TRUE
+  } else {
+    ch_llamagpt_session(defaults = defaults, testing = TRUE)
+    session <- ch_llamagpt_session()
+    Sys.sleep(0.1)
+    error <- session$read_error()
+    x <- ch_llamagpt_stop()
+  }
 
   cli_div(theme = cli_colors())
   cli_h3("Testing chattr")
@@ -67,7 +73,7 @@ ch_test.ch_llamagpt <- function(defaults = NULL) {
     cli_text(error)
     cli_alert_danger("Errors loading model")
   }
-  x <- ch_llamagpt_stop()
+
   if (x) {
     cli_alert_success("Model session closed sucessfully")
   } else {
