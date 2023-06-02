@@ -18,9 +18,6 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 -   [Intro](#intro)
 -   [Available models](#available-models)
 -   [Install](#install)
--   [Getting Started](#getting-started)
-    -   [Secret key](#secret-key)
-    -   [Test connection](#test-connection)
 -   [Using](#using)
     -   [The App](#the-app)
     -   [Keyboard Shortcut](#keyboard-shortcut)
@@ -50,13 +47,15 @@ back-end provides access to multiple LLM types:
 
 <table>
 <colgroup>
-<col style="width: 22%" />
-<col style="width: 77%" />
+<col style="width: 25%" />
+<col style="width: 48%" />
+<col style="width: 25%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Provider</th>
 <th style="text-align: center;">Models</th>
+<th style="text-align: center;">Setup Instructions</th>
 </tr>
 </thead>
 <tbody>
@@ -66,6 +65,9 @@ href="https://platform.openai.com/docs/introduction">OpenAI</a></td>
 <td style="text-align: center;">GPT Models accessible via the OpenAI’s
 REST API. <code>chattr</code> provides a convenient way to interact with
 GPT 3.5, and DaVinci 3.</td>
+<td style="text-align: center;"><a
+href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact
+with OpenAI GPT models</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"><a
@@ -75,6 +77,9 @@ Including GPT-J, LLaMA, and MPT. Tested on a <a
 href="https://gpt4all.io/index.html">GPT4ALL</a> model.
 <strong>LLamaGPT-Chat</strong> is a command line chat program for models
 written in C++.</td>
+<td style="text-align: center;"><a
+href="https://mlverse.github.io/chattr/articles/backend-llamagpt.html">Interact
+with local models</a></td>
 </tr>
 </tbody>
 </table>
@@ -88,46 +93,6 @@ from Github:
 
 ``` r
 remotes::install_github("edgararuiz/chattr")
-```
-
-## Getting Started
-
-### Secret key
-
-OpenAI requires a **secret key** to authenticate your user. It is
-required for any application non-OpenAI application, such as `chattr`,
-to have one in order to function. A key is a long alphanumeric sequence.
-The sequence is created in the OpenAI portal. To obtain your **secret
-key**, follow this link: [OpenAI API
-Keys](https://platform.openai.com/account/api-keys)
-
-By default, `chattr` will look for the **secret key** inside the a
-Environment Variable called `OPENAI_API_KEY`. Other packages that
-integrate with OpenAI use the same variable name.
-
-Use `Sys.setenv()` to set the variable. The downside of using this
-method is that the variable will only be available during the current R
-session:
-
-``` r
-Sys.setenv("OPENAI_API_KEY" = "####################")
-```
-
-A preferred method is to save the secret key to the `.Renviron` file.
-This way, there is no need to load the environment variable every time
-you start a new R session. The `.Renviron` file is available in your
-home directory. Here is an example of the entry:
-
-    OPENAI_API_KEY=####################
-
-### Test connection
-
-Use the `chattr_test()` function to confirm that your connection works:
-
-``` r
-chattr_test()
-✔ Connection with OpenAI cofirmed
-✔ Access to models confirmed
 ```
 
 ## Using
@@ -190,6 +155,7 @@ chattr(preview = TRUE)
 #> 
 #> ── Preview for: Console
 #> • Provider: Open AI - Chat Completions
+#> • Path/URL: https://api.openai.com/v1/chat/completions
 #> • Model: gpt-3.5-turbo
 #> • temperature: 0.01
 #> • max_tokens: 1000
@@ -206,12 +172,6 @@ chattr(preview = TRUE)
 #> * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
 #> broom
 #> * Avoid explanations unless requested by user, expecting code only
-#> * Data files available:
-#> |- docs/deps/data-deps.txt
-#> |- inst/prompt/base.txt
-#> * Data frames currently in R memory (and columns):
-#> |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
-#> |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
 #> [Your future prompt goes here]
 ```
 

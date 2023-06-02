@@ -1,0 +1,54 @@
+---
+title: "Interact with OpenAI GPT models"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{openai-gpt}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Intro
+
+OpenAI's GPT models are possibly the most widely used LLM today. Typically, the
+interaction with the models is via chatting with it inside the OpenAI's web
+portal. They also offer an REST API endpoint that you can use to communicate
+with their LLM's. `chattr` is able to send and recieve the correct API calls 
+to make the "chatting" experience with the GPT models seamless.  
+
+## Secret key
+
+OpenAI requires a **secret key** to authenticate your user. It is required for any application non-OpenAI application, such as `chattr`, to have one in order to function. A key is a long alphanumeric sequence. The sequence is created in the OpenAI portal. To obtain your **secret key**, follow this link: [OpenAI API Keys](https://platform.openai.com/account/api-keys)
+
+By default, `chattr` will look for the **secret key** inside the a Environment Variable called `OPENAI_API_KEY`. Other packages that integrate with OpenAI use the same variable name.
+
+Use `Sys.setenv()` to set the variable. The downside of using this method is that the variable will only be available during the current R session:
+
+``` r
+Sys.setenv("OPENAI_API_KEY" = "####################")
+```
+
+A preferred method is to save the secret key to the `.Renviron` file. This way, there is no need to load the environment variable every time you start a new R session. The `.Renviron` file is available in your home directory. Here is an example of the entry:
+
+```         
+OPENAI_API_KEY=####################
+```
+
+## Test connection 
+
+Use the `chattr_test()` function to confirm that your connection works:
+
+``` r
+library(chattr)
+
+chattr_test()
+✔ Connection with OpenAI cofirmed
+✔ Access to models confirmed
+```
+

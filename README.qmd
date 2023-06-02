@@ -26,22 +26,22 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+pkg <- pkgdown::as_pkgdown()
+urls <- pkg$desc$get_urls()
+url <- urls[grepl(".io", urls)][[1]]
 ```
 
 <!-- toc: start -->
-
--   [Intro](#intro)
--   [Available models](#available-models)
--   [Install](#install)
--   [Getting Started](#getting-started)
-    -   [Secret key](#secret-key)
-    -   [Test connection](#test-connection)
--   [Using](#using)
-    -   [The App](#the-app)
-    -   [Keyboard Shortcut](#keyboard-shortcut)
--   [How it works](#how-it-works)
--   [Appendix](#appendix)
-    -   [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
+- [Intro](#intro)
+- [Available models](#available-models)
+- [Install](#install)
+- [Using](#using)
+    - [The App](#the-app)
+    - [Keyboard Shortcut](#keyboard-shortcut)
+- [How it works](#how-it-works)
+- [Appendix](#appendix)
+    - [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
 
 <!-- toc: end -->
 
@@ -55,10 +55,10 @@ knitr::opts_chunk$set(
 
 `chattr` provides two main integration with two main LLM back-ends. Each back-end provides access to multiple LLM types:
 
-|                         Provider                          |                                                                                                     Models                                                                                                      |
-|:---------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|  [OpenAI](https://platform.openai.com/docs/introduction)  |                                          GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 3.5, and DaVinci 3.                                           |
-| [LLamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat) | LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a [GPT4ALL](https://gpt4all.io/index.html) model. **LLamaGPT-Chat** is a command line chat program for models written in C++. |
+|                         Provider                          |                                                                                                     Models                                                                                                      |                 Setup Instructions                  |
+|:-----------------:|:----------------------------------:|:-----------------:|
+|  [OpenAI](https://platform.openai.com/docs/introduction)  |                                          GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 3.5, and DaVinci 3.                                           | [Interact with OpenAI GPT models](`r url`articles/openai-gpt.html)  |
+| [LLamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat) | LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a [GPT4ALL](https://gpt4all.io/index.html) model. **LLamaGPT-Chat** is a command line chat program for models written in C++. |                      [Interact with local models](`r url`articles/backend-llamagpt.html)                    |
 
 The idea is that as time goes by, more back-ends will be added.
 
@@ -69,36 +69,6 @@ Since this is a very early version of the package install the package from Githu
 ```{r}
 #| eval: false
 remotes::install_github("edgararuiz/chattr")
-```
-
-## Getting Started {#getting-started-with-openai-chatgpt}
-
-### Secret key {#secret-key}
-
-OpenAI requires a **secret key** to authenticate your user. It is required for any application non-OpenAI application, such as `chattr`, to have one in order to function. A key is a long alphanumeric sequence. The sequence is created in the OpenAI portal. To obtain your **secret key**, follow this link: [OpenAI API Keys](https://platform.openai.com/account/api-keys)
-
-By default, `chattr` will look for the **secret key** inside the a Environment Variable called `OPENAI_API_KEY`. Other packages that integrate with OpenAI use the same variable name.
-
-Use `Sys.setenv()` to set the variable. The downside of using this method is that the variable will only be available during the current R session:
-
-``` r
-Sys.setenv("OPENAI_API_KEY" = "####################")
-```
-
-A preferred method is to save the secret key to the `.Renviron` file. This way, there is no need to load the environment variable every time you start a new R session. The `.Renviron` file is available in your home directory. Here is an example of the entry:
-
-```         
-OPENAI_API_KEY=####################
-```
-
-### Test connection {#test-connection}
-
-Use the `chattr_test()` function to confirm that your connection works:
-
-``` r
-chattr_test()
-✔ Connection with OpenAI cofirmed
-✔ Access to models confirmed
 ```
 
 ## Using {#using}
