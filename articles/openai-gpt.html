@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9005</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,12 +144,16 @@ connection works:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"davinci"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span></code></pre></div>
 <p>To switch back to GPT 3.5, run:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt35"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-3.5-turbo</span></span></span></code></pre></div>
@@ -162,6 +166,8 @@ need to reach: <code>completions</code> or
 <p>For example, if you wish to switch to the Curie model, first run:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"davinci"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span></code></pre></div>
@@ -195,6 +201,8 @@ need to reach: <code>completions</code> or
 <code>chattr</code> then run:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt35"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-3.5-turbo</span></span></span></code></pre></div>
