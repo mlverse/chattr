@@ -51,6 +51,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/backend-llamagpt.html">Interact with local models</a>
+    <a class="dropdown-item" href="articles/openai-gpt.html">Interact with OpenAI GPT models</a>
     <a class="dropdown-item" href="articles/prompt_defaults.html">Modify prompt enhancements</a>
   </div>
 </li>
@@ -85,25 +86,17 @@
 <!-- toc: start -->
 <ul>
 <li><a href="#intro">Intro</a></li>
-<li><a href="#available-models">Available models</a></li>
 <li><a href="#install">Install</a></li>
-<li>
-<a href="#getting-started">Getting Started</a>
-<ul>
-<li><a href="#secret-key">Secret key</a></li>
-<li><a href="#test-connection">Test connection</a></li>
-</ul>
-</li>
+<li><a href="#available-models">Available models</a></li>
 <li>
 <a href="#using">Using</a>
 <ul>
 <li><a href="#the-app">The App</a></li>
-<li><a href="#keyboard-shortcut">Keyboard Shortcut</a></li>
 </ul>
 </li>
 <li><a href="#how-it-works">How it works</a></li>
 <li>
-<a href="#appendix">Appendix</a>
+<a href="#keyboard-shortcut">Keyboard Shortcut</a>
 <ul>
 <li><a href="#how-to-setup-the-keyboard-shortcut">How to setup the keyboard shortcut</a></li>
 </ul>
@@ -116,13 +109,21 @@
 <p><code>chattr</code>’s main goal is to aid in EDA tasks. The additional information appended to your request, provides a sort of “guard rails”, so that the packages and techniques we usually recommend as best practice, are used in the model’s responses.</p>
 </div>
 <div class="section level2">
+<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
+</h2>
+<p>Since this is a very early version of the package install the package from Github:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"edgararuiz/chattr"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="available-models">Available models<a class="anchor" aria-label="anchor" href="#available-models"></a>
 </h2>
 <p><code>chattr</code> provides two main integration with two main LLM back-ends. Each back-end provides access to multiple LLM types:</p>
 <table class="table">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 77%">
+<col style="width: 25%">
+<col style="width: 48%">
+<col style="width: 25%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: center;">
@@ -130,6 +131,9 @@ Provider
 </th>
 <th style="text-align: center;">
 Models
+</th>
+<th style="text-align: center;">
+Setup Instructions
 </th>
 </tr></thead>
 <tbody>
@@ -140,6 +144,9 @@ Models
 <td style="text-align: center;">
 GPT Models accessible via the OpenAI’s REST API. <code>chattr</code> provides a convenient way to interact with GPT 3.5, and DaVinci 3.
 </td>
+<td style="text-align: center;">
+<a href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact with OpenAI GPT models</a>
+</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">
@@ -148,40 +155,13 @@ GPT Models accessible via the OpenAI’s REST API. <code>chattr</code> provides 
 <td style="text-align: center;">
 LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a <a href="https://gpt4all.io/index.html" class="external-link">GPT4ALL</a> model. <strong>LLamaGPT-Chat</strong> is a command line chat program for models written in C++.
 </td>
+<td style="text-align: center;">
+<a href="https://mlverse.github.io/chattr/articles/backend-llamagpt.html">Interact with local models</a>
+</td>
 </tr>
 </tbody>
 </table>
 <p>The idea is that as time goes by, more back-ends will be added.</p>
-</div>
-<div class="section level2">
-<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
-</h2>
-<p>Since this is a very early version of the package install the package from Github:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"edgararuiz/chattr"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
-</h2>
-<div class="section level3">
-<h3 id="secret-key">Secret key<a class="anchor" aria-label="anchor" href="#secret-key"></a>
-</h3>
-<p>OpenAI requires a <strong>secret key</strong> to authenticate your user. It is required for any application non-OpenAI application, such as <code>chattr</code>, to have one in order to function. A key is a long alphanumeric sequence. The sequence is created in the OpenAI portal. To obtain your <strong>secret key</strong>, follow this link: <a href="https://platform.openai.com/account/api-keys" class="external-link">OpenAI API Keys</a></p>
-<p>By default, <code>chattr</code> will look for the <strong>secret key</strong> inside the a Environment Variable called <code>OPENAI_API_KEY</code>. Other packages that integrate with OpenAI use the same variable name.</p>
-<p>Use <code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv()</a></code> to set the variable. The downside of using this method is that the variable will only be available during the current R session:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"OPENAI_API_KEY"</span> <span class="op">=</span> <span class="st">"####################"</span><span class="op">)</span></span></code></pre></div>
-<p>A preferred method is to save the secret key to the <code>.Renviron</code> file. This way, there is no need to load the environment variable every time you start a new R session. The <code>.Renviron</code> file is available in your home directory. Here is an example of the entry:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>OPENAI_API_KEY<span class="ot">=</span><span class="do">####################</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="test-connection">Test connection<a class="anchor" aria-label="anchor" href="#test-connection"></a>
-</h3>
-<p>Use the <code><a href="reference/chattr_test.html">chattr_test()</a></code> function to confirm that your connection works:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chattr_test</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>✔ Connection with OpenAI cofirmed</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>✔ Access to models confirmed</span></code></pre></div>
-</div>
 </div>
 <div class="section level2">
 <h2 id="using">Using<a class="anchor" aria-label="anchor" href="#using"></a>
@@ -190,18 +170,13 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <h3 id="the-app">The App<a class="anchor" aria-label="anchor" href="#the-app"></a>
 </h3>
 <p>The main way to use <code>chattr</code> is through the Shiny Gadget app. By default, it runs inside the Viewer pane. The fastest way to activate the app is by calling it via the provided function:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">chattr</span><span class="fu">::</span><span class="fu"><a href="reference/chattr_app.html">chattr_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="reference/figures/readme/chat1.png" alt=""><p class="caption">Screenshot of the Sniny gadget app in a dark mode RStudio theme</p>
 </div>
 <p>A lot of effort was put in to make the app’s appearance as close as possible to the IDE. This way it feels more integrated with your work space. This includes switching the color scheme based on the current RStudio theme being light, or dark.</p>
 <p>Automatically, the app will automatically add buttons to each code section. The buttons lets us copy the code to the clipboard, or to send it to the document. If you <a href="#keyboard-shortcut">“call”</a> the app from a Quarto document, the app will envelop the code inside a chunk.</p>
-</div>
-<div class="section level3">
-<h3 id="keyboard-shortcut">Keyboard Shortcut<a class="anchor" aria-label="anchor" href="#keyboard-shortcut"></a>
-</h3>
-<p>The best way to access <code>chattr</code>’s app is by setting up a keyboard shortcut for it. This package includes an RStudio Addin that gives us direct access to the app, which in turn, allows a <strong>keyboard shortcut</strong> to be assigned to the addin. The name of the addin is: “Open Chat”. If you are not familiar with how to assign a keyboard shortcut to the adding see the Appendix section: <a href="#how-to-setup-the-keyboard-shortcut">How to setup the keyboard shortcut</a>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -212,7 +187,7 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <img src="reference/figures/readme/chattr-diagram.png" alt=""><p class="caption">Diagram that illustrates how chattr handles model requests</p>
 </div>
 <p>To see what <code>chattr</code> will send to the model, set the <code>preview</code> argument to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
@@ -224,6 +199,7 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Preview for: Console</span></span>
 <span><span class="co">#&gt; • Provider: Open AI - Chat Completions</span></span>
+<span><span class="co">#&gt; • Path/URL: https://api.openai.com/v1/chat/completions</span></span>
 <span><span class="co">#&gt; • Model: gpt-3.5-turbo</span></span>
 <span><span class="co">#&gt; • temperature: 0.01</span></span>
 <span><span class="co">#&gt; • max_tokens: 1000</span></span>
@@ -240,17 +216,12 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <span><span class="co">#&gt; * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,</span></span>
 <span><span class="co">#&gt; broom</span></span>
 <span><span class="co">#&gt; * Avoid explanations unless requested by user, expecting code only</span></span>
-<span><span class="co">#&gt; * Data files available:</span></span>
-<span><span class="co">#&gt; |- docs/deps/data-deps.txt</span></span>
-<span><span class="co">#&gt; |- inst/prompt/base.txt</span></span>
-<span><span class="co">#&gt; * Data frames currently in R memory (and columns):</span></span>
-<span><span class="co">#&gt; |-- iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)</span></span>
-<span><span class="co">#&gt; |-- mtcars (mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)</span></span>
 <span><span class="co">#&gt; [Your future prompt goes here]</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="appendix">Appendix<a class="anchor" aria-label="anchor" href="#appendix"></a>
+<h2 id="keyboard-shortcut">Keyboard Shortcut<a class="anchor" aria-label="anchor" href="#keyboard-shortcut"></a>
 </h2>
+<p>The best way to access <code>chattr</code>’s app is by setting up a keyboard shortcut for it. This package includes an RStudio Addin that gives us direct access to the app, which in turn, allows a <strong>keyboard shortcut</strong> to be assigned to the addin. The name of the addin is: “Open Chat”. If you are not familiar with how to assign a keyboard shortcut see the next section.</p>
 <div class="section level3">
 <h3 id="how-to-setup-the-keyboard-shortcut">How to setup the keyboard shortcut<a class="anchor" aria-label="anchor" href="#how-to-setup-the-keyboard-shortcut"></a>
 </h3>
