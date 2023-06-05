@@ -28,7 +28,7 @@
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
 #' @inheritParams chattr
-chattr_defaults <- function(type = NULL,
+chattr_defaults <- function(type = "default",
                             prompt = NULL,
                             max_data_files = NULL,
                             max_data_frames = NULL,
@@ -76,6 +76,10 @@ chattr_defaults <- function(type = NULL,
 
     for (j in seq_along(check_files)) {
       td_defaults <- read_yaml(file = check_files[j])
+      loaded_default <- chattr_defaults_get(type = "default")
+      if(!is.null(loaded_default)) {
+        td_defaults$default <- loaded_default
+      }
       check_defaults <- c("default", type)
       for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]
