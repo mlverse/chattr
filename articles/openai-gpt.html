@@ -177,11 +177,10 @@ need to reach: <code>completions</code> or
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Console</span> ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Default</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Prompt:</span></span>
 <span><span class="co">#&gt; • <span style="color: #008700;">{{readLines(system.file('prompt/base.txt', package = 'chattr'))}}</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #008700;">For any line that is not code, prefix it with a: #</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Completions</span></span></span>
@@ -211,7 +210,7 @@ need to reach: <code>completions</code> or
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Console</span> ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Default</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Prompt:</span></span>
 <span><span class="co">#&gt; • <span style="color: #008700;">{{readLines(system.file('prompt/base.txt', package = 'chattr'))}}</span></span></span>
@@ -233,6 +232,30 @@ need to reach: <code>completions</code> or
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p>To see the latest list which endpoint to use, go to : <a href="https://platform.openai.com/docs/models/model-endpoint-compatibility" class="external-link">Model
 Endpoint Compatability</a></p>
+</div>
+<div class="section level2">
+<h2 id="data-files-and-data-frames">Data files and data frames<a class="anchor" aria-label="anchor" href="#data-files-and-data-frames"></a>
+</h2>
+<p>Because it is information about your environment and work space, by
+default <code>chattr</code> avoids sending any data files, and data
+frame information to OpenAI. Sending this information is convenient
+because it creates a shorthand for your requests. If you wish to submit
+this information as part of your prompts, use
+<code><a href="../reference/chattr_defaults.html">chattr_defaults()</a></code>, for example:</p>
+<ul>
+<li><code>chattr_defaults(max_data_files = 10)</code></li>
+<li><code>chattr_defaults(max_data_frames = 10)</code></li>
+</ul>
+<p>These two commands will send 10 data frames, and 10 data files as
+part of your prompt. You can decide the number to limit this by. The
+more you send, the larger your prompt.</p>
+<p>If any of these is set to anything but 0, a warning will show up
+every time you start the Shiny app:</p>
+<pre><code>• Provider: Open AI - Chat Completions
+• Path/URL: https://api.openai.com/v1/chat/completions
+• Model: gpt-3.5-turbo
+! A list of the top 10 files will be sent externally to OpenAI with every request
+To avoid this, set the number of files to be sent to 0 using chattr::chattr_defaults(max_data_files = 0)Î</code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
