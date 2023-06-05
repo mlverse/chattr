@@ -2,7 +2,7 @@
 title: "Interact with OpenAI GPT models"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{openai-gpt}
+  %\VignetteIndexEntry{Interact with OpenAI GPT models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -122,4 +122,12 @@ prompt.  You can decide the number to limit this by. The more you send,
 the larger your prompt.
 
 If any of these is set to anything but 0, a warning will show up every time
-you start the Shiny app.
+you start the Shiny app:
+
+```
+• Provider: Open AI - Chat Completions
+• Path/URL: https://api.openai.com/v1/chat/completions
+• Model: gpt-3.5-turbo
+! A list of the top 10 files will be sent externally to OpenAI with every request
+To avoid this, set the number of files to be sent to 0 using chattr::chattr_defaults(max_data_files = 0)Î
+```

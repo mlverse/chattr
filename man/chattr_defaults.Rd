@@ -5,7 +5,7 @@
 \title{Default arguments to use when making requests to the LLM}
 \usage{
 chattr_defaults(
-  type = NULL,
+  type = "default",
   prompt = NULL,
   max_data_files = NULL,
   max_data_frames = NULL,

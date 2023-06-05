@@ -6,7 +6,7 @@
       
       -- chattr ----------------------------------------------------------------------
       
-      -- Preview for: Console 
+      -- Preview for: Default 
       * Provider: Open AI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
