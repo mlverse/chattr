@@ -105,3 +105,21 @@ chattr_use("gpt35")
 chattr_defaults(model = "gpt-4")
 ```
 To see the latest list which endpoint to use, go to : [Model Endpoint Compatability](https://platform.openai.com/docs/models/model-endpoint-compatibility)
+
+## Data files and data frames
+
+Because it is information about your environment and work space, by default 
+`chattr` avoids sending any data files, and data frame information to OpenAI. 
+Sending this information is convenient because it creates a shorthand for your
+requests. If you wish to submit this information as part of your prompts, 
+use `chattr_defaults()`, for example:
+
+- `chattr_defaults(max_data_files = 10)`
+- `chattr_defaults(max_data_frames = 10)`
+
+These two commands will send 10 data frames, and 10 data files as part of your
+prompt.  You can decide the number to limit this by. The more you send,
+the larger your prompt.
+
+If any of these is set to anything but 0, a warning will show up every time
+you start the Shiny app.
