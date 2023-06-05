@@ -29,3 +29,5 @@ vignettes/*.pdf
 chattr.yml
 docs
 inst/doc
+# macOS files
+*.DS_Store
