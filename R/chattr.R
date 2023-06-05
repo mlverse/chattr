@@ -7,7 +7,7 @@ chattr <- function(prompt = NULL,
                    prompt_build = TRUE,
                    stream = NULL) {
   ret <- ch_submit(
-    defaults = chattr_defaults(),
+    defaults = chattr_defaults(type = ui_current()),
     prompt = prompt,
     stream = stream,
     prompt_build = prompt_build,
