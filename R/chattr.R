@@ -6,8 +6,10 @@ chattr <- function(prompt = NULL,
                    preview = FALSE,
                    prompt_build = TRUE,
                    stream = NULL) {
+  ui <- ui_current()
+  if(ui == "") ui <- "console"
   ret <- ch_submit(
-    defaults = chattr_defaults(type = ui_current()),
+    defaults = chattr_defaults(type = ui),
     prompt = prompt,
     stream = stream,
     prompt_build = prompt_build,

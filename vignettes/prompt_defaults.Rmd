@@ -67,7 +67,7 @@ To see what will be sent to the LLM, you can use `chattr(preview = TRUE)`. The t
 variables will be listed as part of the prompt:
 
 ```{r}
-chattr(preview = TRUE)
+#chattr(preview = TRUE)
 ```
 
 We can see how the adding a new variable will modify the prompt with out us
@@ -76,7 +76,7 @@ having to modify `chattr_defaults()`:
 ```{r}
 x3 <- 3
 
-chattr(preview = TRUE)
+#chattr(preview = TRUE)
 ```
 
 

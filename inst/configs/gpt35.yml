@@ -18,9 +18,15 @@ chat:
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     For code output, use RMarkdown code chunks
     Avoid all code chunk options
+console:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For any line that is not code, prefix with a: #
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code
 script:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-    Prefix ALL explanations with a pound sign
+    For any line that is not code, prefix with a: #
     Keep each line of explanations to no more than 80 characters
     DO NOT use Markdown for the code

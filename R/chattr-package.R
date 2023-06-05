@@ -19,3 +19,4 @@
 #' @importFrom lifecycle deprecated
 ## usethis namespace: end
 ch_env <- new.env()
+ch_env$valid_uis <- c("console", "chat", "notebook", "script")

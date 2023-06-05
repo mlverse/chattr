@@ -12,15 +12,21 @@ default:
     temperature: 0.01
     max_tokens: 1000
     stream: TRUE
-notebook:
-  prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-    For code output, use RMarkdown code chunks
-    Include alt text code chunk option for all plots
 chat:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For code output, use RMarkdown code chunks
+    Avoid all code chunk options
 console:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-    For any line that is not code, prefix it with a: #
+    Prefix ALL explanations with a pound sign
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code
+script:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    Prefix ALL explanations with a pound sign
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code
+
