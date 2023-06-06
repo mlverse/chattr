@@ -20,6 +20,7 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 -   [Available models](#available-models)
 -   [Using](#using)
     -   [The App](#the-app)
+    -   [Additional ways to interact](#additional-ways-to-interact)
 -   [How it works](#how-it-works)
 -   [Keyboard Shortcut](#keyboard-shortcut)
     -   [How to setup the keyboard
@@ -113,9 +114,11 @@ markdown code chunks. It will place three convenience buttons:
 
 -   **Copy to clipboard** - It will write the code inside the chunk to
     your clipboard.
+
 -   **Copy to document** - It will copy-paste the code directly to where
     the app was called from. If the app is started while working on a
     script, `chattr` will copy the code to that same script.
+
 -   **Copy to new script** - It creates a new R script in the RStudio
     IDE, and copies the content of the chunk directly to it. Very useful
     when the LLM writes a Shiny app for you
@@ -125,10 +128,25 @@ possible to the IDE. This way it feels more integrated with your work
 space. This includes switching the color scheme based on the current
 RStudio theme being light, or dark.
 
-Automatically, the app will automatically add buttons to each code
-section. The buttons lets us copy the code to the clipboard, or to send
-it to the document. If you [“call”](#keyboard-shortcut) the app from a
-Quarto document, the app will envelop the code inside a chunk.
+The settings screen can be accessed by clicking on the “gear” button.
+The screen that opens will contain the following:
+
+-   Save and Open chats - This is an early experiment to allow us to
+    save and retrieve past chats. `chattr` will save the file in an RDS
+    format. The main objective of this feature, is to be able to see
+    past chats, not to continue previous conversations with the LLM.
+
+-   Prompt settings - In this section you can change the additional
+    information attached to your prompt. Including the number of max
+    data files, and data frames sent to the LLM.
+
+![Screenshot of the Sniny gadget options](man/figures/readme/chat2.png)
+
+### Additional ways to interact
+
+Apart from the Shiny app, `chattr` provides two more ways to interact
+with the LLM. For details, see: [Other
+interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.html)
 
 ## How it works
 
