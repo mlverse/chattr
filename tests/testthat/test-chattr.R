@@ -1,6 +1,6 @@
 test_that("Basic chattr() tests", {
   expect_snapshot(chattr_use("gpt35"))
-  Sys.setenv("CHATTR_TYPE" = "console")
+  test_chattr_type_set("console")
   expect_snapshot(chattr("test", preview = TRUE))
   expect_snapshot(chattr("test", preview = TRUE, prompt_build = FALSE))
   expect_snapshot(chattr("test", preview = TRUE, stream = FALSE))
@@ -11,7 +11,7 @@ test_that("Basic chattr() tests", {
 })
 
 test_that("Using DaVinci", {
-  Sys.setenv("CHATTR_TYPE" = "console")
+  test_chattr_type_set("console")
   ch_debug_set_false()
   expect_snapshot(ch_use_openai_davinci())
   expect_snapshot(chattr("test", preview = TRUE))
