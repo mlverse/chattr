@@ -6,7 +6,7 @@
       
       -- chattr ----------------------------------------------------------------------
       
-      -- Preview for: Default 
+      -- Preview for: Console 
       * Provider: Open AI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
@@ -25,5 +25,8 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * For any line that is not code, prefix with a: #
+      * Keep each line of explanations to no more than 80 characters
+      * DO NOT use Markdown for the code
       TEST
 

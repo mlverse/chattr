@@ -99,8 +99,7 @@ The idea is that as time goes by, more back-ends will be added.
 ### The App
 
 The main way to use `chattr` is through the Shiny Gadget app. By
-default, it runs inside the Viewer pane. The fastest way to activate the
-app is by calling it via the provided function:
+default, it runs inside the Viewer pane:
 
 ``` r
 chattr::chattr_app()
@@ -108,6 +107,18 @@ chattr::chattr_app()
 
 ![Screenshot of the Sniny gadget app in a dark mode RStudio
 theme](man/figures/readme/chat1.png)
+
+After the LLM finishes its response, the `chattr` app processes all
+markdown code chunks. It will place three convenience buttons:
+
+-   **Copy to clipboard** - It will write the code inside the chunk to
+    your clipboard.
+-   **Copy to document** - It will copy-paste the code directly to where
+    the app was called from. If the app is started while working on a
+    script, `chattr` will copy the code to that same script.
+-   **Copy to new script** - It creates a new R script in the RStudio
+    IDE, and copies the content of the chunk directly to it. Very useful
+    when the LLM writes a Shiny app for you
 
 A lot of effort was put in to make the app’s appearance as close as
 possible to the IDE. This way it feels more integrated with your work
@@ -161,6 +172,9 @@ chattr(preview = TRUE)
 #> * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
 #> broom
 #> * Avoid explanations unless requested by user, expecting code only
+#> * For any line that is not code, prefix with a: #
+#> * Keep each line of explanations to no more than 80 characters
+#> * DO NOT use Markdown for the code
 #> [Your future prompt goes here]
 ```
 

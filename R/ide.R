@@ -57,7 +57,7 @@ ide_paste_text <- function(x) {
 }
 
 ide_comment_selection <- function() {
-  prompt <- NULL
+  prompt <- ""
   if (ide_is_rstudio()) {
     active_doc <- rstudio_active_contents()
 
