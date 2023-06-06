@@ -2,9 +2,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/edgararuiz/chattr/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/edgararuiz/chattr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/edgararuiz/chattr?branch=main)
+coverage](https://codecov.io/gh/mlverse/chattr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mlverse/chattr?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project.org/package=chattr)
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -46,7 +46,7 @@ Since this is a very early version of the package install the package
 from Github:
 
 ``` r
-remotes::install_github("edgararuiz/chattr")
+remotes::install_github("mlverse/chattr")
 ```
 
 ## Available models
