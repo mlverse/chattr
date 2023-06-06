@@ -52,6 +52,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/backend-llamagpt.html">Interact with local models</a>
     <a class="dropdown-item" href="../articles/openai-gpt.html">Interact with OpenAI GPT models</a>
+    <a class="dropdown-item" href="../articles/other-interfaces.html">Other interfaces</a>
     <a class="dropdown-item" href="../articles/prompt_defaults.html">Modify prompt enhancements</a>
   </div>
 </li>
@@ -204,7 +205,7 @@ part of the prompt:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Default</span></span></span>
+<span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Console</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
@@ -217,8 +218,15 @@ part of the prompt:</p>
 <span><span class="co">#&gt; content: <span style="color: #008700;">You are a helpful coding assistant</span></span></span>
 <span><span class="co">#&gt; role: <span style="color: #008700;">user</span></span></span>
 <span><span class="co">#&gt; content:</span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Use tidyverse packages: readr, ggplot2, dplyr, tidyr</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">broom</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Avoid explanations unless requested by user, expecting code only</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* For any line that is not code, prefix with a: #</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Keep each line of explanations to no more than 80 characters</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* DO NOT use Markdown for the code</span></span></span>
 <span><span class="co">#&gt; <span style="color: #008700;">[Your future prompt goes here]</span></span></span></code></pre></div>
 <p>We can see how the adding a new variable will modify the prompt with
 out us having to modify <code><a href="../reference/chattr_defaults.html">chattr_defaults()</a></code>:</p>
@@ -229,7 +237,7 @@ out us having to modify <code><a href="../reference/chattr_defaults.html">chattr
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Default</span></span></span>
+<span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Console</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
@@ -242,9 +250,15 @@ out us having to modify <code><a href="../reference/chattr_defaults.html">chattr
 <span><span class="co">#&gt; content: <span style="color: #008700;">You are a helpful coding assistant</span></span></span>
 <span><span class="co">#&gt; role: <span style="color: #008700;">user</span></span></span>
 <span><span class="co">#&gt; content:</span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x2</span></span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Use tidyverse packages: readr, ggplot2, dplyr, tidyr</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">broom</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Avoid explanations unless requested by user, expecting code only</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* For any line that is not code, prefix with a: #</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* Keep each line of explanations to no more than 80 characters</span></span></span>
+<span><span class="co">#&gt; <span style="color: #008700;">* DO NOT use Markdown for the code</span></span></span>
 <span><span class="co">#&gt; <span style="color: #008700;">[Your future prompt goes here]</span></span></span></code></pre></div>
 </div>
   </main>

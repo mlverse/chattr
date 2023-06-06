@@ -52,6 +52,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/backend-llamagpt.html">Interact with local models</a>
     <a class="dropdown-item" href="articles/openai-gpt.html">Interact with OpenAI GPT models</a>
+    <a class="dropdown-item" href="articles/other-interfaces.html">Other interfaces</a>
     <a class="dropdown-item" href="articles/prompt_defaults.html">Modify prompt enhancements</a>
   </div>
 </li>
@@ -92,6 +93,7 @@
 <a href="#using">Using</a>
 <ul>
 <li><a href="#the-app">The App</a></li>
+<li><a href="#additional-ways-to-interact">Additional ways to interact</a></li>
 </ul>
 </li>
 <li><a href="#how-it-works">How it works</a></li>
@@ -169,14 +171,32 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <div class="section level3">
 <h3 id="the-app">The App<a class="anchor" aria-label="anchor" href="#the-app"></a>
 </h3>
-<p>The main way to use <code>chattr</code> is through the Shiny Gadget app. By default, it runs inside the Viewer pane. The fastest way to activate the app is by calling it via the provided function:</p>
+<p>The main way to use <code>chattr</code> is through the Shiny Gadget app. By default, it runs inside the Viewer pane:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">chattr</span><span class="fu">::</span><span class="fu"><a href="reference/chattr_app.html">chattr_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="reference/figures/readme/chat1.png" alt=""><p class="caption">Screenshot of the Sniny gadget app in a dark mode RStudio theme</p>
 </div>
+<p>After the LLM finishes its response, the <code>chattr</code> app processes all markdown code chunks. It will place three convenience buttons:</p>
+<ul>
+<li><p><strong>Copy to clipboard</strong> - It will write the code inside the chunk to your clipboard.</p></li>
+<li><p><strong>Copy to document</strong> - It will copy-paste the code directly to where the app was called from. If the app is started while working on a script, <code>chattr</code> will copy the code to that same script.</p></li>
+<li><p><strong>Copy to new script</strong> - It creates a new R script in the RStudio IDE, and copies the content of the chunk directly to it. Very useful when the LLM writes a Shiny app for you</p></li>
+</ul>
 <p>A lot of effort was put in to make the app’s appearance as close as possible to the IDE. This way it feels more integrated with your work space. This includes switching the color scheme based on the current RStudio theme being light, or dark.</p>
-<p>Automatically, the app will automatically add buttons to each code section. The buttons lets us copy the code to the clipboard, or to send it to the document. If you <a href="#keyboard-shortcut">“call”</a> the app from a Quarto document, the app will envelop the code inside a chunk.</p>
+<p>The settings screen can be accessed by clicking on the “gear” button. The screen that opens will contain the following:</p>
+<ul>
+<li><p>Save and Open chats - This is an early experiment to allow us to save and retrieve past chats. <code>chattr</code> will save the file in an RDS format. The main objective of this feature, is to be able to see past chats, not to continue previous conversations with the LLM.</p></li>
+<li><p>Prompt settings - In this section you can change the additional information attached to your prompt. Including the number of max data files, and data frames sent to the LLM.</p></li>
+</ul>
+<div class="figure">
+<img src="reference/figures/readme/chat2.png" alt=""><p class="caption">Screenshot of the Sniny gadget options</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="additional-ways-to-interact">Additional ways to interact<a class="anchor" aria-label="anchor" href="#additional-ways-to-interact"></a>
+</h3>
+<p>Apart from the Shiny app, <code>chattr</code> provides two more ways to interact with the LLM. For details, see: <a href="https://mlverse.github.io/chattr/articles/other-interfaces.html">Other interfaces</a></p>
 </div>
 </div>
 <div class="section level2">
@@ -216,6 +236,9 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <span><span class="co">#&gt; * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,</span></span>
 <span><span class="co">#&gt; broom</span></span>
 <span><span class="co">#&gt; * Avoid explanations unless requested by user, expecting code only</span></span>
+<span><span class="co">#&gt; * For any line that is not code, prefix with a: #</span></span>
+<span><span class="co">#&gt; * Keep each line of explanations to no more than 80 characters</span></span>
+<span><span class="co">#&gt; * DO NOT use Markdown for the code</span></span>
 <span><span class="co">#&gt; [Your future prompt goes here]</span></span></code></pre></div>
 </div>
 <div class="section level2">
