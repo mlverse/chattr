@@ -1,6 +1,6 @@
 test_that("Basic default tests", {
   expect_snapshot(chattr_use("llamagpt"))
-  Sys.setenv("CHATTR_TYPE" = "console")
+  test_chattr_type_set("console")
   expect_snapshot(chattr_defaults())
-  Sys.unsetenv("CHATTR_TYPE")
+  test_chattr_type_unset()
 })

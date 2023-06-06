@@ -30,9 +30,11 @@ test_that("Args output is correct", {
 })
 
 test_that("Printout works", {
+  test_chattr_type_set("console")
   expect_snapshot(
     ch_llamagpt_printout(chattr_defaults(), output = "xxx\n> ")
   )
+  test_chattr_type_unset()
 })
 
 test_that("Console works", {

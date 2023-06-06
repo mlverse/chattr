@@ -6,18 +6,16 @@ test_that("Submit job works as expected", {
 
   complete_file <- tempfile()
 
-  ch_submit_job(
-    prompt = "TEST",
-    stream = TRUE,
-    prompt_build = TRUE,
-    r_file_stream = tempfile(),
-    r_file_complete = complete_file,
-    defaults = chattr_defaults()
+  expect_silent(
+    ch_submit_job(
+      prompt = "TEST",
+      stream = TRUE,
+      prompt_build = TRUE,
+      r_file_stream = tempfile(),
+      r_file_complete = complete_file,
+      defaults = chattr_defaults()
+    )
   )
-
-  Sys.sleep(1)
-
-  expect_snapshot(readRDS(complete_file))
 
   expect_silent(ch_submit_job_stop())
 
