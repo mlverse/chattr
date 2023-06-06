@@ -36,6 +36,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * For any line that is not code, prefix with a: #
+      * Keep each line of explanations to no more than 80 characters
+      * DO NOT use Markdown for the code
       test
 
 ---
@@ -84,6 +87,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * For any line that is not code, prefix with a: #
+      * Keep each line of explanations to no more than 80 characters
+      * DO NOT use Markdown for the code
       test
 
 ---
@@ -113,6 +119,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
+      * For any line that is not code, prefix with a: #
+      * Keep each line of explanations to no more than 80 characters
+      * DO NOT use Markdown for the code
       [Your future prompt goes here]
 
 ---
@@ -137,7 +146,7 @@
       [1] "user"
       
       $messages[[2]]$content
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only\ntest"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* For any line that is not code, prefix with a: # \n* Keep each line of explanations to no more than 80 characters \n* DO NOT use Markdown for the code\ntest"
       
       
       
@@ -186,7 +195,9 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
-      * For any line that is not code, prefix it with a: #
+      * Prefix ALL explanations with a pound sign
+      * Keep each line of explanations to no more than 80 characters
+      * DO NOT use Markdown for the code
       * test
 
 ---
@@ -198,7 +209,7 @@
       [1] "text-davinci-003"
       
       $prompt
-      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* For any line that is not code, prefix it with a: #\n * test"
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* Prefix ALL explanations with a pound sign \n* Keep each line of explanations to no more than 80 characters \n* DO NOT use Markdown for the code\n * test"
       
       $temperature
       [1] 0.01
@@ -234,6 +245,8 @@
       * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
       broom
       * Avoid explanations unless requested by user, expecting code only
-      * For any line that is not code, prefix it with a: #
-      * [Your future prompt goes here]
+      * Prefix ALL explanations with a pound sign
+      * Keep each line of explanations to no more than 80 characters
+      * DO NOT use Markdown for the code
+      * this is a test prompt
 

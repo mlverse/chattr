@@ -23,6 +23,7 @@ ch_submit <- function(defaults,
                       r_file_stream = NULL,
                       r_file_complete = NULL,
                       ...) {
+  ui_validate(defaults$type)
   UseMethod("ch_submit")
 }
 

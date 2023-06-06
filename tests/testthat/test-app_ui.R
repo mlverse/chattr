@@ -13,7 +13,9 @@ test_that("UI output is as expected", {
 })
 
 test_that("UI modal output is as expected", {
+  Sys.setenv("CHATTR_TYPE" = "chat")
   expect_snapshot(capture.output(app_ui_modal()))
+  Sys.unsetenv("CHATTR_TYPE")
 })
 
 test_that("UI entry for assistant reponse works as expected", {

@@ -1,0 +1,93 @@
+---
+title: "Other interfaces"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Other interfaces}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(chattr)
+```
+
+Besides the app, there are a couple of more ways to interact with the LLM via 
+`chattr`:
+
+- Using the `chattr()` function
+- Highlight the request in a script
+
+## Output 
+
+Based on where you are making the request from, `chattr` will return the response 
+appropriately in the following manner:
+
+- If the request is made from the **R console**, the response will be returned as a
+a console message, not R code (`cat()`). This way, you can decide to copy-paste the 
+code to run.  It will also prevent any comments from the LLM to cause an error.
+
+- If the request is made from a **script**, or a code chunk in
+[Quarto (Visual editor)](https://quarto.org/docs/visual-editor/),
+the output will be inserted right after your prompt in the same document.
+
+
+## Using the `chattr()` function
+
+The fastest way to interact with the LLM is by simply calling the `chattr()` 
+function and enter your request there. Here is an example of a request made to
+OpenAI:
+
+```r
+library(chattr)
+chattr("show me a simple recipe")
+```
+```
+# Load required packages
+library(tidymodels)
+
+# Create a simple recipe for the iris dataset
+iris_recipe <- recipe(Species ~ ., data = iris) 
+
+# Print the recipe
+iris_recipe
+```
+
+## Highlight the request in a script
+
+In a script, `chattr` will process the current line, or the highlighted line(s),
+as the prompt. Because we assume that the request is not going to be code, then
+`chattr` will comment out the line or lines that were highlighted. As mentioned
+in the **Output** section, the response will be inserted in your document.
+
+Here is an example of a request submitted to OpenAI:
+
+```r
+Create a function that:
+  - Removes specified variables
+  - Behaves like dplyr's select function
+```
+
+And here are the results: 
+
+```r
+# Create a function that:
+#   - Removes specified variables
+#   - Behaves like dplyr's select function
+
+
+# This function removes specified variables and behaves like dplyr's select function
+# It uses the tidyverse packages: dplyr and tidyr
+
+remove_vars <- function(data, ...) {
+    data %>%
+        select(-one_of(...))
+}
+
+
+}
+```

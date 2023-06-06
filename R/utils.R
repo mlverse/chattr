@@ -94,6 +94,15 @@ cli_colors <- function(envir = parent.frame()) {
     )
 }
 
+ui_validate <- function(x) {
+  if(!(x %in% ch_env$valid_uis)) {
+    valid <- paste0(ch_env$valid_uis, collapse = ", ")
+    abort(
+      paste0("'", x, "' is not a valid type. Acceptable values are: ", valid)
+    )
+  }
+}
+
 print_provider <- function(x) {
   cli_div(theme = cli_colors())
   cli_li("{.val0 Provider:} {.val1 {x$provider}}")

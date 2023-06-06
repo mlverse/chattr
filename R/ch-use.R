@@ -28,7 +28,7 @@ use_switch <- function(...) {
   )
 
   walk(
-    c("console", "chat", "notebook", "script"),
+    ch_env$valid_uis,
     ~ {
       chattr_defaults(
         type = .x,

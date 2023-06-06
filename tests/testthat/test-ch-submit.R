@@ -1,5 +1,6 @@
 skip_on_covr()
 test_that("Submit job works as expected", {
+  Sys.setenv("CHATTR_TYPE" = "console")
   ch_debug_set_true()
   expect_true(ch_debug_get())
 
@@ -29,4 +30,7 @@ test_that("Submit job works as expected", {
 
   ch_debug_set_false()
   expect_false(ch_debug_get())
+
+  Sys.unsetenv("CHATTR_TYPE")
 })
+
