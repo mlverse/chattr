@@ -9,7 +9,7 @@
 #' is set to TRUE.
 #' @export
 chattr_app <- function(viewer = c("viewer", "dialog"),
-                       as_job = FALSE,
+                       as_job = getOption("chattr.as_job", FALSE),
                        as_job_port = getOption("shiny.port", 7788),
                        as_job_host = getOption("shiny.host", "127.0.0.1")) {
   td <- chattr_defaults(type = "chat")
