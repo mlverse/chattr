@@ -18,6 +18,8 @@ ide_is_rstudio <- function() {
   !inherits(check_rstudio, "try-error")
 }
 
+globalVariables("RStudio.Version")
+
 # -------------------------- UI Identification ---------------------------------
 
 ui_current <- function() {
