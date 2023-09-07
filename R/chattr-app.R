@@ -51,6 +51,7 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
 }
 
 app_interactive <- function(as_job = FALSE) {
+  running_as_job(as_job)
   list(ui = app_ui(), server = app_server)
 }
 

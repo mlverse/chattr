@@ -14,7 +14,8 @@ ide_is_rstudio <- function() {
   if (ch_debug_get()) {
     return(TRUE)
   }
-  ide_current() == "rstudio"
+  check_rstudio <- try(RStudio.Version(), silent = TRUE)
+  !inherits(check_rstudio, "try-error")
 }
 
 # -------------------------- UI Identification ---------------------------------

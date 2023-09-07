@@ -1,5 +1,5 @@
 app_theme_style <- function(x = NULL) {
-  if (ide_is_rstudio() && !ch_debug_get()) {
+  if ((ide_is_rstudio() && !ch_debug_get()) | running_as_job()) {
     ti <- getThemeInfo()
     color_bg <- app_theme_rgb_to_hex(ti$background)
     color_fg <- app_theme_rgb_to_hex(ti$foreground)
@@ -117,4 +117,15 @@ app_theme_rgb_to_hex <- function(x) {
   x1 <- sub("\\)", "", x1)
   x2 <- unlist(strsplit(x1, ","))
   rgb(x2[1], x2[2], x2[3], maxColorValue = 255)
+}
+
+running_as_job <- function(x = NULL) {
+  if(!is.null(x)) {
+    ch_env$as_job <- x
+    } else {
+      if(is.null(ch_env$as_job)) {
+        ch_env$as_job <-FALSE
+      }
+    }
+  ch_env$as_job
 }
