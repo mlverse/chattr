@@ -11,7 +11,7 @@ openai_token <- function() {
   if (is.null(ret)) {
     abort("No token found
        - Add your key to the \"OPENAI_API_KEY\" environment variable
-       - or - Add  \"open-ai-api-key\" to a `config` YAML file")
+       - or - Add  \"openai-api-key\" to a `config` YAML file")
   }
 
   ret
