@@ -2,7 +2,7 @@
 
     Code
       openai_request(chattr_defaults(), list())
-    Message <cliMessage>
+    Message
       <httr2_request>
       POST https://api.openai.com/v1/chat/completions
       Headers:

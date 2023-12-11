@@ -2,7 +2,7 @@
 
     Code
       chattr_use("gpt35")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: Open AI - Chat Completions
@@ -13,7 +13,7 @@
 
     Code
       chattr_test()
-    Message <cliMessage>
+    Message
       
       -- Testing chattr 
       * Provider: Open AI - Chat Completions
@@ -27,7 +27,7 @@
 
     Code
       chattr_use("llamagpt")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: LlamaGPT
@@ -38,7 +38,7 @@
 
     Code
       chattr_test()
-    Message <cliMessage>
+    Message
       
       -- Testing chattr 
       * Provider: LlamaGPT

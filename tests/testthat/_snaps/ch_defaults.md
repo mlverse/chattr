@@ -2,7 +2,7 @@
 
     Code
       chattr_use("llamagpt")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: LlamaGPT
@@ -13,7 +13,7 @@
 
     Code
       chattr_defaults()
-    Message <cliMessage>
+    Message
       
       -- chattr ----------------------------------------------------------------------
       
