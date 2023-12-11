@@ -2,7 +2,7 @@
 
     Code
       chattr_use("gpt35")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: Open AI - Chat Completions
@@ -13,7 +13,7 @@
 
     Code
       app_init_openai(chattr_defaults())
-    Message <cliMessage>
+    Message
       * Provider: Open AI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
@@ -26,7 +26,7 @@
 
     Code
       chattr_use("llamagpt")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: LlamaGPT
@@ -37,7 +37,7 @@
 
     Code
       app_init_openai(chattr_defaults())
-    Message <cliMessage>
+    Message
       * Provider: LlamaGPT
       * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin

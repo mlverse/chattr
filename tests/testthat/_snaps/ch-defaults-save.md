@@ -2,7 +2,7 @@
 
     Code
       chattr_use("gpt35")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: Open AI - Chat Completions

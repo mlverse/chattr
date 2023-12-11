@@ -67,7 +67,7 @@ chattr_defaults <- function(type = "default",
     if (!is.na(env_model)) {
       check_files <- package_file("configs", path_ext_set(env_model, "yml"))
     } else {
-      check_files <- package_file("configs", "gpt35.yml")
+      check_files <- package_file("configs", "gpt4.yml")
     }
 
     if (file_exists(yaml_file)) {

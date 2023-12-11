@@ -2,7 +2,7 @@
 
     Code
       chattr_use("llamagpt")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: LlamaGPT
@@ -13,7 +13,7 @@
 
     Code
       chattr_test(defaults = chattr_defaults())
-    Message <cliMessage>
+    Message
       
       -- Testing chattr 
       * Provider: LlamaGPT
@@ -34,7 +34,7 @@
 
     Code
       ch_llamagpt_printout(chattr_defaults(), output = "xxx\n> ")
-    Message <cliMessage>
+    Message
       
       -- chattr --
       
@@ -54,7 +54,7 @@
 
     Code
       chattr_use("gpt35")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: Open AI - Chat Completions

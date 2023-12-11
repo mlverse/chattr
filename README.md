@@ -73,7 +73,7 @@ back-end provides access to multiple LLM types:
 href="https://platform.openai.com/docs/introduction">OpenAI</a></td>
 <td style="text-align: center;">GPT Models accessible via the OpenAI’s
 REST API. <code>chattr</code> provides a convenient way to interact with
-GPT 3.5, and DaVinci 3.</td>
+GPT 4, 3.5, and DaVinci 3.</td>
 <td style="text-align: center;"><a
 href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact
 with OpenAI GPT models</a></td>
@@ -174,7 +174,7 @@ chattr(preview = TRUE)
 #> ── Preview for: Console
 #> • Provider: Open AI - Chat Completions
 #> • Path/URL: https://api.openai.com/v1/chat/completions
-#> • Model: gpt-3.5-turbo
+#> • Model: gpt-4
 #> • temperature: 0.01
 #> • max_tokens: 1000
 #> • stream: TRUE

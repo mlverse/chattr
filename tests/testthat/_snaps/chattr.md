@@ -2,7 +2,7 @@
 
     Code
       chattr_use("gpt35")
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: Open AI - Chat Completions
@@ -13,7 +13,7 @@
 
     Code
       chattr("test", preview = TRUE)
-    Message <cliMessage>
+    Message
       
       -- chattr ----------------------------------------------------------------------
       
@@ -45,7 +45,7 @@
 
     Code
       chattr("test", preview = TRUE, prompt_build = FALSE)
-    Message <cliMessage>
+    Message
       
       -- chattr ----------------------------------------------------------------------
       
@@ -64,7 +64,7 @@
 
     Code
       chattr("test", preview = TRUE, stream = FALSE)
-    Message <cliMessage>
+    Message
       
       -- chattr ----------------------------------------------------------------------
       
@@ -96,7 +96,7 @@
 
     Code
       chattr(preview = TRUE)
-    Message <cliMessage>
+    Message
       
       -- chattr ----------------------------------------------------------------------
       
@@ -164,7 +164,7 @@
 
     Code
       ch_use_openai_davinci()
-    Message <cliMessage>
+    Message
       
       -- chattr 
       * Provider: Open AI - Completions
@@ -175,7 +175,7 @@
 
     Code
       chattr("test", preview = TRUE)
-    Message <cliMessage>
+    Message
       
       -- chattr ----------------------------------------------------------------------
       
@@ -225,7 +225,7 @@
 
     Code
       chattr(preview = TRUE)
-    Message <cliMessage>
+    Message
       
       -- chattr ----------------------------------------------------------------------
       

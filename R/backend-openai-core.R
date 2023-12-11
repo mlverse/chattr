@@ -11,7 +11,7 @@ openai_token <- function() {
   if (is.null(ret)) {
     abort("No token found
        - Add your key to the \"OPENAI_API_KEY\" environment variable
-       - or - Add  \"open-ai-api-key\" to a `config` YAML file")
+       - or - Add  \"openai-api-key\" to a `config` YAML file")
   }
 
   ret
@@ -47,7 +47,7 @@ openai_stream_ide <- function(defaults, req_body) {
   } else {
     if (!ui_current_console()) ide_paste_text("\n\n")
     openai_request(defaults, req_body) %>%
-      req_stream(
+      req_perform_stream(
         function(x) {
           openai_stream_ide_delta(x, defaults)
           TRUE
@@ -115,7 +115,7 @@ openai_stream_file <- function(defaults,
     ch_env$stream$response <- NULL
 
     openai_request(defaults, req_body) %>%
-      req_stream(
+      req_perform_stream(
         function(x) {
           openai_stream_file_delta(x, defaults, r_file_stream)
           TRUE
