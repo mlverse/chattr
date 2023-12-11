@@ -73,7 +73,7 @@ provides access to multiple LLM types:
 
 |                         Provider                          |                                                                                                     Models                                                                                                      |                 Setup Instructions                  |
 |:-----------------:|:----------------------------------:|:-----------------:|
-|  [OpenAI](https://platform.openai.com/docs/introduction)  |                                          GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 3.5, and DaVinci 3.                                           | [Interact with OpenAI GPT models](`r url`articles/openai-gpt.html)  |
+|  [OpenAI](https://platform.openai.com/docs/introduction)  |                                          GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 4, 3.5, and DaVinci 3.                                           | [Interact with OpenAI GPT models](`r url`articles/openai-gpt.html)  |
 | [LLamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat) | LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a [GPT4ALL](https://gpt4all.io/index.html) model. **LLamaGPT-Chat** is a command line chat program for models written in C++. |                      [Interact with local models](`r url`articles/backend-llamagpt.html)                    |
 
 The idea is that as time goes by, more back-ends will be added.

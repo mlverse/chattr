@@ -12,7 +12,7 @@ chattr_use <- function(model_label = NULL) {
   }
 
   if (is.null(model_label)) {
-    model_label <- "gpt35"
+    model_label <- "gpt4"
   }
 
   use_switch("configs", path_ext_set(model_label, "yml"))
