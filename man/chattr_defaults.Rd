@@ -35,7 +35,7 @@ set to NULL}
 
 \item{include_doc_contents}{Send the current code in the document}
 
-\item{include_history}{Indicates weather to include the chat history when
+\item{include_history}{Indicates whether to include the chat history when
 everytime a new prompt is submitted}
 
 \item{provider}{The name of the provider of the LLM. Today, only "openai" is
