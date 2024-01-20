@@ -19,9 +19,9 @@ openai_token <- function() {
 
 openai_request <- function(defaults, req_body) {
   defaults$path %>%
-    request() %>%
-    req_auth_bearer_token(openai_token()) %>%
-    req_body_json(req_body)
+    httr2::request() %>%
+    httr2::req_auth_bearer_token(openai_token()) %>%
+    httr2::req_body_json(req_body)
 }
 
 openai_perform <- function(defaults, req_body) {
@@ -47,7 +47,7 @@ openai_stream_ide <- function(defaults, req_body) {
   } else {
     if (!ui_current_console()) ide_paste_text("\n\n")
     openai_request(defaults, req_body) %>%
-      req_perform_stream(
+      httr2::req_perform_stream(
         function(x) {
           openai_stream_ide_delta(x, defaults)
           TRUE
@@ -115,7 +115,7 @@ openai_stream_file <- function(defaults,
     ch_env$stream$response <- NULL
 
     openai_request(defaults, req_body) %>%
-      req_perform_stream(
+      httr2::req_perform_stream(
         function(x) {
           openai_stream_file_delta(x, defaults, r_file_stream)
           TRUE
