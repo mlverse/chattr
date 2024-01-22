@@ -1,12 +1,13 @@
 #' @export
-ch_submit.ch_open_ai_chat_completions <- function(defaults,
-                                                  prompt = NULL,
-                                                  stream = NULL,
-                                                  prompt_build = TRUE,
-                                                  preview = FALSE,
-                                                  r_file_stream = NULL,
-                                                  r_file_complete = NULL,
-                                                  ...) {
+ch_submit.ch_open_ai_chat_completions <- function(
+    defaults,
+    prompt = NULL,
+    stream = NULL,
+    prompt_build = TRUE,
+    preview = FALSE,
+    r_file_stream = NULL,
+    r_file_complete = NULL,
+    ...) {
   ch_submit_open_ai(
     defaults = defaults,
     prompt = prompt,
@@ -20,14 +21,15 @@ ch_submit.ch_open_ai_chat_completions <- function(defaults,
 }
 
 #' @export
-ch_submit.ch_open_ai_completions <- function(defaults,
-                                             prompt = NULL,
-                                             stream = NULL,
-                                             prompt_build = TRUE,
-                                             preview = FALSE,
-                                             r_file_stream = NULL,
-                                             r_file_complete = NULL,
-                                             ...) {
+ch_submit.ch_open_ai_completions <- function(
+    defaults,
+    prompt = NULL,
+    stream = NULL,
+    prompt_build = TRUE,
+    preview = FALSE,
+    r_file_stream = NULL,
+    r_file_complete = NULL,
+    ...) {
   ch_submit_open_ai(
     defaults = defaults,
     prompt = prompt,
@@ -41,14 +43,15 @@ ch_submit.ch_open_ai_completions <- function(defaults,
 }
 
 
-ch_submit_open_ai <- function(defaults,
-                              prompt = NULL,
-                              stream = NULL,
-                              prompt_build = TRUE,
-                              preview = FALSE,
-                              r_file_stream = NULL,
-                              r_file_complete = NULL,
-                              ...) {
+ch_submit_open_ai <- function(
+    defaults,
+    prompt = NULL,
+    stream = NULL,
+    prompt_build = TRUE,
+    preview = FALSE,
+    r_file_stream = NULL,
+    r_file_complete = NULL,
+    ...) {
   if (ui_current_markdown()) {
     return(invisible())
   }
@@ -143,20 +146,22 @@ build_header <- function(defaults) {
 
 #--------------------------- Completion ----------------------------------------
 
-openai_completion <- function(defaults,
-                              prompt,
-                              new_prompt,
-                              r_file_stream,
-                              r_file_complete,
-                              stream) {
+openai_completion <- function(
+    defaults,
+    prompt,
+    new_prompt,
+    r_file_stream,
+    r_file_complete,
+    stream) {
   UseMethod("openai_completion")
 }
 
-openai_completion.ch_open_ai_chat_completions <- function(defaults,
-                                                          prompt,
-                                                          new_prompt,
-                                                          r_file_stream,
-                                                          r_file_complete) {
+openai_completion.ch_open_ai_chat_completions <- function(
+    defaults,
+    prompt,
+    new_prompt,
+    r_file_stream,
+    r_file_complete) {
   req_body <- c(
     list(
       model = defaults$model,
@@ -184,11 +189,12 @@ openai_completion.ch_open_ai_chat_completions <- function(defaults,
   ret
 }
 
-openai_completion.ch_open_ai_completions <- function(defaults,
-                                                     prompt,
-                                                     new_prompt,
-                                                     r_file_stream,
-                                                     r_file_complete) {
+openai_completion.ch_open_ai_completions <- function(
+    defaults,
+    prompt,
+    new_prompt,
+    r_file_stream,
+    r_file_complete) {
   req_body <- c(
     list(
       model = defaults$model,
@@ -216,11 +222,12 @@ openai_completion.ch_open_ai_completions <- function(defaults,
   ret
 }
 
-openai_switch <- function(prompt,
-                          req_body,
-                          defaults,
-                          r_file_stream,
-                          r_file_complete) {
+openai_switch <- function(
+    prompt,
+    req_body,
+    defaults,
+    r_file_stream,
+    r_file_complete) {
   ret <- NULL
   stream <- defaults$model_arguments$stream %||% FALSE
   return_result <- TRUE
@@ -260,18 +267,18 @@ app_init_message.ch_open_ai_chat_completions <- function(defaults) {
 
 app_init_openai <- function(defaults) {
   print_provider(defaults)
-  if(defaults$max_data_files > 0) {
+  if (defaults$max_data_files > 0) {
     cli_alert_warning(
       paste0(
         "A list of the top {defaults$max_data_files} files will ",
         "be sent externally to OpenAI with every request\n",
         "To avoid this, set the number of files to be sent to 0 ",
         "using {.run chattr::chattr_defaults(max_data_files = 0)}"
-        )
       )
+    )
   }
 
-  if(defaults$max_data_frames > 0) {
+  if (defaults$max_data_frames > 0) {
     cli_alert_warning(
       paste0(
         "A list of the top {defaults$max_data_frames} data.frames ",
