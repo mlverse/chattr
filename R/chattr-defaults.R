@@ -11,7 +11,7 @@
 #' current R session to send to the model. It defaults to 20. To send all,
 #' set to NULL
 #' @param include_doc_contents Send the current code in the document
-#' @param include_history Indicates weather to include the chat history when
+#' @param include_history Indicates whether to include the chat history when
 #' everytime a new prompt is submitted
 #' @param provider The name of the provider of the LLM. Today, only "openai" is
 #' is available
