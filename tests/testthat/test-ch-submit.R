@@ -31,4 +31,3 @@ test_that("Submit job works as expected", {
 
   Sys.unsetenv("CHATTR_TYPE")
 })
-

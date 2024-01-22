@@ -73,7 +73,9 @@ ide_comment_selection <- function() {
     selected <- active_doc$contents[start_row:end_row]
     end_size <- nchar(selected[length(selected)])
 
-    if(end_size == 0) return("")
+    if (end_size == 0) {
+      return("")
+    }
 
     first_letter <- substr(selected, 1, 1)
     commented <- first_letter == "#"
@@ -110,12 +112,11 @@ ide_comment_selection <- function() {
 ide_build_prompt <- function(prompt = NULL,
                              defaults = chattr_defaults(),
                              preview = FALSE) {
-
   if (is.null(prompt)) {
     prompt <- ide_comment_selection()
   }
 
-  if(prompt == "" && preview) {
+  if (prompt == "" && preview) {
     prompt <- "[Your future prompt goes here]"
   }
 

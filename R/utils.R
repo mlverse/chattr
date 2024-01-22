@@ -38,7 +38,7 @@ print.ch_request <- function(x, ...) {
       ~ {
         cli_div(theme = cli_colors())
         cli_li("{.y}: {.val1 {.x}}")
-        }
+      }
     )
   }
   print_history(x$prompt)
@@ -91,11 +91,11 @@ cli_colors <- function(envir = parent.frame()) {
     span.val0 = list(color = "black"),
     span.val1 = list(color = "blue"),
     span.val2 = list(color = "darkgreen")
-    )
+  )
 }
 
 ui_validate <- function(x) {
-  if(!(x %in% ch_env$valid_uis)) {
+  if (!(x %in% ch_env$valid_uis)) {
     valid <- paste0(ch_env$valid_uis, collapse = ", ")
     abort(
       paste0("'", x, "' is not a valid type. Acceptable values are: ", valid)

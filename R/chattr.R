@@ -7,7 +7,7 @@ chattr <- function(prompt = NULL,
                    prompt_build = TRUE,
                    stream = NULL) {
   ui <- ui_current()
-  if(ui == "") ui <- "console"
+  if (ui == "") ui <- "console"
   ret <- ch_submit(
     defaults = chattr_defaults(type = ui),
     prompt = prompt,
