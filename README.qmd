@@ -17,7 +17,6 @@ format: md
 
 source("utils/toc.R")
 toc()
-
 ```
 
 ```{r}

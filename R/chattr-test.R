@@ -2,7 +2,7 @@
 #' @inheritParams ch_submit
 #' @export
 chattr_test <- function(defaults = NULL) {
-  if(is.null(defaults)) defaults <- chattr_defaults()
+  if (is.null(defaults)) defaults <- chattr_defaults()
   ch_test(defaults)
 }
 
@@ -24,8 +24,7 @@ ch_test.ch_open_ai_completions <- function(defaults = NULL) {
 }
 
 ch_test_open_ai <- function(defaults = NULL) {
-
-  if(ch_debug_get()) {
+  if (ch_debug_get()) {
     prompt <- "TEST"
     out <- "TEST"
   } else {
@@ -33,7 +32,7 @@ ch_test_open_ai <- function(defaults = NULL) {
     out <- capture.output(chattr(prompt))
   }
 
-  if(is.null(out)) out <- ""
+  if (is.null(out)) out <- ""
 
   cli_div(theme = cli_colors())
   cli_h3("Testing chattr")
@@ -52,7 +51,7 @@ ch_test_open_ai <- function(defaults = NULL) {
 
 #' @export
 ch_test.ch_llamagpt <- function(defaults = NULL) {
-  if(ch_debug_get()) {
+  if (ch_debug_get()) {
     error <- ""
     x <- TRUE
   } else {
@@ -81,5 +80,3 @@ ch_test.ch_llamagpt <- function(defaults = NULL) {
   }
   invisible()
 }
-
-

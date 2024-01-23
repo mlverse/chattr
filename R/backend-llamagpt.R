@@ -1,13 +1,14 @@
 # -------------------------------- Submit --------------------------------------
 #' @export
-ch_submit.ch_llamagpt <- function(defaults,
-                                  prompt = NULL,
-                                  stream = NULL,
-                                  prompt_build = TRUE,
-                                  preview = FALSE,
-                                  r_file_stream = NULL,
-                                  r_file_complete = NULL,
-                                  ...) {
+ch_submit.ch_llamagpt <- function(
+    defaults,
+    prompt = NULL,
+    stream = NULL,
+    prompt_build = TRUE,
+    preview = FALSE,
+    r_file_stream = NULL,
+    r_file_complete = NULL,
+    ...) {
   if (ui_current_markdown()) {
     return(invisible())
   }
@@ -46,10 +47,11 @@ ch_submit.ch_llamagpt <- function(defaults,
 
 # ----------------------------- Session ----------------------------------------
 
-ch_llamagpt_session <- function(defaults = chattr_defaults(),
-                                r_file_stream = NULL,
-                                r_file_complete = NULL,
-                                testing = FALSE) {
+ch_llamagpt_session <- function(
+    defaults = chattr_defaults(),
+    r_file_stream = NULL,
+    r_file_complete = NULL,
+    testing = FALSE) {
   init_session <- FALSE
   if (is.null(ch_env$llamagpt$session)) {
     init_session <- TRUE
@@ -80,11 +82,12 @@ ch_llamagpt_prompt <- function(prompt) {
   ch_env$llamagpt$session$write_input(prompt)
 }
 
-ch_llamagpt_output <- function(stream_to,
-                               stream_file = NULL,
-                               output_file = NULL,
-                               timeout = 1000,
-                               output = NULL) {
+ch_llamagpt_output <- function(
+    stream_to,
+    stream_file = NULL,
+    output_file = NULL,
+    timeout = 1000,
+    output = NULL) {
   all_output <- NULL
   stop_stream <- FALSE
   timeout <- timeout / 0.01
@@ -140,9 +143,10 @@ ch_llamagpt_args <- function(defaults) {
     reduce(c)
 }
 
-ch_llamagpt_printout <- function(defaults,
-                                 r_file_stream = NULL,
-                                 output = NULL) {
+ch_llamagpt_printout <- function(
+    defaults,
+    r_file_stream = NULL,
+    output = NULL) {
   if (defaults$type == "chat") {
     ch_llamagpt_output("chat", r_file_stream)
   } else {

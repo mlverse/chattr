@@ -77,7 +77,7 @@ chattr_defaults <- function(type = "default",
     for (j in seq_along(check_files)) {
       td_defaults <- read_yaml(file = check_files[j])
       loaded_default <- chattr_defaults_get(type = "default")
-      if(!is.null(loaded_default)) {
+      if (!is.null(loaded_default)) {
         td_defaults$default <- loaded_default
       }
       check_defaults <- c("default", type)
@@ -130,7 +130,6 @@ chattr_defaults_get <- function(type = "notebook") {
 
 #' @export
 print.ch_model <- function(x, ...) {
-
   cli_div(theme = cli_colors())
 
   cli_h1("chattr")

@@ -102,10 +102,11 @@ openai_stream_ide_delta <- function(x, defaults, testing = FALSE) {
 }
 
 
-openai_stream_file <- function(defaults,
-                               req_body,
-                               r_file_stream,
-                               r_file_complete) {
+openai_stream_file <- function(
+    defaults,
+    req_body,
+    r_file_stream,
+    r_file_complete) {
   ch_env$stream <- list()
   ch_env$stream$response <- NULL
   ret <- NULL

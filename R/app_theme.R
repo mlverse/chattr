@@ -120,12 +120,12 @@ app_theme_rgb_to_hex <- function(x) {
 }
 
 running_as_job <- function(x = NULL) {
-  if(!is.null(x)) {
+  if (!is.null(x)) {
     ch_env$as_job <- x
-    } else {
-      if(is.null(ch_env$as_job)) {
-        ch_env$as_job <-FALSE
-      }
+  } else {
+    if (is.null(ch_env$as_job)) {
+      ch_env$as_job <- FALSE
     }
+  }
   ch_env$as_job
 }
