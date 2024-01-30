@@ -47,7 +47,7 @@ to do this are [here](https://github.com/kuvaus/LlamaGPTJ-chat#download).
 
 ### LLM file
 
-The GitHub repoisotry contains a [list of compatible models](https://github.com/kuvaus/LlamaGPTJ-chat#gpt-j-llama-and-mpt-models). 
+The GitHub repository contains a [list of compatible models](https://github.com/kuvaus/LlamaGPTJ-chat#gpt-j-llama-and-mpt-models). 
 Download at least one of the models, and make note of where it was saved to
 in your computer. 
 
