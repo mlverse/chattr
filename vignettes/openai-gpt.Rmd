@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 OpenAI's GPT models are possibly the most widely used LLM today. Typically, the
 interaction with the models is via chatting with it inside the OpenAI's web
 portal. They also offer an REST API endpoint that you can use to communicate
-with their LLM's. `chattr` is able to send and recieve the correct API calls 
+with their LLM's. `chattr` is able to send and receive the correct API calls 
 to make the "chatting" experience with the GPT models seamless.  
 
 ## Secret key
