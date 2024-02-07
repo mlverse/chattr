@@ -38,6 +38,7 @@ openai_perform <- function(defaults, req_body) {
 
 openai_stream_ide <- function(defaults, req_body) {
   ch_env$stream <- list()
+  ch_env$stream$bytes <- NULL
   ch_env$stream$raw <- NULL
   ch_env$stream$response <- NULL
 
@@ -62,11 +63,15 @@ openai_stream_ide <- function(defaults, req_body) {
 }
 
 openai_stream_ide_delta <- function(x, defaults, testing = FALSE) {
-  ch_env$stream$raw <- paste0(
-    ch_env$stream$raw,
-    rawToChar(x),
-    collapse = ""
-  )
+  bytes <- ch_env$stream$bytes <- c(ch_env$stream$bytes, x)
+
+  raw <- rawToChar(bytes)
+  while (class(try(nchar(raw), silent = TRUE)) == "try-error") {
+    bytes <- head(bytes, -1)
+    raw <- rawToChar(bytes)
+  }
+
+  ch_env$stream$raw <- raw
   current <- openai_stream_parse(
     x = ch_env$stream$raw,
     defaults = defaults
@@ -156,9 +161,9 @@ openai_check_error <- function(x) {
 openai_stream_parse <- function(x, defaults) {
   res <- x %>%
     paste0(collapse = "") %>%
-    strsplit("data: ") %>%
+    stringr::str_split("data: ") %>%
     unlist() %>%
-    discard(~ .x == "") %>%
+    discard(~ identical(.x, "")) %>%
     keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
     map(jsonlite::fromJSON)
 
