@@ -47,12 +47,12 @@ openai_stream_ide <- function(defaults, req_body) {
   } else {
     if (!ui_current_console()) ide_paste_text("\n\n")
     openai_request(defaults, req_body) %>%
-      httr2::req_perform_stream(
+      httr2::req_perform_stream_lines(
         function(x) {
           openai_stream_ide_delta(x, defaults)
           TRUE
         },
-        buffer_kb = 0.1
+        n = 1L
       )
     if (!ui_current_console()) ide_paste_text("\n\n")
     ret <- ch_env$stream$response
@@ -62,11 +62,7 @@ openai_stream_ide <- function(defaults, req_body) {
 }
 
 openai_stream_ide_delta <- function(x, defaults, testing = FALSE) {
-  ch_env$stream$raw <- paste0(
-    ch_env$stream$raw,
-    rawToChar(x),
-    collapse = ""
-  )
+  ch_env$stream$raw <- paste0(ch_env$stream$raw, x, "\n")
   current <- openai_stream_parse(
     x = ch_env$stream$raw,
     defaults = defaults
@@ -116,12 +112,12 @@ openai_stream_file <- function(
     ch_env$stream$response <- NULL
 
     openai_request(defaults, req_body) %>%
-      httr2::req_perform_stream(
+      httr2::req_perform_stream_lines(
         function(x) {
           openai_stream_file_delta(x, defaults, r_file_stream)
           TRUE
         },
-        buffer_kb = 0.05
+        n = 1L
       )
     ret <- readRDS(r_file_stream)
     saveRDS(ret, r_file_complete)
@@ -134,7 +130,7 @@ openai_stream_file <- function(
 openai_stream_file_delta <- function(x, defaults, r_file_stream) {
   ch_env$stream$response <- paste0(
     ch_env$stream$response,
-    rawToChar(x),
+    x,
     collapse = ""
   )
   ch_env$stream$response %>%
