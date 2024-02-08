@@ -40,3 +40,4 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+Remotes: romainfrancois/httr2@req_perform_stream_lines
