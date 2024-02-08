@@ -20,13 +20,11 @@ test_that("Stream parser works", {
   expect_equal(stream, msg_gpt)
 
   out <- raw %>%
-    charToRaw() %>%
     openai_stream_ide_delta(chattr_defaults(), testing = TRUE)
 
   expect_equal(out, msg_gpt)
 
   out2 <- raw %>%
-    charToRaw() %>%
     openai_stream_ide_delta(chattr_defaults(), testing = TRUE)
 
   expect_equal(out2, paste0(msg_gpt, msg_gpt))
@@ -47,7 +45,7 @@ test_that("Stream file parser works", {
 
   openai_stream_file_delta(
     defaults = chattr_defaults(),
-    x = charToRaw(raw),
+    x = raw,
     r_file_stream = out_file
   )
 
