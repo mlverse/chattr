@@ -121,7 +121,7 @@ openai_stream_file <- function(
           openai_stream_file_delta(x, defaults, r_file_stream)
           TRUE
         },
-        buffer_kb = 0.05, round = "lines"
+        buffer_kb = 0.05, round = "line"
       )
     ret <- readRDS(r_file_stream)
     saveRDS(ret, r_file_complete)
