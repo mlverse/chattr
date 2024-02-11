@@ -52,7 +52,7 @@ openai_stream_ide <- function(defaults, req_body) {
           openai_stream_ide_delta(x, defaults)
           TRUE
         },
-        buffer_kb = 0.1
+        buffer_kb = 0.1, round = "lines"
       )
     if (!ui_current_console()) ide_paste_text("\n\n")
     ret <- ch_env$stream$response
@@ -121,7 +121,7 @@ openai_stream_file <- function(
           openai_stream_file_delta(x, defaults, r_file_stream)
           TRUE
         },
-        buffer_kb = 0.05
+        buffer_kb = 0.05, round = "lines"
       )
     ret <- readRDS(r_file_stream)
     saveRDS(ret, r_file_complete)
