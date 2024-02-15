@@ -52,7 +52,7 @@ openai_stream_ide <- function(defaults, req_body) {
           openai_stream_ide_delta(x, defaults)
           TRUE
         },
-        buffer_kb = 0.1, round = "lines"
+        buffer_kb = 0.1, round = "line"
       )
     if (!ui_current_console()) ide_paste_text("\n\n")
     ret <- ch_env$stream$response
