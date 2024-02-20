@@ -19,7 +19,7 @@ Imports:
     processx,
     jsonlite,
     config,
-    httr2,
+    httr2 (>=  1.0.0.9000),
     purrr,
     rlang,
     bslib,
