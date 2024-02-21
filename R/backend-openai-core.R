@@ -1,12 +1,29 @@
+
 openai_token <- function() {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
 
   ret <- NULL
-  if (!is.na(env_key)) ret <- env_key
+
+  if (!is.na(env_key)) {
+    ret <- env_key
+  }
+
   if (is.null(ret) && file_exists(Sys.getenv("R_CONFIG_FILE", "config.yml"))) {
     ret <- config::get("openai-api-key")
   }
 
+  gh_path <- path("~/.config/github-copilot")
+  if (is.null(ret) && dir_exists(gh_path)) {
+    hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
+    oauth_token <- hosts[[1]]$oauth_token
+
+    x <- request("https://api.github.com/copilot_internal/v2/token") %>%
+      req_auth_bearer_token(oauth_token) %>%
+      req_perform()
+
+    x_json <- resp_body_json(x)
+    ret <- x_json$token
+  }
 
   if (is.null(ret)) {
     abort("No token found
@@ -143,6 +160,8 @@ openai_stream_file_delta <- function(x, defaults, r_file_stream) {
 }
 
 openai_check_error <- function(x) {
+  print(x)
+  stop()
   if (substr(x, 1, 9) == "{{error}}") {
     error_msg <- paste0(
       "Error from OpenAI\n",
