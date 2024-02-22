@@ -282,7 +282,7 @@ openai_switch <- function(
 
   if (defaults$include_history %||% FALSE) {
     if(is_copilot(defaults)) {
-      assistant <- ret$message
+      assistant <- ret
     } else {
       assistant <- ret
     }

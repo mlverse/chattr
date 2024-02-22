@@ -92,6 +92,7 @@ openai_stream_ide_delta <- function(x, defaults, testing = FALSE) {
     rawToChar(x),
     collapse = ""
   )
+
   current <- openai_stream_parse(
     x = ch_env$stream$raw,
     defaults = defaults
@@ -168,8 +169,8 @@ openai_stream_file_delta <- function(x, defaults, r_file_stream) {
 }
 
 openai_check_error <- function(x) {
-  print(x)
-  stop()
+  if(is.null(x)) return(invisible())
+  if(length(x) > 1) return(invisible())
   if (substr(x, 1, 9) == "{{error}}") {
     error_msg <- paste0(
       "Error from OpenAI\n",
@@ -225,6 +226,18 @@ openai_stream_content.ch_open_ai_chat_completions <- function(defaults, res) {
 openai_stream_content.ch_open_ai_completions <- function(defaults, res) {
   res %>%
     map(~ .x$choices$text) %>%
+    reduce(paste0)
+}
+
+openai_stream_content.ch_copilot_chat_chat_completions <- function(defaults, res) {
+  res %>%
+    map(~ {
+      content <- .x$choices$delta$content
+      if(!is.null(content)) {
+        if(is.na(content)) content <- ""
+      }
+      content
+    }) %>%
     reduce(paste0)
 }
 
