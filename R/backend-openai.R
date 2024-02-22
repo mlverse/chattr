@@ -144,7 +144,8 @@ openai_prompt.ch_copilot_chat_chat_completions <- function(defaults, prompt) {
 openai_prompt_openai_impl <- function(defaults, prompt) {
   header <- build_header(defaults)
 
-  if (!is.null(defaults$system_msg)) {
+  system_msg <- defaults$system_msg
+  if (!is.null(system_msg)) {
     system_msg <- list(list(role = "system", content = defaults$system_msg))
   }
 

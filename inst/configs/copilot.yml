@@ -3,13 +3,8 @@ default:
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: Copilot Chat - Chat Completions
   path: https://api.githubcopilot.com/chat/completions
-  max_data_files: 0
-  max_data_frames: 0
-  include_doc_contents: FALSE
-  system_msg: You are a helpful coding assistant
   include_history: TRUE
   model_arguments:
-    model: copilot-chat
     intent: true
     n: 1
     stream: true

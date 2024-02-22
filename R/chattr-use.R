@@ -28,11 +28,13 @@ ch_get_ymls <- function() {
       name <- .y %>%
         path_file() %>%
         path_ext_remove()
-      c(.x$default$provider, .x$default$model, name)
+      model <- .x$default[["model"]] %||% ""
+      provider <- .x$default[["provider"]] %||% ""
+      c(provider, model, name)
     }) %>%
     set_names(seq_along(files)) %>%
     imap(~ {
-      if (.x[[1]] == .x[[2]]) {
+      if (.x[[1]] == .x[[2]] | is.logical(.x[[2]])) {
         x <- .x[[1]]
       } else {
         x <- paste(.x[[1]], "-", .x[[2]])

@@ -1,4 +1,3 @@
-
 openai_token <- function() {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
 
