@@ -1,6 +1,6 @@
 openai_token <- function(defaults = NULL) {
   if (!is.null(defaults)) {
-    if (grepl("copilot", tolower(defaults$provider))) {
+    if (is_copilot(defaults)) {
       gh_path <- path("~/.config/github-copilot")
       if (dir_exists(gh_path)) {
         hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
@@ -42,7 +42,7 @@ openai_request <- function(defaults, req_body) {
     httr2::req_auth_bearer_token(openai_token(defaults = defaults)) %>%
     httr2::req_body_json(req_body)
 
-  if(grepl("copilot", tolower(defaults$provider))) {
+  if(is_copilot(defaults)) {
     ret <- ret %>%
       req_headers("Editor-Version" = "vscode/9.9.9")
   }
@@ -226,4 +226,8 @@ openai_stream_content.ch_open_ai_completions <- function(defaults, res) {
   res %>%
     map(~ .x$choices$text) %>%
     reduce(paste0)
+}
+
+is_copilot <- function(defaults) {
+  grepl("copilot", tolower(defaults$provider))
 }

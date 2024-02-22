@@ -281,7 +281,12 @@ openai_switch <- function(
   }
 
   if (defaults$include_history %||% FALSE) {
-    ch_history_append(prompt, ret)
+    if(is_copilot(defaults)) {
+      assistant <- ret$message
+    } else {
+      assistant <- ret
+    }
+     ch_history_append(prompt, assistant)
   }
 
   if (!return_result) {
