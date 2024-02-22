@@ -1,29 +1,7 @@
 default:
-  prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: Copilot Chat - Chat Completions
   path: https://api.githubcopilot.com/chat/completions
   include_history: TRUE
-  model_arguments:
-    intent: true
-    n: 1
-    stream: true
-    temperature: 0.1
-    top_p: 1
-chat:
-  prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-    For code output, use RMarkdown code chunks
-    Avoid all code chunk options
-console:
-  prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-    For any line that is not code, prefix with a: #
-    Keep each line of explanations to no more than 80 characters
-    DO NOT use Markdown for the code
-script:
-  prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-    For any line that is not code, prefix with a: #
-    Keep each line of explanations to no more than 80 characters
-    DO NOT use Markdown for the code
+  max_data_files: 0
+  max_data_frames: 0
+  include_doc_contents: FALSE

@@ -202,6 +202,7 @@ chattr_defaults_set <- function(arguments = list(),
 }
 
 process_prompt <- function(x) {
+  if(is.null(x)) return(x)
   x %>%
     map(~ glue(.x)) %>%
     reduce(c)

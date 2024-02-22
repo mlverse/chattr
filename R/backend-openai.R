@@ -199,13 +199,11 @@ openai_completion.default <- function(
     new_prompt,
     r_file_stream,
     r_file_complete) {
-  req_body <- c(
-    list(
-      model = defaults$model,
-      messages = new_prompt
-    ),
-    defaults$model_arguments
-  )
+  pb <- list(messages = new_prompt)
+  if(!is.null(defaults$model)) {
+    pb$model <- defaults$model
+  }
+  req_body <- c(pb, defaults$model_arguments)
 
   ret <- openai_switch(
     prompt = prompt,
@@ -232,13 +230,11 @@ openai_completion.ch_open_ai_completions <- function(
     new_prompt,
     r_file_stream,
     r_file_complete) {
-  req_body <- c(
-    list(
-      model = defaults$model,
-      prompt = new_prompt
-    ),
-    defaults$model_arguments
-  )
+  pb <- list(prompt = new_prompt)
+  if(!is.null(defaults$model)) {
+    pb$model <- defaults$model
+  }
+  req_body <- c(pb, defaults$model_arguments)
 
   ret <- openai_switch(
     prompt = prompt,

@@ -1,4 +1,20 @@
-openai_token <- function() {
+openai_token <- function(defaults = NULL) {
+  if (!is.null(defaults)) {
+    if (grepl("copilot", tolower(defaults$provider))) {
+      gh_path <- path("~/.config/github-copilot")
+      if (dir_exists(gh_path)) {
+        hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
+        oauth_token <- hosts[[1]]$oauth_token
+        x <- request("https://api.github.com/copilot_internal/v2/token") %>%
+          req_auth_bearer_token(oauth_token) %>%
+          req_perform()
+        x_json <- resp_body_json(x)
+        return(x_json$token)
+      } else {
+        abort("Please setup GitHub Copilot for RStudio first")
+      }
+    }
+  }
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
 
   ret <- NULL
@@ -11,19 +27,6 @@ openai_token <- function() {
     ret <- config::get("openai-api-key")
   }
 
-  gh_path <- path("~/.config/github-copilot")
-  if (is.null(ret) && dir_exists(gh_path)) {
-    hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
-    oauth_token <- hosts[[1]]$oauth_token
-
-    x <- request("https://api.github.com/copilot_internal/v2/token") %>%
-      req_auth_bearer_token(oauth_token) %>%
-      req_perform()
-
-    x_json <- resp_body_json(x)
-    ret <- x_json$token
-  }
-
   if (is.null(ret)) {
     abort("No token found
        - Add your key to the \"OPENAI_API_KEY\" environment variable
@@ -34,10 +37,16 @@ openai_token <- function() {
 }
 
 openai_request <- function(defaults, req_body) {
-  defaults$path %>%
+  ret <- defaults$path %>%
     httr2::request() %>%
-    httr2::req_auth_bearer_token(openai_token()) %>%
+    httr2::req_auth_bearer_token(openai_token(defaults = defaults)) %>%
     httr2::req_body_json(req_body)
+
+  if(grepl("copilot", tolower(defaults$provider))) {
+    ret <- ret %>%
+      req_headers("Editor-Version" = "vscode/9.9.9")
+  }
+  ret
 }
 
 openai_perform <- function(defaults, req_body) {
