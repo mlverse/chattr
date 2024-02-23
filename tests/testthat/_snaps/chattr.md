@@ -5,7 +5,7 @@
     Message
       
       -- chattr 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
 
@@ -18,7 +18,7 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
       * temperature: 0.01
@@ -50,7 +50,7 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
       * temperature: 0.01
@@ -69,7 +69,7 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
       * temperature: 0.01
@@ -101,7 +101,7 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
       * temperature: 0.01
@@ -129,9 +129,6 @@
     Code
       chattr("test", stream = FALSE)
     Output
-      $model
-      [1] "gpt-3.5-turbo"
-      
       $messages
       $messages[[1]]
       $messages[[1]]$role
@@ -150,6 +147,9 @@
       
       
       
+      $model
+      [1] "gpt-3.5-turbo"
+      
       $temperature
       [1] 0.01
       
@@ -167,7 +167,7 @@
     Message
       
       -- chattr 
-      * Provider: Open AI - Completions
+      * Provider: OpenAI - Completions
       * Path/URL: https://api.openai.com/v1/completions
       * Model: text-davinci-003
 
@@ -180,7 +180,7 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI - Completions
+      * Provider: OpenAI - Completions
       * Path/URL: https://api.openai.com/v1/completions
       * Model: text-davinci-003
       * temperature: 0.01
@@ -205,11 +205,11 @@
     Code
       chattr("test", stream = FALSE)
     Output
-      $model
-      [1] "text-davinci-003"
-      
       $prompt
       [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only \n* Prefix ALL explanations with a pound sign \n* Keep each line of explanations to no more than 80 characters \n* DO NOT use Markdown for the code\n * test"
+      
+      $model
+      [1] "text-davinci-003"
       
       $temperature
       [1] 0.01
@@ -230,7 +230,7 @@
       -- chattr ----------------------------------------------------------------------
       
       -- Preview for: Console 
-      * Provider: Open AI - Completions
+      * Provider: OpenAI - Completions
       * Path/URL: https://api.openai.com/v1/completions
       * Model: text-davinci-003
       * temperature: 0.01

@@ -72,7 +72,7 @@ openai_stream_ide <- function(defaults, req_body) {
   } else {
     if (!ui_current_console()) ide_paste_text("\n\n")
     openai_request(defaults, req_body) %>%
-      httr2::req_perform_stream(
+      req_perform_stream(
         function(x) {
           openai_stream_ide_delta(x, defaults)
           TRUE
@@ -147,7 +147,7 @@ openai_stream_file <- function(
   } else {
     ch_env$stream$response <- NULL
     openai_request(defaults, req_body) %>%
-      httr2::req_perform_stream(
+      req_perform_stream(
         function(x) {
           openai_stream_file_delta(x, defaults, r_file_stream)
           TRUE
@@ -236,13 +236,13 @@ openai_stream_content <- function(defaults, res) {
   UseMethod("openai_stream_content")
 }
 
-openai_stream_content.ch_open_ai_chat_completions <- function(defaults, res) {
+openai_stream_content.ch_openai_chat_completions <- function(defaults, res) {
   res %>%
     map(~ .x$choices$delta$content) %>%
     reduce(paste0)
 }
 
-openai_stream_content.ch_open_ai_completions <- function(defaults, res) {
+openai_stream_content.ch_openai_completions <- function(defaults, res) {
   res %>%
     map(~ .x$choices$text) %>%
     reduce(paste0)

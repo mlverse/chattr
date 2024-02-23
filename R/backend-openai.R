@@ -1,71 +1,5 @@
 #' @export
-ch_submit.ch_open_ai_chat_completions <- function(
-    defaults,
-    prompt = NULL,
-    stream = NULL,
-    prompt_build = TRUE,
-    preview = FALSE,
-    r_file_stream = NULL,
-    r_file_complete = NULL,
-    ...) {
-  ch_submit_open_ai(
-    defaults = defaults,
-    prompt = prompt,
-    stream = stream,
-    prompt_build = prompt_build,
-    preview = preview,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete,
-    ... = ...
-  )
-}
-
-#' @export
-ch_submit.ch_openai_copilot_chat <- function(
-    defaults,
-    prompt = NULL,
-    stream = NULL,
-    prompt_build = TRUE,
-    preview = FALSE,
-    r_file_stream = NULL,
-    r_file_complete = NULL,
-    ...) {
-  ch_submit_open_ai(
-    defaults = defaults,
-    prompt = prompt,
-    stream = stream,
-    prompt_build = prompt_build,
-    preview = preview,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete,
-    ... = ...
-  )
-}
-
-#' @export
-ch_submit.ch_open_ai_completions <- function(
-    defaults,
-    prompt = NULL,
-    stream = NULL,
-    prompt_build = TRUE,
-    preview = FALSE,
-    r_file_stream = NULL,
-    r_file_complete = NULL,
-    ...) {
-  ch_submit_open_ai(
-    defaults = defaults,
-    prompt = prompt,
-    stream = stream,
-    prompt_build = prompt_build,
-    preview = preview,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete,
-    ... = ...
-  )
-}
-
-
-ch_submit_open_ai <- function(
+ch_submit.ch_openai <- function(
     defaults,
     prompt = NULL,
     stream = NULL,
@@ -121,13 +55,14 @@ ch_submit_open_ai <- function(
   ret
 }
 
+
 #-------------------------------- Prompt ---------------------------------------
 
 openai_prompt <- function(defaults, prompt) {
   UseMethod("openai_prompt")
 }
 
-openai_prompt.ch_open_ai_chat_completions <- function(defaults, prompt) {
+openai_prompt.ch_openai_chat_completions <- function(defaults, prompt) {
   openai_prompt_openai_impl(
     defaults = defaults,
     prompt = prompt
@@ -164,7 +99,7 @@ openai_prompt_openai_impl <- function(defaults, prompt) {
   ret
 }
 
-openai_prompt.ch_open_ai_completions <- function(defaults, prompt) {
+openai_prompt.ch_openai_completions <- function(defaults, prompt) {
   header <- build_header(defaults)
   prompt <- paste("\n *", prompt)
   ret <- paste0(header, prompt)
@@ -193,7 +128,7 @@ openai_completion <- function(
   UseMethod("openai_completion")
 }
 
-openai_completion.ch_open_ai_chat_completions <- function(
+openai_completion.ch_openai_chat_completions <- function(
     defaults,
     prompt,
     new_prompt,
@@ -255,7 +190,7 @@ openai_completion.ch_openai_copilot_chat <- function(
   ret
 }
 
-openai_completion.ch_open_ai_completions <- function(
+openai_completion.ch_openai_completions <- function(
     defaults,
     prompt,
     new_prompt,
@@ -326,11 +261,11 @@ openai_switch <- function(
   ret
 }
 
-app_init_message.ch_open_ai_completions <- function(defaults) {
+app_init_message.ch_openai_completions <- function(defaults) {
   app_init_openai(defaults)
 }
 
-app_init_message.ch_open_ai_chat_completions <- function(defaults) {
+app_init_message.ch_openai_chat_completions <- function(defaults) {
   app_init_openai(defaults)
 }
 

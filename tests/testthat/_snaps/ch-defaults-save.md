@@ -5,7 +5,7 @@
     Message
       
       -- chattr 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
 
@@ -20,7 +20,7 @@
        [4] "  max_data_frames: 0"                                                           
        [5] "  include_doc_contents: no"                                                     
        [6] "  include_history: yes"                                                         
-       [7] "  provider: Open AI - Chat Completions"                                         
+       [7] "  provider: OpenAI - Chat Completions"                                          
        [8] "  path: https://api.openai.com/v1/chat/completions"                             
        [9] "  model: gpt-3.5-turbo"                                                         
       [10] "  model_arguments:"                                                             

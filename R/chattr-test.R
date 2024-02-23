@@ -14,12 +14,12 @@ ch_test <- function(defaults = NULL) {
 
 # ------------------------------ OpenAI ----------------------------------------
 #' @export
-ch_test.ch_open_ai_chat_completions <- function(defaults = NULL) {
+ch_test.ch_openai_chat_completions <- function(defaults = NULL) {
   ch_test_open_ai(defaults = defaults)
 }
 
 #' @export
-ch_test.ch_open_ai_completions <- function(defaults = NULL) {
+ch_test.ch_openai_completions <- function(defaults = NULL) {
   ch_test_open_ai(defaults = defaults)
 }
 

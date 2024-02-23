@@ -104,9 +104,19 @@ chattr_defaults <- function(type = "default",
   ret <- chattr_defaults_get(type)
   ret$type <- type
 
+  provider <- tolower(ret$provider)
+
+  sp_provider <- unlist(strsplit(provider, " - "))
+  if(length(sp_provider) > 1) {
+    first_cl <- paste0("ch_", prep_class_name(sp_provider[[1]]))
+  } else {
+    first_cl <- NULL
+  }
+
   class(ret) <- c(
     "ch_model",
-    paste0("ch_", prep_class_name(ret$provider))
+    first_cl,
+    paste0("ch_", prep_class_name(provider))
   )
 
   ret

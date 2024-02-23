@@ -5,7 +5,7 @@
     Message
       
       -- chattr 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
 
@@ -14,7 +14,7 @@
     Code
       app_init_openai(chattr_defaults())
     Message
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
       ! A list of the top 10 files will be sent externally to OpenAI with every request
