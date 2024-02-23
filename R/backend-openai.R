@@ -21,7 +21,7 @@ ch_submit.ch_open_ai_chat_completions <- function(
 }
 
 #' @export
-ch_submit.ch_copilot_chat_chat_completions <- function(
+ch_submit.ch_openai_copilot_chat <- function(
     defaults,
     prompt = NULL,
     stream = NULL,
@@ -134,7 +134,7 @@ openai_prompt.ch_open_ai_chat_completions <- function(defaults, prompt) {
   )
 }
 
-openai_prompt.ch_copilot_chat_chat_completions <- function(defaults, prompt) {
+openai_prompt.ch_openai_copilot_chat <- function(defaults, prompt) {
   openai_prompt_openai_impl(
     defaults = defaults,
     prompt = prompt
@@ -224,7 +224,7 @@ openai_completion.ch_open_ai_chat_completions <- function(
   ret
 }
 
-openai_completion.ch_copilot_chat_chat_completions <- function(
+openai_completion.ch_openai_copilot_chat <- function(
     defaults,
     prompt,
     new_prompt,

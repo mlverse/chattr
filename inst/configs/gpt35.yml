@@ -1,7 +1,7 @@
 default:
   prompt: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
-  provider: Open AI - Chat Completions
+  provider: OpenAI - Chat Completions
   path: https://api.openai.com/v1/chat/completions
   model: gpt-3.5-turbo
   max_data_files: 0

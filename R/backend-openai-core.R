@@ -38,9 +38,9 @@ openai_token <- function(defaults = NULL) {
 
 openai_request <- function(defaults, req_body) {
   ret <- defaults$path %>%
-    httr2::request() %>%
-    httr2::req_auth_bearer_token(openai_token(defaults = defaults)) %>%
-    httr2::req_body_json(req_body)
+    request() %>%
+    req_auth_bearer_token(openai_token(defaults = defaults)) %>%
+    req_body_json(req_body)
 
   if (is_copilot(defaults)) {
     ret <- ret %>%
@@ -248,7 +248,7 @@ openai_stream_content.ch_open_ai_completions <- function(defaults, res) {
     reduce(paste0)
 }
 
-openai_stream_content.ch_copilot_chat_chat_completions <- function(defaults, res) {
+openai_stream_content.ch_openai_copilot_chat <- function(defaults, res) {
   res %>%
     map(~ {
       content <- .x$choices$delta$content
