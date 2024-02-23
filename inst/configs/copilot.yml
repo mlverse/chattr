@@ -8,3 +8,8 @@ default:
   system_msg: You are a helpful coding assistant
   model_arguments:
     stream: TRUE
+chat:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For code output, use RMarkdown code chunks
+    Avoid all code chunk options
