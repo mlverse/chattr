@@ -193,7 +193,7 @@ openai_completion <- function(
   UseMethod("openai_completion")
 }
 
-openai_completion.default <- function(
+openai_completion.ch_open_ai_chat_completions <- function(
     defaults,
     prompt,
     new_prompt,
@@ -204,6 +204,37 @@ openai_completion.default <- function(
     pb$model <- defaults$model
   }
   req_body <- c(pb, defaults$model_arguments)
+
+  ret <- openai_switch(
+    prompt = prompt,
+    req_body = req_body,
+    defaults = defaults,
+    r_file_stream = r_file_stream,
+    r_file_complete = r_file_complete
+  )
+
+  if (ch_debug_get()) {
+    return(ret)
+  }
+
+  if (inherits(ret, "list")) {
+    ret <- ret$choices[[1]]$message$content
+  }
+
+  ret
+}
+
+openai_completion.ch_copilot_chat_chat_completions <- function(
+    defaults,
+    prompt,
+    new_prompt,
+    r_file_stream,
+    r_file_complete){
+
+  req_body <- c(
+    list(messages = new_prompt),
+    defaults$model_arguments
+    )
 
   ret <- openai_switch(
     prompt = prompt,

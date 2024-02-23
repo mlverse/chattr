@@ -146,7 +146,6 @@ openai_stream_file <- function(
     ret <- req_body
   } else {
     ch_env$stream$response <- NULL
-
     openai_request(defaults, req_body) %>%
       httr2::req_perform_stream(
         function(x) {
@@ -164,10 +163,20 @@ openai_stream_file <- function(
 }
 
 openai_stream_file_delta <- function(x, defaults, r_file_stream) {
+  char_x <- rawToChar(x)
+  if (is_copilot(defaults)) {
+    if (grepl("Bad Request", char_x)) {
+      abort(paste0("From Copilot: ", char_x))
+    }
+  }
   ch_env$stream$response <- paste0(
     ch_env$stream$response,
-    rawToChar(x),
+    char_x,
     collapse = ""
+  )
+  current <- openai_stream_parse(
+    x = ch_env$stream$response,
+    defaults = defaults
   )
   out <- ch_env$stream$response %>%
     openai_stream_parse(defaults) %>%

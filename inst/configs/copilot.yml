@@ -6,7 +6,3 @@ default:
   max_data_frames: 0
   include_doc_contents: FALSE
   system_msg: You are a helpful coding assistant
-chat:
-  prompt: |
-    For code output, use RMarkdown code chunks
-    Avoid all code chunk options
