@@ -42,7 +42,7 @@ openai_request <- function(defaults, req_body) {
     httr2::req_auth_bearer_token(openai_token(defaults = defaults)) %>%
     httr2::req_body_json(req_body)
 
-  if(is_copilot(defaults)) {
+  if (is_copilot(defaults)) {
     ret <- ret %>%
       req_headers("Editor-Version" = "vscode/9.9.9")
   }
@@ -87,9 +87,15 @@ openai_stream_ide <- function(defaults, req_body) {
 }
 
 openai_stream_ide_delta <- function(x, defaults, testing = FALSE) {
+  char_x <- rawToChar(x)
+  if (is_copilot(defaults)) {
+    if (grepl("Bad Request", char_x)) {
+      abort(paste0("From Copilot: ", char_x))
+    }
+  }
   ch_env$stream$raw <- paste0(
     ch_env$stream$raw,
-    rawToChar(x),
+    char_x,
     collapse = ""
   )
 
@@ -163,14 +169,18 @@ openai_stream_file_delta <- function(x, defaults, r_file_stream) {
     rawToChar(x),
     collapse = ""
   )
-  ch_env$stream$response %>%
+  out <- ch_env$stream$response %>%
     openai_stream_parse(defaults) %>%
     saveRDS(r_file_stream)
 }
 
 openai_check_error <- function(x) {
-  if(is.null(x)) return(invisible())
-  if(length(x) > 1) return(invisible())
+  if (is.null(x)) {
+    return(invisible())
+  }
+  if (length(x) > 1) {
+    return(invisible())
+  }
   if (substr(x, 1, 9) == "{{error}}") {
     error_msg <- paste0(
       "Error from OpenAI\n",
@@ -190,27 +200,27 @@ openai_stream_parse <- function(x, defaults) {
     keep(~ substr(.x, (nchar(.x) - 2), nchar(.x)) == "}\n\n") %>%
     map(jsonlite::fromJSON)
 
+  out <- NULL
   if (length(res) > 0) {
-    res <- openai_stream_content(defaults, res)
-    if (length(res) > 0) {
-      return(res)
+    content <- openai_stream_content(defaults, res)
+    if (length(content) > 0) {
+      out <- content
     }
   } else {
     json_res <- try(jsonlite::fromJSON(x), silent = TRUE)
     if (!inherits(json_res, "try-error")) {
       if ("error" %in% names(json_res)) {
         json_error <- json_res$error
-        return(
-          paste0(
-            "{{error}}Type:",
-            json_error$type,
-            "\nMessage: ",
-            json_error$message
-          )
+        out <- paste0(
+          "{{error}}Type:",
+          json_error$type,
+          "\nMessage: ",
+          json_error$message
         )
       }
     }
   }
+  out
 }
 
 openai_stream_content <- function(defaults, res) {
@@ -233,8 +243,8 @@ openai_stream_content.ch_copilot_chat_chat_completions <- function(defaults, res
   res %>%
     map(~ {
       content <- .x$choices$delta$content
-      if(!is.null(content)) {
-        if(is.na(content)) content <- ""
+      if (!is.null(content)) {
+        if (is.na(content)) content <- ""
       }
       content
     }) %>%
