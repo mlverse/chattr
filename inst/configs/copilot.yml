@@ -6,3 +6,5 @@ default:
   max_data_frames: 0
   include_doc_contents: FALSE
   system_msg: You are a helpful coding assistant
+  model_arguments:
+    stream: TRUE
