@@ -135,7 +135,7 @@ openai_completion.ch_openai_chat_completions <- function(
     r_file_stream,
     r_file_complete) {
   pb <- list(messages = new_prompt)
-  if(!is.null(defaults$model)) {
+  if (!is.null(defaults$model)) {
     pb$model <- defaults$model
   }
   req_body <- c(pb, defaults$model_arguments)
@@ -164,12 +164,11 @@ openai_completion.ch_openai_copilot_chat <- function(
     prompt,
     new_prompt,
     r_file_stream,
-    r_file_complete){
-
+    r_file_complete) {
   req_body <- c(
     list(messages = new_prompt),
     defaults$model_arguments
-    )
+  )
 
   ret <- openai_switch(
     prompt = prompt,
@@ -197,7 +196,7 @@ openai_completion.ch_openai_completions <- function(
     r_file_stream,
     r_file_complete) {
   pb <- list(prompt = new_prompt)
-  if(!is.null(defaults$model)) {
+  if (!is.null(defaults$model)) {
     pb$model <- defaults$model
   }
   req_body <- c(pb, defaults$model_arguments)
@@ -247,12 +246,12 @@ openai_switch <- function(
   }
 
   if (defaults$include_history %||% FALSE) {
-    if(is_copilot(defaults)) {
+    if (is_copilot(defaults)) {
       assistant <- ret
     } else {
       assistant <- ret
     }
-     ch_history_append(prompt, assistant)
+    ch_history_append(prompt, assistant)
   }
 
   if (!return_result) {
@@ -261,15 +260,7 @@ openai_switch <- function(
   ret
 }
 
-app_init_message.ch_openai_completions <- function(defaults) {
-  app_init_openai(defaults)
-}
-
-app_init_message.ch_openai_chat_completions <- function(defaults) {
-  app_init_openai(defaults)
-}
-
-app_init_openai <- function(defaults) {
+app_init_message.cl_openai <- function(defaults) {
   print_provider(defaults)
   if (defaults$max_data_files > 0) {
     cli_alert_warning(
