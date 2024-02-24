@@ -62,21 +62,14 @@ openai_prompt <- function(defaults, prompt) {
   UseMethod("openai_prompt")
 }
 
-openai_prompt.ch_openai_chat_completions <- function(defaults, prompt) {
-  openai_prompt_openai_impl(
-    defaults = defaults,
-    prompt = prompt
-  )
+openai_prompt.ch_openai_completions <- function(defaults, prompt) {
+  header <- build_header(defaults)
+  prompt <- paste("\n *", prompt)
+  ret <- paste0(header, prompt)
+  ret
 }
 
-openai_prompt.ch_openai_copilot_chat <- function(defaults, prompt) {
-  openai_prompt_openai_impl(
-    defaults = defaults,
-    prompt = prompt
-  )
-}
-
-openai_prompt_openai_impl <- function(defaults, prompt) {
+openai_prompt.ch_openai <- function(defaults, prompt) {
   header <- build_header(defaults)
 
   system_msg <- defaults$system_msg
@@ -99,20 +92,12 @@ openai_prompt_openai_impl <- function(defaults, prompt) {
   ret
 }
 
-openai_prompt.ch_openai_completions <- function(defaults, prompt) {
-  header <- build_header(defaults)
-  prompt <- paste("\n *", prompt)
-  ret <- paste0(header, prompt)
-  ret
-}
-
 build_header <- function(defaults) {
   header <- c(
     process_prompt(defaults$prompt),
     ch_context_data_files(defaults$max_data_files),
     ch_context_data_frames(defaults$max_data_frames)
   )
-
   paste0("* ", header, collapse = " \n")
 }
 
@@ -248,11 +233,7 @@ openai_switch <- function(
   }
 
   if (defaults$include_history %||% FALSE) {
-    if (is_copilot(defaults)) {
-      assistant <- ret
-    } else {
-      assistant <- ret
-    }
+    assistant <- ret
     ch_history_append(prompt, assistant)
   }
 
@@ -260,6 +241,79 @@ openai_switch <- function(
     ret <- NULL
   }
   ret
+}
+
+
+openai_stream_ide <- function(defaults, req_body) {
+  ch_env$stream <- list()
+  ch_env$stream$raw <- NULL
+  ch_env$stream$response <- NULL
+
+  ret <- NULL
+  if (ch_debug_get()) {
+    ret <- req_body
+  } else {
+    if (!ui_current_console()) ide_paste_text("\n\n")
+    openai_request(defaults, req_body) %>%
+      req_perform_stream(
+        function(x) {
+          openai_parse_ide(x, defaults)
+          TRUE
+        },
+        buffer_kb = 0.1, round = "line"
+      )
+    if (!ui_current_console()) ide_paste_text("\n\n")
+    ret <- ch_env$stream$response
+  }
+  openai_check_error(ret)
+  ret
+}
+
+openai_parse_ide <- function(x, defaults, testing = FALSE) {
+  char_x <- rawToChar(x)
+  if (is_copilot(defaults)) {
+    if (grepl("Bad Request", char_x)) {
+      abort(paste0("From Copilot: ", char_x))
+    }
+  }
+  ch_env$stream$raw <- paste0(
+    ch_env$stream$raw,
+    char_x,
+    collapse = ""
+  )
+
+  current <- openai_stream_parse(
+    x = ch_env$stream$raw,
+    defaults = defaults
+  )
+
+  has_error <- substr(current, 1, 9) == "{{error}}"
+
+  if (!is.null(current)) {
+    if (is.null(ch_env$stream$response)) {
+      if (ui_current_console()) {
+        if (!testing && !has_error) cat(current)
+      } else {
+        if (!testing && !has_error) ide_paste_text(current)
+      }
+    } else {
+      if (nchar(current) != nchar(ch_env$stream$response)) {
+        delta <- substr(
+          current,
+          nchar(ch_env$stream$response) + 1,
+          nchar(current)
+        )
+        if (ui_current_console()) {
+          if (!testing && !has_error) cat(delta)
+        } else {
+          for (i in 1:nchar(delta)) {
+            if (!testing && !has_error) ide_paste_text(substr(delta, i, i))
+          }
+        }
+      }
+    }
+  }
+  ch_env$stream$response <- current
 }
 
 app_init_message.cl_openai <- function(defaults) {

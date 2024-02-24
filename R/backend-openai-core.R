@@ -54,79 +54,6 @@ openai_request.ch_openai_copilot_chat <- function(defaults, req_body) {
     req_headers("Editor-Version" = "vscode/9.9.9")
 }
 
-openai_stream_ide <- function(defaults, req_body) {
-  ch_env$stream <- list()
-  ch_env$stream$raw <- NULL
-  ch_env$stream$response <- NULL
-
-  ret <- NULL
-  if (ch_debug_get()) {
-    ret <- req_body
-  } else {
-    if (!ui_current_console()) ide_paste_text("\n\n")
-    openai_request(defaults, req_body) %>%
-      req_perform_stream(
-        function(x) {
-          openai_stream_ide_delta(x, defaults)
-          TRUE
-        },
-        buffer_kb = 0.1, round = "line"
-      )
-    if (!ui_current_console()) ide_paste_text("\n\n")
-    ret <- ch_env$stream$response
-  }
-  openai_check_error(ret)
-  ret
-}
-
-openai_stream_ide_delta <- function(x, defaults, testing = FALSE) {
-  char_x <- rawToChar(x)
-  if (is_copilot(defaults)) {
-    if (grepl("Bad Request", char_x)) {
-      abort(paste0("From Copilot: ", char_x))
-    }
-  }
-  ch_env$stream$raw <- paste0(
-    ch_env$stream$raw,
-    char_x,
-    collapse = ""
-  )
-
-  current <- openai_stream_parse(
-    x = ch_env$stream$raw,
-    defaults = defaults
-  )
-
-  has_error <- substr(current, 1, 9) == "{{error}}"
-
-  if (!is.null(current)) {
-    if (is.null(ch_env$stream$response)) {
-      if (ui_current_console()) {
-        if (!testing && !has_error) cat(current)
-      } else {
-        if (!testing && !has_error) ide_paste_text(current)
-      }
-    } else {
-      if (nchar(current) != nchar(ch_env$stream$response)) {
-        delta <- substr(
-          current,
-          nchar(ch_env$stream$response) + 1,
-          nchar(current)
-        )
-        if (ui_current_console()) {
-          if (!testing && !has_error) cat(delta)
-        } else {
-          for (i in 1:nchar(delta)) {
-            if (!testing && !has_error) ide_paste_text(substr(delta, i, i))
-          }
-        }
-      }
-    }
-  }
-  ch_env$stream$response <- current
-}
-
-
 openai_stream_file <- function(
     defaults,
     req_body,
@@ -142,7 +69,7 @@ openai_stream_file <- function(
     openai_request(defaults, req_body) %>%
       req_perform_stream(
         function(x) {
-          openai_stream_file_delta(x, defaults, r_file_stream)
+          openai_parse_file(x, defaults, r_file_stream)
           TRUE
         },
         buffer_kb = 0.05, round = "line"
@@ -155,7 +82,7 @@ openai_stream_file <- function(
   ret
 }
 
-openai_stream_file_delta <- function(x, defaults, r_file_stream) {
+openai_parse_file <- function(x, defaults, r_file_stream) {
   char_x <- rawToChar(x)
   if (is_copilot(defaults)) {
     if (grepl("Bad Request", char_x)) {
@@ -167,11 +94,7 @@ openai_stream_file_delta <- function(x, defaults, r_file_stream) {
     char_x,
     collapse = ""
   )
-  current <- openai_stream_parse(
-    x = ch_env$stream$response,
-    defaults = defaults
-  )
-  out <- ch_env$stream$response %>%
+  ch_env$stream$response %>%
     openai_stream_parse(defaults) %>%
     saveRDS(r_file_stream)
 }
