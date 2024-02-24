@@ -114,9 +114,9 @@ chattr_defaults <- function(type = "default",
   }
 
   class(ret) <- c(
-    "ch_model",
+    paste0("ch_", prep_class_name(provider)),
     first_cl,
-    paste0("ch_", prep_class_name(provider))
+    "ch_model"
   )
 
   ret

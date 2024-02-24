@@ -1,20 +1,23 @@
-openai_token <- function(defaults = NULL) {
-  if (!is.null(defaults)) {
-    if (is_copilot(defaults)) {
-      gh_path <- path("~/.config/github-copilot")
-      if (dir_exists(gh_path)) {
-        hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
-        oauth_token <- hosts[[1]]$oauth_token
-        x <- request("https://api.github.com/copilot_internal/v2/token") %>%
-          req_auth_bearer_token(oauth_token) %>%
-          req_perform()
-        x_json <- resp_body_json(x)
-        return(x_json$token)
-      } else {
-        abort("Please setup GitHub Copilot for RStudio first")
-      }
-    }
+openai_token <- function(defaults) {
+  UseMethod("openai_token")
+}
+
+openai_token.ch_openai_copilot_chat <- function(defaults) {
+  gh_path <- path("~/.config/github-copilot")
+  if (dir_exists(gh_path)) {
+    hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
+    oauth_token <- hosts[[1]]$oauth_token
+    x <- request("https://api.github.com/copilot_internal/v2/token") %>%
+      req_auth_bearer_token(oauth_token) %>%
+      req_perform()
+    x_json <- resp_body_json(x)
+    return(x_json$token)
+  } else {
+    abort("Please setup GitHub Copilot for RStudio first")
   }
+}
+
+openai_token.ch_openai <- function(defaults) {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
 
   ret <- NULL
