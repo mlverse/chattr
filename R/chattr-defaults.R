@@ -107,7 +107,7 @@ chattr_defaults <- function(type = "default",
   provider <- tolower(ret$provider)
 
   sp_provider <- unlist(strsplit(provider, " - "))
-  if(length(sp_provider) > 1) {
+  if (length(sp_provider) > 1) {
     first_cl <- paste0("ch_", prep_class_name(sp_provider[[1]]))
   } else {
     first_cl <- NULL
@@ -212,7 +212,9 @@ chattr_defaults_set <- function(arguments = list(),
 }
 
 process_prompt <- function(x) {
-  if(is.null(x)) return(x)
+  if (is.null(x)) {
+    return(x)
+  }
   x %>%
     map(~ glue(.x)) %>%
     reduce(c)

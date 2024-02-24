@@ -5,7 +5,7 @@ openai_switch <- function(
     r_file_stream,
     r_file_complete) {
   ret <- NULL
-  if(ch_debug_get()) {
+  if (ch_debug_get()) {
     return(req_body)
   }
   stream <- defaults$model_arguments$stream %||% FALSE

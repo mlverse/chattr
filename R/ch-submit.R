@@ -71,7 +71,6 @@ ch_submit_job <- function(prompt,
       preview = ch_debug_get()
     )
   )
-
 }
 
 #' @export

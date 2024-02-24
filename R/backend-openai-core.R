@@ -3,7 +3,7 @@ openai_token <- function(defaults) {
 }
 
 openai_token.ch_openai_copilot_chat <- function(defaults) {
-  if(ch_debug_get()) {
+  if (ch_debug_get()) {
     return("")
   }
   gh_path <- path("~/.config/github-copilot")
@@ -21,7 +21,7 @@ openai_token.ch_openai_copilot_chat <- function(defaults) {
 }
 
 openai_token.ch_openai <- function(defaults) {
-  if(ch_debug_get()) {
+  if (ch_debug_get()) {
     return("")
   }
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
@@ -34,10 +34,11 @@ openai_token.ch_openai <- function(defaults) {
   }
   if (is.null(ret)) {
     abort(
-    "No token found
+      "No token found
     - Add your key to the \"OPENAI_API_KEY\" environment variable
     - or - Add  \"openai-api-key\" to a `config` YAML file"
-    )}
+    )
+  }
   ret
 }
 
