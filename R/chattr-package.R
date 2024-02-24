@@ -20,3 +20,10 @@
 ## usethis namespace: end
 ch_env <- new.env()
 ch_env$valid_uis <- c("console", "chat", "notebook", "script")
+
+.onLoad <- function(libname, pkgname) {
+  if(dir_exists(path("~/.config/github-copilot"))) {
+    cli_alert_info("Copilot setup detected. Defaulting to Copilot Chat:")
+    chattr_use("copilot")
+  }
+}
