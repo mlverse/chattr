@@ -54,51 +54,6 @@ openai_request.ch_openai_copilot_chat <- function(defaults, req_body) {
     req_headers("Editor-Version" = "vscode/9.9.9")
 }
 
-openai_stream_file <- function(
-    defaults,
-    req_body,
-    r_file_stream,
-    r_file_complete) {
-  ch_env$stream <- list()
-  ch_env$stream$response <- NULL
-  ret <- NULL
-  if (ch_debug_get()) {
-    ret <- req_body
-  } else {
-    ch_env$stream$response <- NULL
-    openai_request(defaults, req_body) %>%
-      req_perform_stream(
-        function(x) {
-          openai_parse_file(x, defaults, r_file_stream)
-          TRUE
-        },
-        buffer_kb = 0.05, round = "line"
-      )
-    ret <- readRDS(r_file_stream)
-    saveRDS(ret, r_file_complete)
-    file_delete(r_file_stream)
-  }
-  openai_check_error(ret)
-  ret
-}
-
-openai_parse_file <- function(x, defaults, r_file_stream) {
-  char_x <- rawToChar(x)
-  if (is_copilot(defaults)) {
-    if (grepl("Bad Request", char_x)) {
-      abort(paste0("From Copilot: ", char_x))
-    }
-  }
-  ch_env$stream$response <- paste0(
-    ch_env$stream$response,
-    char_x,
-    collapse = ""
-  )
-  ch_env$stream$response %>%
-    openai_stream_parse(defaults) %>%
-    saveRDS(r_file_stream)
-}
-
 openai_check_error <- function(x) {
   if (is.null(x)) {
     return(invisible())
@@ -178,4 +133,30 @@ openai_stream_content.ch_openai_copilot_chat <- function(defaults, res) {
 
 is_copilot <- function(defaults) {
   grepl("copilot", tolower(defaults$provider))
+}
+
+app_init_message.cl_openai <- function(defaults) {
+  print_provider(defaults)
+  if (defaults$max_data_files > 0) {
+    cli_alert_warning(
+      paste0(
+        "A list of the top {defaults$max_data_files} files will ",
+        "be sent externally to OpenAI with every request\n",
+        "To avoid this, set the number of files to be sent to 0 ",
+        "using {.run chattr::chattr_defaults(max_data_files = 0)}"
+      )
+    )
+  }
+
+  if (defaults$max_data_frames > 0) {
+    cli_alert_warning(
+      paste0(
+        "A list of the top {defaults$max_data_frames} data.frames ",
+        "currently in your R session will be sent externally to ",
+        "OpenAI with every request\n To avoid this, set the number ",
+        "of data.frames to be sent to 0 using ",
+        "{.run chattr::chattr_defaults(max_data_frames = 0)}"
+      )
+    )
+  }
 }
