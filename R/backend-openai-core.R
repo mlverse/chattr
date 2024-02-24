@@ -54,18 +54,6 @@ openai_request.ch_openai_copilot_chat <- function(defaults, req_body) {
     req_headers("Editor-Version" = "vscode/9.9.9")
 }
 
-openai_perform <- function(defaults, req_body) {
-  ret <- NULL
-  if (ch_debug_get()) {
-    ret <- req_body
-  } else {
-    ret <- openai_request(defaults, req_body) %>%
-      req_perform() %>%
-      resp_body_json()
-  }
-  ret
-}
-
 openai_stream_ide <- function(defaults, req_body) {
   ch_env$stream <- list()
   ch_env$stream$raw <- NULL

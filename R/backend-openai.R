@@ -242,7 +242,9 @@ openai_switch <- function(
       ret <- openai_stream_ide(defaults, req_body)
     }
   } else {
-    ret <- openai_perform(defaults, req_body)
+    ret <- openai_request(defaults, req_body) %>%
+      req_perform() %>%
+      resp_body_json()
   }
 
   if (defaults$include_history %||% FALSE) {
