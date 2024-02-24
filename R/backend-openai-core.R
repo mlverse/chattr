@@ -3,6 +3,9 @@ openai_token <- function(defaults) {
 }
 
 openai_token.ch_openai_copilot_chat <- function(defaults) {
+  if(ch_debug_get()) {
+    return("")
+  }
   gh_path <- path("~/.config/github-copilot")
   if (dir_exists(gh_path)) {
     hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
@@ -18,6 +21,9 @@ openai_token.ch_openai_copilot_chat <- function(defaults) {
 }
 
 openai_token.ch_openai <- function(defaults) {
+  if(ch_debug_get()) {
+    return("")
+  }
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
   ret <- NULL
   if (!is.na(env_key)) {
