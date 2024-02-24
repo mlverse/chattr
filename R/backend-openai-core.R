@@ -19,37 +19,39 @@ openai_token.ch_openai_copilot_chat <- function(defaults) {
 
 openai_token.ch_openai <- function(defaults) {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
-
   ret <- NULL
-
   if (!is.na(env_key)) {
     ret <- env_key
   }
-
   if (is.null(ret) && file_exists(Sys.getenv("R_CONFIG_FILE", "config.yml"))) {
     ret <- config::get("openai-api-key")
   }
-
   if (is.null(ret)) {
-    abort("No token found
-       - Add your key to the \"OPENAI_API_KEY\" environment variable
-       - or - Add  \"openai-api-key\" to a `config` YAML file")
-  }
-
+    abort(
+    "No token found
+    - Add your key to the \"OPENAI_API_KEY\" environment variable
+    - or - Add  \"openai-api-key\" to a `config` YAML file"
+    )}
   ret
 }
 
 openai_request <- function(defaults, req_body) {
-  ret <- defaults$path %>%
+  UseMethod("openai_request")
+}
+
+openai_request.ch_openai <- function(defaults, req_body) {
+  defaults$path %>%
     request() %>%
     req_auth_bearer_token(openai_token(defaults = defaults)) %>%
     req_body_json(req_body)
+}
 
-  if (is_copilot(defaults)) {
-    ret <- ret %>%
-      req_headers("Editor-Version" = "vscode/9.9.9")
-  }
-  ret
+openai_request.ch_openai_copilot_chat <- function(defaults, req_body) {
+  defaults$path %>%
+    request() %>%
+    req_auth_bearer_token(openai_token(defaults = defaults)) %>%
+    req_body_json(req_body) %>%
+    req_headers("Editor-Version" = "vscode/9.9.9")
 }
 
 openai_perform <- function(defaults, req_body) {
