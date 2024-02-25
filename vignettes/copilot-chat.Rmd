@@ -1,0 +1,23 @@
+---
+title: "GitHub Copilot Chat"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{copilot-chat}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Setup
+
+In order to use [GitHub Copilot Chat](https://docs.github.com/en/copilot/github-copilot-chat/about-github-copilot-chat), 
+you will first need to have [GitHub Copilot](https://docs.github.com/en/copilot) 
+setup in your RStudio IDE. If you do not have Copilot setup in your RStudio yet, 
+please refer to these instructions: https://docs.posit.co/ide/user/ide/guide/tools/copilot.html
+
