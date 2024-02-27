@@ -68,8 +68,8 @@ openai_stream_ide <- function(defaults, req_body) {
 openai_parse_ide <- function(x, defaults, testing = FALSE) {
   char_x <- rawToChar(x)
   if (is_copilot(defaults)) {
-    if (grepl("Bad Request", char_x)) {
-      abort(paste0("From Copilot: ", char_x))
+    if (grepl("bad request", tolower(char_x))) {
+      abort(paste0("From Copilot: ", char_x), call = NULL)
     }
   }
   ch_env$stream$raw <- paste0(
@@ -143,8 +143,8 @@ openai_stream_file <- function(
 openai_parse_file <- function(x, defaults, r_file_stream) {
   char_x <- rawToChar(x)
   if (is_copilot(defaults)) {
-    if (grepl("Bad Request", char_x)) {
-      abort(paste0("From Copilot: ", char_x))
+    if (grepl("bad request", tolower(char_x))) {
+      abort(paste0("From Copilot: ", char_x), call = NULL)
     }
   }
   ch_env$stream$response <- paste0(
