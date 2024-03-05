@@ -174,8 +174,8 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <p>The main way to use <code>chattr</code> is through the Shiny Gadget app. By default, it runs inside the Viewer pane:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">chattr</span><span class="fu">::</span><span class="fu"><a href="reference/chattr_app.html">chattr_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="reference/figures/readme/chat1.png" alt=""><p class="caption">Screenshot of the Sniny gadget app in a dark mode RStudio theme</p>
+<div class="float">
+<img src="reference/figures/readme/chat1.png" alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme"><div class="figcaption">Screenshot of the Sniny gadget app in a dark mode RStudio theme</div>
 </div>
 <p>After the LLM finishes its response, the <code>chattr</code> app processes all markdown code chunks. It will place three convenience buttons:</p>
 <ul>
@@ -189,8 +189,8 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <li><p>Save and Open chats - This is an early experiment to allow us to save and retrieve past chats. <code>chattr</code> will save the file in an RDS format. The main objective of this feature, is to be able to see past chats, not to continue previous conversations with the LLM.</p></li>
 <li><p>Prompt settings - In this section you can change the additional information attached to your prompt. Including the number of max data files, and data frames sent to the LLM.</p></li>
 </ul>
-<div class="figure">
-<img src="reference/figures/readme/chat2.png" alt=""><p class="caption">Screenshot of the Sniny gadget options</p>
+<div class="float">
+<img src="reference/figures/readme/chat2.png" alt="Screenshot of the Sniny gadget options"><div class="figcaption">Screenshot of the Sniny gadget options</div>
 </div>
 </div>
 <div class="section level3">
@@ -203,8 +203,8 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <h2 id="how-it-works">How it works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
 </h2>
 <p><code>chattr</code> enriches your request with additional instructions, name and structure of data frames currently in your environment, the path for the data files in your working directory. If supported by the model, <code>chattr</code> will include the current chat history.</p>
-<div class="figure">
-<img src="reference/figures/readme/chattr-diagram.png" alt=""><p class="caption">Diagram that illustrates how chattr handles model requests</p>
+<div class="float">
+<img src="reference/figures/readme/chattr-diagram.png" alt="Diagram that illustrates how chattr handles model requests"><div class="figcaption">Diagram that illustrates how chattr handles model requests</div>
 </div>
 <p>To see what <code>chattr</code> will send to the model, set the <code>preview</code> argument to <code>TRUE</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
