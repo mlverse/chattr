@@ -108,13 +108,13 @@ ch_llamagpt_output <- function(
 
     if (stream_to == "console") cat(output)
     if (stream_to == "script") ide_paste_text(output)
-    if (stream_to == "chat") saveRDS(all_output, stream_file)
+    if (stream_to == "chat") saveRDS(all_output, stream_file, compress = FALSE)
 
     output <- NULL
 
     if (stop_stream) {
       if (stream_to == "chat") {
-        if (!is.null(output_file)) saveRDS(all_output, output_file)
+        if (!is.null(output_file)) saveRDS(all_output, output_file, compress = FALSE)
         file_delete(stream_file)
         return(NULL)
       } else {
