@@ -1,22 +1,27 @@
-openai_token <- function(defaults) {
+openai_token <- function(defaults = NULL, fail = TRUE) {
   UseMethod("openai_token")
 }
 
 #' @export
-openai_token.ch_openai_copilot_chat <- function(defaults) {
+openai_token.ch_openai_copilot_chat <- function(defaults = NULL, fail = TRUE) {
+  openai_token_copilot(defaults, fail)
+}
+
+openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
+  ret <- NULL
   if (ch_debug_get()) {
     return("")
   }
   hosts_path <- defaults$hosts_path
   token_url <- defaults$token_url
-  if(is.null(hosts_path)) {
+  if(is.null(hosts_path) && fail) {
     abort(
       c(
         "There is no default for the RStudio GitHub Copilot configuration folder",
         "Please add a 'hosts_path' to your YAML file, or to chattr_defaults() "
       ))
   }
-  if(is.null(token_url)) {
+  if(is.null(token_url) && fail) {
     abort(
       c(
         "There is no default the GH Copilot token URL",
@@ -31,14 +36,21 @@ openai_token.ch_openai_copilot_chat <- function(defaults) {
       req_auth_bearer_token(oauth_token) %>%
       req_perform()
     x_json <- resp_body_json(x)
-    return(x_json$token)
+    ret <- x_json$token
   } else {
-    abort("Please setup GitHub Copilot for RStudio first")
+    if(fail) {
+      abort("Please setup GitHub Copilot for RStudio first")
+    }
   }
+  ret
 }
 
 #' @export
-openai_token.ch_openai <- function(defaults) {
+openai_token.ch_openai <- function(defaults = NULL, fail = TRUE) {
+  openai_token_chat(defaults, fail)
+}
+
+openai_token_chat <- function(defaults, fail = TRUE) {
   if (ch_debug_get()) {
     return("")
   }
@@ -50,7 +62,7 @@ openai_token.ch_openai <- function(defaults) {
   if (is.null(ret) && file_exists(Sys.getenv("R_CONFIG_FILE", "config.yml"))) {
     ret <- config::get("openai-api-key")
   }
-  if (is.null(ret)) {
+  if (is.null(ret) && fail) {
     abort(
       "No token found
     - Add your key to the \"OPENAI_API_KEY\" environment variable
