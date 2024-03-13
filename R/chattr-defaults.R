@@ -74,7 +74,7 @@ chattr_defaults <- function(type = "default",
     }
 
     if (file_exists(yaml_file)) {
-      check_files <- c(check_files, yaml_file)
+      check_files <- yaml_file
     }
 
     for (j in seq_along(check_files)) {
