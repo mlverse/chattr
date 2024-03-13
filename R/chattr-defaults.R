@@ -27,6 +27,7 @@
 #' @param type Entry point to interact with the model. Accepted values: 'notebook',
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
+#' @param ... Additional model arguments that are not standard for all models/backends
 #' @inheritParams chattr
 chattr_defaults <- function(type = "default",
                             prompt = NULL,
@@ -40,8 +41,10 @@ chattr_defaults <- function(type = "default",
                             model_arguments = NULL,
                             system_msg = NULL,
                             yaml_file = "chattr.yml",
-                            force = FALSE) {
-  function_args <- as.list(environment())
+                            force = FALSE,
+                            ...
+                            ) {
+  function_args <- c(as.list(environment()), ...)
 
   sys_type <- Sys.getenv("CHATTR_TYPE", NA)
   if (!is.na(sys_type)) {
