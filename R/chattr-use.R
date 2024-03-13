@@ -6,6 +6,7 @@
 #' @export
 chattr_use <- function(model_label = NULL) {
   interactive_label <- is_interactive() && is.null(model_label)
+  overwrite <- FALSE
   if (interactive_label) {
     model_label <- ch_get_ymls()
   }
