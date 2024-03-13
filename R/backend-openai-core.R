@@ -6,11 +6,27 @@ openai_token.ch_openai_copilot_chat <- function(defaults) {
   if (ch_debug_get()) {
     return("")
   }
-  gh_path <- path("~/.config/github-copilot")
+  hosts_path <- defaults$hosts_path
+  token_url <- defaults$token_url
+  if(is.null(hosts_path)) {
+    abort(
+      c(
+        "There is no default for the RStudio GitHub Copilot configuration folder",
+        "Please add a 'hosts_path' to your YAML file, or to chattr_defaults() "
+      ))
+  }
+  if(is.null(token_url)) {
+    abort(
+      c(
+        "There is no default the GH Copilot token URL",
+        "Please add a 'token_url' to your YAML file, or to chattr_defaults() "
+      ))
+  }
+  gh_path <- path_expand(hosts_path)
   if (dir_exists(gh_path)) {
     hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
     oauth_token <- hosts[[1]]$oauth_token
-    x <- request("https://api.github.com/copilot_internal/v2/token") %>%
+    x <- request(token_url) %>%
       req_auth_bearer_token(oauth_token) %>%
       req_perform()
     x_json <- resp_body_json(x)
