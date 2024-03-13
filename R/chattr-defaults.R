@@ -66,7 +66,7 @@ chattr_defaults <- function(type = "default",
 
   if (is.null(chattr_defaults_get(type))) {
     env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
-
+    check_files <- NULL
     if (!is.na(env_model)) {
       check_files <- package_file("configs", path_ext_set(env_model, "yml"))
     }
