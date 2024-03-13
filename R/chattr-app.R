@@ -59,6 +59,7 @@ app_init_message <- function(defaults) {
   UseMethod("app_init_message")
 }
 
+#' @export
 app_init_message.default <- function(defaults) {
   print_provider(defaults)
 }

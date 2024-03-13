@@ -62,6 +62,7 @@ openai_prompt <- function(defaults, prompt) {
   UseMethod("openai_prompt")
 }
 
+#' @export
 openai_prompt.ch_openai_completions <- function(defaults, prompt) {
   header <- build_header(defaults)
   prompt <- paste("\n *", prompt)
@@ -69,6 +70,7 @@ openai_prompt.ch_openai_completions <- function(defaults, prompt) {
   ret
 }
 
+#' @export
 openai_prompt.ch_openai <- function(defaults, prompt) {
   header <- build_header(defaults)
 
@@ -113,6 +115,7 @@ openai_completion <- function(
   UseMethod("openai_completion")
 }
 
+#' @export
 openai_completion.ch_openai_chat_completions <- function(
     defaults,
     prompt,
@@ -144,6 +147,7 @@ openai_completion.ch_openai_chat_completions <- function(
   ret
 }
 
+#' @export
 openai_completion.ch_openai_copilot_chat <- function(
     defaults,
     prompt,
@@ -174,6 +178,7 @@ openai_completion.ch_openai_copilot_chat <- function(
   ret
 }
 
+#' @export
 openai_completion.ch_openai_completions <- function(
     defaults,
     prompt,

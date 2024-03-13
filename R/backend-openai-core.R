@@ -2,6 +2,7 @@ openai_token <- function(defaults) {
   UseMethod("openai_token")
 }
 
+#' @export
 openai_token.ch_openai_copilot_chat <- function(defaults) {
   if (ch_debug_get()) {
     return("")
@@ -36,6 +37,7 @@ openai_token.ch_openai_copilot_chat <- function(defaults) {
   }
 }
 
+#' @export
 openai_token.ch_openai <- function(defaults) {
   if (ch_debug_get()) {
     return("")
@@ -62,6 +64,7 @@ openai_request <- function(defaults, req_body) {
   UseMethod("openai_request")
 }
 
+#' @export
 openai_request.ch_openai <- function(defaults, req_body) {
   defaults$path %>%
     request() %>%
@@ -69,6 +72,7 @@ openai_request.ch_openai <- function(defaults, req_body) {
     req_body_json(req_body)
 }
 
+#' @export
 openai_request.ch_openai_copilot_chat <- function(defaults, req_body) {
   defaults$path %>%
     request() %>%
@@ -130,18 +134,21 @@ openai_stream_content <- function(defaults, res) {
   UseMethod("openai_stream_content")
 }
 
+#' @export
 openai_stream_content.ch_openai_chat_completions <- function(defaults, res) {
   res %>%
     map(~ .x$choices$delta$content) %>%
     reduce(paste0)
 }
 
+#' @export
 openai_stream_content.ch_openai_completions <- function(defaults, res) {
   res %>%
     map(~ .x$choices$text) %>%
     reduce(paste0)
 }
 
+#' @export
 openai_stream_content.ch_openai_copilot_chat <- function(defaults, res) {
   res %>%
     map(~ {
@@ -158,6 +165,7 @@ is_copilot <- function(defaults) {
   grepl("copilot", tolower(defaults$provider))
 }
 
+#' @export
 app_init_message.cl_openai <- function(defaults) {
   print_provider(defaults)
   if (defaults$max_data_files > 0) {
