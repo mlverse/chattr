@@ -1,6 +1,6 @@
 #' Sets the LLM model to use in your session
 #' @param model_label The label of the LLM model to use. Valid values are
-#' gpt35, davinci, and llamagpt.
+#' 'copilot', 'gpt4', 'gpt35', 'davinci', and 'llamagpt'.
 #' @details Use the 'CHATTR_MODEL' environment variable to set it for the
 #' R session.
 #' @export
@@ -13,9 +13,10 @@ chattr_use <- function(model_label = NULL) {
   use_switch("configs", path_ext_set(model_label, "yml"))
   if (interactive_label) {
     cli_text()
-    cli_inform(
-      "Would you like to make this the default by creating a new 'chattr.yml' file in your working folder?"
-    )
+    cli_inform(paste0(
+      "Would you like to make this the default by creating a",
+      " new 'chattr.yml' file in your working folder?"
+    ))
     save_yaml <- menu(c("Yes", "No"))
     if(save_yaml == 1) {
       if(file_exists("chattr.yml")) {
@@ -86,6 +87,13 @@ ch_get_ymls <- function(menu = TRUE) {
 
   if(!llama_exists) {
     prep_files$llamagpt <- NULL
+  }
+
+  if(length(prep_files) == 0) {
+    abort(
+      "No model setup found. Please use `?chattr_use` to get started",
+      call = NULL
+      )
   }
 
   orig_names <- names(prep_files)

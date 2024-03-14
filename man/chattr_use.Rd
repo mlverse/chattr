@@ -8,7 +8,7 @@ chattr_use(model_label = NULL)
 }
 \arguments{
 \item{model_label}{The label of the LLM model to use. Valid values are
-gpt35, davinci, and llamagpt.}
+'copilot', 'gpt4', 'gpt35', 'davinci', and 'llamagpt'.}
 }
 \description{
 Sets the LLM model to use in your session

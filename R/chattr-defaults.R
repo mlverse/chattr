@@ -29,6 +29,7 @@
 #' @param force Re-process the base and any work space level file defaults
 #' @param ... Additional model arguments that are not standard for all models/backends
 #' @inheritParams chattr
+
 chattr_defaults <- function(type = "default",
                             prompt = NULL,
                             max_data_files = NULL,
