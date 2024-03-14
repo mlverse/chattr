@@ -18,12 +18,7 @@ use.
 Sets the LLM model to use in your session
 }
 \details{
-Use the 'CHATTR_MODEL' environment variable to set it for the
-R session, or create a YAML file named 'chattr.yml' in your working directory
-to control the model, and the defaults it will use to communicate with such
-model.
-
-If the error "No model found" was returned, that is because none of the
+If the error "No model setup found" was returned, that is because none of the
 expected setup for Copilot, OpenIA or LLama was automatically detected. Here
 is how to setup a model:
 \itemize{
@@ -35,4 +30,9 @@ environment variable. Then restart R, and try again.
 R. \code{chattr} will look for the default location where RStudio saves the
 Copilot authentication information.
 }
+
+Use the 'CHATTR_MODEL' environment variable to set it for the
+R session, or create a YAML file named 'chattr.yml' in your working directory
+to control the model, and the defaults it will use to communicate with such
+model.
 }
