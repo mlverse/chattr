@@ -23,15 +23,11 @@ function `chattr_defaults()`:
 ```{r}
 library(chattr)
 
+chattr_use("gpt4")
+
 chattr_defaults()
 ```
 
-To modify any parameter value, modify the argument in the `chattr_defaults()`. 
-This will be stored and used for the rest of your current R session. Here is
-an example of modifying the model endpoint from GPT 3.5 to GPT 4. 
-```{r}
-chattr_defaults(model = "gpt-4")
-```
 **NOTE:** - For most users, this change will not work because accessing GPT 4
 via the REST API endpoints is currently restricted to a few developers. 
 
