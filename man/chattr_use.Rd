@@ -26,7 +26,7 @@ is how to setup a model:
 OpenAI PAT (Personal Access Token). It looks for it in the 'OPENAI_API_KEY'
 environment variable. Get a PAT from the OpenAI website, and save it to that
 environment variable. Then restart R, and try again.
-\item Github Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
+\item GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
 R. \code{chattr} will look for the default location where RStudio saves the
 Copilot authentication information.
 }

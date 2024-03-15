@@ -11,7 +11,7 @@
 #' environment variable. Get a PAT from the OpenAI website, and save it to that
 #' environment variable. Then restart R, and try again.
 #'
-#' * Github Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
+#' * GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
 #' R. `chattr` will look for the default location where RStudio saves the
 #' Copilot authentication information.
 #'

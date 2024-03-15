@@ -1,5 +1,5 @@
 default:
-  provider: OpenAI - Copilot Chat
+  provider: GitHub - Copilot Chat
   path: https://api.githubcopilot.com/chat/completions
   include_history: TRUE
   max_data_files: 0
