@@ -14,10 +14,22 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Setup
+## Intro
 
-In order to use [GitHub Copilot Chat](https://docs.github.com/en/copilot/github-copilot-chat/about-github-copilot-chat), 
-you will first need to have [GitHub Copilot](https://docs.github.com/en/copilot) 
-setup in your RStudio IDE. If you do not have Copilot setup in your RStudio yet, 
-please refer to these instructions: https://docs.posit.co/ide/user/ide/guide/tools/copilot.html
+The introduction in its website, [docs.github.com](https://docs.github.com/en/copilot/github-copilot-chat/about-github-copilot-chat), 
+describes best this backend:
+
+**GitHub Copilot Chat is a chat interface that lets you interact with GitHub Copilot, 
+to ask and receive answers to coding-related questions within GitHub.com and 
+supported IDEs. The chat interface provides access to coding information and 
+support without requiring you to navigate documentation or search online forums.**
+
+## RStudio
+
+RStudio's integration with Copilot needs to be enabled, and setup, in order
+for `chattr` to work. This is due to the complexity of authenticating with 
+Copilot Chat. 
+
+If you have not yet setup GitHub Copilot in your RStudio IDE, here are the 
+instructions: https://docs.posit.co/ide/user/ide/guide/tools/copilot.html
 
