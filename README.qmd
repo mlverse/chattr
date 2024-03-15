@@ -65,9 +65,9 @@ remotes::install_github("mlverse/chattr")
 
 |                                   Provider                                    |                                                                                                     Models                                                                                                      |                              Setup Instructions                              |
 |:-----------------:|:--------------------------------:|:-----------------:|
-|            [OpenAI](https://platform.openai.com/docs/introduction)            |                                         GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 4, 3.5, and DaVinci 3.                                         |   [Interact with OpenAI GPT models](%60r%20url%60articles/openai-gpt.html)   |
-|           [LLamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat)           | LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a [GPT4ALL](https://gpt4all.io/index.html) model. **LLamaGPT-Chat** is a command line chat program for models written in C++. |  [Interact with local models](%60r%20url%60articles/backend-llamagpt.html)   |
-| [GitHub Copilot](https://docs.posit.co/ide/user/ide/guide/tools/copilot.html) |                                                                    AI pair programmer that offers autocomplete-style suggestions as you code                                                                    | [Interact with GitHub Copilot Chat](%60r%20url%60articles/copilot-chat.html) |
+|            [OpenAI](https://platform.openai.com/docs/introduction)            |                                         GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 4, 3.5, and DaVinci 3.                                         |   [Interact with OpenAI GPT models](https://mlverse.github.io/chattr/articles/openai-gpt.html)   |
+|           [LLamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat)           | LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a [GPT4ALL](https://gpt4all.io/index.html) model. **LLamaGPT-Chat** is a command line chat program for models written in C++. |  [Interact with local models](https://mlverse.github.io/chattr/articles/backend-llamagpt.html)   |
+| [GitHub Copilot](https://docs.posit.co/ide/user/ide/guide/tools/copilot.html) |                                                                    AI pair programmer that offers autocomplete-style suggestions as you code                                                                    | [Interact with GitHub Copilot Chat](https://mlverse.github.io/chattr/articles/copilot-chat.html) |
 
 ## Using {#using}
 
@@ -122,7 +122,7 @@ The settings screen can be accessed by clicking on the "gear" button. The screen
 
 ### Additional ways to interact {#additional-ways-to-interact}
 
-Apart from the Shiny app, `chattr` provides two more ways to interact with the LLM. For details, see: [Other interfaces](%60r%20url%60articles/other-interfaces.html)
+Apart from the Shiny app, `chattr` provides two more ways to interact with the LLM. For details, see: [Other interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.html)
 
 ## How it works {#how-it-works}
 

@@ -2,7 +2,7 @@
 title: "Interact with GitHub Copilot Chat"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{copilot-chat}
+  %\VignetteIndexEntry{Interact with GitHub Copilot Chat}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

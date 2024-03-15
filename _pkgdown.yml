@@ -1,11 +1,6 @@
 url: https://mlverse.github.io/chattr/
 template:
   bootstrap: 5
-  bslib:
-    base_font:
-      google: Lato
-    code_font:
-      google: Roboto Mono
 reference:
 - title: Main functions
   contents:

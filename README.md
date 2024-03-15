@@ -77,8 +77,8 @@ href="https://platform.openai.com/docs/introduction">OpenAI</a></td>
 REST API. <code>chattr</code> provides a convenient way to interact with
 GPT 4, 3.5, and DaVinci 3.</td>
 <td style="text-align: center;"><a
-href="%60r%20url%60articles/openai-gpt.html">Interact with OpenAI GPT
-models</a></td>
+href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact
+with OpenAI GPT models</a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"><a
@@ -89,8 +89,8 @@ href="https://gpt4all.io/index.html">GPT4ALL</a> model.
 <strong>LLamaGPT-Chat</strong> is a command line chat program for models
 written in C++.</td>
 <td style="text-align: center;"><a
-href="%60r%20url%60articles/backend-llamagpt.html">Interact with local
-models</a></td>
+href="https://mlverse.github.io/chattr/articles/backend-llamagpt.html">Interact
+with local models</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;"><a
@@ -99,8 +99,8 @@ Copilot</a></td>
 <td style="text-align: center;">AI pair programmer that offers
 autocomplete-style suggestions as you code</td>
 <td style="text-align: center;"><a
-href="%60r%20url%60articles/copilot-chat.html">Interact with GitHub
-Copilot Chat</a></td>
+href="https://mlverse.github.io/chattr/articles/copilot-chat.html">Interact
+with GitHub Copilot Chat</a></td>
 </tr>
 </tbody>
 </table>
@@ -200,7 +200,7 @@ options</figcaption>
 
 Apart from the Shiny app, `chattr` provides two more ways to interact
 with the LLM. For details, see: [Other
-interfaces](%60r%20url%60articles/other-interfaces.html)
+interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.html)
 
 ## How it works
 
