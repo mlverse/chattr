@@ -1,0 +1,17 @@
+default:
+  provider: GitHub - Copilot Chat
+  path: https://api.githubcopilot.com/chat/completions
+  include_history: TRUE
+  max_data_files: 0
+  max_data_frames: 0
+  include_doc_contents: FALSE
+  system_msg: You are a helpful coding assistant
+  token_url: "https://api.github.com/copilot_internal/v2/token"
+  hosts_path: "~/.config/github-copilot"
+  model_arguments:
+    stream: TRUE
+chat:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For code output, use RMarkdown code chunks
+    Avoid all code chunk options

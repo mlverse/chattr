@@ -40,7 +40,8 @@ LlamaGPT-Chat will need a "compiled binary" that is specific to your Operating
 System.  For example, for Windows, a compiled binary should be an *.exe* file. 
 
 
-The GitHub repository offers pre-compiled binaries that you can download and use: [Releases](https://github.com/kuvaus/LlamaGPTJ-chat/releases). Depending on the
+The GitHub repository offers pre-compiled binaries that you can download and use: 
+[Releases](https://github.com/kuvaus/LlamaGPTJ-chat/releases). Depending on the
 system's security, the pre-compiled program may blocked from running. If that is
 the case, you will need to "build" the program in your computer. The instructions
 to do this are [here](https://github.com/kuvaus/LlamaGPTJ-chat#download).

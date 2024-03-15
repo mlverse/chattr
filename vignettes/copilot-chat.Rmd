@@ -1,0 +1,53 @@
+---
+title: "Interact with GitHub Copilot Chat"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{copilot-chat}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Intro
+
+Here is the introduction from [docs.github.com](https://docs.github.com/en/copilot/github-copilot-chat/about-github-copilot-chat):
+
+**GitHub Copilot Chat is a chat interface that lets you interact with GitHub Copilot, 
+to ask and receive answers to coding-related questions within GitHub.com and 
+supported IDEs. The chat interface provides access to coding information and 
+support without requiring you to navigate documentation or search online forums.**
+
+## RStudio
+
+RStudio's integration with Copilot needs to be enabled, and setup, in order
+for `chattr` to work. This is due to the complexity of authenticating with 
+Copilot Chat. 
+
+If you have not yet setup GitHub Copilot in your RStudio IDE, here are the 
+instructions: https://docs.posit.co/ide/user/ide/guide/tools/copilot.html
+
+## Test connection 
+
+Use the `chattr_test()` function to confirm that your connection works:
+
+``` r
+library(chattr)
+
+chattr_use("copilot")
+
+chattr_test()
+
+#> ── Testing chattr 
+#> • Provider: OpenAI - Copilot Chat
+#> • Path/URL: https://api.githubcopilot.com/chat/completions
+#> • Model:
+#> ✔ Connection with GitHub Copilot cofirmed
+#> |--Prompt: Hi!
+#> |--Response: Hello! How can I assist you today?
+```

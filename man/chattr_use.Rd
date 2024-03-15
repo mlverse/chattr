@@ -8,12 +8,31 @@ chattr_use(model_label = NULL)
 }
 \arguments{
 \item{model_label}{The label of the LLM model to use. Valid values are
-gpt35, davinci, and llamagpt.}
+'copilot', 'gpt4', 'gpt35', 'davinci', and 'llamagpt'.}
+}
+\value{
+It returns console messages to allow the user select the model to
+use.
 }
 \description{
 Sets the LLM model to use in your session
 }
 \details{
+If the error "No model setup found" was returned, that is because none of the
+expected setup for Copilot, OpenIA or LLama was automatically detected. Here
+is how to setup a model:
+\itemize{
+\item OpenIA - The main thing \code{chattr} checks is the prescence of the R user's
+OpenAI PAT (Personal Access Token). It looks for it in the 'OPENAI_API_KEY'
+environment variable. Get a PAT from the OpenAI website, and save it to that
+environment variable. Then restart R, and try again.
+\item GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
+R. \code{chattr} will look for the default location where RStudio saves the
+Copilot authentication information.
+}
+
 Use the 'CHATTR_MODEL' environment variable to set it for the
-R session.
+R session, or create a YAML file named 'chattr.yml' in your working directory
+to control the model, and the defaults it will use to communicate with such
+model.
 }

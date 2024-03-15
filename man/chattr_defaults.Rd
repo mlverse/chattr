@@ -17,7 +17,8 @@ chattr_defaults(
   model_arguments = NULL,
   system_msg = NULL,
   yaml_file = "chattr.yml",
-  force = FALSE
+  force = FALSE,
+  ...
 )
 }
 \arguments{
@@ -56,6 +57,8 @@ part of the request}
 defaults to use in a session}
 
 \item{force}{Re-process the base and any work space level file defaults}
+
+\item{...}{Additional model arguments that are not standard for all models/backends}
 }
 \description{
 Default arguments to use when making requests to the LLM

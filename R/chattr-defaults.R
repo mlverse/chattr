@@ -27,7 +27,9 @@
 #' @param type Entry point to interact with the model. Accepted values: 'notebook',
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
+#' @param ... Additional model arguments that are not standard for all models/backends
 #' @inheritParams chattr
+
 chattr_defaults <- function(type = "default",
                             prompt = NULL,
                             max_data_files = NULL,
@@ -40,8 +42,10 @@ chattr_defaults <- function(type = "default",
                             model_arguments = NULL,
                             system_msg = NULL,
                             yaml_file = "chattr.yml",
-                            force = FALSE) {
-  function_args <- as.list(environment())
+                            force = FALSE,
+                            ...
+                            ) {
+  function_args <- c(as.list(environment()), ...)
 
   sys_type <- Sys.getenv("CHATTR_TYPE", NA)
   if (!is.na(sys_type)) {
@@ -62,14 +66,14 @@ chattr_defaults <- function(type = "default",
   }
 
   if (is.null(chattr_defaults_get(type))) {
+    # Uses environment variable if set
     env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
-
+    check_files <- NULL
     if (!is.na(env_model)) {
       check_files <- package_file("configs", path_ext_set(env_model, "yml"))
-    } else {
-      check_files <- package_file("configs", "gpt4.yml")
     }
 
+    # Overrides environment variable if YAML file is present
     if (file_exists(yaml_file)) {
       check_files <- yaml_file
     }
@@ -104,9 +108,19 @@ chattr_defaults <- function(type = "default",
   ret <- chattr_defaults_get(type)
   ret$type <- type
 
+  provider <- tolower(ret$provider)
+
+  sp_provider <- unlist(strsplit(provider, " - "))
+  if (length(sp_provider) > 1) {
+    first_cl <- paste0("ch_", prep_class_name(sp_provider[[1]]))
+  } else {
+    first_cl <- NULL
+  }
+
   class(ret) <- c(
-    "ch_model",
-    paste0("ch_", prep_class_name(ret$provider))
+    paste0("ch_", prep_class_name(provider)),
+    first_cl,
+    "ch_model"
   )
 
   ret
@@ -202,6 +216,9 @@ chattr_defaults_set <- function(arguments = list(),
 }
 
 process_prompt <- function(x) {
+  if (is.null(x)) {
+    return(x)
+  }
   x %>%
     map(~ glue(.x)) %>%
     reduce(c)

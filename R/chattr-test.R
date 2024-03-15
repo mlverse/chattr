@@ -14,12 +14,12 @@ ch_test <- function(defaults = NULL) {
 
 # ------------------------------ OpenAI ----------------------------------------
 #' @export
-ch_test.ch_open_ai_chat_completions <- function(defaults = NULL) {
+ch_test.ch_openai_chat_completions <- function(defaults = NULL) {
   ch_test_open_ai(defaults = defaults)
 }
 
 #' @export
-ch_test.ch_open_ai_completions <- function(defaults = NULL) {
+ch_test.ch_openai_completions <- function(defaults = NULL) {
   ch_test_open_ai(defaults = defaults)
 }
 
@@ -79,4 +79,31 @@ ch_test.ch_llamagpt <- function(defaults = NULL) {
     cli_alert_danger("Errors closing model session")
   }
   invisible()
+}
+
+# ----------------------------- Copilot ----------------------------------------
+
+#' @export
+ch_test.ch_openai_copilot_chat <- function(defaults = NULL) {
+  if (ch_debug_get()) {
+    prompt <- "TEST"
+    out <- "TEST"
+  } else {
+    prompt <- "Hi!"
+    out <- capture.output(chattr(prompt))
+  }
+
+  if (is.null(out)) out <- ""
+
+  cli_div(theme = cli_colors())
+  cli_h3("Testing chattr")
+  print_provider(defaults)
+
+  if (nchar(out) > 0) {
+    cli_alert_success("Connection with GitHub Copilot cofirmed")
+    cli_text("|--Prompt: {.val2 {prompt}}")
+    cli_text("|--Response: {.val1 {out}}")
+  } else {
+    cli_alert_danger("Connection with GitHub Copilot failed")
+  }
 }

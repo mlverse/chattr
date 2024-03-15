@@ -5,7 +5,7 @@
     Message
       
       -- chattr 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
 
@@ -16,7 +16,7 @@
     Message
       
       -- Testing chattr 
-      * Provider: Open AI - Chat Completions
+      * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
       v Connection with OpenAI cofirmed
