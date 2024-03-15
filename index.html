@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9007</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/backend-llamagpt.html">Interact with local models</a>
+    <a class="dropdown-item" href="articles/copilot-chat.html">Interact with GitHub Copilot Chat</a>
     <a class="dropdown-item" href="articles/openai-gpt.html">Interact with OpenAI GPT models</a>
     <a class="dropdown-item" href="articles/other-interfaces.html">Other interfaces</a>
     <a class="dropdown-item" href="articles/prompt_defaults.html">Modify prompt enhancements</a>
@@ -108,24 +109,24 @@
 <h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h2>
 <p><code>chattr</code> is an interface to LLMs (Large Language Models). It enables interaction with the model directly from the RStudio IDE. <code>chattr</code> allows you to submit a prompt to the LLM from your script, or by using the provided Shiny Gadget.</p>
-<p><code>chattr</code>’s main goal is to aid in EDA tasks. The additional information appended to your request, provides a sort of “guard rails”, so that the packages and techniques we usually recommend as best practice, are used in the model’s responses.</p>
+<p>This package’s main goal is to aid in exploratory data analysis (EDA) tasks. The additional information appended to your request, provides a sort of “guard rails”, so that the packages and techniques we usually recommend as best practice, are used in the model’s responses.</p>
 </div>
 <div class="section level2">
 <h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
 </h2>
-<p>Since this is a very early version of the package install the package from Github:</p>
+<p>Since this is a very early version of the package install the package from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"mlverse/chattr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="available-models">Available models<a class="anchor" aria-label="anchor" href="#available-models"></a>
 </h2>
-<p><code>chattr</code> provides two main integration with two main LLM back-ends. Each back-end provides access to multiple LLM types:</p>
+<p><code>chattr</code> provides two main integration with two main LLM back-ends. Each back-end provides access to multiple LLM types. The plan is to add more back-ends as time goes by:</p>
 <table class="table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 48%">
-<col style="width: 25%">
+<col style="width: 26%">
+<col style="width: 47%">
+<col style="width: 26%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: center;">
@@ -147,7 +148,7 @@ Setup Instructions
 GPT Models accessible via the OpenAI’s REST API. <code>chattr</code> provides a convenient way to interact with GPT 4, 3.5, and DaVinci 3.
 </td>
 <td style="text-align: center;">
-<a href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact with OpenAI GPT models</a>
+<a href="%60r%20url%60articles/openai-gpt.html">Interact with OpenAI GPT models</a>
 </td>
 </tr>
 <tr class="even">
@@ -158,12 +159,22 @@ GPT Models accessible via the OpenAI’s REST API. <code>chattr</code> provides 
 LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a <a href="https://gpt4all.io/index.html" class="external-link">GPT4ALL</a> model. <strong>LLamaGPT-Chat</strong> is a command line chat program for models written in C++.
 </td>
 <td style="text-align: center;">
-<a href="https://mlverse.github.io/chattr/articles/backend-llamagpt.html">Interact with local models</a>
+<a href="%60r%20url%60articles/backend-llamagpt.html">Interact with local models</a>
+</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">
+<a href="https://docs.posit.co/ide/user/ide/guide/tools/copilot.html" class="external-link">GitHub Copilot</a>
+</td>
+<td style="text-align: center;">
+AI pair programmer that offers autocomplete-style suggestions as you code
+</td>
+<td style="text-align: center;">
+<a href="%60r%20url%60articles/copilot-chat.html">Interact with GitHub Copilot Chat</a>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The idea is that as time goes by, more back-ends will be added.</p>
 </div>
 <div class="section level2">
 <h2 id="using">Using<a class="anchor" aria-label="anchor" href="#using"></a>
@@ -171,12 +182,27 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <div class="section level3">
 <h3 id="the-app">The App<a class="anchor" aria-label="anchor" href="#the-app"></a>
 </h3>
-<p>The main way to use <code>chattr</code> is through the Shiny Gadget app. By default, it runs inside the Viewer pane:</p>
+<p>The main way to use <code>chattr</code> is through the Shiny Gadget app. By default, in RStudio the app will run inside the Viewer pane. <code>chattr</code> will prompt you to select the model back-end you with to use. The list of the actual models will depend on which of them you have a setup for. If no model setup is found, it will return an error. If you receive the error, please refer to the previous section to learn how to setup a model back-end in your machine. Here is an example of what the selection prompt will look like:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">chattr</span><span class="fu">::</span><span class="fu"><a href="reference/chattr_app.html">chattr_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="float">
-<img src="reference/figures/readme/chat1.png" alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme"><div class="figcaption">Screenshot of the Sniny gadget app in a dark mode RStudio theme</div>
-</div>
+<code class="sourceCode R"><span><span class="fu">chattr</span><span class="fu">::</span><span class="fu"><a href="reference/chattr_app.html">chattr_app</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#&gt; ── chattr - Available models </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 1: GitHub - Copilot Chat -  (copilot) </span></span>
+<span><span class="co">#&gt; 2: OpenAI - Completions - text-davinci-003 (davinci) </span></span>
+<span><span class="co">#&gt; 3: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) </span></span>
+<span><span class="co">#&gt; 4: OpenAI - Chat Completions - gpt-4 (gpt4) </span></span>
+<span><span class="co">#&gt; 5: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Select the number of the model you would like to use:</span></span></code></pre></div>
+<p>This prompt only occurs the first time you call <code><a href="reference/chattr_app.html">chattr_app()</a></code>, or <code><a href="reference/chattr.html">chattr()</a></code>. If you close the app, and open it again, the app will use the model you initially selected. The selection is set for the rest of your R session, or until you manually change it. Please note that if, for example, <code>chattr</code> cannot find the setup for OpenAI, then those lines would not show up as options in your actual prompt.</p>
+<p>If you wish to avoid the interactive prompt, then call <code><a href="reference/chattr_use.html">chattr_use()</a></code> to designate the model you wish to use before calling the app. You can also use <code><a href="reference/chattr_use.html">chattr_use()</a></code> to change the model back-end you are interacting with during your R session:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt35"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/chattr_app.html">chattr_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<figure><img src="reference/figures/readme/chat1.png" alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme"><figcaption aria-hidden="true">
+Screenshot of the Sniny gadget app in a dark mode RStudio theme
+</figcaption></figure><p><br></p>
 <p>After the LLM finishes its response, the <code>chattr</code> app processes all markdown code chunks. It will place three convenience buttons:</p>
 <ul>
 <li><p><strong>Copy to clipboard</strong> - It will write the code inside the chunk to your clipboard.</p></li>
@@ -189,36 +215,42 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <li><p>Save and Open chats - This is an early experiment to allow us to save and retrieve past chats. <code>chattr</code> will save the file in an RDS format. The main objective of this feature, is to be able to see past chats, not to continue previous conversations with the LLM.</p></li>
 <li><p>Prompt settings - In this section you can change the additional information attached to your prompt. Including the number of max data files, and data frames sent to the LLM.</p></li>
 </ul>
-<div class="float">
-<img src="reference/figures/readme/chat2.png" alt="Screenshot of the Sniny gadget options"><div class="figcaption">Screenshot of the Sniny gadget options</div>
-</div>
+<figure><img src="reference/figures/readme/chat2.png" alt="Screenshot of the Sniny gadget options"><figcaption aria-hidden="true">
+Screenshot of the Sniny gadget options
+</figcaption></figure>
 </div>
 <div class="section level3">
 <h3 id="additional-ways-to-interact">Additional ways to interact<a class="anchor" aria-label="anchor" href="#additional-ways-to-interact"></a>
 </h3>
-<p>Apart from the Shiny app, <code>chattr</code> provides two more ways to interact with the LLM. For details, see: <a href="https://mlverse.github.io/chattr/articles/other-interfaces.html">Other interfaces</a></p>
+<p>Apart from the Shiny app, <code>chattr</code> provides two more ways to interact with the LLM. For details, see: <a href="%60r%20url%60articles/other-interfaces.html">Other interfaces</a></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="how-it-works">How it works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
 </h2>
 <p><code>chattr</code> enriches your request with additional instructions, name and structure of data frames currently in your environment, the path for the data files in your working directory. If supported by the model, <code>chattr</code> will include the current chat history.</p>
-<div class="float">
-<img src="reference/figures/readme/chattr-diagram.png" alt="Diagram that illustrates how chattr handles model requests"><div class="figcaption">Diagram that illustrates how chattr handles model requests</div>
-</div>
-<p>To see what <code>chattr</code> will send to the model, set the <code>preview</code> argument to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<figure><img src="reference/figures/readme/chattr-diagram.png" alt="Diagram that illustrates how chattr handles model requests"><figcaption aria-hidden="true">
+Diagram that illustrates how <code>chattr</code> handles model requests
+</figcaption></figure><p>To see what <code>chattr</code> will send to the model, set the <code>preview</code> argument to <code>TRUE</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt4"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── chattr</span></span>
+<span><span class="co">#&gt; • Provider: OpenAI - Chat Completions</span></span>
+<span><span class="co">#&gt; • Path/URL: https://api.openai.com/v1/chat/completions</span></span>
+<span><span class="co">#&gt; • Model: gpt-4</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/chattr.html">chattr</a></span><span class="op">(</span>preview <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── chattr ──────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Preview for: Console</span></span>
-<span><span class="co">#&gt; • Provider: Open AI - Chat Completions</span></span>
+<span><span class="co">#&gt; • Provider: OpenAI - Chat Completions</span></span>
 <span><span class="co">#&gt; • Path/URL: https://api.openai.com/v1/chat/completions</span></span>
 <span><span class="co">#&gt; • Model: gpt-4</span></span>
 <span><span class="co">#&gt; • temperature: 0.01</span></span>
@@ -251,15 +283,21 @@ LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested o
 <ul>
 <li>
 <p>Select <em>Tools</em> in the top menu, and then select <em>Modify Keyboard Shortcuts</em></p>
-<p><img src="reference/figures/readme/keyboard-shortcuts.png" width="700" alt="Screenshot that shows where to find the option to modify the keyboard shortcuts"></p>
+<figure><p><img src="reference/figures/readme/keyboard-shortcuts.png" width="700" alt="Screenshot that shows where to find the option to modify the keyboard shortcuts"></p>
+<figcaption aria-hidden="true"><p>Screenshot that shows where to find the option to modify the keyboard shortcuts</p>
+</figcaption></figure>
 </li>
 <li>
 <p>Search for the <code>chattr</code> adding by writing “open chat”, in the search box</p>
-<p><img src="reference/figures/readme/addin-find.png" width="500" alt="Screenshot that shows where to input the addin search"></p>
+<figure><p><img src="reference/figures/readme/addin-find.png" width="500" alt="Screenshot that shows where to input the addin search"></p>
+<figcaption aria-hidden="true"><p>Screenshot that shows where to input the addin search</p>
+</figcaption></figure>
 </li>
 <li>
 <p>To select a key combination for your shortcut, click on the Shortcut box and then type <em>press</em> the key combination in your keyboard. In my case, I chose <em>Ctrl+Shift+C</em></p>
-<p><img src="reference/figures/readme/addin-assign.png" width="500" alt="Screenshot that shows what the interface looks like when a shortcut has been selected"></p>
+<figure><p><img src="reference/figures/readme/addin-assign.png" width="500" alt="Screenshot that shows what the interface looks like when a shortcut has been selected"></p>
+<figcaption aria-hidden="true"><p>Screenshot that shows what the interface looks like when a shortcut has been selected</p>
+</figcaption></figure>
 </li>
 </ul>
 </div>

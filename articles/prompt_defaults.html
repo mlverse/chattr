@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9007</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/backend-llamagpt.html">Interact with local models</a>
+    <a class="dropdown-item" href="../articles/copilot-chat.html">Interact with GitHub Copilot Chat</a>
     <a class="dropdown-item" href="../articles/openai-gpt.html">Interact with OpenAI GPT models</a>
     <a class="dropdown-item" href="../articles/other-interfaces.html">Other interfaces</a>
     <a class="dropdown-item" href="../articles/prompt_defaults.html">Modify prompt enhancements</a>
@@ -97,6 +98,13 @@ R object. The object can be accessed via the function
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt4"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── chattr</span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
+<span></span>
 <span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
@@ -107,36 +115,7 @@ R object. The object can be accessed via the function
 <span><span class="co">#&gt; • <span style="color: #008700;">{{readLines(system.file('prompt/base.txt', package = 'chattr'))}}</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model Arguments:</span></span>
-<span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
-<span><span class="co">#&gt; • max_tokens: <span style="color: #0000BB;">1000</span></span></span>
-<span><span class="co">#&gt; • stream: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Context:</span></span>
-<span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Chat History</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
-<p>To modify any parameter value, modify the argument in the
-<code><a href="../reference/chattr_defaults.html">chattr_defaults()</a></code>. This will be stored and used for the
-rest of your current R session. Here is an example of modifying the
-model endpoint from GPT 3.5 to GPT 4.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gpt-4"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Default</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; • <span style="color: #008700;">{{readLines(system.file('prompt/base.txt', package = 'chattr'))}}</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -162,13 +141,13 @@ from functions within your current R session. Make sure that such
 output, or value, is a character that is readable by the LLM.</p>
 <p>Here is a simple example of a function that passes the variables
 currently in your R session that contain “x”:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_list</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"x"</span>, envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>The <code>my_list()</code> function is passed to the
 <code>prompt</code> argument enclosed in braces:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span>prompt <span class="op">=</span> <span class="st">"{ my_list() }"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
@@ -179,7 +158,7 @@ currently in your R session that contain “x”:</p>
 <span><span class="co">#&gt; • <span style="color: #008700;">{{ my_list() }}</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -194,19 +173,19 @@ currently in your R session that contain “x”:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Chat History</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p>Now we can test it, by setting two variables that start with “x”</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></code></pre></div>
 <p>To see what will be sent to the LLM, you can use
 <code>chattr(preview = TRUE)</code>. The two variables will be listed as
 part of the prompt:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr.html">chattr</a></span><span class="op">(</span>preview <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Console</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
 <span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
@@ -230,7 +209,7 @@ part of the prompt:</p>
 <span><span class="co">#&gt; <span style="color: #008700;">[Your future prompt goes here]</span></span></span></code></pre></div>
 <p>We can see how the adding a new variable will modify the prompt with
 out us having to modify <code><a href="../reference/chattr_defaults.html">chattr_defaults()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/chattr.html">chattr</a></span><span class="op">(</span>preview <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -238,7 +217,7 @@ out us having to modify <code><a href="../reference/chattr_defaults.html">chattr
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Console</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Open AI - Chat Completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
 <span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>

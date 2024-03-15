@@ -3,10 +3,11 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   backend-llamagpt: backend-llamagpt.html
+  copilot-chat: copilot-chat.html
   openai-gpt: openai-gpt.html
   other-interfaces: other-interfaces.html
   prompt_defaults: prompt_defaults.html
-last_built: 2024-03-06T03:39Z
+last_built: 2024-03-15T19:19Z
 urls:
   reference: https://mlverse.github.io/chattr/reference
   article: https://mlverse.github.io/chattr/articles
