@@ -3,7 +3,7 @@ openai_token <- function(defaults = NULL, fail = TRUE) {
 }
 
 #' @export
-openai_token.ch_openai_copilot_chat <- function(defaults = NULL, fail = TRUE) {
+openai_token.ch_openai_github_copilot_chat <- function(defaults = NULL, fail = TRUE) {
   openai_token_copilot(defaults, fail)
 }
 
@@ -85,7 +85,7 @@ openai_request.ch_openai <- function(defaults, req_body) {
 }
 
 #' @export
-openai_request.ch_openai_copilot_chat <- function(defaults, req_body) {
+openai_request.ch_openai_github_copilot_chat <- function(defaults, req_body) {
   defaults$path %>%
     request() %>%
     req_auth_bearer_token(openai_token(defaults = defaults)) %>%
@@ -161,7 +161,7 @@ openai_stream_content.ch_openai_completions <- function(defaults, res) {
 }
 
 #' @export
-openai_stream_content.ch_openai_copilot_chat <- function(defaults, res) {
+openai_stream_content.ch_openai_github_copilot_chat <- function(defaults, res) {
   res %>%
     map(~ {
       content <- .x$choices$delta$content
