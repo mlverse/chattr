@@ -1,5 +1,5 @@
 ---
-title: "GitHub Copilot Chat"
+title: "Interact with GitHub Copilot Chat"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{copilot-chat}

@@ -29,28 +29,6 @@ chattr_use <- function(model_label = NULL) {
     model_label <- ch_get_ymls()
   }
   use_switch("configs", path_ext_set(model_label, "yml"))
-  if (interactive_label) {
-    cli_text()
-    cli_inform(paste0(
-      "Would you like to make this the default by creating a",
-      " new 'chattr.yml' file in your working folder?"
-    ))
-    save_yaml <- menu(c("Yes", "No"))
-    if(save_yaml == 1) {
-      if(file_exists("chattr.yml")) {
-        cli_text()
-        cli_inform(
-          "'chattr.yml' already exists, replace?"
-        )
-        replace <- menu(c("Yes", "No"))
-        overwrite <- replace == 1
-        if(!overwrite) {
-          return(invisible())
-        }
-      }
-      chattr_defaults_save(overwrite = overwrite)
-    }
-  }
 }
 
 ch_get_ymls <- function(menu = TRUE) {
