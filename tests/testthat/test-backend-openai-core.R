@@ -63,3 +63,19 @@ test_that("Error handling works", {
   expect_error(openai_check_error(parsed))
   expect_error(openai_check_error(parsed))
 })
+
+
+test_that("Warning messages appear", {
+  expect_snapshot(
+    app_init_message.cl_openai(
+      list(
+        title = "test",
+        max_data_files = 10,
+        max_data_frames = 10
+      )
+    )
+  )
+})
+
+
+
