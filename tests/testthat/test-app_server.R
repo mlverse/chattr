@@ -59,7 +59,7 @@ test_that("Adding to history works", {
 
 test_that("app_add_assistant() function runs", {
   local_mocked_bindings(
-    insertUI = function(...) invisible(),
+    insertUI = function(...) invisible()
   )
   expect_silent(app_add_assistant("test\n```{r}\nx<-1\n```", list()))
 })

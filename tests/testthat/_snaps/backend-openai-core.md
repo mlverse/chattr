@@ -30,3 +30,16 @@
       ! A list of the top 10 data.frames currently in your R session will be sent externally to OpenAI with every request
       To avoid this, set the number of data.frames to be sent to 0 using `chattr::chattr_defaults(max_data_frames = 0)`
 
+# Copilot httr2 request works
+
+    Code
+      openai_request.ch_openai_github_copilot_chat(defaults = list(path = "url"),
+      req_body = list())
+    Message
+      <httr2_request>
+      POST url
+      Headers:
+      * Authorization: '<REDACTED>'
+      * Editor-Version: 'vscode/9.9.9'
+      Body: json encoded data
+

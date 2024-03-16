@@ -64,7 +64,6 @@ test_that("Error handling works", {
   expect_error(openai_check_error(parsed))
 })
 
-
 test_that("Warning messages appear", {
   expect_snapshot(
     app_init_message.cl_openai(
@@ -77,5 +76,40 @@ test_that("Warning messages appear", {
   )
 })
 
+test_that("Copilot stream content is parsed", {
+  expect_equal(
+    openai_stream_content.ch_openai_github_copilot_chat(
+      list(),
+      list(list(choices = list(delta = list(content = "test"))))
+    ),
+    "test"
+  )
+})
 
+test_that("OpenAI stream content is parsed", {
+  expect_equal(
+    openai_stream_content.ch_openai_completions(
+      list(),
+      list(list(choices = list(text = "test")))
+    ),
+    "test"
+  )
+})
 
+test_that("OpenAI error check works", {
+  expect_silent(openai_check_error(NULL))
+  expect_silent(openai_check_error(1:2))
+  expect_error(openai_check_error("{{error}} test"))
+})
+
+test_that("Copilot httr2 request works", {
+  local_mocked_bindings(
+    openai_token = function(...) "",
+  )
+  expect_snapshot(
+    openai_request.ch_openai_github_copilot_chat(
+      defaults = list(path = "url"),
+      req_body = list()
+    )
+  )
+})
