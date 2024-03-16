@@ -37,6 +37,7 @@ test_that("Cleanup", {
 test_that("app_server() function runs", {
   local_mocked_bindings(
     insertUI = function(...) invisible(),
+    observeEvent = function(...) invisible()
   )
   session <- list()
   session$sendCustomMessage <- function(...) {}
@@ -45,3 +46,20 @@ test_that("app_server() function runs", {
     )
 })
 
+test_that("Adding to history works", {
+  local_mocked_bindings(
+    ch_history = function(...) {
+      c(list(list("role" = "user")))
+    },
+    insertUI = function(...) list(...),
+  )
+  expect_silent(app_add_history("style", "test"))
+})
+
+
+test_that("app_add_assistant() function runs", {
+  local_mocked_bindings(
+    insertUI = function(...) invisible(),
+  )
+  expect_silent(app_add_assistant("test\n```{r}\nx<-1\n```", list()))
+})
