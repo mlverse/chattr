@@ -113,3 +113,29 @@ test_that("Copilot httr2 request works", {
     )
   )
 })
+
+skip_on_covr()
+test_that("OpenAI token finder works", {
+  withr::with_envvar(
+    new = c("OPENAI_API_KEY" = "12345"),
+    {
+      expect_equal(
+        openai_token_chat(list()),
+        "12345"
+      )
+    }
+  )
+
+  config_file <- path(tempdir(), "config.yml")
+  yaml::write_yaml(list(default = list("openai-api-key" = "12345")), config_file)
+  withr::with_envvar(
+    new = c("R_CONFIG_FILE" = config_file, "OPENAI_API_KEY" = NA),
+    {
+      expect_equal(
+        openai_token_chat(list()),
+        "12345"
+      )
+    }
+  )
+
+})
