@@ -148,7 +148,7 @@ openai_completion.ch_openai_chat_completions <- function(
 }
 
 #' @export
-openai_completion.ch_openai_copilot_chat <- function(
+openai_completion.ch_openai_github_copilot_chat <- function(
     defaults,
     prompt,
     new_prompt,

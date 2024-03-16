@@ -84,7 +84,7 @@ ch_test.ch_llamagpt <- function(defaults = NULL) {
 # ----------------------------- Copilot ----------------------------------------
 
 #' @export
-ch_test.ch_openai_copilot_chat <- function(defaults = NULL) {
+ch_test.ch_openai_github_copilot_chat <- function(defaults = NULL) {
   if (ch_debug_get()) {
     prompt <- "TEST"
     out <- "TEST"
