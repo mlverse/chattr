@@ -1,11 +1,21 @@
 test_that("Request submission works", {
-  Sys.setenv("OPENAI_API_KEY" = "test")
-  expect_snapshot(openai_request(chattr_defaults(), list()))
+  withr::with_envvar(
+    new = c("OPENAI_API_KEY" = "test"),
+    {
+      chattr_use("gpt35")
+      test_chattr_type_set("console")
+      expect_snapshot(openai_request(chattr_defaults(), list()))
+    }
+  )
 })
 
 test_that("Missing token returns error", {
-  Sys.unsetenv("OPENAI_API_KEY")
-  expect_error(openai_token())
+  withr::with_envvar(
+    new = c("OPENAI_API_KEY" = NA),
+    {
+      expect_error(openai_token(d))
+    }
+  )
 })
 
 test_that("Stream parser works", {
@@ -114,6 +124,24 @@ test_that("Copilot httr2 request works", {
   )
 })
 
+test_that("Copilot token finder works", {
+  local_mocked_bindings(
+    req_perform = httr2::req_dry_run,
+    resp_body_json = function(...) {
+      ret <- list()
+      ret$token <- "12345"
+      ret
+    }
+  )
+  defaults <- yaml::read_yaml(package_file("configs", "copilot.yml"))
+  defaults <- defaults$default
+  expect_output(
+    out <- openai_token_copilot(defaults),
+    regexp = "GET /copilot_internal/v2/token HTTP/1.1"
+  )
+  expect_equal(out, "12345")
+})
+
 skip_on_covr()
 test_that("OpenAI token finder works", {
   withr::with_envvar(
@@ -137,5 +165,4 @@ test_that("OpenAI token finder works", {
       )
     }
   )
-
 })
