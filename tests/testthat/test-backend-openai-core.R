@@ -1,3 +1,4 @@
+# ----------------------------------- OpenAI -----------------------------------
 test_that("Request submission works", {
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = "test"),
@@ -86,16 +87,6 @@ test_that("Warning messages appear", {
   )
 })
 
-test_that("Copilot stream content is parsed", {
-  expect_equal(
-    openai_stream_content.ch_openai_github_copilot_chat(
-      list(),
-      list(list(choices = list(delta = list(content = "test"))))
-    ),
-    "test"
-  )
-})
-
 test_that("OpenAI stream content is parsed", {
   expect_equal(
     openai_stream_content.ch_openai_completions(
@@ -110,6 +101,42 @@ test_that("OpenAI error check works", {
   expect_silent(openai_check_error(NULL))
   expect_silent(openai_check_error(1:2))
   expect_error(openai_check_error("{{error}} test"))
+})
+
+test_that("OpenAI token finder works", {
+  withr::with_envvar(
+    new = c("OPENAI_API_KEY" = "12345"),
+    {
+      expect_equal(
+        openai_token_chat(list()),
+        "12345"
+      )
+    }
+  )
+
+  config_file <- path(tempdir(), "config.yml")
+  yaml::write_yaml(list(default = list("openai-api-key" = "12345")), config_file)
+  withr::with_envvar(
+    new = c("R_CONFIG_FILE" = config_file, "OPENAI_API_KEY" = NA),
+    {
+      expect_equal(
+        openai_token_chat(list()),
+        "12345"
+      )
+    }
+  )
+})
+
+# ----------------------------------- Copilot ----------------------------------
+
+test_that("Copilot stream content is parsed", {
+  expect_equal(
+    openai_stream_content.ch_openai_github_copilot_chat(
+      list(),
+      list(list(choices = list(delta = list(content = "test"))))
+    ),
+    "test"
+  )
 })
 
 test_that("Copilot httr2 request works", {
@@ -146,28 +173,4 @@ test_that("Copilot token finder works", {
   def_errors$hosts_path <- ""
   def_errors$token_url <- NULL
   expect_error(openai_token_copilot(def_errors), "There is no default GH")
-})
-
-test_that("OpenAI token finder works", {
-  withr::with_envvar(
-    new = c("OPENAI_API_KEY" = "12345"),
-    {
-      expect_equal(
-        openai_token_chat(list()),
-        "12345"
-      )
-    }
-  )
-
-  config_file <- path(tempdir(), "config.yml")
-  yaml::write_yaml(list(default = list("openai-api-key" = "12345")), config_file)
-  withr::with_envvar(
-    new = c("R_CONFIG_FILE" = config_file, "OPENAI_API_KEY" = NA),
-    {
-      expect_equal(
-        openai_token_chat(list()),
-        "12345"
-      )
-    }
-  )
 })
