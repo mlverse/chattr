@@ -160,8 +160,12 @@ test_that("Copilot token finder works", {
       ret
     }
   )
+  temp_folder <- tempdir()
+  temp_hosts <- "{\"github.com\":{\"user\":\"testuser\",\"oauth_token\":\"testtoken\"}}"
+  writeLines(temp_hosts, con = path(temp_folder, "hosts.json"))
   defaults <- yaml::read_yaml(package_file("configs", "copilot.yml"))
   defaults <- defaults$default
+  defaults$hosts_path <- temp_folder
   expect_output(
     out <- openai_token_copilot(defaults),
     regexp = "GET /copilot_internal/v2/token HTTP/1.1"
