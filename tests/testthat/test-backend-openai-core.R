@@ -114,7 +114,7 @@ test_that("OpenAI error check works", {
 
 test_that("Copilot httr2 request works", {
   local_mocked_bindings(
-    openai_token = function(...) "",
+    openai_token = function(...) ""
   )
   expect_snapshot(
     openai_request.ch_openai_github_copilot_chat(
