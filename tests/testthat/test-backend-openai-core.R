@@ -142,7 +142,6 @@ test_that("Copilot token finder works", {
   expect_equal(out, "12345")
 })
 
-skip_on_covr()
 test_that("OpenAI token finder works", {
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = "12345"),
