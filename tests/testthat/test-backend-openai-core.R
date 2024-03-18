@@ -13,7 +13,7 @@ test_that("Missing token returns error", {
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = NA),
     {
-      expect_error(openai_token(d))
+      expect_error(openai_token_chat(d))
     }
   )
 })
@@ -140,6 +140,12 @@ test_that("Copilot token finder works", {
     regexp = "GET /copilot_internal/v2/token HTTP/1.1"
   )
   expect_equal(out, "12345")
+  def_errors <- defaults
+  def_errors$hosts_path <- NULL
+  expect_error(openai_token_copilot(def_errors), "There is no default")
+  def_errors$hosts_path <- ""
+  def_errors$token_url <- NULL
+  expect_error(openai_token_copilot(def_errors), "There is no default GH")
 })
 
 test_that("OpenAI token finder works", {

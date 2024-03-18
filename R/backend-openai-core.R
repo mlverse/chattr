@@ -24,7 +24,7 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
   if(is.null(token_url) && fail) {
     abort(
       c(
-        "There is no default the GH Copilot token URL",
+        "There is no default GH Copilot token URL",
         "Please add a 'token_url' to your YAML file, or to chattr_defaults() "
       ))
   }
