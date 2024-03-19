@@ -47,3 +47,28 @@
       v Model started sucessfully
       v Model session closed sucessfully
 
+# Test function works for Copilot
+
+    Code
+      chattr_use("copilot")
+    Message
+      
+      -- chattr 
+      * Provider: OpenAI - GitHub Copilot Chat
+      * Path/URL: https://api.githubcopilot.com/chat/completions
+      * Model: TRUE
+
+---
+
+    Code
+      chattr_test()
+    Message
+      
+      -- Testing chattr 
+      * Provider: OpenAI - GitHub Copilot Chat
+      * Path/URL: https://api.githubcopilot.com/chat/completions
+      * Model:
+      v Connection with GitHub Copilot cofirmed
+      |--Prompt: TEST
+      |--Response: TEST
+

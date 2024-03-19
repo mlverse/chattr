@@ -178,3 +178,21 @@ test_that("Copilot token finder works", {
   def_errors$token_url <- NULL
   expect_error(openai_token_copilot(def_errors), "There is no default GH")
 })
+
+test_that("Completions works", {
+      local_mocked_bindings(
+        openai_switch = function(...) "test"
+      )
+      defaults <- yaml::read_yaml(package_file("configs", "copilot.yml"))
+      defaults <- as_ch_model(defaults$default, "chat")
+      expect_equal(
+        openai_completion.ch_openai_github_copilot_chat(
+          prompt = "test",
+          new_prompt = "newtest",
+          defaults = defaults,
+          r_file_stream =  tempfile(),
+          r_file_complete = tempfile()
+        ),
+        "test"
+      )
+})
