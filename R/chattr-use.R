@@ -102,18 +102,14 @@ ch_get_ymls <- function(menu = TRUE) {
       } else {
         x <- paste(.x[[1]], "-", .x[[2]])
       }
-      paste0(trimws(.y), ": ", x, " (", .x[[3]], ") \n")
+      paste0(x, " (", .x[[3]], ") \n")
     }) %>%
     set_names(orig_names)
 
   if(menu) {
     cli_h3("chattr - Available models")
-    cli_text()
-    prep_files %>%
-      as.character() %>%
-      cli_code()
-    cli_text()
-    model_no <- readline("Select the number of the model you would like to use: ")
+    cli_text("Select the number of the model you would like to use: ")
+    model_no <- menu(prep_files)
     model_label <- names(prep_files[as.integer(model_no)])
     model_label
   } else {
