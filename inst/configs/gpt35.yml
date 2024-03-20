@@ -4,6 +4,7 @@ default:
   provider: OpenAI - Chat Completions
   path: https://api.openai.com/v1/chat/completions
   model: gpt-3.5-turbo
+  label: GPT 3.5 (OpenAI)
   max_data_files: 0
   max_data_frames: 0
   include_doc_contents: FALSE

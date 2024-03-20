@@ -27,6 +27,7 @@
 #' @param type Entry point to interact with the model. Accepted values: 'notebook',
 #' 'chat'
 #' @param force Re-process the base and any work space level file defaults
+#' @param label Label to display in the Shiny app, and other locations
 #' @param ... Additional model arguments that are not standard for all models/backends
 #' @inheritParams chattr
 
@@ -43,6 +44,7 @@ chattr_defaults <- function(type = "default",
                             system_msg = NULL,
                             yaml_file = "chattr.yml",
                             force = FALSE,
+                            label = NULL,
                             ...
                             ) {
   function_args <- c(as.list(environment()), ...)

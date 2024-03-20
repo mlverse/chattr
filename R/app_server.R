@@ -76,8 +76,7 @@ app_server <- function(input, output, session) {
 
   output$provider <- renderText({
     defaults <- chattr_defaults()
-    provider <- unlist(strsplit(defaults$provider, " - "))[[1]]
-    paste0(provider, " - ",defaults$model)
+    defaults$label
   })
 
   observe({
