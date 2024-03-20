@@ -78,7 +78,7 @@ app_ui <- function() {
           br(),
           div(
             uiOutput("provider"),
-            style = paste0("font-size:9px; color:", style$color_fg, ";")
+            style = paste0("font-size:9px; color:", style$color_bk, ";")
           )
         ) %>%
           tagAppendAttributes(style = "width: 15%;"),
