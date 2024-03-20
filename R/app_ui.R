@@ -30,9 +30,17 @@ app_ui <- function() {
     tags$head(
       tags$script("
       $(document).keyup(function(event) {
-         if ((event.keyCode == 27)) {
+         if (event.keyCode == 27) {
           $('#close').click();
       }});")
+    ),
+    tags$head(
+      tags$script("
+      $(document).keyup(function(event) {
+         if (event.keyCode == 13) {
+          if(event.shiftKey) {
+            $('#submit').click();
+      }}});")
     ),
     actionButton(
       inputId = "close",
