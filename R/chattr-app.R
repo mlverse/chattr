@@ -13,9 +13,11 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
                        as_job_port = getOption("shiny.port", 7788),
                        as_job_host = getOption("shiny.host", "127.0.0.1")) {
   td <- chattr_defaults(type = "chat")
+  show_init <- TRUE
   if(interactive() && is.null(td$provider)) {
     chattr_use()
     td <- chattr_defaults(type = "chat")
+    show_init <- FALSE
   }
   if (viewer[1] == "dialog") {
     viewer <- dialogViewer(
@@ -25,7 +27,9 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
   } else {
     viewer <- paneViewer()
   }
-  app_init_message(td)
+  if (show_init) {
+    app_init_message(td)
+  }
   if (!as_job) {
     app <- app_interactive(as_job = as_job)
     runGadget(app$ui, app$server, viewer = viewer)
