@@ -8,6 +8,7 @@
       * Provider: LlamaGPT
       * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
+      * Label: GPT4ALL 1.3 (LlamaGPT)
 
 # Session management works
 
@@ -19,6 +20,7 @@
       * Provider: LlamaGPT
       * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
+      * Label: GPT4ALL 1.3 (LlamaGPT)
       v Model started sucessfully
       v Model session closed sucessfully
 
@@ -60,4 +62,5 @@
       * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
+      * Label: GPT 3.5 (OpenAI)
 

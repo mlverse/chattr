@@ -8,6 +8,7 @@
       * Provider: LlamaGPT
       * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
+      * Label: GPT4ALL 1.3 (LlamaGPT)
 
 ---
 
@@ -26,6 +27,7 @@
       * Provider: LlamaGPT
       * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
       * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
+      * Label: GPT4ALL 1.3 (LlamaGPT)
       
       -- Model Arguments: 
       * threads: 4
