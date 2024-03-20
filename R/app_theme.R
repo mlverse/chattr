@@ -92,6 +92,7 @@ app_theme_style <- function(x = NULL) {
   out <- list(
     color_bg = color_bg,
     color_fg = color_fg,
+    color_bk = color_bk,
     color_top = color_top,
     color_user = color_user,
     ui_submit = style_collapse(ui_submit),

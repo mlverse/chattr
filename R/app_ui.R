@@ -64,6 +64,10 @@ app_ui <- function() {
           tagAppendAttributes(style = "width: 85%;"),
         column(
           width = 1,
+          div(
+            uiOutput("provider"),
+            style = paste0("font-size:9px; color:", style$color_fg, ";")
+          ),
           actionButton(
             inputId = "submit",
             label = "Submit",
@@ -74,6 +78,11 @@ app_ui <- function() {
             label = NULL,
             icon = icon("gear"),
             style = style$ui_submit
+          ),
+          br(),
+          div(
+            "Submit: ⇪ + ⏎",
+            style = paste0("font-size:9px; color:", style$color_bk, ";")
           )
         ) %>%
           tagAppendAttributes(style = "width: 15%;"),
