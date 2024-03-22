@@ -30,9 +30,17 @@ app_ui <- function() {
     tags$head(
       tags$script("
       $(document).keyup(function(event) {
-         if ((event.keyCode == 27)) {
+         if (event.keyCode == 27) {
           $('#close').click();
       }});")
+    ),
+    tags$head(
+      tags$script("
+      $(document).keyup(function(event) {
+         if (event.keyCode == 13) {
+          if(event.shiftKey) {
+            $('#submit').click();
+      }}});")
     ),
     actionButton(
       inputId = "close",
@@ -66,6 +74,11 @@ app_ui <- function() {
             label = NULL,
             icon = icon("gear"),
             style = style$ui_submit
+          ),
+          br(),
+          div(
+            uiOutput("provider"),
+            style = paste0("font-size:9px; color:", style$color_bk, ";")
           )
         ) %>%
           tagAppendAttributes(style = "width: 15%;"),

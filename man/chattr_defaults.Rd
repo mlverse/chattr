@@ -18,6 +18,7 @@ chattr_defaults(
   system_msg = NULL,
   yaml_file = "chattr.yml",
   force = FALSE,
+  label = NULL,
   ...
 )
 }
@@ -57,6 +58,8 @@ part of the request}
 defaults to use in a session}
 
 \item{force}{Re-process the base and any work space level file defaults}
+
+\item{label}{Label to display in the Shiny app, and other locations}
 
 \item{...}{Additional model arguments that are not standard for all models/backends}
 }

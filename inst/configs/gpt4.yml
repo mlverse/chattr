@@ -3,6 +3,7 @@ default:
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: OpenAI - Chat Completions
   path: https://api.openai.com/v1/chat/completions
+  label: GPT 4 (OpenAI)
   model: gpt-4
   max_data_files: 0
   max_data_frames: 0

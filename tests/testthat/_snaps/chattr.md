@@ -8,6 +8,7 @@
       * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
+      * Label: GPT 3.5 (OpenAI)
 
 ---
 
@@ -21,6 +22,7 @@
       * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
+      * Label: GPT 3.5 (OpenAI)
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -53,6 +55,7 @@
       * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
+      * Label: GPT 3.5 (OpenAI)
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -72,6 +75,7 @@
       * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
+      * Label: GPT 3.5 (OpenAI)
       * temperature: 0.01
       * max_tokens: 1000
       * stream: FALSE
@@ -104,6 +108,7 @@
       * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
+      * Label: GPT 3.5 (OpenAI)
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -170,6 +175,7 @@
       * Provider: OpenAI - Completions
       * Path/URL: https://api.openai.com/v1/completions
       * Model: text-davinci-003
+      * Label: Davinci 3 (OpenAI)
 
 ---
 
@@ -183,6 +189,7 @@
       * Provider: OpenAI - Completions
       * Path/URL: https://api.openai.com/v1/completions
       * Model: text-davinci-003
+      * Label: Davinci 3 (OpenAI)
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE
@@ -233,6 +240,7 @@
       * Provider: OpenAI - Completions
       * Path/URL: https://api.openai.com/v1/completions
       * Model: text-davinci-003
+      * Label: Davinci 3 (OpenAI)
       * temperature: 0.01
       * max_tokens: 1000
       * stream: TRUE

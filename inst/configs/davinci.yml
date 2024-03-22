@@ -3,6 +3,7 @@ default:
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: OpenAI - Completions
   path: https://api.openai.com/v1/completions
+  label: Davinci 3 (OpenAI)
   model: text-davinci-003
   max_data_files: 0
   max_data_frames: 0

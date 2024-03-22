@@ -8,6 +8,7 @@
       * Provider: OpenAI - Chat Completions
       * Path/URL: https://api.openai.com/v1/chat/completions
       * Model: gpt-3.5-turbo
+      * Label: GPT 3.5 (OpenAI)
 
 ---
 
@@ -28,21 +29,22 @@
       [12] "    max_tokens: 1000"                                                           
       [13] "    stream: yes"                                                                
       [14] "  system_msg: You are a helpful coding assistant"                               
-      [15] "console:"                                                                       
-      [16] "  prompt:"                                                                      
-      [17] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
-      [18] "  - 'For any line that is not code, prefix with a: #'"                          
-      [19] "  - Keep each line of explanations to no more than 80 characters"               
-      [20] "  - DO NOT use Markdown for the code"                                           
-      [21] "chat:"                                                                          
-      [22] "  prompt:"                                                                      
-      [23] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
-      [24] "  - For code output, use RMarkdown code chunks"                                 
-      [25] "  - Avoid all code chunk options"                                               
-      [26] "script:"                                                                        
-      [27] "  prompt:"                                                                      
-      [28] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
-      [29] "  - 'For any line that is not code, prefix with a: #'"                          
-      [30] "  - Keep each line of explanations to no more than 80 characters"               
-      [31] "  - DO NOT use Markdown for the code"                                           
+      [15] "  label: GPT 3.5 (OpenAI)"                                                      
+      [16] "console:"                                                                       
+      [17] "  prompt:"                                                                      
+      [18] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
+      [19] "  - 'For any line that is not code, prefix with a: #'"                          
+      [20] "  - Keep each line of explanations to no more than 80 characters"               
+      [21] "  - DO NOT use Markdown for the code"                                           
+      [22] "chat:"                                                                          
+      [23] "  prompt:"                                                                      
+      [24] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
+      [25] "  - For code output, use RMarkdown code chunks"                                 
+      [26] "  - Avoid all code chunk options"                                               
+      [27] "script:"                                                                        
+      [28] "  prompt:"                                                                      
+      [29] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
+      [30] "  - 'For any line that is not code, prefix with a: #'"                          
+      [31] "  - Keep each line of explanations to no more than 80 characters"               
+      [32] "  - DO NOT use Markdown for the code"                                           
 

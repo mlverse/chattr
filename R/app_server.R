@@ -74,6 +74,11 @@ app_server <- function(input, output, session) {
     }
   })
 
+  output$provider <- renderText({
+    defaults <- chattr_defaults()
+    defaults$label
+  })
+
   observe({
     auto_invalidate()
     error <- r_session_error()
