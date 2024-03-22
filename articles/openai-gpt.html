@@ -148,7 +148,8 @@ connection works:</p>
 <span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span></code></pre></div>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Davinci 3 (OpenAI)</span></span></span></code></pre></div>
 <p>To switch back to GPT 4, run:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt4"</span><span class="op">)</span></span>
@@ -156,7 +157,8 @@ connection works:</p>
 <span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span></code></pre></div>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 4 (OpenAI)</span></span></span></code></pre></div>
 <p>If you wish to switch to a model other than the two mentioned above,
 you will first need to note which of the two OpenAI endpoints you will
 need to reach: <code>completions</code> or
@@ -170,7 +172,8 @@ need to reach: <code>completions</code> or
 <span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span></code></pre></div>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Davinci 3 (OpenAI)</span></span></span></code></pre></div>
 <p>And then run:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"text-curie-001"</span><span class="op">)</span></span>
@@ -186,6 +189,7 @@ need to reach: <code>completions</code> or
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-curie-001</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Davinci 3 (OpenAI)</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model Arguments:</span></span>
 <span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
@@ -204,7 +208,8 @@ need to reach: <code>completions</code> or
 <span><span class="co">#&gt; ── chattr</span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-3.5-turbo</span></span></span></code></pre></div>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-3.5-turbo</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 3.5 (OpenAI)</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gpt-4"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -219,6 +224,7 @@ need to reach: <code>completions</code> or
 <span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 3.5 (OpenAI)</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model Arguments:</span></span>
 <span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
