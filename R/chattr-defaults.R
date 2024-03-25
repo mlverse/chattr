@@ -29,6 +29,8 @@
 #' @param force Re-process the base and any work space level file defaults
 #' @param label Label to display in the Shiny app, and other locations
 #' @param ... Additional model arguments that are not standard for all models/backends
+#' @returns An 'ch_model' object that contains the current defaults that will be
+#' used to communicate with the LLM.
 #' @inheritParams chattr
 
 chattr_defaults <- function(type = "default",

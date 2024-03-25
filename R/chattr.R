@@ -1,6 +1,7 @@
 #' Submits prompt to LLM
 #' @param prompt Request to send to LLM. Defaults to NULL
 #' @inheritParams ch_submit
+#' @returns The output of the LLM to the console, document or script.
 #' @export
 chattr <- function(prompt = NULL,
                    preview = FALSE,

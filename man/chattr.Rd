@@ -19,6 +19,9 @@ request}
 \item{stream}{To output the response from the LLM as it happens, or wait until
 the response is complete. Defaults to TRUE.}
 }
+\value{
+The output of the LLM to the console, document or script.
+}
 \description{
 Submits prompt to LLM
 }

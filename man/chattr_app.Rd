@@ -24,6 +24,9 @@ is set to TRUE.}
 \item{as_job_host}{Host IP to use for the Shiny app. Applicable only if \code{as_job}
 is set to TRUE.}
 }
+\value{
+A chat interface inside the 'RStudio' IDE
+}
 \description{
 Starts a Shiny app interface to the LLM
 }

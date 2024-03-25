@@ -7,6 +7,7 @@
 #' is set to TRUE.
 #' @param as_job_host Host IP to use for the Shiny app. Applicable only if `as_job`
 #' is set to TRUE.
+#' @returns A chat interface inside the 'RStudio' IDE
 #' @export
 chattr_app <- function(viewer = c("viewer", "dialog"),
                        as_job = getOption("chattr.as_job", FALSE),

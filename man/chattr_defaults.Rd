@@ -63,6 +63,10 @@ defaults to use in a session}
 
 \item{...}{Additional model arguments that are not standard for all models/backends}
 }
+\value{
+An 'ch_model' object that contains the current defaults that will be
+used to communicate with the LLM.
+}
 \description{
 Default arguments to use when making requests to the LLM
 }

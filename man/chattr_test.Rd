@@ -12,6 +12,9 @@ ch_test(defaults = NULL)
 \arguments{
 \item{defaults}{Defaults object, generally puled from \code{chattr_defaults()}}
 }
+\value{
+It returns console massages with the status of the test.
+}
 \description{
 Confirms conectivity to LLM interface
 }

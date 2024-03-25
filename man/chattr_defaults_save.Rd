@@ -15,6 +15,9 @@ chattr_defaults_save(path = "chattr.yml", overwrite = FALSE, type = NULL)
 \item{type}{The type of UI to save the defaults for. It defaults to NULL which
 will save whatever types had been used during the current R session}
 }
+\value{
+It creates a YAML file with the defaults set in the current R session.
+}
 \description{
 Saves the current defaults in a yaml file that is compatible with
 the config package
