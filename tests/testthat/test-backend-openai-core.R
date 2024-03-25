@@ -172,8 +172,10 @@ test_that("Copilot token finder works", {
   )
   expect_equal(out, "12345")
   def_errors <- defaults
-  def_errors$hosts_path <- NULL
-  expect_error(openai_token_copilot(def_errors), "There is no default")
+  if(!is.na(Sys.getenv("CI", unset = NA))) {
+    def_errors$hosts_path <- NULL
+    expect_error(openai_token_copilot(def_errors), "There is no default")
+  }
   def_errors$hosts_path <- ""
   def_errors$token_url <- NULL
   expect_error(openai_token_copilot(def_errors), "There is no default GH")

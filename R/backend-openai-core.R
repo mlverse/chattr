@@ -12,7 +12,20 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
   if (ch_debug_get()) {
     return("")
   }
+
   hosts_path <- defaults$hosts_path
+
+  if(is.null(hosts_path)) {
+    if(os_win()) {
+      possible_path <- path(Sys.getenv("localappdata"), "github-copilot")
+    } else {
+      possible_path <- "~/.config/github-copilot"
+    }
+    if(dir_exists(possible_path)) {
+      hosts_path <- possible_path
+    }
+  }
+
   token_url <- defaults$token_url
   if(is.null(hosts_path) && fail) {
     abort(
