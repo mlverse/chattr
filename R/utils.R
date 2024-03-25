@@ -110,3 +110,22 @@ print_provider <- function(x) {
   cli_li("{.val0 Model:} {.val1 {x$model}}")
   cli_li("{.val0 Label:} {.val1 {x$label}}")
 }
+
+# ------------------------ Determine OS ----------------------------------------
+os_get <- function() {
+  if (.Platform$OS.type == "windows") {
+    "win"
+  } else if (Sys.info()["sysname"] == "Darwin") {
+    "mac"
+  } else {
+    "unix"
+  }
+}
+
+os_win <- function() {
+  ifelse(os_get() == "win", TRUE, FALSE)
+}
+
+os_mac <- function() {
+  ifelse(os_get() == "mac", TRUE, FALSE)
+}
