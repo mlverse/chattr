@@ -14,7 +14,7 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
                        as_job_host = getOption("shiny.host", "127.0.0.1")) {
   td <- chattr_defaults(type = "chat")
   show_init <- TRUE
-  if(interactive() && is.null(td$provider)) {
+  if (interactive() && is.null(td$provider)) {
     chattr_use()
     td <- chattr_defaults(type = "chat")
     show_init <- FALSE

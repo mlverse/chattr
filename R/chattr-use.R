@@ -42,7 +42,7 @@ ch_get_ymls <- function(menu = TRUE) {
   copilot_token <- openai_token_copilot(
     defaults = copilot_defaults$default,
     fail = FALSE
-    )
+  )
   copilot_exists <- !is.null(copilot_token)
 
   gpt_token <- openai_token_chat(fail = FALSE)
@@ -53,7 +53,7 @@ ch_get_ymls <- function(menu = TRUE) {
     read_yaml()
 
   llama_exists <- file_exists(llama_defaults$default$path) &&
-  file_exists(llama_defaults$default$model)
+    file_exists(llama_defaults$default$model)
 
   prep_files <- files %>%
     map(read_yaml) %>%
@@ -71,25 +71,25 @@ ch_get_ymls <- function(menu = TRUE) {
         path_ext_remove()
     )
 
-  if(!copilot_exists) {
+  if (!copilot_exists) {
     prep_files$copilot <- NULL
   }
 
-  if(!gpt_exists) {
+  if (!gpt_exists) {
     prep_files$gpt35 <- NULL
     prep_files$gpt4 <- NULL
     prep_files$davinci <- NULL
   }
 
-  if(!llama_exists) {
+  if (!llama_exists) {
     prep_files$llamagpt <- NULL
   }
 
-  if(length(prep_files) == 0) {
+  if (length(prep_files) == 0) {
     abort(
       "No model setup found. Please use `?chattr_use` to get started",
       call = NULL
-      )
+    )
   }
 
   orig_names <- names(prep_files)
@@ -106,7 +106,7 @@ ch_get_ymls <- function(menu = TRUE) {
     }) %>%
     set_names(orig_names)
 
-  if(menu) {
+  if (menu) {
     cli_h3("chattr - Available models")
     cli_text("Select the number of the model you would like to use: ")
     model_no <- menu(prep_files)
@@ -115,5 +115,4 @@ ch_get_ymls <- function(menu = TRUE) {
   } else {
     prep_files
   }
-
 }

@@ -65,7 +65,9 @@ test_that("Submit works", {
   local_mocked_bindings(
     ch_llamagpt_prompt = function(...) invisible(),
     ch_llamagpt_session = function(...) invisible(),
-    ch_llamagpt_output = function(...) return("test")
+    ch_llamagpt_output = function(...) {
+      return("test")
+    }
   )
   defaults <- yaml::read_yaml(package_file("configs", "llamagpt.yml"))
   defaults <- as_ch_model(defaults$default, "chat")
@@ -84,4 +86,3 @@ test_that("Submit works", {
 test_that("Restore to previews defaults", {
   expect_snapshot(chattr_use("gpt35"))
 })
-

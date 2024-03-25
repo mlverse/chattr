@@ -172,7 +172,7 @@ test_that("Copilot token finder works", {
   )
   expect_equal(out, "12345")
   def_errors <- defaults
-  if(!is.na(Sys.getenv("CI", unset = NA))) {
+  if (!is.na(Sys.getenv("CI", unset = NA))) {
     def_errors$hosts_path <- NULL
     expect_error(openai_token_copilot(def_errors), "There is no default")
   }
@@ -182,19 +182,19 @@ test_that("Copilot token finder works", {
 })
 
 test_that("Completions works", {
-      local_mocked_bindings(
-        openai_switch = function(...) "test"
-      )
-      defaults <- yaml::read_yaml(package_file("configs", "copilot.yml"))
-      defaults <- as_ch_model(defaults$default, "chat")
-      expect_equal(
-        openai_completion.ch_openai_github_copilot_chat(
-          prompt = "test",
-          new_prompt = "newtest",
-          defaults = defaults,
-          r_file_stream =  tempfile(),
-          r_file_complete = tempfile()
-        ),
-        "test"
-      )
+  local_mocked_bindings(
+    openai_switch = function(...) "test"
+  )
+  defaults <- yaml::read_yaml(package_file("configs", "copilot.yml"))
+  defaults <- as_ch_model(defaults$default, "chat")
+  expect_equal(
+    openai_completion.ch_openai_github_copilot_chat(
+      prompt = "test",
+      new_prompt = "newtest",
+      defaults = defaults,
+      r_file_stream = tempfile(),
+      r_file_complete = tempfile()
+    ),
+    "test"
+  )
 })

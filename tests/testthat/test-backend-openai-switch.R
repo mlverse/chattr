@@ -12,7 +12,7 @@ test_that("Using 'chat'", {
           prompt = "test",
           req_body = defaults$model_arguments,
           defaults = defaults,
-          r_file_stream =  tempfile(),
+          r_file_stream = tempfile(),
           r_file_complete = tempfile()
         )
       )
@@ -32,33 +32,14 @@ test_that("Using 'console'", {
       defaults <- yaml::read_yaml(package_file("configs", "gpt35.yml"))
       defaults <- as_ch_model(defaults$default, "console")
       expect_silent(
-      openai_switch(
+        openai_switch(
           prompt = "test",
           req_body = defaults$model_arguments,
           defaults = defaults,
-          r_file_stream =  tempfile(),
+          r_file_stream = tempfile(),
           r_file_complete = tempfile()
         )
       )
     }
   )
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

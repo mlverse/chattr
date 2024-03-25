@@ -45,8 +45,7 @@ chattr_defaults <- function(type = "default",
                             yaml_file = "chattr.yml",
                             force = FALSE,
                             label = NULL,
-                            ...
-                            ) {
+                            ...) {
   function_args <- c(as.list(environment()), ...)
 
   sys_type <- Sys.getenv("CHATTR_TYPE", NA)

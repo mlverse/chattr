@@ -6,12 +6,11 @@ chattr <- function(prompt = NULL,
                    preview = FALSE,
                    prompt_build = TRUE,
                    stream = NULL) {
-
   ui <- ui_current()
   if (ui == "") ui <- "console"
   defaults <- chattr_defaults(type = ui)
 
-  if(is.null(defaults$provider)) {
+  if (is.null(defaults$provider)) {
     chattr_use()
     defaults <- chattr_defaults(type = ui)
   }
