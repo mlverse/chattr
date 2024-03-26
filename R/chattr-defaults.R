@@ -86,9 +86,7 @@ chattr_defaults <- function(type = "default",
     for (j in seq_along(check_files)) {
       td_defaults <- read_yaml(file = check_files[j])
       loaded_default <- chattr_defaults_get(type = "default")
-      if (!is.null(loaded_default)) {
-        td_defaults$default <- loaded_default
-      }
+      td_defaults$default <- loaded_default %||% td_defaults$default
       check_defaults <- c("default", type)
       for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]
