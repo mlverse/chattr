@@ -114,7 +114,9 @@ ch_llamagpt_output <- function(
 
     if (stop_stream) {
       if (stream_to == "chat") {
-        if (!is.null(output_file)) saveRDS(all_output, output_file, compress = FALSE)
+        if (!is.null(output_file)) {
+          saveRDS(all_output, output_file, compress = FALSE)
+        }
         file_delete(stream_file)
         return(NULL)
       } else {

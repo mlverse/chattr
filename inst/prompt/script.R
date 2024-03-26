@@ -8,5 +8,3 @@ writeLines(
   ),
   here::here("inst", "prompt", "base.txt")
 )
-
-

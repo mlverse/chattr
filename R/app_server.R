@@ -136,7 +136,6 @@ app_add_user <- function(content) {
 }
 
 app_add_assistant <- function(content, input) {
-  style <- app_theme_style("ui_assistant")
   len_hist <- length(ch_env$content_hist)
   ch <- app_split_content(content)
 
