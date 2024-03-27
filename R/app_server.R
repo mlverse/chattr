@@ -58,6 +58,7 @@ app_server <- function(input, output, session) {
     auto_invalidate()
     if (rs$get_state() == "idle" && ch_env$stream_output != "") {
       Sys.sleep(0.01)
+      ch_history_append(assistant = ch_env$stream_output)
       app_add_assistant(ch_env$stream_output, input)
       ch_env$stream_output <- ""
     }
