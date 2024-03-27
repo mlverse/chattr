@@ -2,7 +2,6 @@
 % Please edit documentation in R/ch-submit.R
 \name{ch_submit}
 \alias{ch_submit}
-\alias{ch_submit_job}
 \title{Method to easily integrate to new LLM's}
 \usage{
 ch_submit(
@@ -14,15 +13,6 @@ ch_submit(
   r_file_stream = NULL,
   r_file_complete = NULL,
   ...
-)
-
-ch_submit_job(
-  prompt,
-  stream = NULL,
-  prompt_build = TRUE,
-  r_file_stream = tempfile(),
-  r_file_complete = tempfile(),
-  defaults = chattr_defaults(type = "chat")
 )
 }
 \arguments{

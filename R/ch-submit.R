@@ -27,8 +27,6 @@ ch_submit <- function(defaults,
   UseMethod("ch_submit")
 }
 
-#' @export
-#' @rdname ch_submit
 ch_submit_job <- function(prompt,
                           stream = NULL,
                           prompt_build = TRUE,
