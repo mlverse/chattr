@@ -41,11 +41,7 @@ app_server <- function(input, output, session) {
         value = ""
       )
       session$sendCustomMessage(type = "refocus", message = list(NULL))
-    }
-  })
 
-  observeEvent(input$submit, {
-    if (input$prompt != "" && rs$get_state() == "idle") {
       rs$call(
         func = function(prompt) {
           chattr::chattr_defaults(type = "chat")
