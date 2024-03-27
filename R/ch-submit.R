@@ -78,7 +78,10 @@ r_session_close <- function() {
 
 r_session_start <- function() {
   if (is.null(ch_env$r_session)) {
-    ch_env$r_session <- r_session$new()
+    opts <-  r_session_options()
+    opts$stdout <- "|"
+    opts$stderr <- "|"
+    ch_env$r_session <- r_session$new(options = opts)
   }
   ch_env$r_session
 }

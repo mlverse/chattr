@@ -14,10 +14,7 @@ app_server <- function(input, output, session) {
     )
   )
 
-  opts <-  r_session_options()
-  opts$stdout <- "|"
-  opts$stderr <- "|"
-  ch_env$stream_rs <- r_session$new(options = opts)
+  rs <- r_session_start()
   ch_env$stream_output <- ""
 
   observeEvent(input$options, showModal(app_ui_modal()))
@@ -36,7 +33,7 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "" && ch_env$stream_rs$get_state() == "idle") {
+    if (input$prompt != "" && rs$get_state() == "idle") {
       ch_history_append(user = input$prompt)
       app_add_user(input$prompt)
       updateTextAreaInput(
@@ -48,8 +45,8 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "" && ch_env$stream_rs$get_state() == "idle") {
-      ch_env$stream_rs$call(
+    if (input$prompt != "" && rs$get_state() == "idle") {
+      rs$call(
         func = function(prompt) {
           chattr::chattr_defaults(type = "chat")
           chattr::chattr(prompt, stream = TRUE, preview = FALSE)
@@ -63,9 +60,7 @@ app_server <- function(input, output, session) {
 
   observe({
     auto_invalidate()
-    if (ch_env$stream_rs$get_state() == "busy" &&
-        !is.null(ch_env$stream_rs$read())
-        ) {
+    if (rs$get_state() == "idle" && ch_env$stream_output != "") {
       Sys.sleep(0.01)
       app_add_assistant(ch_env$stream_output, input)
       ch_env$stream_output <- ""
@@ -74,8 +69,8 @@ app_server <- function(input, output, session) {
 
   output$stream <- renderText({
     auto_invalidate()
-    if (ch_env$stream_rs$get_state() == "busy") {
-      curr_stream <- ch_env$stream_rs$read_output()
+    if (rs$get_state() == "busy") {
+      curr_stream <- rs$read_output()
       ch_env$stream_output <- paste0(ch_env$stream_output, curr_stream)
       markdown(ch_env$stream_output)
     }
@@ -210,21 +205,3 @@ app_split_content <- function(content) {
   )
 }
 
-app_server_file_complete <- function(r_file_complete) {
-  Sys.sleep(0.02)
-  out <- readRDS(r_file_complete)
-  ch_history_append(assistant = out)
-  file_delete(r_file_complete)
-  ch_env$current_stream <- NULL
-  out
-}
-
-app_server_file_stream <- function(r_file_stream) {
-  current_stream <- r_file_stream %>%
-    readRDS() %>%
-    try(silent = TRUE)
-  if (!inherits(current_stream, "try-error")) {
-    ch_env$current_stream <- current_stream
-  }
-  invisible()
-}
