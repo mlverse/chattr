@@ -21,8 +21,8 @@ the document, or console, in the IDE.}
 \item{as_job_port}{Port to use for the Shiny app. Applicable only if \code{as_job}
 is set to TRUE.}
 
-\item{as_job_host}{Host IP to use for the Shiny app. Applicable only if \code{as_job}
-is set to TRUE.}
+\item{as_job_host}{Host IP to use for the Shiny app. Applicable only if
+\code{as_job} is set to TRUE.}
 }
 \value{
 A chat interface inside the 'RStudio' IDE

@@ -43,6 +43,9 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
       )
     )
   }
+  if(is.null(hosts_path)) {
+    return(NULL)
+  }
   gh_path <- path_expand(hosts_path)
   if (dir_exists(gh_path)) {
     hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))

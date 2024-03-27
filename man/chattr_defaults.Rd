@@ -23,8 +23,8 @@ chattr_defaults(
 )
 }
 \arguments{
-\item{type}{Entry point to interact with the model. Accepted values: 'notebook',
-'chat'}
+\item{type}{Entry point to interact with the model. Accepted values:
+'notebook', chat'}
 
 \item{prompt}{Request to send to LLM. Defaults to NULL}
 
@@ -47,8 +47,8 @@ is available}
 
 \item{model}{The name or path to the model to use.}
 
-\item{model_arguments}{Additional arguments to pass to the model as part of the
-request, it requires a list. Examples of arguments: temperature, top_p,
+\item{model_arguments}{Additional arguments to pass to the model as part of
+the request, it requires a list. Examples of arguments: temperature, top_p,
 max_tokens}
 
 \item{system_msg}{For OpenAI GPT 3.5 or above, the system message to send as
@@ -61,7 +61,8 @@ defaults to use in a session}
 
 \item{label}{Label to display in the Shiny app, and other locations}
 
-\item{...}{Additional model arguments that are not standard for all models/backends}
+\item{...}{Additional model arguments that are not standard for all
+models/backends}
 }
 \value{
 An 'ch_model' object that contains the current defaults that will be
@@ -74,6 +75,7 @@ Default arguments to use when making requests to the LLM
 The idea is that because we will use addin shortcut to execute the
 request, all of the other arguments can be controlled via this function. By
 default, it will try to load defaults from a \code{config} YAML file, if none are
-found, then the defaults for GPT 3.5 will be used. The defaults can be modified
-by calling this function, even after the interactive session has started.
+found, then the defaults for GPT 3.5 will be used. The defaults can be
+modified by calling this function, even after the interactive session has
+started.
 }
