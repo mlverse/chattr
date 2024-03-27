@@ -97,7 +97,3 @@ r_session_error <- function() {
   }
   out
 }
-
-r_session_get <- function() {
-  ch_env$r_session
-}
