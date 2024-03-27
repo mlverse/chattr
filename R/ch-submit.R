@@ -73,9 +73,7 @@ ch_submit_job <- function(prompt,
   )
 }
 
-#' @export
-#' @rdname ch_submit
-ch_submit_job_stop <- function() {
+r_session_close <- function() {
   ch_env$r_session$close()
   invisible()
 }

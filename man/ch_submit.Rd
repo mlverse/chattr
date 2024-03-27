@@ -3,7 +3,6 @@
 \name{ch_submit}
 \alias{ch_submit}
 \alias{ch_submit_job}
-\alias{ch_submit_job_stop}
 \title{Method to easily integrate to new LLM's}
 \usage{
 ch_submit(
@@ -25,8 +24,6 @@ ch_submit_job(
   r_file_complete = tempfile(),
   defaults = chattr_defaults(type = "chat")
 )
-
-ch_submit_job_stop()
 }
 \arguments{
 \item{defaults}{Defaults object, generally puled from \code{chattr_defaults()}}
