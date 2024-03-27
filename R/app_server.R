@@ -14,6 +14,12 @@ app_server <- function(input, output, session) {
     )
   )
 
+  opts <-  r_session_options()
+  opts$stdout <- "|"
+  opts$stderr <- "|"
+  ch_env$stream_rs <- r_session$new(options = opts)
+  ch_env$stream_output <- ""
+
   observeEvent(input$options, showModal(app_ui_modal()))
 
   app_add_history(style, input)
@@ -30,27 +36,25 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "" && is.null(ch_env$current_stream)) {
+    if (input$prompt != "" && ch_env$stream_rs$get_state() == "idle") {
       ch_history_append(user = input$prompt)
       app_add_user(input$prompt)
-
       updateTextAreaInput(
         inputId = "prompt",
         value = ""
       )
-
       session$sendCustomMessage(type = "refocus", message = list(NULL))
     }
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "" && is.null(ch_env$current_stream)) {
-      ch_submit_job(
-        prompt = input$prompt,
-        defaults = chattr_defaults(type = "chat"),
-        prompt_build = TRUE,
-        r_file_complete = r_file_complete,
-        r_file_stream = r_file_stream
+    if (input$prompt != "" && ch_env$stream_rs$get_state() == "idle") {
+      ch_env$stream_rs$call(
+        func = function(prompt) {
+          chattr::chattr_defaults(type = "chat")
+          chattr::chattr(prompt, stream = TRUE, preview = FALSE)
+        },
+        args = list(prompt = input$prompt)
       )
     }
   })
@@ -59,18 +63,21 @@ app_server <- function(input, output, session) {
 
   observe({
     auto_invalidate()
-    if (file_exists(r_file_complete)) {
-      out <- app_server_file_complete(r_file_complete)
+    if (ch_env$stream_rs$get_state() == "busy" &&
+        !is.null(ch_env$stream_rs$read())
+        ) {
       Sys.sleep(0.01)
-      app_add_assistant(out, input)
+      app_add_assistant(ch_env$stream_output, input)
+      ch_env$stream_output <- ""
     }
   })
 
   output$stream <- renderText({
     auto_invalidate()
-    if (file_exists(r_file_stream)) {
-      app_server_file_stream(r_file_stream)
-      markdown(ch_env$current_stream)
+    if (ch_env$stream_rs$get_state() == "busy") {
+      curr_stream <- ch_env$stream_rs$read_output()
+      ch_env$stream_output <- paste0(ch_env$stream_output, curr_stream)
+      markdown(ch_env$stream_output)
     }
   })
 
