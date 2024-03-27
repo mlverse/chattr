@@ -8,7 +8,6 @@ default:
   include_doc_contents: FALSE
   system_msg: You are a helpful coding assistant
   token_url: "https://api.github.com/copilot_internal/v2/token"
-  hosts_path: "~/.config/github-copilot"
   model_arguments:
     stream: TRUE
 chat:

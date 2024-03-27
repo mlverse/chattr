@@ -12,21 +12,39 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
   if (ch_debug_get()) {
     return("")
   }
+
   hosts_path <- defaults$hosts_path
+
+  if (is.null(hosts_path)) {
+    if (os_win()) {
+      possible_path <- path(Sys.getenv("localappdata"), "github-copilot")
+    } else {
+      possible_path <- "~/.config/github-copilot"
+    }
+    if (dir_exists(possible_path)) {
+      hosts_path <- possible_path
+    }
+  }
+
   token_url <- defaults$token_url
-  if(is.null(hosts_path) && fail) {
+  if (is.null(hosts_path) && fail) {
     abort(
       c(
         "There is no default for the RStudio GitHub Copilot configuration folder",
         "Please add a 'hosts_path' to your YAML file, or to chattr_defaults() "
-      ))
+      )
+    )
   }
-  if(is.null(token_url) && fail) {
+  if (is.null(token_url) && fail) {
     abort(
       c(
         "There is no default GH Copilot token URL",
         "Please add a 'token_url' to your YAML file, or to chattr_defaults() "
-      ))
+      )
+    )
+  }
+  if(is.null(hosts_path)) {
+    return(NULL)
   }
   gh_path <- path_expand(hosts_path)
   if (dir_exists(gh_path)) {
@@ -38,7 +56,7 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
     x_json <- resp_body_json(x)
     ret <- x_json$token
   } else {
-    if(fail) {
+    if (fail) {
       abort("Please setup GitHub Copilot for RStudio first")
     }
   }

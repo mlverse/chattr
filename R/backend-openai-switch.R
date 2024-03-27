@@ -85,12 +85,12 @@ openai_parse_ide <- function(x, defaults, testing = FALSE) {
 
   has_error <- substr(current, 1, 9) == "{{error}}"
 
-  if (!is.null(current)) {
+  if (!is.null(current) && !testing && !has_error) {
     if (is.null(ch_env$stream$response)) {
       if (ui_current_console()) {
-        if (!testing && !has_error) cat(current)
+        cat(current)
       } else {
-        if (!testing && !has_error) ide_paste_text(current)
+        ide_paste_text(current)
       }
     } else {
       if (nchar(current) != nchar(ch_env$stream$response)) {
@@ -100,10 +100,10 @@ openai_parse_ide <- function(x, defaults, testing = FALSE) {
           nchar(current)
         )
         if (ui_current_console()) {
-          if (!testing && !has_error) cat(delta)
+          cat(delta)
         } else {
           for (i in 1:nchar(delta)) {
-            if (!testing && !has_error) ide_paste_text(substr(delta, i, i))
+            ide_paste_text(substr(delta, i, i))
           }
         }
       }

@@ -1,5 +1,6 @@
 #' Confirms conectivity to LLM interface
 #' @inheritParams ch_submit
+#' @returns It returns console massages with the status of the test.
 #' @export
 chattr_test <- function(defaults = NULL) {
   if (is.null(defaults)) defaults <- chattr_defaults()

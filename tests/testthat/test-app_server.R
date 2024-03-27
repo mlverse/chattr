@@ -43,7 +43,7 @@ test_that("app_server() function runs", {
   session$sendCustomMessage <- function(...) {}
   expect_silent(
     app_server(list(), list(), session = session)
-    )
+  )
 })
 
 test_that("Adding to history works", {

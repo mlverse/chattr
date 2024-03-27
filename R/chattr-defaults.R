@@ -2,8 +2,9 @@
 #' @details The idea is that because we will use addin shortcut to execute the
 #' request, all of the other arguments can be controlled via this function. By
 #' default, it will try to load defaults from a `config` YAML file, if none are
-#' found, then the defaults for GPT 3.5 will be used. The defaults can be modified
-#' by calling this function, even after the interactive session has started.
+#' found, then the defaults for GPT 3.5 will be used. The defaults can be
+#' modified by calling this function, even after the interactive session has
+#' started.
 #' @export
 #' @param max_data_files Sets the maximum number of data files to send to the
 #' model. It defaults to 20. To send all, set to NULL
@@ -21,14 +22,17 @@
 #' part of the request
 #' @param yaml_file The path to a valid `config` YAML file that contains the
 #' defaults to use in a session
-#' @param model_arguments Additional arguments to pass to the model as part of the
-#' request, it requires a list. Examples of arguments: temperature, top_p,
+#' @param model_arguments Additional arguments to pass to the model as part of
+#' the request, it requires a list. Examples of arguments: temperature, top_p,
 #' max_tokens
-#' @param type Entry point to interact with the model. Accepted values: 'notebook',
-#' 'chat'
+#' @param type Entry point to interact with the model. Accepted values:
+#' 'notebook', chat'
 #' @param force Re-process the base and any work space level file defaults
 #' @param label Label to display in the Shiny app, and other locations
-#' @param ... Additional model arguments that are not standard for all models/backends
+#' @param ... Additional model arguments that are not standard for all
+#' models/backends
+#' @returns An 'ch_model' object that contains the current defaults that will be
+#' used to communicate with the LLM.
 #' @inheritParams chattr
 
 chattr_defaults <- function(type = "default",
@@ -45,8 +49,7 @@ chattr_defaults <- function(type = "default",
                             yaml_file = "chattr.yml",
                             force = FALSE,
                             label = NULL,
-                            ...
-                            ) {
+                            ...) {
   function_args <- c(as.list(environment()), ...)
 
   sys_type <- Sys.getenv("CHATTR_TYPE", NA)
@@ -83,14 +86,12 @@ chattr_defaults <- function(type = "default",
     for (j in seq_along(check_files)) {
       td_defaults <- read_yaml(file = check_files[j])
       loaded_default <- chattr_defaults_get(type = "default")
-      if (!is.null(loaded_default)) {
-        td_defaults$default <- loaded_default
-      }
+      td_defaults$default <- loaded_default %||% td_defaults$default
       check_defaults <- c("default", type)
       for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]
         if (!is.null(td)) {
-          if (length(td$prompt) > 0 & any(grepl("\n", td$prompt))) {
+          if (length(td$prompt) > 0 && any(grepl("\n", td$prompt))) {
             td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
           chattr_defaults_set(

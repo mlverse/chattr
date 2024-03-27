@@ -110,8 +110,7 @@ openai_completion <- function(
     prompt,
     new_prompt,
     r_file_stream,
-    r_file_complete
-    ) {
+    r_file_complete) {
   UseMethod("openai_completion")
 }
 

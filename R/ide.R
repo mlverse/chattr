@@ -66,9 +66,7 @@ ide_comment_selection <- function() {
 
     text_range <- active_doc$selection[[1]]$range
     start_row <- text_range$start[[1]]
-    start_col <- text_range$start[[2]]
     end_row <- text_range$end[[1]]
-    end_col <- text_range$end[[2]]
 
     selected <- active_doc$contents[start_row:end_row]
     end_size <- nchar(selected[length(selected)])

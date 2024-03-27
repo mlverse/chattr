@@ -2,8 +2,10 @@
 #' the config package
 #' @param path Path to the file to save the configuration to
 #' @param overwrite Indicates to replace the file if it exists
-#' @param type The type of UI to save the defaults for. It defaults to NULL which
-#' will save whatever types had been used during the current R session
+#' @param type The type of UI to save the defaults for. It defaults to NULL
+#' which will save whatever types had been used during the current R session
+#' @returns It creates a YAML file with the defaults set in the current R
+#' session.
 #' @export
 chattr_defaults_save <- function(path = "chattr.yml",
                                  overwrite = FALSE,
