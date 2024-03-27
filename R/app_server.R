@@ -19,7 +19,7 @@ app_server <- function(input, output, session) {
 
   observeEvent(input$options, showModal(app_ui_modal()))
 
-  app_add_history(style, input)
+  app_add_history(input)
 
   observeEvent(input$saved, {
     chattr_defaults(
@@ -93,7 +93,7 @@ app_server <- function(input, output, session) {
     if (ext == "rds") {
       rds <- readRDS(file)
       ch_history_set(rds)
-      app_add_history(style, input)
+      app_add_history(input)
       removeModal()
     }
   })
@@ -109,7 +109,7 @@ app_server <- function(input, output, session) {
   observeEvent(input$close, stopApp())
 }
 
-app_add_history <- function(style, input) {
+app_add_history <- function(input) {
   th <- ch_history()
   for (i in seq_along(th)) {
     curr <- th[[i]]
