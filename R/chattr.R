@@ -11,6 +11,8 @@ chattr <- function(prompt = NULL,
   if (ui == "") ui <- "console"
   defaults <- chattr_defaults(type = ui)
 
+  stream <- stream %||% defaults$stream %||% TRUE
+
   if (is.null(defaults$provider)) {
     chattr_use()
     defaults <- chattr_defaults(type = ui)
@@ -23,9 +25,12 @@ chattr <- function(prompt = NULL,
     prompt_build = prompt_build,
     preview = preview
   )
+
   if (is.null(ret)) {
     invisible()
-  } else {
-    return(ret)
+  }
+
+  if(!stream) {
+    cat(ret)
   }
 }

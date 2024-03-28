@@ -23,7 +23,7 @@ ch_submit.ch_llamagpt <- function(
   } else {
     ch_llamagpt_session(defaults)
     ch_llamagpt_prompt(new_prompt)
-    ret <- ch_llamagpt_output(stream = TRUE)
+    ret <- ch_llamagpt_output(stream = stream)
   }
   ret
 }
