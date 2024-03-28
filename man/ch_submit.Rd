@@ -10,8 +10,6 @@ ch_submit(
   stream = NULL,
   prompt_build = TRUE,
   preview = FALSE,
-  r_file_stream = NULL,
-  r_file_complete = NULL,
   ...
 )
 }
@@ -29,12 +27,6 @@ request}
 \item{preview}{Primarily used for debugging. It indicates if it should send
 the prompt to the LLM (FALSE), or if it should print out the resulting
 prompt (TRUE)}
-
-\item{r_file_stream}{(Optional) Path to save the output of the current stream
-from the LLM}
-
-\item{r_file_complete}{(Optional) Path to save the completed output of the
-stream, or response from the LLM}
 
 \item{...}{Optional arguments; currently unused.}
 }
