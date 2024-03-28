@@ -33,4 +33,6 @@ chattr <- function(prompt = NULL,
   if(!stream) {
     cat(ret)
   }
+
+  ch_history_append(prompt, ret)
 }
