@@ -14,9 +14,7 @@ openai_switch <- function(
     if (defaults$type == "chat") {
       ret <- openai_stream_file(
         defaults = defaults,
-        req_body = req_body,
-        r_file_stream = r_file_stream,
-        r_file_complete = r_file_complete
+        req_body = req_body
       )
     } else {
       return_result <- FALSE

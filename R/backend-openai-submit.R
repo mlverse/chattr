@@ -5,8 +5,6 @@ ch_submit.ch_openai <- function(
     stream = NULL,
     prompt_build = TRUE,
     preview = FALSE,
-    r_file_stream = NULL,
-    r_file_complete = NULL,
     ...) {
   if (ui_current_markdown()) {
     return(invisible())
@@ -18,13 +16,9 @@ ch_submit.ch_openai <- function(
     preview = preview
   )
 
-  st <- stream %||% defaults$stream
-
-  if (!is.null(st)) {
-    ma <- defaults$model_arguments
-    ma$stream <- st
-    defaults$model_arguments <- ma
-  }
+  ma <- defaults$model_arguments
+  ma$stream <- stream
+  defaults$model_arguments <- ma
 
   if (prompt_build) {
     new_prompt <- openai_prompt(defaults, prompt)
@@ -103,9 +97,7 @@ build_header <- function(defaults) {
 openai_completion <- function(
     defaults,
     prompt,
-    new_prompt,
-    r_file_stream,
-    r_file_complete) {
+    new_prompt) {
   UseMethod("openai_completion")
 }
 
@@ -113,9 +105,7 @@ openai_completion <- function(
 openai_completion.ch_openai_chat_completions <- function(
     defaults,
     prompt,
-    new_prompt,
-    r_file_stream,
-    r_file_complete) {
+    new_prompt) {
   pb <- list(messages = new_prompt)
   if (!is.null(defaults$model)) {
     pb$model <- defaults$model
@@ -125,9 +115,7 @@ openai_completion.ch_openai_chat_completions <- function(
   ret <- openai_switch(
     prompt = prompt,
     req_body = req_body,
-    defaults = defaults,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete
+    defaults = defaults
   )
 
   if (ch_debug_get()) {
@@ -145,9 +133,7 @@ openai_completion.ch_openai_chat_completions <- function(
 openai_completion.ch_openai_github_copilot_chat <- function(
     defaults,
     prompt,
-    new_prompt,
-    r_file_stream,
-    r_file_complete) {
+    new_prompt) {
   req_body <- c(
     list(messages = new_prompt),
     defaults$model_arguments
@@ -156,9 +142,7 @@ openai_completion.ch_openai_github_copilot_chat <- function(
   ret <- openai_switch(
     prompt = prompt,
     req_body = req_body,
-    defaults = defaults,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete
+    defaults = defaults
   )
 
   if (ch_debug_get()) {
@@ -176,9 +160,7 @@ openai_completion.ch_openai_github_copilot_chat <- function(
 openai_completion.ch_openai_completions <- function(
     defaults,
     prompt,
-    new_prompt,
-    r_file_stream,
-    r_file_complete) {
+    new_prompt) {
   pb <- list(prompt = new_prompt)
   if (!is.null(defaults$model)) {
     pb$model <- defaults$model
@@ -188,9 +170,7 @@ openai_completion.ch_openai_completions <- function(
   ret <- openai_switch(
     prompt = prompt,
     req_body = req_body,
-    defaults = defaults,
-    r_file_stream = r_file_stream,
-    r_file_complete = r_file_complete
+    defaults = defaults
   )
 
   if (ch_debug_get()) {
