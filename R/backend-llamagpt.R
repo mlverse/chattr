@@ -6,42 +6,28 @@ ch_submit.ch_llamagpt <- function(
     stream = NULL,
     prompt_build = TRUE,
     preview = FALSE,
-    r_file_stream = NULL,
-    r_file_complete = NULL,
     ...) {
   if (ui_current_markdown()) {
     return(invisible())
   }
-
   prompt <- ide_build_prompt(
     prompt = prompt,
     defaults = defaults,
     preview = preview
   )
-
   if (prompt_build) {
     new_prompt <- paste0(prompt, "(", defaults$prompt[[1]], ")")
   } else {
     new_prompt <- prompt
   }
-
   ret <- NULL
   if (preview) {
     ret <- as_ch_request(new_prompt, defaults)
   } else {
-    ch_llamagpt_session(defaults, r_file_stream, r_file_complete)
-
+    ch_llamagpt_session(defaults)
     ch_llamagpt_prompt(new_prompt)
-
-    if (defaults$type == "default") {
-      ui <- ui_current()
-    } else {
-      ui <- defaults$type
-    }
-
-    ret <- ch_llamagpt_output(ui, r_file_stream, r_file_complete)
+    ret <- ch_llamagpt_output()
   }
-
   ret
 }
 
@@ -49,9 +35,8 @@ ch_submit.ch_llamagpt <- function(
 
 ch_llamagpt_session <- function(
     defaults = chattr_defaults(),
-    r_file_stream = NULL,
-    r_file_complete = NULL,
-    testing = FALSE) {
+    testing = FALSE
+    ) {
   init_session <- FALSE
   if (is.null(ch_env$llamagpt$session)) {
     init_session <- TRUE
@@ -71,7 +56,7 @@ ch_llamagpt_session <- function(
       stdin = "|"
     )
     if (!testing) {
-      ch_llamagpt_printout(defaults, r_file_stream)
+      ch_llamagpt_printout(defaults)
     }
   }
   ch_env$llamagpt$session
@@ -82,12 +67,7 @@ ch_llamagpt_prompt <- function(prompt) {
   ch_env$llamagpt$session$write_input(prompt)
 }
 
-ch_llamagpt_output <- function(
-    stream_to,
-    stream_file = NULL,
-    output_file = NULL,
-    timeout = 1000,
-    output = NULL) {
+ch_llamagpt_output <- function(output = NULL, timeout = 1000) {
   all_output <- NULL
   stop_stream <- FALSE
   timeout <- timeout / 0.01
@@ -105,13 +85,8 @@ ch_llamagpt_output <- function(
       stop_stream <- TRUE
     }
     all_output <- paste0(all_output, output)
-
-    if (stream_to == "console") cat(output)
-    if (stream_to == "script") ide_paste_text(output)
-    if (stream_to == "chat") cat(output)
-
+    cat(output)
     output <- NULL
-
     if (stop_stream) {
         return(NULL)
       }
@@ -137,15 +112,12 @@ ch_llamagpt_args <- function(defaults) {
     reduce(c)
 }
 
-ch_llamagpt_printout <- function(
-    defaults,
-    r_file_stream = NULL,
-    output = NULL) {
+ch_llamagpt_printout <- function(defaults, output = NULL) {
   if (defaults$type == "chat") {
-    ch_llamagpt_output("chat", r_file_stream)
+    ch_llamagpt_output()
   } else {
     cli_h2("chattr")
     cli_h3("Initializing model")
-    ch_llamagpt_output("console", output = output)
+    ch_llamagpt_output(output)
   }
 }

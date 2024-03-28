@@ -35,16 +35,11 @@ ch_submit.ch_openai <- function(
   ret <- NULL
   if (preview) {
     ret <- as_ch_request(new_prompt, defaults)
-    if (!is.null(r_file_complete)) {
-      saveRDS(ret, r_file_complete)
-    }
   } else {
     ret <- openai_completion(
       defaults = defaults,
       prompt = prompt,
-      new_prompt = new_prompt,
-      r_file_stream = r_file_stream,
-      r_file_complete = r_file_complete
+      new_prompt = new_prompt
     )
   }
 
