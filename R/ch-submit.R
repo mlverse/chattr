@@ -70,29 +70,3 @@ ch_submit_job <- function(prompt,
     )
   )
 }
-
-r_session_close <- function() {
-  ch_env$r_session$close()
-  invisible()
-}
-
-r_session_start <- function() {
-  if (is.null(ch_env$r_session)) {
-    opts <-  r_session_options()
-    opts$stdout <- "|"
-    opts$stderr <- "|"
-    ch_env$r_session <- r_session$new(options = opts)
-  }
-  ch_env$r_session
-}
-
-r_session_error <- function() {
-  out <- NULL
-  if (!is.null(ch_env$r_session)) {
-    read_session <- ch_env$r_session$read()
-    if (!is.null(read_session)) {
-      out <- read_session$error
-    }
-  }
-  out
-}

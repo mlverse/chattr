@@ -16,10 +16,13 @@ app_server <- function(input, output, session) {
 
   rs <- r_session_start()
   ch_env$stream_output <- ""
-
-  observeEvent(input$options, showModal(app_ui_modal()))
-
   app_add_history(input)
+  auto_invalidate <- reactiveTimer(100)
+
+  observeEvent(
+    input$options,
+    showModal(app_ui_modal())
+    )
 
   observeEvent(input$saved, {
     chattr_defaults(
@@ -44,20 +47,22 @@ app_server <- function(input, output, session) {
 
       rs$call(
         func = function(prompt) {
-          chattr::chattr_defaults(type = "chat")
-          chattr::chattr(prompt, stream = TRUE, preview = FALSE)
+          chattr::ch_submit(
+            defaults = chattr::chattr_defaults(type = "chat"),
+            prompt = prompt, stream = TRUE,
+            preview = FALSE,
+            prompt_build = TRUE
+            )
         },
         args = list(prompt = input$prompt)
       )
     }
   })
 
-  auto_invalidate <- reactiveTimer(100)
-
   observe({
     auto_invalidate()
     if (rs$get_state() == "idle" && ch_env$stream_output != "") {
-      Sys.sleep(0.01)
+      Sys.sleep(0.02)
       ch_history_append(assistant = ch_env$stream_output)
       app_add_assistant(ch_env$stream_output, input)
       ch_env$stream_output <- ""
@@ -202,3 +207,28 @@ app_split_content <- function(content) {
   )
 }
 
+r_session_close <- function() {
+  ch_env$r_session$close()
+  invisible()
+}
+
+r_session_start <- function() {
+  if (is.null(ch_env$r_session)) {
+    opts <-  r_session_options()
+    opts$stdout <- "|"
+    opts$stderr <- "|"
+    ch_env$r_session <- r_session$new(options = opts)
+  }
+  ch_env$r_session
+}
+
+r_session_error <- function() {
+  out <- NULL
+  if (!is.null(ch_env$r_session)) {
+    read_session <- ch_env$r_session$read()
+    if (!is.null(read_session)) {
+      out <- read_session$error
+    }
+  }
+  out
+}
