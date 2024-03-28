@@ -57,15 +57,18 @@ app_server <- function(input, output, session) {
       session$sendCustomMessage(type = "refocus", message = list(NULL))
 
       rs$call(
-        func = function(prompt) {
+        func = function(prompt, defaults) {
           chattr::ch_submit(
-            defaults = chattr::chattr_defaults(type = "chat"),
+            defaults = defaults,
             prompt = prompt, stream = TRUE,
             preview = FALSE,
             prompt_build = TRUE
             )
         },
-        args = list(prompt = input$prompt)
+        args = list(
+          prompt = input$prompt,
+          defaults = chattr_defaults(type = "chat")
+          )
       )
     }
   })
