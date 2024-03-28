@@ -13,8 +13,6 @@ test_that("Submit job works as expected", {
     )
   )
 
-  expect_silent(ch_submit_job_stop())
-
   expect_equal(
     ch_env$r_session$get_state(),
     "finished"

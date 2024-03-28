@@ -1,10 +1,12 @@
 app_server <- function(input, output, session) {
   ch_env$content_hist <- NULL
-  ch_env$current_stream <- NULL
   style <- app_theme_style()
-  r_file_stream <- tempfile()
-  r_file_complete <- tempfile()
+  rs <- r_session_start()
+  ch_env$stream_output <- ""
+  app_add_history(input)
+  auto_invalidate <- reactiveTimer(100)
   session$sendCustomMessage(type = "refocus", message = list(NULL))
+
   insertUI(
     selector = "#tabs",
     where = "beforeBegin",
@@ -14,10 +16,19 @@ app_server <- function(input, output, session) {
     )
   )
 
-  rs <- r_session_start()
-  ch_env$stream_output <- ""
-  app_add_history(input)
-  auto_invalidate <- reactiveTimer(100)
+  output$stream <- renderText({
+    auto_invalidate()
+    if (rs$get_state() == "busy") {
+      curr_stream <- rs$read_output()
+      ch_env$stream_output <- paste0(ch_env$stream_output, curr_stream)
+      markdown(ch_env$stream_output)
+    }
+  })
+
+  output$provider <- renderText({
+    defaults <- chattr_defaults()
+    defaults$label
+  })
 
   observeEvent(
     input$options,
@@ -59,40 +70,6 @@ app_server <- function(input, output, session) {
     }
   })
 
-  observe({
-    auto_invalidate()
-    if (rs$get_state() == "idle" && ch_env$stream_output != "") {
-      Sys.sleep(0.02)
-      ch_history_append(assistant = ch_env$stream_output)
-      app_add_assistant(ch_env$stream_output, input)
-      ch_env$stream_output <- ""
-    }
-  })
-
-  output$stream <- renderText({
-    auto_invalidate()
-    if (rs$get_state() == "busy") {
-      curr_stream <- rs$read_output()
-      ch_env$stream_output <- paste0(ch_env$stream_output, curr_stream)
-      markdown(ch_env$stream_output)
-    }
-  })
-
-  output$provider <- renderText({
-    defaults <- chattr_defaults()
-    defaults$label
-  })
-
-  observe({
-    auto_invalidate()
-    error <- r_session_error()
-    if (!is.null(error)) {
-      stopApp()
-      print(error)
-      abort("Streaming returned error")
-    }
-  })
-
   observeEvent(input$open, {
     file <- try(file.choose(), silent = TRUE)
     ext <- path_ext(file)
@@ -113,6 +90,26 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$close, stopApp())
+
+  observe({
+    auto_invalidate()
+    if (rs$get_state() == "idle" && ch_env$stream_output != "") {
+      Sys.sleep(0.02)
+      ch_history_append(assistant = ch_env$stream_output)
+      app_add_assistant(ch_env$stream_output, input)
+      ch_env$stream_output <- ""
+    }
+  })
+
+  observe({
+    auto_invalidate()
+    error <- r_session_error()
+    if (!is.null(error)) {
+      stopApp()
+      print(error)
+      abort("Streaming returned error")
+    }
+  })
 }
 
 app_add_history <- function(input) {
@@ -205,11 +202,6 @@ app_split_content <- function(content) {
       )
     }
   )
-}
-
-r_session_close <- function() {
-  ch_env$r_session$close()
-  invisible()
 }
 
 r_session_start <- function() {
