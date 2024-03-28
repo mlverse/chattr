@@ -7,9 +7,6 @@ ch_submit.ch_llamagpt <- function(
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
-  if (ui_current_markdown()) {
-    return(invisible())
-  }
   prompt <- ide_build_prompt(
     prompt = prompt,
     defaults = defaults,
@@ -26,7 +23,7 @@ ch_submit.ch_llamagpt <- function(
   } else {
     ch_llamagpt_session(defaults)
     ch_llamagpt_prompt(new_prompt)
-    ret <- ch_llamagpt_output()
+    ret <- ch_llamagpt_output(stream = TRUE)
   }
   ret
 }
@@ -67,7 +64,10 @@ ch_llamagpt_prompt <- function(prompt) {
   ch_env$llamagpt$session$write_input(prompt)
 }
 
-ch_llamagpt_output <- function(output = NULL, timeout = 1000) {
+ch_llamagpt_output <- function(
+    output = NULL,
+    stream = FALSE,
+    timeout = 1000) {
   all_output <- NULL
   stop_stream <- FALSE
   timeout <- timeout / 0.01
@@ -84,11 +84,13 @@ ch_llamagpt_output <- function(output = NULL, timeout = 1000) {
       output <- substr(output, 1, nchar(output) - 2)
       stop_stream <- TRUE
     }
+    if(stream) {
+      cat(output)
+    }
     all_output <- paste0(all_output, output)
-    cat(output)
     output <- NULL
     if (stop_stream) {
-        return(NULL)
+        return(all_output)
       }
   }
 }
@@ -104,7 +106,6 @@ ch_llamagpt_stop <- function() {
 ch_llamagpt_args <- function(defaults) {
   args <- defaults$model_arguments
   args$model <- path_expand(defaults$model)
-
   imap(
     args,
     ~ c(paste0("--", .y), .x)
