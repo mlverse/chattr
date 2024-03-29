@@ -33,7 +33,7 @@ app_server <- function(input, output, session) {
   observeEvent(
     input$options,
     showModal(app_ui_modal())
-    )
+  )
 
   observeEvent(input$saved, {
     chattr_defaults(
@@ -63,12 +63,12 @@ app_server <- function(input, output, session) {
             prompt = prompt, stream = TRUE,
             preview = FALSE,
             prompt_build = TRUE
-            )
+          )
         },
         args = list(
           prompt = input$prompt,
           defaults = chattr_defaults(type = "chat")
-          )
+        )
       )
     }
   })
@@ -209,7 +209,7 @@ app_split_content <- function(content) {
 
 r_session_start <- function() {
   if (is.null(ch_env$r_session)) {
-    opts <-  r_session_options()
+    opts <- r_session_options()
     opts$stdout <- "|"
     opts$stderr <- "|"
     ch_env$r_session <- r_session$new(options = opts)

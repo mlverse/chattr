@@ -21,7 +21,7 @@ ch_submit.ch_openai <- function(
     ret <- ch_openai_complete(
       prompt = prompt,
       defaults = defaults
-      )
+    )
   }
   ret
 }
@@ -32,7 +32,7 @@ ch_openai_prompt <- function(defaults, prompt) {
     ch_context_data_files(defaults$max_data_files),
     ch_context_data_frames(defaults$max_data_frames)
   )
-  header <-  paste0("* ", header, collapse = " \n")
+  header <- paste0("* ", header, collapse = " \n")
   system_msg <- defaults$system_msg
   if (!is.null(system_msg)) {
     system_msg <- list(list(role = "system", content = defaults$system_msg))
@@ -62,7 +62,7 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
     defaults$model_arguments
   )
 
-  if(ch_openai_is_copilot(defaults)) {
+  if (ch_openai_is_copilot(defaults)) {
     token <- ch_gh_token(defaults)
   } else {
     token <- ch_openai_token(defaults)
@@ -73,7 +73,7 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
     req_auth_bearer_token(token) %>%
     req_body_json(req_body)
 
-  if(ch_openai_is_copilot(defaults)) {
+  if (ch_openai_is_copilot(defaults)) {
     req_result <- req_headers(req_result, "Editor-Version" = "vscode/9.9.9")
   }
 
@@ -88,7 +88,7 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
       buffer_kb = 0.05, round = "line"
     )
   ret <- ch_openai_parse(ret, defaults)
-  if(req_result$status_code != 200) {
+  if (req_result$status_code != 200) {
     cli_alert_warning(ret)
     abort(req_result)
   }
@@ -132,22 +132,23 @@ ch_gh_token <- function(defaults = NULL, fail = TRUE) {
       )
     )
   }
-  if(is.null(hosts_path)) {
+  if (is.null(hosts_path)) {
     return(NULL)
   }
   gh_path <- path_expand(hosts_path)
   if (dir_exists(gh_path)) {
     hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
     oauth_token <- hosts[[1]]$oauth_token
-    x <- try({
-      request(token_url) %>%
-        req_auth_bearer_token(oauth_token) %>%
-        req_perform()
-    },
-    silent = TRUE
+    x <- try(
+      {
+        request(token_url) %>%
+          req_auth_bearer_token(oauth_token) %>%
+          req_perform()
+      },
+      silent = TRUE
     )
-    if(inherits(x, "try-error")) {
-      if(fail) {
+    if (inherits(x, "try-error")) {
+      if (fail) {
         abort(x)
       } else {
         return(NULL)

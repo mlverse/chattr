@@ -32,8 +32,7 @@ ch_submit.ch_llamagpt <- function(
 
 ch_llamagpt_session <- function(
     defaults = chattr_defaults(),
-    testing = FALSE
-    ) {
+    testing = FALSE) {
   init_session <- FALSE
   if (is.null(ch_env$llamagpt$session)) {
     init_session <- TRUE
@@ -84,14 +83,14 @@ ch_llamagpt_output <- function(
       output <- substr(output, 1, nchar(output) - 2)
       stop_stream <- TRUE
     }
-    if(stream) {
+    if (stream) {
       cat(output)
     }
     all_output <- paste0(all_output, output)
     output <- NULL
     if (stop_stream) {
-        return(all_output)
-      }
+      return(all_output)
+    }
   }
 }
 

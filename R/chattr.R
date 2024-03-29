@@ -30,11 +30,11 @@ chattr <- function(prompt = NULL,
     invisible()
   }
 
-  if(!stream) {
+  if (!stream) {
     cat(ret)
   }
 
-  if(preview) {
+  if (preview) {
     as_ch_request(ret, defaults)
   } else {
     ch_history_append(prompt, ret)
