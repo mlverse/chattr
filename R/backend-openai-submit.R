@@ -24,7 +24,7 @@ ch_submit.ch_openai <- function(
     ret <- as_ch_request(new_prompt, defaults)
   } else {
     ret <- ch_openai_complete(
-      prompt = prompt,
+      prompt = new_prompt,
       defaults = defaults
       )
   }
@@ -179,28 +179,23 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
   }
   req_body <- c(
     list(messages = prompt),
+    model = defaults$model,
     defaults$model_arguments
   )
-  ret <- openai_request(defaults, req_body) %>%
-      req_perform_stream(
-        function(x) {
-          if(stream) {
-            x %>%
-              rawToChar() %>%
-              openai_stream_parse(defaults) %>%
-              cat()
-          } else {
-            x
-          }
-          TRUE
-        },
-        buffer_kb = 0.1,
-        round = "line"
-      )
-  if(ret$status_code != 200) {
-    abort(ret)
+  req_result <- openai_request(defaults, req_body) %>%
+    req_perform_stream(
+      function(x) {
+        char_x <- rawToChar(x)
+        ret <<- paste0(ret, char_x)
+        cat(openai_stream_parse(char_x, defaults))
+        TRUE
+      },
+      buffer_kb = 0.05, round = "line"
+    )
+  ret <- openai_stream_parse(ret, defaults)
+  if(req_result$status_code != 200) {
+    cli_alert_warning(ret)
+    abort(req_result)
   }
-  ret %>%
-    rawToChar() %>%
-    openai_stream_parse(defaults)
+  ret
 }
