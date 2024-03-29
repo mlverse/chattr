@@ -19,11 +19,6 @@ ch_test.ch_openai_chat_completions <- function(defaults = NULL) {
   ch_test_open_ai(defaults = defaults)
 }
 
-#' @export
-ch_test.ch_openai_completions <- function(defaults = NULL) {
-  ch_test_open_ai(defaults = defaults)
-}
-
 ch_test_open_ai <- function(defaults = NULL) {
   if (ch_debug_get()) {
     prompt <- "TEST"
