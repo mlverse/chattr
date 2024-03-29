@@ -1,13 +1,4 @@
-openai_token <- function(defaults = NULL, fail = TRUE) {
-  UseMethod("openai_token")
-}
-
-#' @export
-openai_token.ch_openai_github_copilot_chat <- function(defaults = NULL, fail = TRUE) {
-  openai_token_copilot(defaults, fail)
-}
-
-openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
+ch_gh_token <- function(defaults = NULL, fail = TRUE) {
   ret <- NULL
   if (ch_debug_get()) {
     return("")
@@ -74,12 +65,7 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
   ret
 }
 
-#' @export
-openai_token.ch_openai <- function(defaults = NULL, fail = TRUE) {
-  openai_token_chat(defaults, fail)
-}
-
-openai_token_chat <- function(defaults, fail = TRUE) {
+ch_openai_token <- function(defaults, fail = TRUE) {
   if (ch_debug_get()) {
     return("")
   }
@@ -118,7 +104,7 @@ openai_check_error <- function(x) {
   invisible()
 }
 
-openai_stream_parse <- function(x, defaults) {
+ch_openai_parse <- function(x, defaults) {
   res <- x %>%
     paste0(collapse = "") %>%
     strsplit("data: ") %>%
@@ -129,17 +115,9 @@ openai_stream_parse <- function(x, defaults) {
 
   out <- NULL
   if (length(res) > 0) {
-    #content <- openai_stream_content(defaults, res)
-
     content <- res %>%
       map(~ {
-        if(grepl("chat completions", tolower(defaults$provider)) ||
-           is_copilot()
-           ) {
-          content <- .x$choices$delta$content
-        } else {
-          content <- .x$choices$text
-        }
+        content <- .x$choices$delta$content
         if (is_na(content)) content <- ""
         content
       }) %>%
@@ -163,37 +141,6 @@ openai_stream_parse <- function(x, defaults) {
     }
   }
   out
-}
-
-openai_stream_content <- function(defaults, res) {
-  UseMethod("openai_stream_content")
-}
-
-#' @export
-openai_stream_content.ch_openai_chat_completions <- function(defaults, res) {
-  res %>%
-    map(~ .x$choices$delta$content) %>%
-    reduce(paste0)
-}
-
-#' @export
-openai_stream_content.ch_openai_completions <- function(defaults, res) {
-  res %>%
-    map(~ .x$choices$text) %>%
-    reduce(paste0)
-}
-
-#' @export
-openai_stream_content.ch_openai_github_copilot_chat <- function(defaults, res) {
-  res %>%
-    map(~ {
-      content <- .x$choices$delta$content
-      if (!is.null(content)) {
-        if (is.na(content)) content <- ""
-      }
-      content
-    }) %>%
-    reduce(paste0)
 }
 
 is_copilot <- function(defaults) {
