@@ -62,7 +62,7 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
     defaults$model_arguments
   )
 
-  if(is_copilot(defaults)) {
+  if(ch_openai_is_copilot(defaults)) {
     token <- ch_gh_token(defaults)
   } else {
     token <- ch_openai_token(defaults)
@@ -73,7 +73,7 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
     req_auth_bearer_token(token) %>%
     req_body_json(req_body)
 
-  if(is_copilot(defaults)) {
+  if(ch_openai_is_copilot(defaults)) {
     req_result <- req_headers(req_result, "Editor-Version" = "vscode/9.9.9")
   }
 
@@ -92,5 +92,6 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
     cli_alert_warning(ret)
     abort(req_result)
   }
+  ch_openai_error(ret)
   ret
 }

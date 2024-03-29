@@ -71,8 +71,8 @@ test_that("Error handling works", {
   x <- readRDS(test_path("data/gpt35-error.rds"))
   parsed <- ch_openai_parse(x, "chat/completions")
   expect_snapshot(parsed)
-  expect_error(openai_check_error(parsed))
-  expect_error(openai_check_error(parsed))
+  expect_error(ch_openai_error(parsed))
+  expect_error(ch_openai_error(parsed))
 })
 
 test_that("Warning messages appear", {
@@ -98,9 +98,9 @@ test_that("OpenAI stream content is parsed", {
 })
 
 test_that("OpenAI error check works", {
-  expect_silent(openai_check_error(NULL))
-  expect_silent(openai_check_error(1:2))
-  expect_error(openai_check_error("{{error}} test"))
+  expect_silent(ch_openai_error(NULL))
+  expect_silent(ch_openai_error(1:2))
+  expect_error(ch_openai_error("{{error}} test"))
 })
 
 test_that("OpenAI token finder works", {

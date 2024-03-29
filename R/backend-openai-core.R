@@ -87,7 +87,7 @@ ch_openai_token <- function(defaults, fail = TRUE) {
   ret
 }
 
-openai_check_error <- function(x) {
+ch_openai_error <- function(x) {
   if (is.null(x)) {
     return(invisible())
   }
@@ -143,7 +143,7 @@ ch_openai_parse <- function(x, defaults) {
   out
 }
 
-is_copilot <- function(defaults) {
+ch_openai_is_copilot <- function(defaults) {
   grepl("copilot", tolower(defaults$provider))
 }
 
