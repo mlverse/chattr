@@ -34,5 +34,9 @@ chattr <- function(prompt = NULL,
     cat(ret)
   }
 
-  ch_history_append(prompt, ret)
+  if(preview) {
+    as_ch_request(ret, defaults)
+  } else {
+    ch_history_append(prompt, ret)
+  }
 }

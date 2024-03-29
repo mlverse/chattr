@@ -21,7 +21,7 @@ ch_submit.ch_openai <- function(
 
   ret <- NULL
   if (preview) {
-    ret <- as_ch_request(new_prompt, defaults)
+    ret <- new_prompt
   } else {
     ret <- ch_openai_complete(
       prompt = new_prompt,

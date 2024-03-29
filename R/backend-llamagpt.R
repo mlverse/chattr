@@ -19,7 +19,7 @@ ch_submit.ch_llamagpt <- function(
   }
   ret <- NULL
   if (preview) {
-    ret <- as_ch_request(new_prompt, defaults)
+    ret <- new_prompt
   } else {
     ch_llamagpt_session(defaults)
     ch_llamagpt_prompt(new_prompt)
