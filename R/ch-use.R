@@ -36,6 +36,9 @@ use_switch <- function(...) {
       )
     }
   )
+
+  chattr_defaults_set(list(mode = label), "default")
+
   cli_div(theme = cli_colors())
   cli_h3("chattr")
   print_provider(chattr_defaults())

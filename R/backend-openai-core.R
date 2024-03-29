@@ -101,27 +101,6 @@ openai_token_chat <- function(defaults, fail = TRUE) {
   ret
 }
 
-openai_request <- function(defaults, req_body) {
-  UseMethod("openai_request")
-}
-
-#' @export
-openai_request.ch_openai <- function(defaults, req_body) {
-  defaults$path %>%
-    request() %>%
-    req_auth_bearer_token(openai_token(defaults = defaults)) %>%
-    req_body_json(req_body)
-}
-
-#' @export
-openai_request.ch_openai_github_copilot_chat <- function(defaults, req_body) {
-  defaults$path %>%
-    request() %>%
-    req_auth_bearer_token(openai_token(defaults = defaults)) %>%
-    req_body_json(req_body) %>%
-    req_headers("Editor-Version" = "vscode/9.9.9")
-}
-
 openai_check_error <- function(x) {
   if (is.null(x)) {
     return(invisible())

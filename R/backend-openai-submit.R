@@ -87,7 +87,16 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
     model = defaults$model,
     defaults$model_arguments
   )
-  req_result <- openai_request(defaults, req_body) %>%
+  req_result <- defaults$path %>%
+    request() %>%
+    req_auth_bearer_token(openai_token(defaults = defaults)) %>%
+    req_body_json(req_body)
+
+  if(grepl("copilot", tolower(defaults$provider))) {
+    req_result <- req_headers(req_result, "Editor-Version" = "vscode/9.9.9")
+  }
+
+  req_result <- req_result %>%
     req_perform_stream(
       function(x) {
         char_x <- rawToChar(x)
