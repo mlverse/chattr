@@ -50,9 +50,20 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
   if (dir_exists(gh_path)) {
     hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
     oauth_token <- hosts[[1]]$oauth_token
-    x <- request(token_url) %>%
-      req_auth_bearer_token(oauth_token) %>%
-      req_perform()
+    x <- try({
+      request(token_url) %>%
+        req_auth_bearer_token(oauth_token) %>%
+        req_perform()
+      },
+      silent = TRUE
+    )
+    if(inherits(x, "try-error")) {
+      if(fail) {
+        abort(x)
+      } else {
+        return(NULL)
+      }
+    }
     x_json <- resp_body_json(x)
     ret <- x_json$token
   } else {
