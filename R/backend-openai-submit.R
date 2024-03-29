@@ -14,17 +14,15 @@ ch_submit.ch_openai <- function(
   )
 
   if (prompt_build) {
-    new_prompt <- openai_prompt(defaults, prompt)
-  } else {
-    new_prompt <- prompt
+    prompt <- openai_prompt(defaults, prompt)
   }
 
   ret <- NULL
   if (preview) {
-    ret <- new_prompt
+    ret <- prompt
   } else {
     ret <- ch_openai_complete(
-      prompt = new_prompt,
+      prompt = prompt,
       defaults = defaults
       )
   }
