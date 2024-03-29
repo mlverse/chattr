@@ -38,13 +38,13 @@ ch_get_ymls <- function(menu = TRUE) {
     package_file() %>%
     read_yaml()
 
-  copilot_token <- openai_token_copilot(
+  copilot_token <- ch_gh_token(
     defaults = copilot_defaults$default,
     fail = FALSE
   )
   copilot_exists <- !is.null(copilot_token)
 
-  gpt_token <- openai_token_chat(fail = FALSE)
+  gpt_token <- ch_openai_token(fail = FALSE)
   gpt_exists <- !is.null(gpt_token)
 
   llama_defaults <- "configs/llamagpt.yml" %>%

@@ -14,14 +14,14 @@ test_that("Missing token returns error", {
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = NA),
     {
-      expect_error(openai_token_chat(d))
+      expect_error(ch_openai_token(d))
     }
   )
 })
 
 test_that("Stream parser works", {
   raw <- readRDS(test_path("data", "gpt35-stream.rds"))
-  stream <- openai_stream_parse(raw, chattr_defaults())
+  stream <- ch_openai_parse(raw, chattr_defaults())
   msg_gpt <- paste(
     "I'm sorry, I don't understand what you are asking for.",
     "Could you please provide more information or a specific",
@@ -45,7 +45,7 @@ test_that("Stream parser works", {
 
 test_that("Stream file parser works", {
   raw <- readRDS(test_path("data", "gpt35-stream.rds"))
-  stream <- openai_stream_parse(raw, chattr_defaults())
+  stream <- ch_openai_parse(raw, chattr_defaults())
   msg_gpt <- paste(
     "I'm sorry, I don't understand what you are asking for.",
     "Could you please provide more information or a specific",
@@ -69,7 +69,7 @@ test_that("Stream file parser works", {
 
 test_that("Error handling works", {
   x <- readRDS(test_path("data/gpt35-error.rds"))
-  parsed <- openai_stream_parse(x, "chat/completions")
+  parsed <- ch_openai_parse(x, "chat/completions")
   expect_snapshot(parsed)
   expect_error(openai_check_error(parsed))
   expect_error(openai_check_error(parsed))
@@ -108,7 +108,7 @@ test_that("OpenAI token finder works", {
     new = c("OPENAI_API_KEY" = "12345"),
     {
       expect_equal(
-        openai_token_chat(list()),
+        ch_openai_token(list()),
         "12345"
       )
     }
@@ -120,7 +120,7 @@ test_that("OpenAI token finder works", {
     new = c("R_CONFIG_FILE" = config_file, "OPENAI_API_KEY" = NA),
     {
       expect_equal(
-        openai_token_chat(list()),
+        ch_openai_token(list()),
         "12345"
       )
     }
@@ -167,18 +167,18 @@ test_that("Copilot token finder works", {
   defaults <- defaults$default
   defaults$hosts_path <- temp_folder
   expect_output(
-    out <- openai_token_copilot(defaults),
+    out <- ch_gh_token(defaults),
     regexp = "GET /copilot_internal/v2/token HTTP/1.1"
   )
   expect_equal(out, "12345")
   def_errors <- defaults
   if (!is.na(Sys.getenv("CI", unset = NA))) {
     def_errors$hosts_path <- NULL
-    expect_error(openai_token_copilot(def_errors), "There is no default")
+    expect_error(ch_gh_token(def_errors), "There is no default")
   }
   def_errors$hosts_path <- ""
   def_errors$token_url <- NULL
-  expect_error(openai_token_copilot(def_errors), "There is no default GH")
+  expect_error(ch_gh_token(def_errors), "There is no default GH")
 })
 
 test_that("Completions works", {
