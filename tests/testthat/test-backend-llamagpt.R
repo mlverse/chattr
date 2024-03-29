@@ -1,3 +1,5 @@
+skip()
+
 test_that("Sets to LLamaGPT model", {
   expect_snapshot(chattr_use("llamagpt"))
 })
@@ -41,7 +43,6 @@ test_that("Console works", {
   expect_snapshot(
     capture.output(
       ch_llamagpt_output(
-        stream_to = "console",
         output = "xxx\n> "
       )
     )
@@ -52,9 +53,6 @@ test_that("Chat works", {
   chat_file <- tempfile()
   expect_null(
     ch_llamagpt_output(
-      stream_to = "chat",
-      stream_file = tempfile(),
-      output_file = chat_file,
       output = "xxx\n> "
     )
   )

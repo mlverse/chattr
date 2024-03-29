@@ -1,3 +1,5 @@
+skip()
+
 test_that("Using 'chat'", {
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = "test"),

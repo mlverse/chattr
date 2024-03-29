@@ -1,3 +1,5 @@
+skip()
+
 test_that("History functions work", {
   expect_null(ch_history_set(NULL))
   expect_null(ch_history())

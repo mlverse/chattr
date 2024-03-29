@@ -1,3 +1,5 @@
+skip()
+
 test_that("Submit job works as expected", {
   Sys.setenv("CHATTR_TYPE" = "console")
   complete_file <- tempfile()

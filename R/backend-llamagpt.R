@@ -118,6 +118,6 @@ ch_llamagpt_printout <- function(defaults, output = NULL) {
   } else {
     cli_h2("chattr")
     cli_h3("Initializing model")
-    ch_llamagpt_output(output)
+    cat(ch_llamagpt_output(output))
   }
 }

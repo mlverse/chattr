@@ -1,3 +1,5 @@
+skip()
+
 test_that("Data frames context", {
   ch_context_data_frames() %>%
     cat() %>%

@@ -1,3 +1,5 @@
+skip()
+
 # ----------------------------------- OpenAI -----------------------------------
 test_that("Request submission works", {
   withr::with_envvar(

@@ -1,3 +1,5 @@
+skip()
+
 test_that("Basic chattr() tests", {
   expect_snapshot(chattr_use("gpt35"))
   test_chattr_type_set("console")

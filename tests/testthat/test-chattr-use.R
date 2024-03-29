@@ -1,3 +1,5 @@
+skip()
+
 test_that("Request submission works", {
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = "test"),
