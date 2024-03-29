@@ -6,19 +6,12 @@ ch_submit.ch_openai <- function(
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
-  if (ui_current_markdown()) {
-    return(invisible())
-  }
 
   prompt <- ide_build_prompt(
     prompt = prompt,
     defaults = defaults,
     preview = preview
   )
-
-  ma <- defaults$model_arguments
-  ma$stream <- stream
-  defaults$model_arguments <- ma
 
   if (prompt_build) {
     new_prompt <- openai_prompt(defaults, prompt)
@@ -30,17 +23,11 @@ ch_submit.ch_openai <- function(
   if (preview) {
     ret <- as_ch_request(new_prompt, defaults)
   } else {
-    ret <- openai_completion(
-      defaults = defaults,
+    ret <- ch_openai_complete(
       prompt = prompt,
-      new_prompt = new_prompt
-    )
+      defaults = defaults
+      )
   }
-
-  if (is.null(ret)) {
-    return(invisible())
-  }
-
   ret
 }
 
@@ -182,4 +169,38 @@ openai_completion.ch_openai_completions <- function(
   }
 
   ret
+}
+
+
+ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
+  ret <- NULL
+  if (ch_debug_get()) {
+    return(req_body)
+  }
+  req_body <- c(
+    list(messages = prompt),
+    defaults$model_arguments
+  )
+  ret <- openai_request(defaults, req_body) %>%
+      req_perform_stream(
+        function(x) {
+          if(stream) {
+            x %>%
+              rawToChar() %>%
+              openai_stream_parse(defaults) %>%
+              cat()
+          } else {
+            x
+          }
+          TRUE
+        },
+        buffer_kb = 0.1,
+        round = "line"
+      )
+  if(ret$status_code != 200) {
+    abort(ret)
+  }
+  ret %>%
+    rawToChar() %>%
+    openai_stream_parse(defaults)
 }
