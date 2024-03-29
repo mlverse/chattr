@@ -1,6 +1,6 @@
 #' Sets the LLM model to use in your session
 #' @param model_label The label of the LLM model to use. Valid values are
-#' 'copilot', 'gpt4', 'gpt35', 'davinci', and 'llamagpt'.
+#' 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
 #' @details
 #' If the error "No model setup found" was returned, that is because none of the
 #' expected setup for Copilot, OpenIA or LLama was automatically detected. Here
@@ -77,7 +77,6 @@ ch_get_ymls <- function(menu = TRUE) {
   if (!gpt_exists) {
     prep_files$gpt35 <- NULL
     prep_files$gpt4 <- NULL
-    prep_files$davinci <- NULL
   }
 
   if (!llama_exists) {

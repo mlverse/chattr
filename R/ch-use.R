@@ -1,15 +1,3 @@
-ch_use_openai_gpt35 <- function() {
-  use_switch("configs", "gpt35.yml")
-}
-
-ch_use_openai_davinci <- function() {
-  use_switch("configs", "davinci.yml")
-}
-
-ch_use_llamagpt <- function() {
-  use_switch("configs", "llamagpt.yml")
-}
-
 use_switch <- function(...) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
