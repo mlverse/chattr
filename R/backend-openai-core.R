@@ -129,7 +129,22 @@ openai_stream_parse <- function(x, defaults) {
 
   out <- NULL
   if (length(res) > 0) {
-    content <- openai_stream_content(defaults, res)
+    #content <- openai_stream_content(defaults, res)
+
+    content <- res %>%
+      map(~ {
+        if(grepl("chat completions", tolower(defaults$provider)) ||
+           is_copilot()
+           ) {
+          content <- .x$choices$delta$content
+        } else {
+          content <- .x$choices$text
+        }
+        if (is_na(content)) content <- ""
+        content
+      }) %>%
+      reduce(paste0)
+
     if (length(content) > 0) {
       out <- content
     }
