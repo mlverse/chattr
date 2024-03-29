@@ -1,5 +1,3 @@
-skip()
-
 test_that("Set to GPT3.5", {
   expect_snapshot(chattr_use("gpt35"))
 })
