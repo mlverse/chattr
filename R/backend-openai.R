@@ -241,7 +241,7 @@ ch_openai_is_copilot <- function(defaults) {
 }
 
 #' @export
-app_init_message.cl_openai <- function(defaults) {
+app_init_message.ch_openai <- function(defaults) {
   print_provider(defaults)
   if (defaults$max_data_files > 0) {
     cli_alert_warning(
