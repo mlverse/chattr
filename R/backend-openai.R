@@ -53,9 +53,6 @@ ch_openai_prompt <- function(defaults, prompt) {
 
 ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
   ret <- NULL
-  if (ch_debug_get()) {
-    return(req_body)
-  }
   req_body <- c(
     list(messages = prompt),
     model = defaults$model,
