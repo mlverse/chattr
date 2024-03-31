@@ -1,44 +1,44 @@
-# Init messages work
+# Submit method works
 
     Code
-      chattr_use("gpt35")
-    Message
+      ch_submit(def, "test", preview = TRUE)
+    Output
+      [[1]]
+      [[1]]$role
+      [1] "system"
       
-      -- chattr 
-      * Provider: OpenAI - Chat Completions
-      * Path/URL: https://api.openai.com/v1/chat/completions
-      * Model: gpt-3.5-turbo
-      * Label: GPT 3.5 (OpenAI)
-
----
-
-    Code
-      app_init_message(chattr_defaults())
-    Message
-      * Provider: OpenAI - Chat Completions
-      * Path/URL: https://api.openai.com/v1/chat/completions
-      * Model: gpt-3.5-turbo
-      * Label: GPT 3.5 (OpenAI)
-
----
-
-    Code
-      chattr_use("llamagpt")
-    Message
+      [[1]]$content
+      [1] "You are a helpful coding assistant"
       
-      -- chattr 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
+      
+      [[2]]
+      [[2]]$role
+      [1] "user"
+      
+      [[2]]$content
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only\ntest"
+      
+      
 
 ---
 
     Code
-      app_init_message(chattr_defaults())
-    Message
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
+      ch_submit(def, "test", preview = TRUE)
+    Output
+      [[1]]
+      [[1]]$role
+      [1] "system"
+      
+      [[1]]$content
+      [1] "You are a helpful coding assistant"
+      
+      
+      [[2]]
+      [[2]]$role
+      [1] "user"
+      
+      [[2]]$content
+      [1] "* Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference \n* Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference \n* Use tidyverse packages: readr, ggplot2, dplyr, tidyr \n* For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom \n* Avoid explanations unless requested by user, expecting code only\ntest"
+      
+      
 

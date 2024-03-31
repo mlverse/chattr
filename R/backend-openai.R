@@ -162,9 +162,6 @@ ch_gh_token <- function(defaults = NULL, fail = TRUE) {
 }
 
 ch_openai_token <- function(defaults, fail = TRUE) {
-  if (ch_debug_get()) {
-    return("")
-  }
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
   ret <- NULL
   if (!is.na(env_key)) {
