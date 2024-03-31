@@ -19,8 +19,7 @@ app_server <- function(input, output, session) {
   output$stream <- renderText({
     auto_invalidate()
     if (rs$get_state() == "busy") {
-      curr_stream <- rs$read_output()
-      ch_env$stream_output <- paste0(ch_env$stream_output, curr_stream)
+      ch_env$stream_output <- paste0(ch_env$stream_output, rs$read_output())
       markdown(ch_env$stream_output)
     }
   })
@@ -50,9 +49,7 @@ app_server <- function(input, output, session) {
     if (input$prompt != "" && rs$get_state() == "idle") {
       ch_history_append(user = input$prompt)
       app_add_user(input$prompt)
-      updateTextAreaInput(
-        inputId = "prompt",
-        value = ""
+      updateTextAreaInput(inputId = "prompt", value = ""
       )
       session$sendCustomMessage(type = "refocus", message = list(NULL))
 
@@ -60,7 +57,8 @@ app_server <- function(input, output, session) {
         func = function(prompt, defaults) {
           chattr::ch_submit(
             defaults = defaults,
-            prompt = prompt, stream = TRUE,
+            prompt = prompt,
+            stream = TRUE,
             preview = FALSE,
             prompt_build = TRUE
           )
@@ -77,8 +75,7 @@ app_server <- function(input, output, session) {
     file <- try(file.choose(), silent = TRUE)
     ext <- path_ext(file)
     if (ext == "rds") {
-      rds <- readRDS(file)
-      ch_history_set(rds)
+      ch_history_set(readRDS(file))
       app_add_history(input)
       removeModal()
     }
