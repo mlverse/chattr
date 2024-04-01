@@ -6,11 +6,6 @@ ch_submit.ch_openai <- function(
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
-  prompt <- ide_build_prompt(
-    prompt = prompt,
-    defaults = defaults,
-    preview = preview
-  )
   if (prompt_build) {
     prompt <- ch_openai_prompt(defaults, prompt)
   }

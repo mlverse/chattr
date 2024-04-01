@@ -7,11 +7,6 @@ ch_submit.ch_llamagpt <- function(
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
-  prompt <- ide_build_prompt(
-    prompt = prompt,
-    defaults = defaults,
-    preview = preview
-  )
   if (prompt_build) {
     new_prompt <- paste0(prompt, "(", defaults$prompt[[1]], ")")
   } else {
