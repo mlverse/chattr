@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -137,19 +137,18 @@ connection works:</p>
 <div class="section level2">
 <h2 id="change-the-model">Change the model<a class="anchor" aria-label="anchor" href="#change-the-model"></a>
 </h2>
-<p>By default, <code>chattr</code> is setup to interact with GPT 3.5
-(<code>gpt-4</code>). To switch to the DaVinci model
-(<code>text-davinci-003</code>) run:</p>
+<p>By default, <code>chattr</code> is setup to interact with GPT 4
+(<code>gpt-4</code>). To switch to 3.5, use:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"davinci"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt35"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── chattr</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Davinci 3 (OpenAI)</span></span></span></code></pre></div>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-3.5-turbo</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 3.5 (OpenAI)</span></span></span></code></pre></div>
 <p>To switch back to GPT 4, run:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt4"</span><span class="op">)</span></span>
@@ -159,83 +158,6 @@ connection works:</p>
 <span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
 <span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 4 (OpenAI)</span></span></span></code></pre></div>
-<p>If you wish to switch to a model other than the two mentioned above,
-you will first need to note which of the two OpenAI endpoints you will
-need to reach: <code>completions</code> or
-<code>chat/completions</code>. “gpt4” points to the
-<code>chat/completions</code> endpoint, and “davinci” to the
-<code>completions</code> endpoint.</p>
-<p>For example, if you wish to switch to the Curie model, first run:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"davinci"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── chattr</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-davinci-003</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Davinci 3 (OpenAI)</span></span></span></code></pre></div>
-<p>And then run:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"text-curie-001"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Default</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; • <span style="color: #008700;">{{readLines(system.file('prompt/base.txt', package = 'chattr'))}}</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">text-curie-001</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Davinci 3 (OpenAI)</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model Arguments:</span></span>
-<span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
-<span><span class="co">#&gt; • max_tokens: <span style="color: #0000BB;">1000</span></span></span>
-<span><span class="co">#&gt; • stream: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Context:</span></span>
-<span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
-<p>If you are allowed to access GPT 4, and wish to use it via
-<code>chattr</code> then run:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt35"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── chattr</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-3.5-turbo</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 3.5 (OpenAI)</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gpt-4"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Default</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; • <span style="color: #008700;">{{readLines(system.file('prompt/base.txt', package = 'chattr'))}}</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 3.5 (OpenAI)</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model Arguments:</span></span>
-<span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
-<span><span class="co">#&gt; • max_tokens: <span style="color: #0000BB;">1000</span></span></span>
-<span><span class="co">#&gt; • stream: <span style="color: #0000BB;">TRUE</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Context:</span></span>
-<span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Chat History</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p>To see the latest list which endpoint to use, go to : <a href="https://platform.openai.com/docs/models/model-endpoint-compatibility" class="external-link">Model
 Endpoint Compatability</a></p>
 </div>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,21 +64,8 @@
 <span>  stream <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  prompt_build <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  preview <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  r_file_stream <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  r_file_complete <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">ch_submit_job</span><span class="op">(</span></span>
-<span>  <span class="va">prompt</span>,</span>
-<span>  stream <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  prompt_build <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  r_file_stream <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  r_file_complete <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  defaults <span class="op">=</span> <span class="fu"><a href="chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"chat"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">ch_submit_job_stop</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -105,16 +92,6 @@ request</p></dd>
 <dd><p>Primarily used for debugging. It indicates if it should send
 the prompt to the LLM (FALSE), or if it should print out the resulting
 prompt (TRUE)</p></dd>
-
-
-<dt>r_file_stream</dt>
-<dd><p>(Optional) Path to save the output of the current stream
-from the LLM</p></dd>
-
-
-<dt>r_file_complete</dt>
-<dd><p>(Optional) Path to save the completed output of the
-stream, or response from the LLM</p></dd>
 
 
 <dt>...</dt>

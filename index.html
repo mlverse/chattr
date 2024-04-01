@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,7 +143,7 @@ Setup Instructions
 <a href="https://platform.openai.com/docs/introduction" class="external-link">OpenAI</a>
 </td>
 <td style="text-align: center;">
-GPT Models accessible via the OpenAI’s REST API. <code>chattr</code> provides a convenient way to interact with GPT 4, 3.5, and DaVinci 3.
+GPT Models accessible via the OpenAI’s REST API. <code>chattr</code> provides a convenient way to interact with GPT 4, and 3.5.
 </td>
 <td style="text-align: center;">
 <a href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact with OpenAI GPT models</a>
@@ -187,10 +187,9 @@ AI pair programmer that offers autocomplete-style suggestions as you code
 <span><span class="co">#&gt; ── chattr - Available models </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; 1: GitHub - Copilot Chat -  (copilot) </span></span>
-<span><span class="co">#&gt; 2: OpenAI - Completions - text-davinci-003 (davinci) </span></span>
-<span><span class="co">#&gt; 3: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) </span></span>
-<span><span class="co">#&gt; 4: OpenAI - Chat Completions - gpt-4 (gpt4) </span></span>
-<span><span class="co">#&gt; 5: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) </span></span>
+<span><span class="co">#&gt; 2: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) </span></span>
+<span><span class="co">#&gt; 3: OpenAI - Chat Completions - gpt-4 (gpt4) </span></span>
+<span><span class="co">#&gt; 4: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Select the number of the model you would like to use:</span></span></code></pre></div>
 <p>This prompt only occurs the first time you call <code><a href="reference/chattr_app.html">chattr_app()</a></code>, or <code><a href="reference/chattr.html">chattr()</a></code>. If you close the app, and open it again, the app will use the model you initially selected. The selection is set for the rest of your R session, or until you manually change it. Please note that if, for example, <code>chattr</code> cannot find the setup for OpenAI, then those lines would not show up as options in your actual prompt.</p>
@@ -242,6 +241,7 @@ Diagram that illustrates how <code>chattr</code> handles model requests
 <span><span class="co">#&gt; • Provider: OpenAI - Chat Completions</span></span>
 <span><span class="co">#&gt; • Path/URL: https://api.openai.com/v1/chat/completions</span></span>
 <span><span class="co">#&gt; • Model: gpt-4</span></span>
+<span><span class="co">#&gt; • Label: GPT 4 (OpenAI)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/chattr.html">chattr</a></span><span class="op">(</span>preview <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -251,6 +251,7 @@ Diagram that illustrates how <code>chattr</code> handles model requests
 <span><span class="co">#&gt; • Provider: OpenAI - Chat Completions</span></span>
 <span><span class="co">#&gt; • Path/URL: https://api.openai.com/v1/chat/completions</span></span>
 <span><span class="co">#&gt; • Model: gpt-4</span></span>
+<span><span class="co">#&gt; • Label: GPT 4 (OpenAI)</span></span>
 <span><span class="co">#&gt; • temperature: 0.01</span></span>
 <span><span class="co">#&gt; • max_tokens: 1000</span></span>
 <span><span class="co">#&gt; • stream: TRUE</span></span>
