@@ -2,8 +2,6 @@
 % Please edit documentation in R/ch-submit.R
 \name{ch_submit}
 \alias{ch_submit}
-\alias{ch_submit_job}
-\alias{ch_submit_job_stop}
 \title{Method to easily integrate to new LLM's}
 \usage{
 ch_submit(
@@ -12,21 +10,8 @@ ch_submit(
   stream = NULL,
   prompt_build = TRUE,
   preview = FALSE,
-  r_file_stream = NULL,
-  r_file_complete = NULL,
   ...
 )
-
-ch_submit_job(
-  prompt,
-  stream = NULL,
-  prompt_build = TRUE,
-  r_file_stream = tempfile(),
-  r_file_complete = tempfile(),
-  defaults = chattr_defaults(type = "chat")
-)
-
-ch_submit_job_stop()
 }
 \arguments{
 \item{defaults}{Defaults object, generally puled from \code{chattr_defaults()}}
@@ -42,12 +27,6 @@ request}
 \item{preview}{Primarily used for debugging. It indicates if it should send
 the prompt to the LLM (FALSE), or if it should print out the resulting
 prompt (TRUE)}
-
-\item{r_file_stream}{(Optional) Path to save the output of the current stream
-from the LLM}
-
-\item{r_file_complete}{(Optional) Path to save the completed output of the
-stream, or response from the LLM}
 
 \item{...}{Optional arguments; currently unused.}
 }

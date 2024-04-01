@@ -65,7 +65,7 @@ remotes::install_github("mlverse/chattr")
 
 |                                   Provider                                    |                                                                                                     Models                                                                                                      |                              Setup Instructions                              |
 |:-----------------:|:--------------------------------:|:-----------------:|
-|            [OpenAI](https://platform.openai.com/docs/introduction)            |                                         GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 4, 3.5, and DaVinci 3.                                         |   [Interact with OpenAI GPT models](https://mlverse.github.io/chattr/articles/openai-gpt.html)   |
+|            [OpenAI](https://platform.openai.com/docs/introduction)            |                                         GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 4, and 3.5.                                         |   [Interact with OpenAI GPT models](https://mlverse.github.io/chattr/articles/openai-gpt.html)   |
 |           [LLamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat)           | LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a [GPT4ALL](https://gpt4all.io/index.html) model. **LLamaGPT-Chat** is a command line chat program for models written in C++. |  [Interact with local models](https://mlverse.github.io/chattr/articles/backend-llamagpt.html)   |
 | [GitHub Copilot](https://docs.posit.co/ide/user/ide/guide/tools/copilot.html) |                                                                    AI pair programmer that offers autocomplete-style suggestions as you code                                                                    | [Interact with GitHub Copilot Chat](https://mlverse.github.io/chattr/articles/copilot-chat.html) |
 
@@ -81,10 +81,9 @@ chattr::chattr_app()
 #> ── chattr - Available models 
 #> 
 #> 1: GitHub - Copilot Chat -  (copilot) 
-#> 2: OpenAI - Completions - text-davinci-003 (davinci) 
-#> 3: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) 
-#> 4: OpenAI - Chat Completions - gpt-4 (gpt4) 
-#> 5: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) 
+#> 2: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) 
+#> 3: OpenAI - Chat Completions - gpt-4 (gpt4) 
+#> 4: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) 
 #> 
 #> Select the number of the model you would like to use:
 ```

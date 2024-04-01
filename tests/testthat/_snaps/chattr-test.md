@@ -60,7 +60,7 @@
       -- chattr 
       * Provider: OpenAI - GitHub Copilot Chat
       * Path/URL: https://api.githubcopilot.com/chat/completions
-      * Model: TRUE
+      * Model:
       * Label: Copilot (GitHub)
 
 ---
@@ -72,7 +72,7 @@
       -- Testing chattr 
       * Provider: OpenAI - GitHub Copilot Chat
       * Path/URL: https://api.githubcopilot.com/chat/completions
-      * Model:
+      * Model: TRUE
       * Label: Copilot (GitHub)
       v Connection with GitHub Copilot cofirmed
       |--Prompt: TEST

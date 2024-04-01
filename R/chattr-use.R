@@ -1,6 +1,6 @@
 #' Sets the LLM model to use in your session
 #' @param model_label The label of the LLM model to use. Valid values are
-#' 'copilot', 'gpt4', 'gpt35', 'davinci', and 'llamagpt'.
+#' 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
 #' @details
 #' If the error "No model setup found" was returned, that is because none of the
 #' expected setup for Copilot, OpenIA or LLama was automatically detected. Here
@@ -38,13 +38,13 @@ ch_get_ymls <- function(menu = TRUE) {
     package_file() %>%
     read_yaml()
 
-  copilot_token <- openai_token_copilot(
+  copilot_token <- ch_gh_token(
     defaults = copilot_defaults$default,
     fail = FALSE
   )
   copilot_exists <- !is.null(copilot_token)
 
-  gpt_token <- openai_token_chat(fail = FALSE)
+  gpt_token <- ch_openai_token(fail = FALSE)
   gpt_exists <- !is.null(gpt_token)
 
   llama_defaults <- "configs/llamagpt.yml" %>%
@@ -77,7 +77,6 @@ ch_get_ymls <- function(menu = TRUE) {
   if (!gpt_exists) {
     prep_files$gpt35 <- NULL
     prep_files$gpt4 <- NULL
-    prep_files$davinci <- NULL
   }
 
   if (!llama_exists) {
@@ -114,4 +113,38 @@ ch_get_ymls <- function(menu = TRUE) {
   } else {
     prep_files
   }
+}
+
+use_switch <- function(...) {
+  ch_env$defaults <- NULL
+  ch_env$chat_history <- NULL
+  file <- package_file(...)
+
+  label <- file %>%
+    path_file() %>%
+    path_ext_remove()
+
+  Sys.setenv("CHATTR_MODEL" = label)
+
+  chattr_defaults(
+    type = "default",
+    yaml_file = file,
+    force = TRUE
+  )
+
+  walk(
+    ch_env$valid_uis,
+    ~ {
+      chattr_defaults(
+        type = .x,
+        yaml_file = file
+      )
+    }
+  )
+
+  chattr_defaults_set(list(mode = label), "default")
+
+  cli_div(theme = cli_colors())
+  cli_h3("chattr")
+  print_provider(chattr_defaults())
 }

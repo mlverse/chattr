@@ -1,13 +1,94 @@
-openai_token <- function(defaults = NULL, fail = TRUE) {
-  UseMethod("openai_token")
-}
-
 #' @export
-openai_token.ch_openai_github_copilot_chat <- function(defaults = NULL, fail = TRUE) {
-  openai_token_copilot(defaults, fail)
+ch_submit.ch_openai <- function(
+    defaults,
+    prompt = NULL,
+    stream = NULL,
+    prompt_build = TRUE,
+    preview = FALSE,
+    ...) {
+  if (prompt_build) {
+    prompt <- ch_openai_prompt(defaults, prompt)
+  }
+  ret <- NULL
+  if (preview) {
+    ret <- prompt
+  } else {
+    ret <- ch_openai_complete(
+      prompt = prompt,
+      defaults = defaults
+    )
+  }
+  ret
 }
 
-openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
+ch_openai_prompt <- function(defaults, prompt) {
+  header <- c(
+    process_prompt(defaults$prompt),
+    ch_context_data_files(defaults$max_data_files),
+    ch_context_data_frames(defaults$max_data_frames)
+  )
+  header <- paste0("* ", header, collapse = " \n")
+  system_msg <- defaults$system_msg
+  if (!is.null(system_msg)) {
+    system_msg <- list(list(role = "system", content = defaults$system_msg))
+  }
+
+  if (defaults$include_history) {
+    history <- ch_history()
+  } else {
+    history <- NULL
+  }
+  ret <- c(
+    system_msg,
+    history,
+    list(list(role = "user", content = paste0(header, "\n", prompt)))
+  )
+  ret
+}
+
+ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
+  ret <- NULL
+  req_body <- c(
+    list(messages = prompt),
+    model = defaults$model,
+    defaults$model_arguments
+  )
+
+  if (ch_openai_is_copilot(defaults)) {
+    token <- ch_gh_token(defaults)
+  } else {
+    token <- ch_openai_token(defaults)
+  }
+
+  req_result <- defaults$path %>%
+    request() %>%
+    req_auth_bearer_token(token) %>%
+    req_body_json(req_body)
+
+  if (ch_openai_is_copilot(defaults)) {
+    req_result <- req_headers(req_result, "Editor-Version" = "vscode/9.9.9")
+  }
+
+  req_result <- req_result %>%
+    req_perform_stream(
+      function(x) {
+        char_x <- rawToChar(x)
+        ret <<- paste0(ret, char_x)
+        cat(ch_openai_parse(char_x, defaults))
+        TRUE
+      },
+      buffer_kb = 0.05, round = "line"
+    )
+  ret <- ch_openai_parse(ret, defaults)
+  if (req_result$status_code != 200) {
+    cli_alert_warning(ret)
+    abort(req_result)
+  }
+  ch_openai_error(ret)
+  ret
+}
+
+ch_gh_token <- function(defaults = NULL, fail = TRUE) {
   ret <- NULL
   if (ch_debug_get()) {
     return("")
@@ -43,16 +124,28 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
       )
     )
   }
-  if(is.null(hosts_path)) {
+  if (is.null(hosts_path)) {
     return(NULL)
   }
   gh_path <- path_expand(hosts_path)
   if (dir_exists(gh_path)) {
     hosts <- jsonlite::read_json(path(gh_path, "hosts.json"))
     oauth_token <- hosts[[1]]$oauth_token
-    x <- request(token_url) %>%
-      req_auth_bearer_token(oauth_token) %>%
-      req_perform()
+    x <- try(
+      {
+        request(token_url) %>%
+          req_auth_bearer_token(oauth_token) %>%
+          req_perform()
+      },
+      silent = TRUE
+    )
+    if (inherits(x, "try-error")) {
+      if (fail) {
+        abort(x)
+      } else {
+        return(NULL)
+      }
+    }
     x_json <- resp_body_json(x)
     ret <- x_json$token
   } else {
@@ -63,15 +156,7 @@ openai_token_copilot <- function(defaults = NULL, fail = TRUE) {
   ret
 }
 
-#' @export
-openai_token.ch_openai <- function(defaults = NULL, fail = TRUE) {
-  openai_token_chat(defaults, fail)
-}
-
-openai_token_chat <- function(defaults, fail = TRUE) {
-  if (ch_debug_get()) {
-    return("")
-  }
+ch_openai_token <- function(defaults, fail = TRUE) {
   env_key <- Sys.getenv("OPENAI_API_KEY", unset = NA)
   ret <- NULL
   if (!is.na(env_key)) {
@@ -90,28 +175,7 @@ openai_token_chat <- function(defaults, fail = TRUE) {
   ret
 }
 
-openai_request <- function(defaults, req_body) {
-  UseMethod("openai_request")
-}
-
-#' @export
-openai_request.ch_openai <- function(defaults, req_body) {
-  defaults$path %>%
-    request() %>%
-    req_auth_bearer_token(openai_token(defaults = defaults)) %>%
-    req_body_json(req_body)
-}
-
-#' @export
-openai_request.ch_openai_github_copilot_chat <- function(defaults, req_body) {
-  defaults$path %>%
-    request() %>%
-    req_auth_bearer_token(openai_token(defaults = defaults)) %>%
-    req_body_json(req_body) %>%
-    req_headers("Editor-Version" = "vscode/9.9.9")
-}
-
-openai_check_error <- function(x) {
+ch_openai_error <- function(x) {
   if (is.null(x)) {
     return(invisible())
   }
@@ -128,7 +192,7 @@ openai_check_error <- function(x) {
   invisible()
 }
 
-openai_stream_parse <- function(x, defaults) {
+ch_openai_parse <- function(x, defaults) {
   res <- x %>%
     paste0(collapse = "") %>%
     strsplit("data: ") %>%
@@ -139,7 +203,14 @@ openai_stream_parse <- function(x, defaults) {
 
   out <- NULL
   if (length(res) > 0) {
-    content <- openai_stream_content(defaults, res)
+    content <- res %>%
+      map(~ {
+        content <- .x$choices$delta$content
+        if (is_na(content)) content <- ""
+        content
+      }) %>%
+      reduce(paste0)
+
     if (length(content) > 0) {
       out <- content
     }
@@ -160,43 +231,12 @@ openai_stream_parse <- function(x, defaults) {
   out
 }
 
-openai_stream_content <- function(defaults, res) {
-  UseMethod("openai_stream_content")
-}
-
-#' @export
-openai_stream_content.ch_openai_chat_completions <- function(defaults, res) {
-  res %>%
-    map(~ .x$choices$delta$content) %>%
-    reduce(paste0)
-}
-
-#' @export
-openai_stream_content.ch_openai_completions <- function(defaults, res) {
-  res %>%
-    map(~ .x$choices$text) %>%
-    reduce(paste0)
-}
-
-#' @export
-openai_stream_content.ch_openai_github_copilot_chat <- function(defaults, res) {
-  res %>%
-    map(~ {
-      content <- .x$choices$delta$content
-      if (!is.null(content)) {
-        if (is.na(content)) content <- ""
-      }
-      content
-    }) %>%
-    reduce(paste0)
-}
-
-is_copilot <- function(defaults) {
+ch_openai_is_copilot <- function(defaults) {
   grepl("copilot", tolower(defaults$provider))
 }
 
 #' @export
-app_init_message.cl_openai <- function(defaults) {
+app_init_message.ch_openai <- function(defaults) {
   print_provider(defaults)
   if (defaults$max_data_files > 0) {
     cli_alert_warning(

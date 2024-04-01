@@ -75,7 +75,7 @@ back-ends as time goes by:
 href="https://platform.openai.com/docs/introduction">OpenAI</a></td>
 <td style="text-align: center;">GPT Models accessible via the OpenAI’s
 REST API. <code>chattr</code> provides a convenient way to interact with
-GPT 4, 3.5, and DaVinci 3.</td>
+GPT 4, and 3.5.</td>
 <td style="text-align: center;"><a
 href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact
 with OpenAI GPT models</a></td>
@@ -124,10 +124,9 @@ chattr::chattr_app()
 #> ── chattr - Available models 
 #> 
 #> 1: GitHub - Copilot Chat -  (copilot) 
-#> 2: OpenAI - Completions - text-davinci-003 (davinci) 
-#> 3: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) 
-#> 4: OpenAI - Chat Completions - gpt-4 (gpt4) 
-#> 5: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) 
+#> 2: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) 
+#> 3: OpenAI - Chat Completions - gpt-4 (gpt4) 
+#> 4: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) 
 #> 
 #> Select the number of the model you would like to use:
 ```
@@ -231,6 +230,7 @@ chattr_use("gpt4")
 #> • Provider: OpenAI - Chat Completions
 #> • Path/URL: https://api.openai.com/v1/chat/completions
 #> • Model: gpt-4
+#> • Label: GPT 4 (OpenAI)
 
 chattr(preview = TRUE)
 #> 
@@ -240,6 +240,7 @@ chattr(preview = TRUE)
 #> • Provider: OpenAI - Chat Completions
 #> • Path/URL: https://api.openai.com/v1/chat/completions
 #> • Model: gpt-4
+#> • Label: GPT 4 (OpenAI)
 #> • temperature: 0.01
 #> • max_tokens: 1000
 #> • stream: TRUE

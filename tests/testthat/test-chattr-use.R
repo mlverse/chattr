@@ -4,7 +4,6 @@ test_that("Request submission works", {
     {
       out <- ch_get_ymls(menu = FALSE)
       expect_equal(class(out), "list")
-      expect_snapshot(out$davinci)
       expect_snapshot(out$gpt35)
       expect_snapshot(out$gpt4)
     }
@@ -21,7 +20,7 @@ test_that("Menu works", {
         }
       )
       expect_true(
-        ch_get_ymls(menu = TRUE) %in% c("copilot", "davinci")
+        ch_get_ymls(menu = TRUE) %in% c("gpt35", "gpt4")
       )
     }
   )

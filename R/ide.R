@@ -1,15 +1,4 @@
 # --------------------------- IDE Identification -------------------------------
-
-ide_current <- function() {
-  ret <- ""
-  if (is_interactive()) {
-    if (!is.na(Sys.getenv("RSTUDIO", unset = NA))) {
-      ret <- "rstudio"
-    }
-  }
-  ret
-}
-
 ide_is_rstudio <- function() {
   if (ch_debug_get()) {
     return(TRUE)

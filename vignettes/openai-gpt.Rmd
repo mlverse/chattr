@@ -64,13 +64,13 @@ chattr_test()
 
 ## Change the model
 
-By default, `chattr` is setup to interact with GPT 3.5 (`gpt-4`). To
-switch to the DaVinci model (`text-davinci-003`) run:
+By default, `chattr` is setup to interact with GPT 4 (`gpt-4`). To
+switch to 3.5, use:
 
 ```{r}
 library(chattr)
 
-chattr_use("davinci")
+chattr_use("gpt35")
 ```
 
 To switch back to GPT 4, run:
@@ -79,31 +79,6 @@ To switch back to GPT 4, run:
 chattr_use("gpt4")
 ```
 
-If you wish to switch to a model other than the two mentioned above, you will
-first need to note which of the two OpenAI endpoints you will need to reach: 
-`completions` or `chat/completions`. "gpt4" points to the `chat/completions` 
-endpoint, and "davinci" to the `completions` endpoint.
-
-For example, if you wish to switch to the Curie model, first run:
-
-```{r}
-chattr_use("davinci")
-```
-
-And then run:
-
-```{r}
-chattr_defaults(model = "text-curie-001")
-```
-If you are allowed to access GPT 4, and wish to use it via `chattr` then run:
-
-```{r}
-chattr_use("gpt35")
-```
-
-```{r}
-chattr_defaults(model = "gpt-4")
-```
 To see the latest list which endpoint to use, go to : [Model Endpoint Compatability](https://platform.openai.com/docs/models/model-endpoint-compatibility)
 
 ## Data files and data frames
