@@ -61,5 +61,6 @@ chattr <- function(prompt = NULL,
     as_ch_request(ret, defaults)
   } else {
     ch_history_append(prompt, ret)
+    return(invisible())
   }
 }

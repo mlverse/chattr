@@ -1,5 +1,3 @@
-skip()
-
 test_that("Test function works for OpenAI", {
   ch_debug_set_true()
   expect_true(ch_debug_get())

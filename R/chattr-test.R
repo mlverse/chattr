@@ -16,10 +16,6 @@ ch_test <- function(defaults = NULL) {
 # ------------------------------ OpenAI ----------------------------------------
 #' @export
 ch_test.ch_openai_chat_completions <- function(defaults = NULL) {
-  ch_test_open_ai(defaults = defaults)
-}
-
-ch_test_open_ai <- function(defaults = NULL) {
   if (ch_debug_get()) {
     prompt <- "TEST"
     out <- "TEST"
@@ -102,4 +98,15 @@ ch_test.ch_openai_github_copilot_chat <- function(defaults = NULL) {
   } else {
     cli_alert_danger("Connection with GitHub Copilot failed")
   }
+}
+
+#' @export
+ch_submit.test_backend <- function(
+    defaults,
+    prompt = NULL,
+    stream = NULL,
+    prompt_build = TRUE,
+    preview = FALSE,
+    ...) {
+  "test"
 }
