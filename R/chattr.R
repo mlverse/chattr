@@ -18,13 +18,36 @@ chattr <- function(prompt = NULL,
     defaults <- chattr_defaults(type = ui)
   }
 
-  ret <- ch_submit(
-    defaults = defaults,
+  prompt <- ide_build_prompt(
     prompt = prompt,
-    stream = stream,
-    prompt_build = prompt_build,
+    defaults = defaults,
     preview = preview
-  )
+    )
+
+  if(ui_current() %in% c("markdown", "script")) {
+    ch_r_submit(
+      prompt = prompt,
+      defaults = defaults,
+      stream = stream,
+      preview = preview,
+      prompt_build = prompt_build
+      )
+    Sys.sleep(0.5)
+    ret <- NULL
+    while(ch_r_state() == "busy") {
+      curr_text <- ch_r_output()
+      ret <- c(ret, curr_text)
+      ide_paste_text(curr_text)
+    }
+  } else {
+    ret <- ch_submit(
+      defaults = defaults,
+      prompt = prompt,
+      stream = stream,
+      prompt_build = prompt_build,
+      preview = preview
+    )
+  }
 
   if (is.null(ret)) {
     invisible()
