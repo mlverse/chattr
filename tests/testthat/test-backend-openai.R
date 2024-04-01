@@ -1,12 +1,14 @@
 test_that("Submit method works", {
   local_mocked_bindings(
-    ch_openai_complete = function(...) return("test return")
+    ch_openai_complete = function(...) {
+      return("test return")
+    }
   )
   def <- test_simulate_model("gpt35.yml")
   expect_equal(
     ch_submit(def, "test"),
     "test return"
-    )
+  )
   expect_snapshot(
     ch_submit(def, "test", preview = TRUE)
   )
@@ -132,7 +134,7 @@ test_that("OpenAI token finder works", {
   yaml::write_yaml(
     list(default = list("openai-api-key" = "12345")),
     config_file
-    )
+  )
   withr::with_envvar(
     new = c("R_CONFIG_FILE" = config_file, "OPENAI_API_KEY" = NA),
     expect_equal(ch_openai_token(list()), "12345")

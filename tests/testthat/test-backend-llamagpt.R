@@ -1,6 +1,8 @@
 test_that("Submit method works", {
   local_mocked_bindings(
-    ch_llamagpt_output = function(...) return("test return"),
+    ch_llamagpt_output = function(...) {
+      return("test return")
+    },
     ch_llamagpt_session = function(...) invisible(),
     ch_llamagpt_prompt = function(...) invisible()
   )
@@ -38,7 +40,9 @@ test_that("Session management works", {
 
 test_that("Printout works", {
   local_mocked_bindings(
-    ch_llamagpt_output = function(...) return("test return")
+    ch_llamagpt_output = function(...) {
+      return("test return")
+    }
   )
   def <- test_simulate_model("llamagpt.yml")
   expect_snapshot(

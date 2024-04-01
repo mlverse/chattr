@@ -17,8 +17,7 @@ ch_r_submit <- function(
     defaults,
     stream = TRUE,
     preview = FALSE,
-    prompt_build = TRUE
-    ) {
+    prompt_build = TRUE) {
   ch_r_start()
   ch_env$r_session$call(
     func = function(prompt, defaults, stream, preview, prompt_build) {

@@ -21,7 +21,9 @@ test_that("IDE functions work in debug mode", {
 
 test_that("Paste text works", {
   local_mocked_bindings(
-    insertText = function(...) return("test"),
+    insertText = function(...) {
+      return("test")
+    },
     ide_is_rstudio = function(...) TRUE
   )
   expect_silent(ide_paste_text("hello"))
