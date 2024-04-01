@@ -1,7 +1,6 @@
 app_server <- function(input, output, session) {
   ch_env$content_hist <- NULL
   style <- app_theme_style()
-  rs <- r_session_start()
   ch_env$stream_output <- ""
   app_add_history(input)
   auto_invalidate <- reactiveTimer(100)
@@ -18,8 +17,8 @@ app_server <- function(input, output, session) {
 
   output$stream <- renderText({
     auto_invalidate()
-    if (rs$get_state() == "busy") {
-      ch_env$stream_output <- paste0(ch_env$stream_output, rs$read_output())
+    if (ch_r_state() == "busy") {
+      ch_env$stream_output <- paste0(ch_env$stream_output, ch_r_output())
       markdown(ch_env$stream_output)
     }
   })
@@ -46,27 +45,14 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "" && rs$get_state() == "idle") {
+    if (input$prompt != "" && ch_r_state() == "idle") {
       ch_history_append(user = input$prompt)
       app_add_user(input$prompt)
-      updateTextAreaInput(inputId = "prompt", value = ""
-      )
+      updateTextAreaInput(inputId = "prompt", value = "")
       session$sendCustomMessage(type = "refocus", message = list(NULL))
-
-      rs$call(
-        func = function(prompt, defaults) {
-          chattr::ch_submit(
-            defaults = defaults,
-            prompt = prompt,
-            stream = TRUE,
-            preview = FALSE,
-            prompt_build = TRUE
-          )
-        },
-        args = list(
-          prompt = input$prompt,
-          defaults = chattr_defaults(type = "chat")
-        )
+      ch_r_submit(
+        prompt = input$prompt,
+        defaults = chattr_defaults(type = "chat")
       )
     }
   })
@@ -93,7 +79,7 @@ app_server <- function(input, output, session) {
 
   observe({
     auto_invalidate()
-    if (rs$get_state() == "idle" && ch_env$stream_output != "") {
+    if (ch_r_state() == "idle" && ch_env$stream_output != "") {
       Sys.sleep(0.02)
       ch_history_append(assistant = ch_env$stream_output)
       app_add_assistant(ch_env$stream_output, input)
@@ -103,7 +89,7 @@ app_server <- function(input, output, session) {
 
   observe({
     auto_invalidate()
-    error <- r_session_error()
+    error <- ch_r_error()
     if (!is.null(error)) {
       stopApp()
       print(error)
@@ -202,25 +188,4 @@ app_split_content <- function(content) {
       )
     }
   )
-}
-
-r_session_start <- function() {
-  if (is.null(ch_env$r_session)) {
-    opts <- r_session_options()
-    opts$stdout <- "|"
-    opts$stderr <- "|"
-    ch_env$r_session <- r_session$new(options = opts)
-  }
-  ch_env$r_session
-}
-
-r_session_error <- function() {
-  out <- NULL
-  if (!is.null(ch_env$r_session)) {
-    read_session <- ch_env$r_session$read()
-    if (!is.null(read_session)) {
-      out <- read_session$error
-    }
-  }
-  out
 }
