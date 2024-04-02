@@ -1,0 +1,13 @@
+default:
+  prompt: |
+    Use the R language, the tidyverse, and tidymodels
+  provider: test backend
+  path: ""
+  label: Test
+  model: Test model
+  max_data_files: 0
+  max_data_frames: 0
+  include_doc_contents: FALSE
+  include_history: FALSE
+  model_arguments:
+    n_predict: 1000
