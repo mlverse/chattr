@@ -101,12 +101,18 @@ ch_test.ch_openai_github_copilot_chat <- function(defaults = NULL) {
 }
 
 #' @export
-ch_submit.test_backend <- function(
+ch_submit.ch_test_backend <- function(
     defaults,
     prompt = NULL,
     stream = NULL,
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
-  "test"
+  if(stream) {
+    for(i in seq_len(nchar(prompt))) {
+      cat(substr(prompt, i, i))
+      Sys.sleep(0.1)
+    }
+  }
+  prompt
 }
