@@ -1,0 +1,16 @@
+{
+  "input": {
+    "close": 0,
+    "options": 0,
+    "prompt": "",
+    "submit": 1,
+    "tabs": null
+  },
+  "output": {
+    "provider": "GPT 4 (OpenAI)",
+    "stream": ""
+  },
+  "export": {
+
+  }
+}
