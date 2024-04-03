@@ -90,6 +90,35 @@ the response is complete. Defaults to TRUE.</p></dd>
 <p>The output of the LLM to the console, document or script.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"test"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── chattr </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">test backend</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Path/URL:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">Test model</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Test</span></span>
+<span class="r-in"><span><span class="fu">chattr</span><span class="op">(</span><span class="st">"hello"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hello</span>
+<span class="r-in"><span><span class="fu">chattr</span><span class="op">(</span><span class="st">"hello"</span>, preview <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hello</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Preview for: <span style="color: #0000BB;">Console</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">test backend</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Path/URL:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">Test model</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Test</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • n_predict: <span style="color: #0000BB;">1000</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── Prompt: </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #008700;">hello</span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
