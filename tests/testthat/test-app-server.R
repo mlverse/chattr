@@ -5,13 +5,18 @@ test_that("chattr app initial values are consistent", {
     shiny_app,
     options = list("chattr-shiny-test" = TRUE)
   )
+  Sys.sleep(1)
   app$expect_values(screenshot_args = FALSE)
   app$set_inputs(prompt = "hello", allow_no_input_binding_ = TRUE)
+  Sys.sleep(1)
   app$click("submit")
+  Sys.sleep(1)
   app$expect_values(screenshot_args = FALSE)
   app$click("options")
+  Sys.sleep(1)
   app$expect_values(screenshot_args = FALSE)
   app$click("saved")
+  Sys.sleep(1)
   app$expect_values(screenshot_args = FALSE)
 })
 
