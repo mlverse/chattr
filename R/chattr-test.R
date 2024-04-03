@@ -108,11 +108,16 @@ ch_submit.ch_test_backend <- function(
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
+  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
   if (stream) {
     for (i in seq_len(nchar(prompt))) {
-      cat(substr(prompt, i, i))
+      if(is_test) cat(substr(prompt, i, i))
       Sys.sleep(0.1)
     }
   }
-  prompt
+  if(is_test) {
+    invisible()
+  } else {
+    prompt
+  }
 }
