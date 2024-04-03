@@ -8,7 +8,8 @@ chattr_use(model_label = NULL)
 }
 \arguments{
 \item{model_label}{The label of the LLM model to use. Valid values are
-'copilot', 'gpt4', 'gpt35', and 'llamagpt'.}
+'copilot', 'gpt4', 'gpt35', and 'llamagpt'. The value 'test' is also
+acceptable, but it is meant for package examples, and internal testin.}
 }
 \value{
 It returns console messages to allow the user select the model to

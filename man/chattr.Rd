@@ -25,3 +25,10 @@ The output of the LLM to the console, document or script.
 \description{
 Submits prompt to LLM
 }
+\examples{
+library(chattr)
+chattr_use("test")
+chattr("hello")
+chattr("hello", preview = TRUE)
+
+}
