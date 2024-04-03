@@ -7,7 +7,7 @@ app_theme_style <- function(x = NULL) {
   } else {
     color_bg <- "#fff"
     color_fg <- "#000"
-    color_dark <- TRUE
+    color_dark <- FALSE
   }
 
   if (color_dark) {

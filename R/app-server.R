@@ -3,7 +3,14 @@ app_server <- function(input, output, session) {
   style <- app_theme_style()
   ch_env$stream_output <- ""
   app_add_history(input)
-  auto_invalidate <- reactiveTimer(100)
+  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
+  if (is_test) {
+    use_switch("apptest", path_ext_set("test", "yml"))
+    invalidate_time <- 1000
+  } else {
+    invalidate_time <- 100
+  }
+  auto_invalidate <- shiny::reactiveTimer(invalidate_time)
   session$sendCustomMessage(type = "refocus", message = list(NULL))
 
   insertUI(
@@ -24,7 +31,7 @@ app_server <- function(input, output, session) {
   })
 
   output$provider <- renderText({
-    defaults <- chattr_defaults()
+    defaults <- chattr_defaults(type = "chat")
     defaults$label
   })
 

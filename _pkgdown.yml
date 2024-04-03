@@ -6,10 +6,12 @@ reference:
   contents:
   - chattr_app
   - chattr
-- title: Defaults
+- title: Session defaults
   contents: starts_with("chattr_defaults")
 - title: Utilities
   contents:
   - chattr_use
   - chattr_test
-
+- title: Integration
+  contents:
+  - ch_submit

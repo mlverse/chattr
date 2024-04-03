@@ -1,3 +1,25 @@
+test_that("chattr app initial values are consistent", {
+  skip_on_cran()
+  shiny_app <- shinyApp(app_ui(), app_server)
+  app <- shinytest2::AppDriver$new(
+    shiny_app,
+    options = list("chattr-shiny-test" = TRUE)
+  )
+  Sys.sleep(1)
+  app$expect_values(screenshot_args = FALSE)
+  app$set_inputs(prompt = "hello", allow_no_input_binding_ = TRUE)
+  Sys.sleep(1)
+  app$click("submit")
+  Sys.sleep(1)
+  app$expect_values(screenshot_args = FALSE)
+  app$click("options")
+  Sys.sleep(1)
+  app$expect_values(screenshot_args = FALSE)
+  app$click("saved")
+  Sys.sleep(1)
+  app$expect_values(screenshot_args = FALSE)
+})
+
 test_that("Split content function", {
   content <- readRDS(package_file("history", "raw.rds"))[[2]]$content
   expect_snapshot(app_split_content(content))
@@ -12,19 +34,6 @@ test_that("Cleanup", {
   expect_null(ch_history_set(NULL))
 })
 
-
-test_that("app_server() function runs", {
-  local_mocked_bindings(
-    insertUI = function(...) invisible(),
-    observeEvent = function(...) invisible()
-  )
-  session <- list()
-  session$sendCustomMessage <- function(...) {}
-  expect_silent(
-    app_server(list(), list(), session = session)
-  )
-})
-
 test_that("Adding to history works", {
   local_mocked_bindings(
     ch_history = function(...) {
@@ -34,7 +43,6 @@ test_that("Adding to history works", {
   )
   expect_silent(app_add_history("test"))
 })
-
 
 test_that("app_add_assistant() function runs", {
   local_mocked_bindings(
