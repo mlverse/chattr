@@ -33,7 +33,7 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
   }
   if (!as_job) {
     app <- app_interactive(as_job = as_job)
-    if(ide_is_rstudio()) {
+    if (ide_is_rstudio()) {
       runGadget(app$ui, app$server, viewer = viewer)
     } else {
       shinyApp(app$ui, app$server)

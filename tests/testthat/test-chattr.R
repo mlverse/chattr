@@ -27,5 +27,3 @@ test_that("Test for null output", {
   test_model_backend()
   expect_null(chattr("hello"))
 })
-
-

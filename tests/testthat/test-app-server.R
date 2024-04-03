@@ -4,7 +4,7 @@ test_that("chattr app initial values are consistent", {
   app <- shinytest2::AppDriver$new(
     shiny_app,
     options = list("chatter-shiny-test" = TRUE)
-    )
+  )
   app$expect_values(screenshot_args = FALSE)
   app$set_inputs(prompt = "hello", allow_no_input_binding_ = TRUE)
   app$click("submit")

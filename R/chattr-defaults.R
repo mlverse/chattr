@@ -75,7 +75,7 @@ chattr_defaults <- function(type = "default",
     env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
     check_files <- NULL
     if (!is.na(env_model)) {
-      if(env_model == "test") {
+      if (env_model == "test") {
         env_folder <- "apptest"
       } else {
         env_folder <- "configs"

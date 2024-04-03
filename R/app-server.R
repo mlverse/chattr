@@ -4,7 +4,7 @@ app_server <- function(input, output, session) {
   ch_env$stream_output <- ""
   app_add_history(input)
   is_test <- unlist(options("chatter-shiny-test")) %||% FALSE
-  if(is_test) {
+  if (is_test) {
     use_switch("apptest", path_ext_set("test", "yml"))
     invalidate_time <- 1000
   } else {

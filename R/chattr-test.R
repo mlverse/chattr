@@ -108,8 +108,8 @@ ch_submit.ch_test_backend <- function(
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
-  if(stream) {
-    for(i in seq_len(nchar(prompt))) {
+  if (stream) {
+    for (i in seq_len(nchar(prompt))) {
       cat(substr(prompt, i, i))
       Sys.sleep(0.1)
     }
