@@ -13,7 +13,6 @@ test_that("chattr app initial values are consistent", {
   app$expect_values(output = "options", screenshot_args = FALSE)
   app$click("saved")
   app$expect_values(output = "saved", screenshot_args = FALSE)
-  app$click("open")
 })
 
 test_that("Split content function", {
