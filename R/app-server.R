@@ -6,7 +6,7 @@ app_server <- function(input, output, session) {
   is_test <- unlist(options("chatter-shiny-test")) %||% FALSE
   if(is_test) {
     use_switch("apptest", path_ext_set("test", "yml"))
-    invalidate_time <- 10000
+    invalidate_time <- 1000
   } else {
     invalidate_time <- 100
   }
