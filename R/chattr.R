@@ -3,6 +3,12 @@
 #' @inheritParams ch_submit
 #' @returns The output of the LLM to the console, document or script.
 #' @export
+#' @examples
+#' library(chattr)
+#' chattr_use("test")
+#' chattr("hello")
+#' chattr("hello", preview = TRUE)
+#'
 chattr <- function(prompt = NULL,
                    preview = FALSE,
                    prompt_build = TRUE,

@@ -1,6 +1,7 @@
 #' Sets the LLM model to use in your session
 #' @param model_label The label of the LLM model to use. Valid values are
-#' 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
+#' 'copilot', 'gpt4', 'gpt35', and 'llamagpt'. The value 'test' is also
+#' acceptable, but it is meant for package examples, and internal testin.
 #' @details
 #' If the error "No model setup found" was returned, that is because none of the
 #' expected setup for Copilot, OpenIA or LLama was automatically detected. Here
@@ -27,7 +28,12 @@ chattr_use <- function(model_label = NULL) {
   if (interactive_label) {
     model_label <- ch_get_ymls()
   }
-  use_switch("configs", path_ext_set(model_label, "yml"))
+  if (model_label == "test") {
+    env_folder <- "apptest"
+  } else {
+    env_folder <- "configs"
+  }
+  use_switch(env_folder, path_ext_set(model_label, "yml"))
 }
 
 ch_get_ymls <- function(menu = TRUE) {
