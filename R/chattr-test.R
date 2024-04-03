@@ -109,9 +109,9 @@ ch_submit.ch_test_backend <- function(
     preview = FALSE,
     ...) {
   is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
-  if (stream) {
+  if (stream && !is_test) {
     for (i in seq_len(nchar(prompt))) {
-      if(is_test) cat(substr(prompt, i, i))
+      cat(substr(prompt, i, i))
       Sys.sleep(0.1)
     }
   }
