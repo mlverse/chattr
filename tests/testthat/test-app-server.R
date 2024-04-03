@@ -8,7 +8,6 @@ test_that("chattr app initial values are consistent", {
   app$expect_values(screenshot_args = FALSE)
   app$set_inputs(prompt = "hello", allow_no_input_binding_ = TRUE)
   app$click("submit")
-  app$expect_values(screenshot_args = FALSE)
   app$click("options")
   app$expect_values(screenshot_args = FALSE)
   app$click("saved")

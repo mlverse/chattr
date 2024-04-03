@@ -1,8 +1,13 @@
 {
   "input": {
     "close": 0,
-    "options": 0,
+    "i_data": "0",
+    "i_files": "0",
+    "i_history": false,
+    "options": 1,
     "prompt": "",
+    "prompt2": "Use the R language, the tidyverse, and tidymodels",
+    "saved": 0,
     "submit": 1,
     "tabs": null
   },
