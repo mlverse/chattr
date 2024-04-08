@@ -1,7 +1,7 @@
 #' Sets the LLM model to use in your session
 #' @param model_label The label of the LLM model to use. Valid values are
 #' 'copilot', 'gpt4', 'gpt35', and 'llamagpt'. The value 'test' is also
-#' acceptable, but it is meant for package examples, and internal testin.
+#' acceptable, but it is meant for package examples, and internal testing.
 #' @details
 #' If the error "No model setup found" was returned, that is because none of the
 #' expected setup for Copilot, OpenIA or LLama was automatically detected. Here
