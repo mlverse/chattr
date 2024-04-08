@@ -59,13 +59,15 @@ ch_submit.ch_my_llm <- function(defaults,
                                 preview = FALSE,
                                 ...) {
   # Use `prompt_build` to append the prompts you with to append
-  if(prompt_build) prompt <- paste0("Use the tidyverse\n", prompt)
+  if (prompt_build) prompt <- paste0("Use the tidyverse\n", prompt)
   # If `preview` is true, return the resulting prompt back
-  if(preview) return(prompt)
+  if (preview) {
+    return(prompt)
+  }
   llm_response <- paste0("You said this: \n", prompt)
-  if(stream) {
+  if (stream) {
     cat("streaming:\n")
-    for(i in seq_len(nchar(llm_response))) {
+    for (i in seq_len(nchar(llm_response))) {
       # If `stream` is true, make sure to `cat()` the current output
       cat(substr(llm_response, i, i))
       Sys.sleep(0.1)
