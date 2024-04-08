@@ -52,6 +52,12 @@ chattr_defaults <- function(type = "default",
                             ...) {
   function_args <- c(as.list(environment()), ...)
 
+  if(type == "default") {
+    all_def <- function_args
+    all_def$type == "all"
+    chattr_defaults_set(arguments = function_args, type = "all")
+  }
+
   sys_type <- Sys.getenv("CHATTR_TYPE", NA)
   if (!is.na(sys_type)) {
     type <- sys_type
@@ -109,7 +115,7 @@ chattr_defaults <- function(type = "default",
   }
 
   chattr_defaults_set(
-    arguments = function_args,
+    arguments = chattr_defaults_get("all"),
     type = type
   )
 
