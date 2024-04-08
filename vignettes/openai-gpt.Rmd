@@ -79,7 +79,7 @@ To switch back to GPT 4, run:
 chattr_use("gpt4")
 ```
 
-To see the latest list which endpoint to use, go to : [Model Endpoint Compatability](https://platform.openai.com/docs/models/model-endpoint-compatibility)
+To see the latest list which endpoint to use, go to : [Model Endpoint Compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility)
 
 ## Data files and data frames
 

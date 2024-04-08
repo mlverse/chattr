@@ -3,7 +3,7 @@
 \name{chattr_test}
 \alias{chattr_test}
 \alias{ch_test}
-\title{Confirms conectivity to LLM interface}
+\title{Confirms connectivity to LLM interface}
 \usage{
 chattr_test(defaults = NULL)
 
@@ -16,5 +16,5 @@ ch_test(defaults = NULL)
 It returns console massages with the status of the test.
 }
 \description{
-Confirms conectivity to LLM interface
+Confirms connectivity to LLM interface
 }
