@@ -13,7 +13,7 @@
 #' set to NULL
 #' @param include_doc_contents Send the current code in the document
 #' @param include_history Indicates whether to include the chat history when
-#' everytime a new prompt is submitted
+#' every time a new prompt is submitted
 #' @param provider The name of the provider of the LLM. Today, only "openai" is
 #' is available
 #' @param path The location of the model. It could be an URL or a file path.
@@ -52,7 +52,7 @@ chattr_defaults <- function(type = "default",
                             ...) {
   function_args <- c(as.list(environment()), ...)
 
-  if(type == "default") {
+  if (type == "default") {
     all_def <- function_args
     all_def$type == "all"
     chattr_defaults_set(arguments = function_args, type = "all")

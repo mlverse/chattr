@@ -20,10 +20,10 @@ Sets the LLM model to use in your session
 }
 \details{
 If the error "No model setup found" was returned, that is because none of the
-expected setup for Copilot, OpenIA or LLama was automatically detected. Here
+expected setup for Copilot, OpenAI or LLama was automatically detected. Here
 is how to setup a model:
 \itemize{
-\item OpenIA - The main thing \code{chattr} checks is the prescence of the R user's
+\item OpenAI - The main thing \code{chattr} checks is the presence of the R user's
 OpenAI PAT (Personal Access Token). It looks for it in the 'OPENAI_API_KEY'
 environment variable. Get a PAT from the OpenAI website, and save it to that
 environment variable. Then restart R, and try again.

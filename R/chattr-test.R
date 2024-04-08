@@ -1,4 +1,4 @@
-#' Confirms conectivity to LLM interface
+#' Confirms connectivity to LLM interface
 #' @inheritParams ch_submit
 #' @returns It returns console massages with the status of the test.
 #' @export
@@ -115,7 +115,7 @@ ch_submit.ch_test_backend <- function(
       Sys.sleep(0.1)
     }
   }
-  if(is_test) {
+  if (is_test) {
     invisible()
   } else {
     prompt
