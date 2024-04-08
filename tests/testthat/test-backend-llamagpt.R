@@ -63,3 +63,9 @@ test_that("Args output is correct", {
   out <- out[!model_line]
   expect_snapshot(out)
 })
+
+test_that("Output works as expected", {
+  expect_snapshot(
+    ch_llamagpt_output("tests\n> ", stream = TRUE)
+  )
+})

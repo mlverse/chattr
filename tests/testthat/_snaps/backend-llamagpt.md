@@ -39,3 +39,11 @@
       [1] "--threads"   "4"           "--temp"      "0.01"        "--n_predict"
       [6] "1000"        "--model"    
 
+# Output works as expected
+
+    Code
+      ch_llamagpt_output("tests\n> ", stream = TRUE)
+    Output
+      tests
+      [1] "tests\n"
+
