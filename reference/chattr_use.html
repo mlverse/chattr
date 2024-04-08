@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9011</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@
     <dl><dt>model_label</dt>
 <dd><p>The label of the LLM model to use. Valid values are
 'copilot', 'gpt4', 'gpt35', and 'llamagpt'. The value 'test' is also
-acceptable, but it is meant for package examples, and internal testin.</p></dd>
+acceptable, but it is meant for package examples, and internal testing.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -79,8 +79,8 @@ use.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If the error "No model setup found" was returned, that is because none of the
-expected setup for Copilot, OpenIA or LLama was automatically detected. Here
-is how to setup a model:</p><ul><li><p>OpenIA - The main thing <code>chattr</code> checks is the prescence of the R user's
+expected setup for Copilot, OpenAI or LLama was automatically detected. Here
+is how to setup a model:</p><ul><li><p>OpenAI - The main thing <code>chattr</code> checks is the presence of the R user's
 OpenAI PAT (Personal Access Token). It looks for it in the 'OPENAI_API_KEY'
 environment variable. Get a PAT from the OpenAI website, and save it to that
 environment variable. Then restart R, and try again.</p></li>
