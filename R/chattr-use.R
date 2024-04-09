@@ -1,7 +1,9 @@
 #' Sets the LLM model to use in your session
-#' @param model_label The label of the LLM model to use. Valid values are
-#' 'copilot', 'gpt4', 'gpt35', and 'llamagpt'. The value 'test' is also
-#' acceptable, but it is meant for package examples, and internal testing.
+#' @param x The label of the LLM model to use, or the path of a valid YAML
+#' default file . Valid values are 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
+#' The value 'test' is also acceptable, but it is meant for package examples,
+#' and internal testing.
+#' @param ... Default values to modify.
 #' @details
 #' If the error "No model setup found" was returned, that is because none of the
 #' expected setup for Copilot, OpenAI or LLama was automatically detected. Here
@@ -23,17 +25,21 @@
 #' @returns It returns console messages to allow the user select the model to
 #' use.
 #' @export
-chattr_use <- function(model_label = NULL) {
-  interactive_label <- is_interactive() && is.null(model_label)
+chattr_use <- function(x = NULL, ...) {
+  interactive_label <- is_interactive() && is.null(x)
   if (interactive_label) {
-    model_label <- ch_get_ymls()
+    x <- ch_get_ymls()
   }
-  if (model_label == "test") {
-    env_folder <- "apptest"
+  if (is_file(x)) {
+    use_switch(path_expand(x))
   } else {
-    env_folder <- "configs"
+    stop()
+    env_folder <- ifelse(x == "test", "apptest", "configs")
+    env_folder %>%
+      package_file(path_ext_set(x, "yml")) %>%
+      use_switch()
   }
-  use_switch(env_folder, path_ext_set(model_label, "yml"))
+  chattr_defaults(...)
 }
 
 ch_get_ymls <- function(menu = TRUE) {
@@ -124,7 +130,7 @@ ch_get_ymls <- function(menu = TRUE) {
 use_switch <- function(...) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
-  file <- package_file(...)
+  file <- c(...)
 
   label <- file %>%
     path_file() %>%
