@@ -5,7 +5,7 @@ app_server <- function(input, output, session) {
   app_add_history(input)
   is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
   if (is_test) {
-    use_switch("apptest", path_ext_set("test", "yml"))
+    chattr_use("test")
     invalidate_time <- 1000
   } else {
     invalidate_time <- 100
