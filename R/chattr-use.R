@@ -155,7 +155,9 @@ use_switch <- function(..., .file) {
 }
 
 ch_package_file <- function(x) {
-  if(is.na(x)) return(NULL)
+  if (is.na(x)) {
+    return(NULL)
+  }
   env_folder <- ifelse(x == "test", "apptest", "configs")
   package_file(env_folder, path_ext_set(x, "yml"))
 }
