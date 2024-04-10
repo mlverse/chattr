@@ -31,14 +31,11 @@ chattr_use <- function(x = NULL, ...) {
     x <- ch_get_ymls()
   }
   if (is_file(x)) {
-    use_switch(path_expand(x))
+    x <- path_expand(x)
   } else {
-    env_folder <- ifelse(x == "test", "apptest", "configs")
-    env_folder %>%
-      package_file(path_ext_set(x, "yml")) %>%
-      use_switch()
+    x <- ch_package_file(x)
   }
-  invisible(chattr_defaults(...))
+  use_switch(.file = x, ...)
 }
 
 ch_get_ymls <- function(menu = TRUE) {
@@ -126,20 +123,17 @@ ch_get_ymls <- function(menu = TRUE) {
   }
 }
 
-use_switch <- function(...) {
+use_switch <- function(..., .file) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
-  file <- c(...)
 
-  label <- file %>%
+  label <- .file %>%
     path_file() %>%
     path_ext_remove()
 
-  Sys.setenv("CHATTR_MODEL" = label)
-
   chattr_defaults(
     type = "default",
-    yaml_file = file,
+    yaml_file = .file,
     force = TRUE
   )
 
@@ -148,7 +142,7 @@ use_switch <- function(...) {
     ~ {
       chattr_defaults(
         type = .x,
-        yaml_file = file
+        yaml_file = .file
       )
     }
   )
@@ -157,5 +151,10 @@ use_switch <- function(...) {
 
   cli_div(theme = cli_colors())
   cli_h3("chattr")
-  print_provider(chattr_defaults())
+  print_provider(chattr_defaults(...))
+}
+
+ch_package_file <- function(x) {
+  env_folder <- ifelse(x == "test", "apptest", "configs")
+  package_file(env_folder, path_ext_set(x, "yml"))
 }
