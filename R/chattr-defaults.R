@@ -75,29 +75,23 @@ chattr_defaults <- function(type = "default",
   if (force) {
     ch_env$defaults <- NULL
   }
-
+  env_model <- NULL
   if (is.null(chattr_defaults_get(type))) {
-    # Uses environment variable if set
-    env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
-    check_files <- NULL
-    if (!is.na(env_model)) {
-      if (env_model == "test") {
-        env_folder <- "apptest"
-      } else {
-        env_folder <- "configs"
-      }
-      check_files <- package_file(env_folder, path_ext_set(env_model, "yml"))
-    }
-
     # Overrides environment variable if YAML file is present
     if (file_exists(yaml_file)) {
       check_files <- yaml_file
+    } else {
+      check_files <- ch_package_file(Sys.getenv("CHATTR_USE", unset = NA))
     }
-
+    env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
+    if(is.na(env_model)) {
+      env_model <- NULL
+    }
     for (j in seq_along(check_files)) {
       td_defaults <- read_yaml(file = check_files[j])
       loaded_default <- chattr_defaults_get(type = "default")
       td_defaults$default <- loaded_default %||% td_defaults$default
+      td_defaults$default[["model"]] <- env_model %||% td_defaults$default[["model"]]
       check_defaults <- c("default", type)
       for (i in seq_along(check_defaults)) {
         td <- td_defaults[[check_defaults[i]]]

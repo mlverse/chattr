@@ -4,12 +4,15 @@
 \alias{chattr_use}
 \title{Sets the LLM model to use in your session}
 \usage{
-chattr_use(model_label = NULL)
+chattr_use(x = NULL, ...)
 }
 \arguments{
-\item{model_label}{The label of the LLM model to use. Valid values are
-'copilot', 'gpt4', 'gpt35', and 'llamagpt'. The value 'test' is also
-acceptable, but it is meant for package examples, and internal testing.}
+\item{x}{The label of the LLM model to use, or the path of a valid YAML
+default file . Valid values are 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
+The value 'test' is also acceptable, but it is meant for package examples,
+and internal testing.}
+
+\item{...}{Default values to modify.}
 }
 \value{
 It returns console messages to allow the user select the model to
