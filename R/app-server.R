@@ -172,9 +172,12 @@ app_add_assistant <- function(content, input) {
 
 prep_entry <- function(x, remove) {
   if (remove) {
-    split_ch <- unlist(strsplit(x, "\n"))
-    ch <- split_ch[2:(length(split_ch) - 1)]
-    x <- paste0(ch, collapse = "\n")
+    x1 <- x[x != ""]
+    if(length(x1) > 0) {
+      split_ch <- unlist(strsplit(x1, "\n"))
+      ch <- split_ch[2:(length(split_ch) - 1)]
+      x <- paste0(ch, collapse = "\n")
+    }
   }
   x
 }

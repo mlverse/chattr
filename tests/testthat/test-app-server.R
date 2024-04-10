@@ -23,6 +23,7 @@ test_that("Split content function", {
 test_that("Prep-entry works", {
   x <- prep_entry(c("a", "b", "c"), TRUE)
   expect_true(length(x) == 1)
+  expect_equal(prep_entry("", TRUE), "")
 })
 
 test_that("Cleanup", {
