@@ -77,17 +77,6 @@ chattr_defaults <- function(type = "default",
   }
 
   if (is.null(chattr_defaults_get(type))) {
-    # Uses environment variable if set
-    env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
-    check_files <- NULL
-    if (!is.na(env_model)) {
-      if (env_model == "test") {
-        env_folder <- "apptest"
-      } else {
-        env_folder <- "configs"
-      }
-      check_files <- package_file(env_folder, path_ext_set(env_model, "yml"))
-    }
 
     # Overrides environment variable if YAML file is present
     if (file_exists(yaml_file)) {

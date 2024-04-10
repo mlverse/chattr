@@ -33,13 +33,12 @@ chattr_use <- function(x = NULL, ...) {
   if (is_file(x)) {
     use_switch(path_expand(x))
   } else {
-    stop()
     env_folder <- ifelse(x == "test", "apptest", "configs")
     env_folder %>%
       package_file(path_ext_set(x, "yml")) %>%
       use_switch()
   }
-  chattr_defaults(...)
+  invisible(chattr_defaults(...))
 }
 
 ch_get_ymls <- function(menu = TRUE) {
