@@ -1,0 +1,14 @@
+default:
+  provider: Ollama
+  model: llama2
+  path: http://localhost:11434/api/chat
+  label:  Ollama
+  include_history: FALSE
+  max_data_files: 0
+  max_data_frames: 0
+  include_doc_contents: FALSE
+chat:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For code output, use RMarkdown code chunks
+    Avoid all code chunk options
