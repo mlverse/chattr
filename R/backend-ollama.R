@@ -18,8 +18,11 @@ ch_submit.ch_ollama <- function(
     req_perform_stream(
       function(x) {
         char_x <- rawToChar(x)
-        char_x <- jsonlite::parse_json(char_x)
-        content_x <- char_x$message$content
+        list_x <- jsonlite::parse_json(char_x)
+        content_x <- list_x$message$content
+        if(!is.null(list_x$error)) {
+          abort(list_x$error)
+        }
         cat(content_x)
         ret <<- paste0(ret, content_x)
         TRUE
