@@ -7,8 +7,12 @@ ch_submit.ch_ollama <- function(
     preview = FALSE,
     ...) {
 
+  system_msg <- defaults$system_msg
+  if (!is.null(system_msg)) {
+    system_msg <- list(role = "system", content = defaults$system_msg)
+  }
   req_body <- c(
-    list(messages = list(list(role = "user", content = prompt))),
+    list(messages = list(list(role = "user", content = prompt), system_msg)),
     model = defaults$model
   )
   ret <- NULL
