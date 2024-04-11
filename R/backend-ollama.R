@@ -52,3 +52,46 @@ ch_submit.ch_ollama <- function(
     )
   ret
 }
+
+ch_ollama_pull <- function(model, defaults) {
+  ollama_chat <- url_parse(defaults$path)
+  ollama_chat$path <- "api/pull"
+  req_result <- ollama_chat %>%
+    url_build() %>%
+    request() %>%
+    req_body_json(list(name = model)) %>%
+    req_perform_stream(
+      function(x) {
+        char_x <- rawToChar(x)
+        json_x <- try(jsonlite::parse_json(char_x), silent = TRUE)
+        if(!inherits(json_x, "try-error")) {
+          cat(paste0(json_x$status, "\n"))
+        } else {
+          invisible()
+        }
+        TRUE
+      },
+      buffer_kb = 0.05, round = "line"
+    )
+}
+
+ch_ollama_tags <- function(defaults) {
+  ollama_http <- url_parse(defaults$path)
+  ollama_http$path <- "/api/tags"
+  ollama_tags <- ollama_http %>%
+    url_build() %>%
+    request() %>%
+    req_perform() %>%
+    try(silent = TRUE)
+
+  if(inherits(ollama_tags, "try-error")) {
+    ret <- NULL
+  } else {
+    ret <- resp_body_json(ollama_tags)[[1]]
+    model_names <- ret %>%
+      map(~ unlist(strsplit(.x$model, ":"))[[1]]) %>%
+      as.character()
+    ret <- set_names(ret, model_names)
+  }
+  ret
+}
