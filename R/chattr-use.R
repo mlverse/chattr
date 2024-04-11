@@ -42,10 +42,7 @@ ch_get_ymls <- function(menu = TRUE) {
   files <- package_file("configs") %>%
     dir_ls()
 
-  copilot_defaults <- "configs/copilot.yml" %>%
-    package_file() %>%
-    read_yaml()
-
+  copilot_defaults <- read_yaml(ch_package_file("copilot"))
   copilot_token <- ch_gh_token(
     defaults = copilot_defaults$default,
     fail = FALSE
@@ -55,12 +52,23 @@ ch_get_ymls <- function(menu = TRUE) {
   gpt_token <- ch_openai_token(fail = FALSE)
   gpt_exists <- !is.null(gpt_token)
 
-  llama_defaults <- "configs/llamagpt.yml" %>%
-    package_file() %>%
-    read_yaml()
-
+  llama_defaults <- read_yaml(ch_package_file("llamagpt"))
   llama_exists <- file_exists(llama_defaults$default$path) &&
     file_exists(llama_defaults$default$model)
+
+  ollama_defaults <- read_yaml(ch_package_file("ollama"))
+  ollama_http <- url_parse(ollama_defaults$default$path)
+  ollama_http$path <- "/api/tags"
+  ollama_tags <- ollama_http %>%
+    url_build() %>%
+    request() %>%
+    req_perform() %>%
+    try(silent = TRUE)
+  if(inherits(ollama_tags, "try-error")) {
+    ollama_exists <- FALSE
+  } else {
+    ollama_exists <- TRUE
+  }
 
   prep_files <- files %>%
     map(read_yaml) %>%
@@ -89,6 +97,10 @@ ch_get_ymls <- function(menu = TRUE) {
 
   if (!llama_exists) {
     prep_files$llamagpt <- NULL
+  }
+
+  if(!ollama_exists) {
+    prep_files$ollama <- NULL
   }
 
   if (length(prep_files) == 0) {

@@ -1,7 +1,7 @@
 default:
   provider: Ollama
   model: llama2
-  path: http://localhost:11434/api/chat
+  path: http://localhost:11434/
   label:  Ollama
   include_history: FALSE
   max_data_files: 0

@@ -28,8 +28,12 @@ ch_submit.ch_ollama <- function(
     model = defaults$model
   )
 
+  ollama_chat <- url_parse(defaults$path)
+  ollama_chat$path <- "api/chat"
+
   ret <- NULL
-  req_result <- defaults$path %>%
+  req_result <- ollama_chat %>%
+    url_build() %>%
     request() %>%
     req_body_json(req_body) %>%
     req_perform_stream(
