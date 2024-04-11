@@ -70,7 +70,7 @@ ch_submit.ch_ollama <- function(
 ch_ollama_pull <- function(model, defaults) {
   ollama_chat <- url_parse(defaults$path)
   ollama_chat$path <- "api/pull"
-  json_curr <- NULL
+  json_curr <- ""
   req_result <- ollama_chat %>%
     url_build() %>%
     request() %>%
@@ -82,7 +82,7 @@ ch_ollama_pull <- function(model, defaults) {
         if(!inherits(json_x, "try-error")) {
           if(json_curr != json_x$status) {
             cat(paste0(json_x$status, "\n"))
-            json_curr <- json_x$status
+            json_curr <<- json_x$status
           }
         } else {
           invisible()
