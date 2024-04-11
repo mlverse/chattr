@@ -9,12 +9,25 @@ ch_submit.ch_ollama <- function(
 
   system_msg <- defaults$system_msg
   if (!is.null(system_msg)) {
-    system_msg <- list(role = "system", content = defaults$system_msg)
+    system_msg <- list(role = "system", content = system_msg)
   }
+
+  messages <- list(
+    list(role = "user", content = prompt),
+    system_msg
+  )
+
+  prompt_add <- defaults$prompt
+  if (!is.null(prompt_add) && prompt_build) {
+    prompt_add <- list(role = "user", content = prompt_add)
+    messages <- c(prompt_add, messages)
+  }
+
   req_body <- c(
-    list(messages = list(list(role = "user", content = prompt), system_msg)),
+    list(messages = messages),
     model = defaults$model
   )
+
   ret <- NULL
   req_result <- defaults$path %>%
     request() %>%
