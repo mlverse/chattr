@@ -7,6 +7,20 @@ ch_submit.ch_ollama <- function(
     preview = FALSE,
     ...) {
 
+  installed_models <- ch_ollama_tags(defaults)
+  model <- defaults$model
+
+  if(!model %in% names(installed_models)) {
+    cli_alert_warning("The {.emph '{model}'} model is not found.")
+    cli_text("Would you like to download it?")
+    resp <- menu(c("Yes", "No"))
+    if(resp == 1) {
+      ch_ollama_pull(model, defaults)
+    } else {
+      return(invisible())
+    }
+  }
+
   system_msg <- defaults$system_msg
   if (!is.null(system_msg)) {
     system_msg <- list(role = "system", content = system_msg)
@@ -56,6 +70,7 @@ ch_submit.ch_ollama <- function(
 ch_ollama_pull <- function(model, defaults) {
   ollama_chat <- url_parse(defaults$path)
   ollama_chat$path <- "api/pull"
+  json_curr <- NULL
   req_result <- ollama_chat %>%
     url_build() %>%
     request() %>%
@@ -65,7 +80,10 @@ ch_ollama_pull <- function(model, defaults) {
         char_x <- rawToChar(x)
         json_x <- try(jsonlite::parse_json(char_x), silent = TRUE)
         if(!inherits(json_x, "try-error")) {
-          cat(paste0(json_x$status, "\n"))
+          if(json_curr != json_x$status) {
+            cat(paste0(json_x$status, "\n"))
+            json_curr <- json_x$status
+          }
         } else {
           invisible()
         }
