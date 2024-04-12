@@ -76,12 +76,21 @@ chattr_defaults <- function(type = "default",
     ch_env$defaults <- NULL
   }
   env_model <- NULL
+  check_files <- NULL
   if (is.null(chattr_defaults_get(type))) {
     # Overrides environment variable if YAML file is present
     if (file_exists(yaml_file)) {
       check_files <- yaml_file
     } else {
-      check_files <- ch_package_file(Sys.getenv("CHATTR_USE", unset = NA))
+      env_use <- Sys.getenv("CHATTR_USE", unset = NA)
+      if(!is.na(env_use)) {
+        if(is_file(env_use)) {
+          check_files <- path_expand(env_use)
+        } else {
+          check_files <- ch_package_file(env_use)
+        }
+      }
+
     }
     env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
     if(is.na(env_model)) {
