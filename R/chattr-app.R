@@ -40,11 +40,15 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
     }
   } else {
     run_file <- tempfile()
-    defaults_file <- tempfile()
+    defaults_file <- path(
+      tempdir(),
+      paste0("chat_", paste0(floor(runif(10, 0, 10)), collapse = "")),
+      ext = "yml"
+    )
     chattr_defaults_save(defaults_file)
     app_code <- c(
       paste0(
-        "Sys.setenv(CHATTR_USE = '", defaults_file,"')"
+        "Sys.setenv(CHATTR_USE = \"", defaults_file,"\")"
       ),
       "print(chattr::chattr_defaults())",
       "app <- chattr:::app_interactive(as_job = TRUE)",
@@ -57,7 +61,6 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
         ")"
       )
     )
-    print(app_code)
     writeLines(
       app_code,
       con = run_file
