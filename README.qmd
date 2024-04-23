@@ -9,8 +9,6 @@ format: md
 
 <!-- badges: end -->
 
-![](man/figures/readme/chattr.gif)
-
 ```{r}
 #| echo: false
 #| eval: false

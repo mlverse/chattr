@@ -11,9 +11,6 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
 <!-- badges: end -->
-
-![](man/figures/readme/chattr.gif)
-
 <!-- toc: start -->
 
 -   [Intro](#intro)
