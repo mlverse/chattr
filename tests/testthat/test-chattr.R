@@ -12,6 +12,7 @@ test_that("chattr() works", {
 })
 
 test_that("External R submit works", {
+  skip_on_cran()
   local_mocked_bindings(
     ui_current = function(...) {
       "script"
@@ -22,6 +23,7 @@ test_that("External R submit works", {
 })
 
 test_that("Test for null output", {
+  skip_on_cran()
   local_mocked_bindings(
     ch_submit = function(...) NULL
   )

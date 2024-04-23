@@ -11,6 +11,7 @@ test_that("Request submission works", {
 })
 
 test_that("Menu works", {
+  skip_on_cran()
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = "test"),
     {
@@ -32,7 +33,7 @@ test_that("Menu works", {
     new = c(
       "CHATTR_USE" = "llamagpt",
       "CHATTR_MODEL" = "test/path"
-      ),
+    ),
     expect_snapshot(chattr_defaults(force = TRUE))
   )
 })
