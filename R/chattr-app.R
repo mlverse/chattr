@@ -42,7 +42,7 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
     run_file <- tempfile()
     defaults_file <- path(
       tempdir(),
-      paste0("chat_", paste0(floor(runif(10, 0, 10)), collapse = "")),
+      paste0("chat_", paste0(floor(stats::runif(10, 0, 10)), collapse = "")),
       ext = "yml"
     )
     chattr_defaults_save(defaults_file)

@@ -6,7 +6,7 @@ Authors@R: c(
   person(given = "Posit Software, PBC", role = c("cph", "fnd"))
   )
 Description: Enables user interactivity with large-language models ('LLM') inside
-the 'RStudio' integrated development environment ('IDE').
+    the 'RStudio' integrated development environment ('IDE').
 URL: https://github.com/mlverse/chattr,
     https://mlverse.github.io/chattr/
 BugReports: https://github.com/mlverse/chattr/issues
