@@ -68,8 +68,7 @@ back-ends as time goes by:
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><a
-href="https://platform.openai.com/docs/introduction">OpenAI</a></td>
+<td style="text-align: center;">OpenAI</td>
 <td style="text-align: center;">GPT Models accessible via the OpenAI’s
 REST API. <code>chattr</code> provides a convenient way to interact with
 GPT 4, and 3.5.</td>
