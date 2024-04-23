@@ -11,6 +11,7 @@ test_that("Request submission works", {
 })
 
 test_that("Menu works", {
+  skip_on_cran()
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = "test"),
     {

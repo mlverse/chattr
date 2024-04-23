@@ -86,6 +86,7 @@ test_that("Completion function works for Copilot", {
 })
 
 test_that("Copilot token finder works", {
+  skip_on_cran()
   local_mocked_bindings(
     req_perform = httr2::req_dry_run,
     resp_body_json = function(...) {
