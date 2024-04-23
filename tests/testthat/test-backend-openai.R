@@ -118,6 +118,7 @@ test_that("Copilot token finder works", {
 })
 
 test_that("Copilot token folder not found", {
+  skip_on_cran()
   local_mocked_bindings(
     os_win = function(...) TRUE
   )
