@@ -83,17 +83,16 @@ chattr_defaults <- function(type = "default",
       check_files <- yaml_file
     } else {
       env_use <- Sys.getenv("CHATTR_USE", unset = NA)
-      if(!is.na(env_use)) {
-        if(is_file(env_use)) {
+      if (!is.na(env_use)) {
+        if (is_file(env_use)) {
           check_files <- path_expand(env_use)
         } else {
           check_files <- ch_package_file(env_use)
         }
       }
-
     }
     env_model <- Sys.getenv("CHATTR_MODEL", unset = NA)
-    if(is.na(env_model)) {
+    if (is.na(env_model)) {
       env_model <- NULL
     }
     for (j in seq_along(check_files)) {

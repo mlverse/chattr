@@ -32,7 +32,7 @@ test_that("Menu works", {
     new = c(
       "CHATTR_USE" = "llamagpt",
       "CHATTR_MODEL" = "test/path"
-      ),
+    ),
     expect_snapshot(chattr_defaults(force = TRUE))
   )
 })

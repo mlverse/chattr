@@ -48,7 +48,7 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
     chattr_defaults_save(defaults_file)
     app_code <- c(
       paste0(
-        "Sys.setenv(CHATTR_USE = \"", defaults_file,"\")"
+        "Sys.setenv(CHATTR_USE = \"", defaults_file, "\")"
       ),
       "print(chattr::chattr_defaults())",
       "app <- chattr:::app_interactive(as_job = TRUE)",
