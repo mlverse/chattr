@@ -1,4 +1,8 @@
-## New submission
+## New package re-submission
+
+Addresses CRAN comments
+
+Original:
 
 This is a new package submission. Enables user interactivity with large-language 
 models ('LLM') inside the 'RStudio' integrated development environment ('IDE'). 
