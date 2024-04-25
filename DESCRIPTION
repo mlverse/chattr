@@ -6,8 +6,8 @@ Authors@R: c(
   person(given = "Posit Software, PBC", role = c("cph", "fnd"))
   )
 Description: Enables user interactivity with large-language models ('LLM') inside
-    the 'RStudio' integrated development environment ('IDE'). The user can
-    interact with the model using the 'Shiny' app included in this package, or
+    the 'RStudio' integrated development environment (IDE). The user can
+    interact with the model using the 'shiny' app included in this package, or
     directly in the 'R' console. It comes with back-ends for 'OpenAI', 'GitHub'
     'Copilot', and 'LlamaGPT'. 
 URL: https://github.com/mlverse/chattr,

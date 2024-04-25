@@ -22,6 +22,7 @@
 #' `chattr_defaults()` function, and set the provider. The `provider` value
 #' is what creates the R class name. It will pre-pend `cl_` to the class name.
 #' See the examples for more clarity.
+#' @returns The output from the model currently in use.
 #' @examples
 #' \dontrun{
 #' library(chattr)
