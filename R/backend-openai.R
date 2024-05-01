@@ -82,6 +82,16 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
   ret <- ch_openai_parse(ret, defaults)
   if (req_result$status_code != 200) {
     cli_alert_warning(ret)
+    if (inherits(req_result, "httr2_response")) {
+      req_result <- paste0(
+        resp_status(req_result),
+        " - ",
+        resp_status_desc(req_result)
+      )
+    }
+    if (!inherits(req_result, "character")) {
+      req_result <- "Undefined error"
+    }
     abort(req_result)
   }
   ch_openai_error(ret)
