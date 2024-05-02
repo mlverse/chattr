@@ -45,6 +45,10 @@ chattr <- function(prompt = NULL,
       ret <- c(ret, curr_text)
       ide_paste_text(curr_text)
     }
+    error <- ch_r_error()
+    if (!is.null(error)) {
+      abort(error)
+    }
   } else {
     ret <- ch_submit(
       defaults = defaults,
