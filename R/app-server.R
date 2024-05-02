@@ -99,8 +99,7 @@ app_server <- function(input, output, session) {
     error <- ch_r_error()
     if (!is.null(error)) {
       stopApp()
-      print(error)
-      abort("Streaming returned error")
+      abort(error)
     }
   })
 }

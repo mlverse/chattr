@@ -46,11 +46,13 @@ ch_r_output <- function() {
 
 ch_r_error <- function() {
   out <- NULL
-  if (!is.null(ch_env$r_session)) {
-    read_session <- ch_env$r_session$read()
-    if (!is.null(read_session)) {
-      out <- read_session$error
+  err <- ch_env$r_session$read_error()
+  if (err != "") {
+    error_marker <- "! {error}"
+    if(substr(err, 1, nchar(error_marker)) == error_marker) {
+      err <- substr(err, nchar(error_marker) + 1, nchar(err))
     }
+    out <- err
   }
   out
 }
