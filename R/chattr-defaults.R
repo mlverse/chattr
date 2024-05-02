@@ -68,9 +68,11 @@ chattr_defaults <- function(type = "default",
       type <- "console"
     } else {
       type <- ui_current()
-      if (type == "markdown") type <- "notebook"
+
     }
   }
+
+  if (type == "markdown") type <- "notebook"
 
   if (force) {
     ch_env$defaults <- NULL
