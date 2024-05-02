@@ -30,6 +30,9 @@ prompt (TRUE)}
 
 \item{...}{Optional arguments; currently unused.}
 }
+\value{
+The output from the model currently in use.
+}
 \description{
 Method to easily integrate to new LLM API's
 }

@@ -10,6 +10,9 @@ ch_history(x = NULL)
 \item{x}{An list object that contains chat history. Use this argument to
 override the current history.}
 }
+\value{
+A list object with the current chat history
+}
 \description{
 Displays the current session' chat history
 }

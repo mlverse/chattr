@@ -27,8 +27,7 @@ to make the "chatting" experience with the GPT models seamless.
 OpenAI requires a **secret key** to authenticate your user. It is required for 
 any application non-OpenAI application, such as `chattr`, to have one in order 
 to function. A key is a long alphanumeric sequence. The sequence is created in 
-the OpenAI portal. To obtain your **secret key**, follow this link: 
-[OpenAI API Keys](https://platform.openai.com/account/api-keys)
+the OpenAI portal.
 
 By default, `chattr` will look for the **secret key** inside the a Environment
 Variable called `OPENAI_API_KEY`. Other packages that integrate with OpenAI use 
@@ -78,8 +77,6 @@ To switch back to GPT 4, run:
 ```{r}
 chattr_use("gpt4")
 ```
-
-To see the latest list which endpoint to use, go to : [Model Endpoint Compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility)
 
 ## Data files and data frames
 

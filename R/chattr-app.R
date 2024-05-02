@@ -40,18 +40,29 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
     }
   } else {
     run_file <- tempfile()
-    writeLines(
-      c(
-        "app <- chattr:::app_interactive(as_job = TRUE)\n",
-        "rp <- list(ui = app$ui, server = app$server)\n",
-        paste0(
-          "shiny::runApp(rp, host = '",
-          as_job_host,
-          "', port = ",
-          as_job_port,
-          ")"
-        )
+    defaults_file <- path(
+      tempdir(),
+      paste0("chat_", paste0(floor(stats::runif(10, 0, 10)), collapse = "")),
+      ext = "yml"
+    )
+    chattr_defaults_save(defaults_file)
+    app_code <- c(
+      paste0(
+        "Sys.setenv(CHATTR_USE = \"", defaults_file, "\")"
       ),
+      "print(chattr::chattr_defaults())",
+      "app <- chattr:::app_interactive(as_job = TRUE)",
+      "rp <- list(ui = app$ui, server = app$server)",
+      paste0(
+        "shiny::runApp(rp, host = '",
+        as_job_host,
+        "', port = ",
+        as_job_port,
+        ")"
+      )
+    )
+    writeLines(
+      app_code,
       con = run_file
     )
     jobRunScript(path = run_file)
