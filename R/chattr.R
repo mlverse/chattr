@@ -43,7 +43,11 @@ chattr <- function(prompt = NULL,
     while (ch_r_state() == "busy") {
       curr_text <- ch_r_output()
       ret <- c(ret, curr_text)
-      ide_paste_text(curr_text)
+      if(ui_current() == "markdown") {
+        cat(curr_text)
+      } else {
+        ide_paste_text(curr_text)
+      }
     }
     error <- ch_r_error()
     if (!is.null(error)) {
