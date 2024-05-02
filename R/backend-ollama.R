@@ -6,15 +6,14 @@ ch_submit.ch_ollama <- function(
     prompt_build = TRUE,
     preview = FALSE,
     ...) {
-
   installed_models <- ch_ollama_tags(defaults)
   model <- defaults$model
 
-  if(!model %in% names(installed_models)) {
+  if (!model %in% names(installed_models)) {
     cli_alert_warning("The {.emph '{model}'} model is not found.")
     cli_text("Would you like to download it?")
     resp <- menu(c("Yes", "No"))
-    if(resp == 1) {
+    if (resp == 1) {
       ch_ollama_pull(model, defaults)
     } else {
       return(invisible())
@@ -55,7 +54,7 @@ ch_submit.ch_ollama <- function(
         char_x <- rawToChar(x)
         list_x <- jsonlite::parse_json(char_x)
         content_x <- list_x$message$content
-        if(!is.null(list_x$error)) {
+        if (!is.null(list_x$error)) {
           abort(list_x$error)
         }
         cat(content_x)
@@ -79,8 +78,8 @@ ch_ollama_pull <- function(model, defaults) {
       function(x) {
         char_x <- rawToChar(x)
         json_x <- try(jsonlite::parse_json(char_x), silent = TRUE)
-        if(!inherits(json_x, "try-error")) {
-          if(json_curr != json_x$status) {
+        if (!inherits(json_x, "try-error")) {
+          if (json_curr != json_x$status) {
             cat(paste0(json_x$status, "\n"))
             json_curr <<- json_x$status
           }
@@ -102,7 +101,7 @@ ch_ollama_tags <- function(defaults) {
     req_perform() %>%
     try(silent = TRUE)
 
-  if(inherits(ollama_tags, "try-error")) {
+  if (inherits(ollama_tags, "try-error")) {
     ret <- NULL
   } else {
     ret <- resp_body_json(ollama_tags)[[1]]
