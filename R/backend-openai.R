@@ -81,8 +81,18 @@ ch_openai_complete <- function(prompt, defaults, stream = TRUE) {
     )
   ret <- ch_openai_parse(ret, defaults)
   if (req_result$status_code != 200) {
-    cli_alert_warning(ret)
-    abort(req_result)
+    ch_openai_error(ret, use_abort = FALSE)
+    if (inherits(req_result, "httr2_response")) {
+      req_result <- paste0(
+        resp_status(req_result),
+        " - ",
+        resp_status_desc(req_result)
+      )
+    }
+    if (!inherits(req_result, "character")) {
+      req_result <- "Undefined error"
+    }
+    cli_abort(req_result, call = NULL)
   }
   ch_openai_error(ret)
   ret
@@ -175,7 +185,7 @@ ch_openai_token <- function(defaults, fail = TRUE) {
   ret
 }
 
-ch_openai_error <- function(x) {
+ch_openai_error <- function(x, use_abort = TRUE) {
   if (is.null(x)) {
     return(invisible())
   }
@@ -187,7 +197,12 @@ ch_openai_error <- function(x) {
       "Error from OpenAI\n",
       substr(x, 10, nchar(x))
     )
-    abort(error_msg)
+    if(use_abort) {
+      abort(error_msg)
+    } else {
+      cli_alert_warning(error_msg)
+    }
+
   }
   invisible()
 }
@@ -220,9 +235,9 @@ ch_openai_parse <- function(x, defaults) {
       if ("error" %in% names(json_res)) {
         json_error <- json_res$error
         out <- paste0(
-          "{{error}}Type:",
+          "{{error}}{.emph Type:} ",
           json_error$type,
-          "\nMessage: ",
+          "\n{.emph Message:} ",
           json_error$message
         )
       }
