@@ -1,6 +1,5 @@
 # chattr
 
-
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml)
@@ -55,9 +54,9 @@ back-ends as time goes by:
 
 <table>
 <colgroup>
-<col style="width: 26%" />
-<col style="width: 47%" />
-<col style="width: 26%" />
+<col style="width: 28%" />
+<col style="width: 48%" />
+<col style="width: 22%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -97,6 +96,16 @@ autocomplete-style suggestions as you code</td>
 <td style="text-align: center;"><a
 href="https://mlverse.github.io/chattr/articles/copilot-chat.html">Interact
 with GitHub Copilot Chat</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><a
+href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#databricks-foundation-model-apis">Databricks</a></td>
+<td style="text-align: center;">DBRX, Meta Llama 3 70B, and Mixtral 8x7B
+via <a
+href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#pay-per-token-foundation-model-apis">Databricks
+foundational model REST API</a>.</td>
+<td style="text-align: center;">Interact with Databricks foundation chat
+models</td>
 </tr>
 </tbody>
 </table>
@@ -144,12 +153,8 @@ chattr_use("gpt35")
 chattr_app()
 ```
 
-<figure>
-<img src="man/figures/readme/chat1.png"
-alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme" />
-<figcaption aria-hidden="true">Screenshot of the Sniny gadget app in a
-dark mode RStudio theme</figcaption>
-</figure>
+![Screenshot of the Sniny gadget app in a dark mode RStudio
+theme](man/figures/readme/chat1.png)
 
 <br>
 
@@ -184,12 +189,7 @@ The screen that opens will contain the following:
     information attached to your prompt. Including the number of max
     data files, and data frames sent to the LLM.
 
-<figure>
-<img src="man/figures/readme/chat2.png"
-alt="Screenshot of the Sniny gadget options" />
-<figcaption aria-hidden="true">Screenshot of the Sniny gadget
-options</figcaption>
-</figure>
+![Screenshot of the Sniny gadget options](man/figures/readme/chat2.png)
 
 ### Additional ways to interact
 
@@ -204,12 +204,8 @@ structure of data frames currently in your environment, the path for the
 data files in your working directory. If supported by the model,
 `chattr` will include the current chat history.
 
-<figure>
-<img src="man/figures/readme/chattr-diagram.png"
-alt="Diagram that illustrates how chattr handles model requests" />
-<figcaption aria-hidden="true">Diagram that illustrates how
-<code>chattr</code> handles model requests</figcaption>
-</figure>
+![Diagram that illustrates how `chattr` handles model
+requests](man/figures/readme/chattr-diagram.png)
 
 To see what `chattr` will send to the model, set the `preview` argument
 to `TRUE`:
@@ -272,30 +268,18 @@ section.
 -   Select *Tools* in the top menu, and then select *Modify Keyboard
     Shortcuts*
 
-    <figure>
     <img src="man/figures/readme/keyboard-shortcuts.png" width="700"
     alt="Screenshot that shows where to find the option to modify the keyboard shortcuts" />
-    <figcaption aria-hidden="true">Screenshot that shows where to find the
-    option to modify the keyboard shortcuts</figcaption>
-    </figure>
 
 -   Search for the `chattr` adding by writing “open chat”, in the search
     box
 
-    <figure>
     <img src="man/figures/readme/addin-find.png" width="500"
     alt="Screenshot that shows where to input the addin search" />
-    <figcaption aria-hidden="true">Screenshot that shows where to input the
-    addin search</figcaption>
-    </figure>
 
 -   To select a key combination for your shortcut, click on the Shortcut
     box and then type *press* the key combination in your keyboard. In
     my case, I chose *Ctrl+Shift+C*
 
-    <figure>
     <img src="man/figures/readme/addin-assign.png" width="500"
     alt="Screenshot that shows what the interface looks like when a shortcut has been selected" />
-    <figcaption aria-hidden="true">Screenshot that shows what the interface
-    looks like when a shortcut has been selected</figcaption>
-    </figure>
