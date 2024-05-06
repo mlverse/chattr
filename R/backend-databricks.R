@@ -32,6 +32,7 @@ ch_databricks_complete <- function(prompt, defaults, stream = TRUE) {
 
   token <- ch_databricks_token(defaults)
   host <- ch_databricks_host(defaults)
+  user_agent <-paste0("chattr/", utils::packageVersion('chattr'))
 
   req_result <- host %>%
     request() %>%
@@ -39,6 +40,7 @@ ch_databricks_complete <- function(prompt, defaults, stream = TRUE) {
     req_url_path_append(defaults$model) %>%
     req_url_path_append("invocations") %>%
     req_auth_bearer_token(token) %>%
+    req_user_agent(user_agent) %>%
     req_body_json(req_body)
 
   req_result <- req_result %>%
