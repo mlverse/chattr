@@ -8,7 +8,8 @@ chattr_use(x = NULL, ...)
 }
 \arguments{
 \item{x}{The label of the LLM model to use, or the path of a valid YAML
-default file . Valid values are 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
+default file . Valid values are 'copilot', 'gpt4', 'gpt35', 'llamagpt',
+'databricks-dbrx', 'databricks-meta-llama3-70b', and 'databricks-mixtral8x7b'.
 The value 'test' is also acceptable, but it is meant for package examples,
 and internal testing.}
 
@@ -33,6 +34,8 @@ environment variable. Then restart R, and try again.
 \item GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
 R. \code{chattr} will look for the default location where RStudio saves the
 Copilot authentication information.
+\item Databricks - \code{chattr} checks for presence of R user's Databricks host and
+token ('DATABRICKS_HOST' and 'DATABRICKS TOKEN' environment variables).
 }
 
 Use the 'CHATTR_MODEL' environment variable to set it for the

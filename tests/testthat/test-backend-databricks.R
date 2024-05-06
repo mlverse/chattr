@@ -4,7 +4,7 @@ test_that("Submit method works", {
       return("test return")
     }
   )
-  def <- test_simulate_model("databricks-llama3-70b.yml")
+  def <- test_simulate_model("databricks-meta-llama3-70b.yml")
   expect_equal(
     ch_submit(def, "test"),
     "test return"
@@ -32,7 +32,7 @@ test_that("Completion function works", {
           x
         }
       )
-      def <- test_simulate_model("databricks-llama3-70b.yml")
+      def <- test_simulate_model("databricks-meta-llama3-70b.yml")
       expect_null(
         ch_databricks_complete(
           prompt = "test",
@@ -57,7 +57,7 @@ test_that("Error when status is not 200", {
           x
         }
       )
-      def <- test_simulate_model("databricks-llama3-70b.yml")
+      def <- test_simulate_model("databricks-meta-llama3-70b.yml")
       expect_error(
         ch_databricks_complete(
           prompt = "test",
@@ -84,7 +84,7 @@ test_that("Missing host returns error", {
 
 
 test_that("Init messages work", {
-  def <- test_simulate_model("databricks-llama3-70b.yml")
+  def <- test_simulate_model("databricks-meta-llama3-70b.yml")
   def$max_data_files <- 10
   def$max_data_frames <- 10
   expect_snapshot(app_init_message(def))
