@@ -1,6 +1,7 @@
 #' Sets the LLM model to use in your session
 #' @param x The label of the LLM model to use, or the path of a valid YAML
-#' default file . Valid values are 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
+#' default file . Valid values are 'copilot', 'gpt4', 'gpt35', 'llamagpt',
+#' 'databricks-dbrx', 'databricks-meta-llama3-70b', and 'databricks-mixtral8x7b'.
 #' The value 'test' is also acceptable, but it is meant for package examples,
 #' and internal testing.
 #' @param ... Default values to modify.
@@ -17,6 +18,9 @@
 #' * GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
 #' R. `chattr` will look for the default location where RStudio saves the
 #' Copilot authentication information.
+#'
+#' * Databricks - `chattr` checks for presence of R user's Databricks host and
+#'  token ('DATABRICKS_HOST' and 'DATABRICKS TOKEN' environment variables).
 #'
 #' Use the 'CHATTR_MODEL' environment variable to set it for the
 #' R session, or create a YAML file named 'chattr.yml' in your working directory
@@ -55,6 +59,10 @@ ch_get_ymls <- function(menu = TRUE) {
   gpt_token <- ch_openai_token(fail = FALSE)
   gpt_exists <- !is.null(gpt_token)
 
+  dbrx_token <- ch_databricks_token(fail = FALSE)
+  dbrx_host <- ch_databricks_host(fail = FALSE)
+  dbrx_exists <- !is.null(dbrx_token) && !is.null(dbrx_host)
+
   llama_defaults <- "configs/llamagpt.yml" %>%
     package_file() %>%
     read_yaml()
@@ -85,6 +93,12 @@ ch_get_ymls <- function(menu = TRUE) {
   if (!gpt_exists) {
     prep_files$gpt35 <- NULL
     prep_files$gpt4 <- NULL
+  }
+
+  if (!dbrx_exists) {
+    prep_files$`databricks-dbrx` <- NULL
+    prep_files$`databricks-meta-llama3-70b` <- NULL
+    prep_files$`databricks-mixtral8x7b` <- NULL
   }
 
   if (!llama_exists) {
