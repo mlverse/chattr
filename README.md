@@ -52,11 +52,11 @@ remotes::install_github("mlverse/chattr")
 back-end provides access to multiple LLM types. The plan is to add more
 back-ends as time goes by:
 
-<table>
+<table style="width:100%;">
 <colgroup>
 <col style="width: 28%" />
-<col style="width: 48%" />
-<col style="width: 22%" />
+<col style="width: 46%" />
+<col style="width: 24%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -104,8 +104,9 @@ href="https://docs.databricks.com/en/machine-learning/foundation-models/index.ht
 via <a
 href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#pay-per-token-foundation-model-apis">Databricks
 foundational model REST API</a>.</td>
-<td style="text-align: center;">Interact with Databricks foundation chat
-models</td>
+<td style="text-align: center;"><a
+href="https://mlverse.github.io/chattr/articles/backend-databricks.html">Interact
+with Databricks foundation chat models</a></td>
 </tr>
 </tbody>
 </table>
