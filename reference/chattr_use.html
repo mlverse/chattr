@@ -24,6 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/backend-databricks.html">Interact with Databricks foundation models</a>
     <a class="dropdown-item" href="../articles/backend-llamagpt.html">Interact with local models</a>
     <a class="dropdown-item" href="../articles/copilot-chat.html">Interact with GitHub Copilot Chat</a>
     <a class="dropdown-item" href="../articles/openai-gpt.html">Interact with OpenAI GPT models</a>
@@ -68,7 +69,8 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>The label of the LLM model to use, or the path of a valid YAML
-default file . Valid values are 'copilot', 'gpt4', 'gpt35', and 'llamagpt'.
+default file . Valid values are 'copilot', 'gpt4', 'gpt35', 'llamagpt',
+'databricks-dbrx', 'databricks-meta-llama3-70b', and 'databricks-mixtral8x7b'.
 The value 'test' is also acceptable, but it is meant for package examples,
 and internal testing.</p></dd>
 
@@ -95,6 +97,8 @@ environment variable. Then restart R, and try again.</p></li>
 <li><p>GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
 R. <code>chattr</code> will look for the default location where RStudio saves the
 Copilot authentication information.</p></li>
+<li><p>Databricks - <code>chattr</code> checks for presence of R user's Databricks host and
+token ('DATABRICKS_HOST' and 'DATABRICKS TOKEN' environment variables).</p></li>
 </ul><p>Use the 'CHATTR_MODEL' environment variable to set it for the
 R session, or create a YAML file named 'chattr.yml' in your working directory
 to control the model, and the defaults it will use to communicate with such

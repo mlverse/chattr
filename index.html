@@ -48,6 +48,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/backend-databricks.html">Interact with Databricks foundation models</a>
     <a class="dropdown-item" href="articles/backend-llamagpt.html">Interact with local models</a>
     <a class="dropdown-item" href="articles/copilot-chat.html">Interact with GitHub Copilot Chat</a>
     <a class="dropdown-item" href="articles/openai-gpt.html">Interact with OpenAI GPT models</a>
@@ -122,11 +123,11 @@
 <h2 id="available-models">Available models<a class="anchor" aria-label="anchor" href="#available-models"></a>
 </h2>
 <p><code>chattr</code> provides two main integration with two main LLM back-ends. Each back-end provides access to multiple LLM types. The plan is to add more back-ends as time goes by:</p>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col style="width: 26%">
-<col style="width: 47%">
-<col style="width: 26%">
+<col style="width: 28%">
+<col style="width: 46%">
+<col style="width: 24%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: center;">
@@ -173,6 +174,17 @@ AI pair programmer that offers autocomplete-style suggestions as you code
 <a href="https://mlverse.github.io/chattr/articles/copilot-chat.html">Interact with GitHub Copilot Chat</a>
 </td>
 </tr>
+<tr class="even">
+<td style="text-align: center;">
+<a href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#databricks-foundation-model-apis" class="external-link">Databricks</a>
+</td>
+<td style="text-align: center;">
+DBRX, Meta Llama 3 70B, and Mixtral 8x7B via <a href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#pay-per-token-foundation-model-apis" class="external-link">Databricks foundational model REST API</a>.
+</td>
+<td style="text-align: center;">
+<a href="https://mlverse.github.io/chattr/articles/backend-databricks.html">Interact with Databricks foundation chat models</a>
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -199,9 +211,10 @@ AI pair programmer that offers autocomplete-style suggestions as you code
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt35"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/chattr_app.html">chattr_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<figure><img src="reference/figures/readme/chat1.png" alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme"><figcaption aria-hidden="true">
-Screenshot of the Sniny gadget app in a dark mode RStudio theme
-</figcaption></figure><p><br></p>
+<div class="float">
+<img src="reference/figures/readme/chat1.png" alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme"><div class="figcaption">Screenshot of the Sniny gadget app in a dark mode RStudio theme</div>
+</div>
+<p><br></p>
 <p>After the LLM finishes its response, the <code>chattr</code> app processes all markdown code chunks. It will place three convenience buttons:</p>
 <ul>
 <li><p><strong>Copy to clipboard</strong> - It will write the code inside the chunk to your clipboard.</p></li>
@@ -214,9 +227,9 @@ Screenshot of the Sniny gadget app in a dark mode RStudio theme
 <li><p>Save and Open chats - This is an early experiment to allow us to save and retrieve past chats. <code>chattr</code> will save the file in an RDS format. The main objective of this feature, is to be able to see past chats, not to continue previous conversations with the LLM.</p></li>
 <li><p>Prompt settings - In this section you can change the additional information attached to your prompt. Including the number of max data files, and data frames sent to the LLM.</p></li>
 </ul>
-<figure><img src="reference/figures/readme/chat2.png" alt="Screenshot of the Sniny gadget options"><figcaption aria-hidden="true">
-Screenshot of the Sniny gadget options
-</figcaption></figure>
+<div class="float">
+<img src="reference/figures/readme/chat2.png" alt="Screenshot of the Sniny gadget options"><div class="figcaption">Screenshot of the Sniny gadget options</div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="additional-ways-to-interact">Additional ways to interact<a class="anchor" aria-label="anchor" href="#additional-ways-to-interact"></a>
@@ -228,9 +241,10 @@ Screenshot of the Sniny gadget options
 <h2 id="how-it-works">How it works<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
 </h2>
 <p><code>chattr</code> enriches your request with additional instructions, name and structure of data frames currently in your environment, the path for the data files in your working directory. If supported by the model, <code>chattr</code> will include the current chat history.</p>
-<figure><img src="reference/figures/readme/chattr-diagram.png" alt="Diagram that illustrates how chattr handles model requests"><figcaption aria-hidden="true">
-Diagram that illustrates how <code>chattr</code> handles model requests
-</figcaption></figure><p>To see what <code>chattr</code> will send to the model, set the <code>preview</code> argument to <code>TRUE</code>:</p>
+<div class="float">
+<img src="reference/figures/readme/chattr-diagram.png" alt="Diagram that illustrates how chattr handles model requests"><div class="figcaption">Diagram that illustrates how <code>chattr</code> handles model requests</div>
+</div>
+<p>To see what <code>chattr</code> will send to the model, set the <code>preview</code> argument to <code>TRUE</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
@@ -284,21 +298,15 @@ Diagram that illustrates how <code>chattr</code> handles model requests
 <ul>
 <li>
 <p>Select <em>Tools</em> in the top menu, and then select <em>Modify Keyboard Shortcuts</em></p>
-<figure><p><img src="reference/figures/readme/keyboard-shortcuts.png" width="700" alt="Screenshot that shows where to find the option to modify the keyboard shortcuts"></p>
-<figcaption aria-hidden="true"><p>Screenshot that shows where to find the option to modify the keyboard shortcuts</p>
-</figcaption></figure>
+<p><img src="reference/figures/readme/keyboard-shortcuts.png" width="700" alt="Screenshot that shows where to find the option to modify the keyboard shortcuts"></p>
 </li>
 <li>
 <p>Search for the <code>chattr</code> adding by writing “open chat”, in the search box</p>
-<figure><p><img src="reference/figures/readme/addin-find.png" width="500" alt="Screenshot that shows where to input the addin search"></p>
-<figcaption aria-hidden="true"><p>Screenshot that shows where to input the addin search</p>
-</figcaption></figure>
+<p><img src="reference/figures/readme/addin-find.png" width="500" alt="Screenshot that shows where to input the addin search"></p>
 </li>
 <li>
 <p>To select a key combination for your shortcut, click on the Shortcut box and then type <em>press</em> the key combination in your keyboard. In my case, I chose <em>Ctrl+Shift+C</em></p>
-<figure><p><img src="reference/figures/readme/addin-assign.png" width="500" alt="Screenshot that shows what the interface looks like when a shortcut has been selected"></p>
-<figcaption aria-hidden="true"><p>Screenshot that shows what the interface looks like when a shortcut has been selected</p>
-</figcaption></figure>
+<p><img src="reference/figures/readme/addin-assign.png" width="500" alt="Screenshot that shows what the interface looks like when a shortcut has been selected"></p>
 </li>
 </ul>
 </div>
