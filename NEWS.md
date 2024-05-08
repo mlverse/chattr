@@ -7,6 +7,11 @@
 * Fixes how it identifies the user's current UI (console, app, notebook) and
 appropriately outputs the response from the model end-point (#92)
 
+## Databricks
+
+* Adding support for Databricks foundation model API (DBRX, Meta Llama 3 70B,
+Mixtral 8x7B) (#99)
+
 ## OpenAI
 
 * Fixes how it displays error from the model end-point when being used in a 

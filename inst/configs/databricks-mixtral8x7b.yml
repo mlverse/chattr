@@ -1,0 +1,33 @@
+default:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+  provider: Databricks
+  path: serving-endpoints
+  model: databricks-mixtral-8x7b-instruct
+  label: Mixtral 8x7b (Datbricks)
+  max_data_files: 0
+  max_data_frames: 0
+  include_doc_contents: FALSE
+  include_history: TRUE
+  system_msg: You are a helpful coding assistant
+  model_arguments:
+    temperature: 0.01
+    max_tokens: 1000
+    stream: TRUE
+chat:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For code output, use RMarkdown code chunks
+    Avoid all code chunk options
+console:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For any line that is not code, prefix with a: #
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code
+script:
+  prompt: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    For any line that is not code, prefix with a: #
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code
