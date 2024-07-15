@@ -139,7 +139,7 @@ ch_gh_token <- function(defaults = NULL, fail = TRUE) {
   }
   gh_path <- path_expand(hosts_path)
   if (dir_exists(gh_path)) {
-    possible_files <- c("app.json", "hosts.json")
+    possible_files <- c("apps.json", "hosts.json")
     possible_paths <- path(gh_path, possible_files)
     possible_exists <- file_exists(possible_paths)
     possible <- possible_paths[possible_exists]
