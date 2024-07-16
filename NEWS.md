@@ -18,6 +18,12 @@ notebook or the app
 * Fixes how the errors from OpenAI are parsed and processed. This should make
 it easier for users to determine where an downstream issue could be.
 
+## Copilot
+
+* Adds `model` to defaults 
+
+* Improves token discovery 
+
 # chattr 0.1.0
 
 * Initial CRAN submission.

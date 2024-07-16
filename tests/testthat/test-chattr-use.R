@@ -13,15 +13,16 @@ test_that("Request submission works", {
 test_that("Menu works", {
   skip_on_cran()
   withr::with_envvar(
-    new = c("OPENAI_API_KEY" = "test"),
+    new = c("OPENAI_API_KEY" = "test", "DATABRICKS_TOKEN" = NA),
     {
       local_mocked_bindings(
         menu = function(...) {
           return(1)
         }
       )
+      print(ch_get_ymls(menu = TRUE) )
       expect_true(
-        ch_get_ymls(menu = TRUE) %in% c("gpt35", "gpt4")
+        ch_get_ymls(menu = TRUE) %in% c("gpt35", "gpt4", "gpt4o")
       )
     }
   )

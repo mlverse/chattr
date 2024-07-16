@@ -1,6 +1,6 @@
 Package: chattr
 Title: Interact with Large Language Models in 'RStudio'
-Version: 0.1.0.9002
+Version: 0.1.0.9005
 Authors@R: c(
   person("Edgar", "Ruiz", , "edgar@posit.co", role = c("aut", "cre")),
   person(given = "Posit Software, PBC", role = c("cph", "fnd"))
