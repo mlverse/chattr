@@ -201,12 +201,11 @@ ch_openai_error <- function(x, use_abort = TRUE) {
       "Error from OpenAI\n",
       substr(x, 10, nchar(x))
     )
-    if(use_abort) {
+    if (use_abort) {
       abort(error_msg)
     } else {
       cli_alert_warning(error_msg)
     }
-
   }
   invisible()
 }

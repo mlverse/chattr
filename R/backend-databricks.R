@@ -34,9 +34,9 @@ ch_databricks_complete <- function(prompt, defaults, stream = TRUE) {
 
   host <- ch_databricks_host(defaults)
   host_url <- url_parse(host)
-  if(is.null(host_url$scheme)) host_url$scheme <- "https"
+  if (is.null(host_url$scheme)) host_url$scheme <- "https"
 
-  user_agent <-paste0("chattr/", utils::packageVersion('chattr'))
+  user_agent <- paste0("chattr/", utils::packageVersion("chattr"))
 
   req_result <- host_url %>%
     url_build() %>%
