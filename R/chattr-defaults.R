@@ -68,7 +68,6 @@ chattr_defaults <- function(type = "default",
       type <- "console"
     } else {
       type <- ui_current()
-
     }
   }
 

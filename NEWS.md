@@ -1,4 +1,4 @@
-# chattr (dev)
+# chattr 0.2.0
 
 ## General
 

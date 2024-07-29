@@ -49,7 +49,7 @@ ch_r_error <- function() {
   err <- ch_env$r_session$read_error()
   if (err != "") {
     error_marker <- "! {error}"
-    if(substr(err, 1, nchar(error_marker)) == error_marker) {
+    if (substr(err, 1, nchar(error_marker)) == error_marker) {
       err <- substr(err, nchar(error_marker) + 1, nchar(err))
     }
     out <- err
