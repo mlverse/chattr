@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,10 +41,32 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="chattr-020">chattr 0.2.0<a class="anchor" aria-label="anchor" href="#chattr-020"></a></h2>
+<div class="section level3">
+<h3 id="general-0-2-0">General<a class="anchor" aria-label="anchor" href="#general-0-2-0"></a></h3>
+<ul><li>Fixes how it identifies the user’s current UI (console, app, notebook) and appropriately outputs the response from the model end-point (<a href="https://github.com/mlverse/chattr/issues/92" class="external-link">#92</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="databricks-0-2-0">Databricks<a class="anchor" aria-label="anchor" href="#databricks-0-2-0"></a></h3>
+<ul><li>Adding support for Databricks foundation model API (DBRX, Meta Llama 3 70B, Mixtral 8x7B) (<a href="https://github.com/mlverse/chattr/issues/99" class="external-link">#99</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="openai-0-2-0">OpenAI<a class="anchor" aria-label="anchor" href="#openai-0-2-0"></a></h3>
+<ul><li><p>Fixes how it displays error from the model end-point when being used in a notebook or the app</p></li>
+<li><p>Fixes how the errors from OpenAI are parsed and processed. This should make it easier for users to determine where an downstream issue could be.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="copilot-0-2-0">Copilot<a class="anchor" aria-label="anchor" href="#copilot-0-2-0"></a></h3>
+<ul><li><p>Adds <code>model</code> to defaults</p></li>
+<li><p>Improves token discovery</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="chattr-010">chattr 0.1.0<a class="anchor" aria-label="anchor" href="#chattr-010"></a></h2><p class="text-muted">CRAN release: 2024-04-27</p>
 <ul><li>Initial CRAN submission.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
