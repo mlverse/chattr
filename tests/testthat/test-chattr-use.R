@@ -13,7 +13,11 @@ test_that("Request submission works", {
 
 test_that("Missing token prevents showing the option", {
   withr::with_envvar(
-    new = c("OPENAI_API_KEY" = NA, "DATABRICKS_TOKEN" = "test"),
+    new = c(
+      "OPENAI_API_KEY" = NA,
+      "DATABRICKS_TOKEN" = "test",
+      "DATABRICKS_HOST" = "test"
+      ),
     {
       out <- ch_get_ymls(menu = FALSE)
       expect_null(out$gpt35)
