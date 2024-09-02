@@ -93,6 +93,7 @@ ch_get_ymls <- function(menu = TRUE) {
   if (!gpt_exists) {
     prep_files$gpt35 <- NULL
     prep_files$gpt4 <- NULL
+    prep_files$gpt4o <- NULL
   }
 
   if (!dbrx_exists) {
