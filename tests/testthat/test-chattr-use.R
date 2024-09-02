@@ -6,9 +6,23 @@ test_that("Request submission works", {
       expect_equal(class(out), "list")
       expect_snapshot(out$gpt35)
       expect_snapshot(out$gpt4)
+      expect_snapshot(out$gpt4o)
     }
   )
 })
+
+test_that("Missing token prevents showing the option", {
+  withr::with_envvar(
+    new = c("OPENAI_API_KEY" = NA),
+    {
+      out <- ch_get_ymls(menu = FALSE)
+      expect_null(out$gpt35)
+      expect_null(out$gpt4)
+      expect_null(out$gpt4o)
+    }
+  )
+})
+
 
 test_that("Menu works", {
   skip_on_cran()

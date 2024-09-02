@@ -12,6 +12,13 @@
     Output
       [1] "OpenAI - Chat Completions - gpt-4 (gpt4) \n"
 
+---
+
+    Code
+      out$gpt4o
+    Output
+      [1] "OpenAI - Chat Completions - gpt-4o (gpt4o) \n"
+
 # Menu works
 
     Code
