@@ -40,7 +40,7 @@ test_that("Menu works", {
       )
       print(ch_get_ymls(menu = TRUE))
       expect_true(
-        ch_get_ymls(menu = TRUE) %in% c("gpt35", "gpt4", "gpt4o")
+        ch_get_ymls(menu = TRUE) %in% c("gpt35", "gpt4", "gpt4o","glm4","moonshot8k","qwen","yi")
       )
     }
   )
