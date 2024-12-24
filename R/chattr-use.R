@@ -97,8 +97,8 @@ ch_get_ymls <- function(menu = TRUE) {
   }
 
   if (!dbrx_exists) {
-    prep_files$`databricks-meta-llama-3-1-405b-instruct` <- NULL
-    prep_files$`databricks-meta-llama-3-3-70b-instruct` <- NULL
+    prep_files$`databricks-meta-llama-3-1-405b` <- NULL
+    prep_files$`databricks-meta-llama-3-3-70b` <- NULL
   }
 
   if (!llama_exists) {
