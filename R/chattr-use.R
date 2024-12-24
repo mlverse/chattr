@@ -1,7 +1,7 @@
 #' Sets the LLM model to use in your session
 #' @param x The label of the LLM model to use, or the path of a valid YAML
 #' default file . Valid values are 'copilot', 'gpt4', 'gpt35', 'llamagpt',
-#' 'databricks-dbrx', 'databricks-meta-llama3-70b', and 'databricks-mixtral8x7b'.
+#' 'databricks-meta-llama-3-1-405b-instruct', and 'databricks-meta-llama-3-3-70b-instruct'
 #' The value 'test' is also acceptable, but it is meant for package examples,
 #' and internal testing.
 #' @param ... Default values to modify.
@@ -97,9 +97,8 @@ ch_get_ymls <- function(menu = TRUE) {
   }
 
   if (!dbrx_exists) {
-    prep_files$`databricks-dbrx` <- NULL
-    prep_files$`databricks-meta-llama3-70b` <- NULL
-    prep_files$`databricks-mixtral8x7b` <- NULL
+    prep_files$`databricks-meta-llama-3-1-405b-instruct` <- NULL
+    prep_files$`databricks-meta-llama-3-3-70b-instruct` <- NULL
   }
 
   if (!llama_exists) {
