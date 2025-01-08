@@ -21,7 +21,7 @@ test_that("Submit method works", {
 test_that("Completion function works", {
   withr::with_envvar(
     new = c(
-      "DATABRICKS_HOST" = "test",
+      "DATABRICKS_HOST" = "http://test",
       "DATABRICKS_TOKEN" = "test"
     ),
     {
