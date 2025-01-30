@@ -3,8 +3,8 @@ default:
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
   provider: Databricks
   path: serving-endpoints
-  model: databricks-meta-llama-3-70b-instruct
-  label: Meta Llama 3 70B (Databricks)
+  model: databricks-meta-llama-3-3-70b-instruct
+  label: Meta Llama 3.3 70B (Databricks)
   max_data_files: 0
   max_data_frames: 0
   include_doc_contents: FALSE
