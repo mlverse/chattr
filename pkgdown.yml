@@ -8,7 +8,7 @@ articles:
   openai-gpt: openai-gpt.html
   other-interfaces: other-interfaces.html
   prompt_defaults: prompt_defaults.html
-last_built: 2025-01-08T17:52Z
+last_built: 2025-01-30T19:52Z
 urls:
   reference: https://mlverse.github.io/chattr/reference
   article: https://mlverse.github.io/chattr/articles
