@@ -1,4 +1,4 @@
-# chattr (dev)
+# chattr 0.2.1
 
 * Prevents OpenAI 4o from showing as an option if no token is found
 
