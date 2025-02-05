@@ -1,3 +1,9 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
 # chattr
 
 <!-- badges: start -->
@@ -10,6 +16,7 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
 <!-- badges: end -->
+
 <!-- toc: start -->
 
 -   [Intro](#intro)
@@ -25,7 +32,7 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 
 <!-- toc: end -->
 
-## Intro
+## Intro {#intro}
 
 `chattr` is an interface to LLMs (Large Language Models). It enables
 interaction with the model directly from the RStudio IDE. `chattr`
@@ -37,7 +44,7 @@ tasks. The additional information appended to your request, provides a
 sort of “guard rails”, so that the packages and techniques we usually
 recommend as best practice, are used in the model’s responses.
 
-## Install
+## Install {#install}
 
 Since this is a very early version of the package install the package
 from GitHub:
@@ -46,74 +53,56 @@ from GitHub:
 remotes::install_github("mlverse/chattr")
 ```
 
-## Available models
+## Available models {#available-models}
 
 `chattr` provides two main integration with two main LLM back-ends. Each
 back-end provides access to multiple LLM types. The plan is to add more
 back-ends as time goes by:
 
-<table style="width:100%;">
-<colgroup>
-<col style="width: 28%" />
-<col style="width: 46%" />
-<col style="width: 24%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Provider</th>
-<th style="text-align: center;">Models</th>
-<th style="text-align: center;">Setup Instructions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">OpenAI</td>
-<td style="text-align: center;">GPT Models accessible via the OpenAI’s
-REST API. <code>chattr</code> provides a convenient way to interact with
-GPT 4, and 3.5.</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact
-with OpenAI GPT models</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><a
-href="https://github.com/kuvaus/LlamaGPTJ-chat">LLamaGPT-Chat</a></td>
-<td style="text-align: center;">LLM models available in your computer.
-Including GPT-J, LLaMA, and MPT. Tested on a <a
-href="https://gpt4all.io/index.html">GPT4ALL</a> model.
-<strong>LLamaGPT-Chat</strong> is a command line chat program for models
-written in C++.</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/backend-llamagpt.html">Interact
-with local models</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><a
-href="https://docs.posit.co/ide/user/ide/guide/tools/copilot.html">GitHub
-Copilot</a></td>
-<td style="text-align: center;">AI pair programmer that offers
-autocomplete-style suggestions as you code</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/copilot-chat.html">Interact
-with GitHub Copilot Chat</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><a
-href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#databricks-foundation-model-apis">Databricks</a></td>
-<td style="text-align: center;">DBRX, Meta Llama 3 70B, and Mixtral 8x7B
-via <a
-href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#pay-per-token-foundation-model-apis">Databricks
-foundational model REST API</a>.</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/backend-databricks.html">Interact
-with Databricks foundation chat models</a></td>
-</tr>
-</tbody>
-</table>
++------------------+-------------------------------+----------------+
+| Provider         | Models                        | Setup          |
+|                  |                               | Instructions   |
++:================:+:=============================:+:==============:+
+| OpenAI           | GPT Models accessible via the | [Interact with |
+|                  | OpenAI’s REST API. `chattr`   | OpenAI GPT     |
+|                  | provides a convenient way to  | models](ht     |
+|                  | interact with GPT 4, and 3.5. | tps://mlverse. |
+|                  |                               | github.io/chat |
+|                  |                               | tr/articles/op |
+|                  |                               | enai-gpt.html) |
++------------------+-------------------------------+----------------+
+| [LLamaGPT        | LLM models available in your  | [Interact with |
+| -Chat](https://g | computer. Including GPT-J,    | local          |
+| ithub.com/kuvaus | LLaMA, and MPT. Tested on a   | mo             |
+| /LlamaGPTJ-chat) | [GPT4ALL](h                   | dels](https:// |
+|                  | ttps://gpt4all.io/index.html) | mlverse.github |
+|                  | model. **LLamaGPT-Chat** is a | .io/chattr/art |
+|                  | command line chat program for | icles/backend- |
+|                  | models written in C++.        | llamagpt.html) |
++------------------+-------------------------------+----------------+
+| [GitHub          | AI pair programmer that       | [Interact with |
+| Copil            | offers autocomplete-style     | GitHub Copilot |
+| ot](https://docs | suggestions as you code       | Chat](http     |
+| .posit.co/ide/us |                               | s://mlverse.gi |
+| er/ide/guide/too |                               | thub.io/chattr |
+| ls/copilot.html) |                               | /articles/copi |
+|                  |                               | lot-chat.html) |
++------------------+-------------------------------+----------------+
+| [Databricks      | Meta Llama 3.1 405B and 3.3   | [Interact with |
+| ](https://docs.d | 70B via [Databricks           | Databricks     |
+| atabricks.com/en | foundational model REST       | foundation     |
+| /machine-learnin | API                           | chat           |
+| g/foundation-mod | ](https://docs.databricks.com | mode           |
+| els/index.html#d | /en/machine-learning/foundati | ls](https://ml |
+| atabricks-founda | on-models/index.html#pay-per- | verse.github.i |
+| tion-model-apis) | token-foundation-model-apis). | o/chattr/artic |
+|                  |                               | les/backend-da |
+|                  |                               | tabricks.html) |
++------------------+-------------------------------+----------------+
 
-## Using
+## Using {#using}
 
-### The App
+### The App {#the-app}
 
 The main way to use `chattr` is through the Shiny Gadget app. By
 default, in RStudio the app will run inside the Viewer pane. `chattr`
@@ -192,13 +181,13 @@ The screen that opens will contain the following:
 
 ![Screenshot of the Sniny gadget options](man/figures/readme/chat2.png)
 
-### Additional ways to interact
+### Additional ways to interact {#additional-ways-to-interact}
 
 Apart from the Shiny app, `chattr` provides two more ways to interact
 with the LLM. For details, see: [Other
 interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.html)
 
-## How it works
+## How it works {#how-it-works}
 
 `chattr` enriches your request with additional instructions, name and
 structure of data frames currently in your environment, the path for the
@@ -255,7 +244,7 @@ chattr(preview = TRUE)
 #> [Your future prompt goes here]
 ```
 
-## Keyboard Shortcut
+## Keyboard Shortcut {#keyboard-shortcut}
 
 The best way to access `chattr`’s app is by setting up a keyboard
 shortcut for it. This package includes an RStudio Addin that gives us
@@ -264,23 +253,29 @@ to be assigned to the addin. The name of the addin is: “Open Chat”. If
 you are not familiar with how to assign a keyboard shortcut see the next
 section.
 
-### How to setup the keyboard shortcut
+### How to setup the keyboard shortcut {#how-to-setup-the-keyboard-shortcut}
 
 -   Select *Tools* in the top menu, and then select *Modify Keyboard
     Shortcuts*
 
+    ```{=html}
     <img src="man/figures/readme/keyboard-shortcuts.png" width="700"
     alt="Screenshot that shows where to find the option to modify the keyboard shortcuts" />
+    ```
 
 -   Search for the `chattr` adding by writing “open chat”, in the search
     box
 
+    ```{=html}
     <img src="man/figures/readme/addin-find.png" width="500"
     alt="Screenshot that shows where to input the addin search" />
+    ```
 
 -   To select a key combination for your shortcut, click on the Shortcut
     box and then type *press* the key combination in your keyboard. In
     my case, I chose *Ctrl+Shift+C*
 
+    ```{=html}
     <img src="man/figures/readme/addin-assign.png" width="500"
     alt="Screenshot that shows what the interface looks like when a shortcut has been selected" />
+    ```

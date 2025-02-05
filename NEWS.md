@@ -1,5 +1,6 @@
 # chattr 0.2.1
 
+* Updating support for Databricks to use newer Meta Llama models
 * Prevents OpenAI 4o from showing as an option if no token is found
 
 # chattr 0.2.0

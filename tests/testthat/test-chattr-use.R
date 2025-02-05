@@ -31,7 +31,11 @@ test_that("Missing token prevents showing the option", {
 test_that("Menu works", {
   skip_on_cran()
   withr::with_envvar(
-    new = c("OPENAI_API_KEY" = "test", "DATABRICKS_TOKEN" = NA),
+    new = c(
+      "OPENAI_API_KEY" = "test",
+      "DATABRICKS_HOST" = NA,
+      "DATABRICKS_TOKEN" = NA
+      ),
     {
       local_mocked_bindings(
         menu = function(...) {

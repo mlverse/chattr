@@ -22,17 +22,16 @@ knitr::opts_chunk$set(
 [Databricks](https://docs.databricks.com/en/introduction/index.html)
 customers have access to [foundation model
 APIs](https://docs.databricks.com/en/machine-learning/foundation-models/index.html)
-like DBRX, Meta Llama 3 70B, and Mixtral 8x7B. Databricks also provides
-the ability to train and [deploy custom
+like Meta Llama 3.3 70B and 3.1 405B. Databricks also provides the
+ability to train and [deploy custom
 models](https://docs.databricks.com/en/machine-learning/foundation-models/deploy-prov-throughput-foundation-model-apis.html).
 
 `chattr` supports the following models on Databricks by default:
 
-| Model                     | Databricks Model Name                  | `chattr` Name                |
+| Model | Databricks Model Name | `chattr` Name |
 |---------------------|------------------------------|---------------------|
-| DBRX Instruct             | `databricks-dbrx-instruct`             | `databricks-dbrx`            |
-| Meta-Llama-3-70B-Instruct | `databricks-meta-llama-3-70b-instruct` | `databricks-meta-llama3-70b` |
-| Mixtral-8x7B Instruct     | `databricks-mixtral-8x7b-instruct`     | `databricks-mixtral8x7b`     |
+| Meta Llama 3.3 70B Instruct | `databricks-meta-llama-3-3-70b-instruct` | `databricks-meta-llama3.3-70b` |
+| Meta Llama 3.1 405B Instruct | `databricks-meta-llama-3-1-405b-instruct` | `databricks-meta-3.1-405b` |
 
 : [Supported Databricks pay-per-token foundation
 models](https://docs.databricks.com/en/machine-learning/foundation-models/index.html#pay-per-token-foundation-model-apis)
@@ -84,12 +83,12 @@ DATABRICKS_TOKEN = ####################
 ### Supported Models
 
 By default, `chattr` is setup to interact with GPT 4 (`gpt-4`). To
-switch to Meta Llama 3 70B you can run:
+switch to Meta Llama 3.3 70B you can run:
 
 ```{r}
 library(chattr)
 
-chattr_use("databricks-meta-llama3-70b")
+chattr_use("databricks-meta-llama-3-3-70b")
 ```
 
 #### Custom Models
@@ -107,9 +106,9 @@ endpoint name of `"CustomLLM"`:
 ```{r}
 library(chattr)
 
-# use any existing databricks foundation model name (e.g. datarbicks-dbrx)
-# then adjust the default model name to 'CustomMixtral'
-chattr_use(x = "databricks-dbrx", model = "CustomLLM")
+# use any existing databricks foundation model name (e.g. databricks-meta-3.1-405b)
+# then adjust the default model name to 'CustomLLM'
+chattr_use(x = "databricks-meta-llama-3-1-405b", model = "CustomLLM")
 ```
 
 ## Data files and data frames
@@ -139,4 +138,3 @@ time you start the Shiny app:
 ! A list of the top 10 files will be sent externally to Databricks with every request
 To avoid this, set the number of files to be sent to 0 using chattr::chattr_defaults(max_data_files = 0)Î
 ```
-
