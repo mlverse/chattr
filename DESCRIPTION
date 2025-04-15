@@ -34,7 +34,8 @@ Imports:
     glue,
     cli,
     fs,
-    ellmer
+    ellmer,
+    coro
 Depends: 
     R (>= 2.10)
 LazyData: true
