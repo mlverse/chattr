@@ -1,0 +1,10 @@
+default:
+  ellmer: ellmer::chat_ollama(model = "llama3.2")
+  provider: Ollama
+  model: llama3.2
+  label:  Ollama
+  include_history: FALSE
+  max_data_files: 0
+  max_data_frames: 0
+  include_doc_contents: FALSE
+  system_msg: You are a helpful coding assistant that uses R and the tidyverse

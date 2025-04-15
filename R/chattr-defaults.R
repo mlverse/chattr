@@ -138,7 +138,14 @@ as_ch_model <- function(x, type) {
     first_cl <- NULL
   }
 
+  if(!is.null(x$ellmer)) {
+    ch_ellmer <- "ch_ellmer"
+  } else {
+    ch_ellmer <- NULL
+  }
+
   class(x) <- c(
+    ch_ellmer,
     paste0("ch_", prep_class_name(provider)),
     first_cl,
     "ch_model"

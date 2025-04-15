@@ -1,6 +1,6 @@
 Package: chattr
 Title: Interact with Large Language Models in 'RStudio'
-Version: 0.2.1
+Version: 0.2.1.9000
 Authors@R: c(
   person("Edgar", "Ruiz", , "edgar@posit.co", role = c("aut", "cre")),
   person(given = "Posit Software, PBC", role = c("cph", "fnd"))
@@ -23,7 +23,7 @@ Imports:
     processx,
     jsonlite,
     config,
-    httr2 (>=  1.1.0),
+    httr2 (>= 1.1.0),
     purrr,
     rlang,
     bslib,
@@ -33,7 +33,8 @@ Imports:
     yaml,
     glue,
     cli,
-    fs
+    fs,
+    ellmer
 Depends: 
     R (>= 2.10)
 LazyData: true
