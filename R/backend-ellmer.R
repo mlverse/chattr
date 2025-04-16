@@ -6,13 +6,11 @@ ch_submit.ch_ellmer <- function(
     prompt_build = FALSE,
     preview = FALSE,
     ...) {
-
   if(preview) {
     return(prompt)
   }
-
-  ch_init_ellmer(defaults)
-
+  ch_ellmer_init(defaults)
+  prompt <- ch_ellmer_prompt(prompt, defaults)
   stream <- ch_env$ellmer_obj$stream(prompt)
   ret <- NULL
   coro::loop(for (chunk in stream) {
@@ -22,7 +20,7 @@ ch_submit.ch_ellmer <- function(
   ret
 }
 
-ch_init_ellmer <- function(defaults) {
+ch_ellmer_init <- function(defaults) {
   new_code <- defaults$ellmer
   old_code <- ch_env$ellmer_code %||% ""
   run_code <- FALSE
@@ -33,4 +31,14 @@ ch_init_ellmer <- function(defaults) {
     ch_env$ellmer_obj <- chat
   }
   invisible()
+}
+
+ch_ellmer_prompt <- function(prompt, defaults) {
+  out <- c(
+    process_prompt(defaults$prompt),
+    ch_context_data_files(defaults$max_data_files),
+    ch_context_data_frames(defaults$max_data_frames),
+    prompt
+  )
+  paste0("* ", out, collapse = " \n")
 }

@@ -52,7 +52,9 @@ app_server <- function(input, output, session) {
 
   observeEvent(input$submit, {
     if (input$prompt != "" && ch_env$ellmer_status== "idle") {
-      stream <- ch_env$ellmer_obj$stream_async(input$prompt)
+      defaults <- chattr_defaults(type = "chat")
+      prompt <- ch_ellmer_prompt(input$prompt, defaults)
+      stream <- ch_env$ellmer_obj$stream_async(prompt)
       coro::async(function() {
         ch_env$ellmer_status <<- "busy"
         for (chunk in await_each(stream)) {
