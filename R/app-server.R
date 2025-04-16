@@ -24,8 +24,7 @@ app_server <- function(input, output, session) {
 
   output$stream <- renderText({
     auto_invalidate()
-    if (ch_r_state() == "busy") {
-      ch_env$stream_output <- paste0(ch_env$stream_output, ch_r_output())
+    if (ch_env$ellmer_status == "busy") {
       markdown(ch_env$stream_output)
     }
   })
@@ -52,16 +51,20 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "" && ch_r_state() == "idle") {
-      ch_history_append(user = input$prompt)
-      app_add_user(input$prompt)
-      updateTextAreaInput(inputId = "prompt", value = "")
-      session$sendCustomMessage(type = "refocus", message = list(NULL))
-      ch_r_submit(
-        prompt = input$prompt,
-        defaults = chattr_defaults(type = "chat")
-      )
+    if (input$prompt != "" && ch_env$ellmer_status== "idle") {
+      stream <- ch_env$ellmer_obj$stream_async(input$prompt)
+      coro::async(function() {
+        ch_env$ellmer_status <<- "busy"
+        for (chunk in await_each(stream)) {
+          ch_env$stream_output <<- paste0(ch_env$stream_output, chunk)
+        }
+        ch_env$ellmer_status <<- "idle"
+      })()
     }
+    ch_history_append(user = input$prompt)
+    app_add_user(input$prompt)
+    session$sendCustomMessage(type = "refocus", message = list(NULL))
+    updateTextAreaInput(inputId = "prompt", value = "")
   })
 
   observeEvent(input$open, {
@@ -86,7 +89,7 @@ app_server <- function(input, output, session) {
 
   observe({
     auto_invalidate()
-    if (ch_r_state() == "idle" && ch_env$stream_output != "") {
+    if (ch_env$ellmer_status == "idle" && ch_env$stream_output != "") {
       Sys.sleep(0.02)
       ch_history_append(assistant = ch_env$stream_output)
       app_add_assistant(ch_env$stream_output, input)
@@ -96,7 +99,7 @@ app_server <- function(input, output, session) {
 
   observe({
     auto_invalidate()
-    error <- ch_r_error()
+    error <- NULL
     if (!is.null(error)) {
       stopApp()
       abort(error)
