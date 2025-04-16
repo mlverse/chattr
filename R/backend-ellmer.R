@@ -27,7 +27,9 @@ ch_ellmer_init <- function(defaults) {
   if(old_code != new_code) {
     code_expr <- rlang::parse_expr(new_code)
     chat <- rlang::eval_bare(code_expr)
-    chat$set_system_prompt(defaults$system_msg)
+    system_msg <- process_prompt(defaults$system_msg)
+    system_msg <- paste0("* ", system_msg, collapse = " \n")
+    chat$set_system_prompt(system_msg)
     ch_env$ellmer_obj <- chat
   }
   invisible()

@@ -108,6 +108,9 @@ chattr_defaults <- function(type = "default",
           if (length(td$prompt) > 0 && any(grepl("\n", td$prompt))) {
             td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
+          if (length(td$system_msg) > 0 && any(grepl("\n", td$system_msg))) {
+            td$system_msg <- unlist(strsplit(td$system_msg, split = "\n"))
+          }
           chattr_defaults_set(
             arguments = td,
             type = type
