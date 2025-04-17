@@ -34,16 +34,16 @@ chattr_use <- function(x = NULL, ...) {
   if(inherits(x, "Chat")) {
     model <- x$get_model()
     use_switch(
-      .file = ch_package_file("default"),
+      .file = ch_package_file("ellmer"),
       model = model,
       provider = "ellmer",
       label =  model,
       ...
     )
+    ch_ellmer_init(chat = x)
     return(invisible())
   }
-  interactive_label <- is_interactive() && is.null(x)
-  if (interactive_label) {
+  if (is_interactive() && is.null(x)) {
     x <- ch_get_ymls()
   }
   if (is_file(x)) {
