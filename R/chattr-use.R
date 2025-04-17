@@ -31,6 +31,10 @@
 #' use.
 #' @export
 chattr_use <- function(x = NULL, ...) {
+  opt_chat <- getOption(".chattr_chat")
+  if (is.null(x) && !is.null(opt_chat)) {
+    x <- opt_chat
+  }
   if (inherits(x, "Chat")) {
     model <- x$get_model()
     use_switch(

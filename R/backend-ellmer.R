@@ -35,18 +35,14 @@ ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
   } else {
     system_msg <- NULL
   }
-  if (is.null(chat)) {
-    opt_chat <- getOption(".chattr_chat")
-    if(is.null(opt_chat)) {
-      #TODO better error message
-      stop("No chat object found")
-    }
-    chat <- opt_chat
-  }
-  if(!is.null(system_msg)) {
+  if (!is.null(system_msg)) {
     system_msg <- process_prompt(system_msg)
     system_msg <- paste0("* ", system_msg, collapse = " \n")
     chat$set_system_prompt(system_msg)
+  }
+  if (is.null(chat)) {
+    # TODO better error message
+    stop("No chat object found")
   }
   ch_env$ellmer_obj <- chat
   invisible()
