@@ -63,15 +63,7 @@ ch_get_ymls <- function(menu = TRUE) {
   files <- package_file("configs") %>%
     dir_ls()
 
-  copilot_defaults <- "configs/copilot.yml" %>%
-    package_file() %>%
-    read_yaml()
-
-  copilot_token <- ch_gh_token(
-    defaults = copilot_defaults$default,
-    fail = FALSE
-  )
-  copilot_exists <- !is.null(copilot_token)
+  files <- files[!grepl("ellmer.yml", files)]
 
   gpt_token <- ch_openai_token(fail = FALSE)
   gpt_exists <- !is.null(gpt_token)
@@ -102,10 +94,6 @@ ch_get_ymls <- function(menu = TRUE) {
         path_file() %>%
         path_ext_remove()
     )
-
-  if (!copilot_exists) {
-    prep_files$copilot <- NULL
-  }
 
   if (!gpt_exists) {
     prep_files$gpt35 <- NULL

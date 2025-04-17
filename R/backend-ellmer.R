@@ -21,6 +21,9 @@ ch_submit.ch_ellmer <- function(
 }
 
 ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
+  if(is.null(chat)) {
+    chat <- ch_env$ellmer_obj
+  }
   if (!is.null(defaults)) {
     new_code <- defaults$ellmer
     system_msg <- defaults$system_msg
@@ -36,8 +39,7 @@ ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
     system_msg <- NULL
   }
   if (!is.null(system_msg)) {
-    system_msg <- process_prompt(system_msg)
-    system_msg <- paste0("* ", system_msg, collapse = " \n")
+    system_msg <- bulleted_list(system_msg)
     chat$set_system_prompt(system_msg)
   }
   if (is.null(chat)) {
@@ -49,11 +51,12 @@ ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
 }
 
 ch_ellmer_prompt <- function(prompt, defaults) {
-  out <- c(
-    process_prompt(defaults$prompt),
-    ch_context_data_files(defaults$max_data_files),
-    ch_context_data_frames(defaults$max_data_frames),
-    prompt
+  bulleted_list(
+    c(
+      process_prompt(defaults$prompt),
+      ch_context_data_files(defaults$max_data_files),
+      ch_context_data_frames(defaults$max_data_frames),
+      prompt
+    )
   )
-  paste0("* ", out, collapse = " \n")
 }

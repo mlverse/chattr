@@ -1,33 +1,31 @@
 default:
-  prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+  ellmer: ellmer::chat_openai(model = "gpt-4.1")
   provider: OpenAI - Chat Completions
   path: https://api.openai.com/v1/chat/completions
-  model: gpt-3.5-turbo
-  label: GPT 3.5 (OpenAI)
+  label: GPT 4.1 (OpenAI)
+  model: gpt-4.1
   max_data_files: 0
   max_data_frames: 0
   include_doc_contents: FALSE
-  include_history: TRUE
-  system_msg: You are a helpful coding assistant
+  include_history: FALSE
+  system_msg: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    You are a helpful coding assistant that uses R and the tidyverse
   model_arguments:
     temperature: 0.01
     max_tokens: 1000
     stream: TRUE
 chat:
   prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     For code output, use RMarkdown code chunks
     Avoid all code chunk options
 console:
   prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     For any line that is not code, prefix with a: #
     Keep each line of explanations to no more than 80 characters
     DO NOT use Markdown for the code
 script:
   prompt: |
-    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     For any line that is not code, prefix with a: #
     Keep each line of explanations to no more than 80 characters
     DO NOT use Markdown for the code
