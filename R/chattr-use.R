@@ -61,23 +61,8 @@ chattr_use <- function(x = NULL, ...) {
 
 ch_get_ymls <- function(menu = TRUE) {
   files <- package_file("configs") %>%
-    dir_ls()
-
-  files <- files[!grepl("ellmer.yml", files)]
-
-  gpt_token <- ch_openai_token(fail = FALSE)
-  gpt_exists <- !is.null(gpt_token)
-
-  dbrx_token <- ch_databricks_token(fail = FALSE)
-  dbrx_host <- ch_databricks_host(fail = FALSE)
-  dbrx_exists <- !is.null(dbrx_token) && !is.null(dbrx_host)
-
-  llama_defaults <- "configs/llamagpt.yml" %>%
-    package_file() %>%
-    read_yaml()
-
-  llama_exists <- file_exists(llama_defaults$default$path) &&
-    file_exists(llama_defaults$default$model)
+    dir_ls() %>%
+    discard(~ grepl("ellmer.yml", .x))
 
   prep_files <- files %>%
     map(read_yaml) %>%
@@ -95,20 +80,17 @@ ch_get_ymls <- function(menu = TRUE) {
         path_ext_remove()
     )
 
-  if (!gpt_exists) {
-    prep_files$gpt35 <- NULL
-    prep_files$gpt4 <- NULL
-    prep_files$gpt4o <- NULL
+  gpt_token <- ch_openai_token(fail = FALSE)
+  if(is.null(gpt_token)) {
+    prep_files <- prep_files %>%
+      discard(~ grepl("OpenAI", .x[1]))
   }
 
-  if (!dbrx_exists) {
-    prep_files$`databricks-dbrx` <- NULL
-    prep_files$`databricks-meta-llama3-70b` <- NULL
-    prep_files$`databricks-mixtral8x7b` <- NULL
-  }
-
-  if (!llama_exists) {
-    prep_files$llamagpt <- NULL
+  dbrx_token <- ch_databricks_token(fail = FALSE)
+  dbrx_host <- ch_databricks_host(fail = FALSE)
+  if(is.null(dbrx_token) | is.null(dbrx_host)) {
+    prep_files <- prep_files %>%
+      discard(~ grepl("Databricks", .x[1]))
   }
 
   if (length(prep_files) == 0) {
