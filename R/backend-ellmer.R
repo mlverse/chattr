@@ -6,7 +6,7 @@ ch_submit.ch_ellmer <- function(
     prompt_build = FALSE,
     preview = FALSE,
     ...) {
-  if(preview) {
+  if (preview) {
     return(prompt)
   }
   ch_ellmer_init(defaults)
@@ -21,24 +21,34 @@ ch_submit.ch_ellmer <- function(
 }
 
 ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
-  refresh_system_msg <- FALSE
-  if(!is.null(defaults)) {
+  if (!is.null(defaults)) {
     new_code <- defaults$ellmer
-    if(!is.null(new_code)){
+    system_msg <- defaults$system_msg
+    if (!is.null(new_code)) {
       old_code <- ch_env$ellmer_code %||% ""
       run_code <- FALSE
-      if(old_code != new_code) {
+      if (old_code != new_code) {
         code_expr <- rlang::parse_expr(new_code)
         chat <- rlang::eval_bare(code_expr)
-        ch_env$ellmer_obj <- chat
       }
     }
-    system_msg <- process_prompt(defaults$system_msg)
-    system_msg <- paste0("* ", system_msg, collapse = " \n")
-    ch_env$ellmer_obj$set_system_prompt(system_msg)
   } else {
-    ch_env$ellmer_obj <- chat
+    system_msg <- NULL
   }
+  if (is.null(chat)) {
+    opt_chat <- getOption(".chattr_chat")
+    if(is.null(opt_chat)) {
+      #TODO better error message
+      stop("No chat object found")
+    }
+    chat <- opt_chat
+  }
+  if(!is.null(system_msg)) {
+    system_msg <- process_prompt(system_msg)
+    system_msg <- paste0("* ", system_msg, collapse = " \n")
+    chat$set_system_prompt(system_msg)
+  }
+  ch_env$ellmer_obj <- chat
   invisible()
 }
 

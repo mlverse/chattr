@@ -17,7 +17,7 @@ test_that("Missing token prevents showing the option", {
       "OPENAI_API_KEY" = NA,
       "DATABRICKS_TOKEN" = "test",
       "DATABRICKS_HOST" = "test"
-      ),
+    ),
     {
       out <- ch_get_ymls(menu = FALSE)
       expect_null(out$gpt35)

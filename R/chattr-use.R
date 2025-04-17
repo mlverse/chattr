@@ -31,13 +31,13 @@
 #' use.
 #' @export
 chattr_use <- function(x = NULL, ...) {
-  if(inherits(x, "Chat")) {
+  if (inherits(x, "Chat")) {
     model <- x$get_model()
     use_switch(
       .file = ch_package_file("ellmer"),
       model = model,
       provider = "ellmer",
-      label =  model,
+      label = model,
       ...
     )
     ch_ellmer_init(chat = x)
