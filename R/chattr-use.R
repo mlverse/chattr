@@ -1,7 +1,8 @@
 #' Sets the LLM model to use in your session
 #' @param x The label of the LLM model to use, or the path of a valid YAML
-#' default file . Valid values are 'copilot', 'gpt4', 'gpt35', 'llamagpt',
-#' 'databricks-dbrx', 'databricks-meta-llama3-70b', and 'databricks-mixtral8x7b'.
+#' default file, or an `ellmer` chat object. Valid values are 'gpt4', 'gpt35',
+#' 'llamagpt', databricks-dbrx', 'databricks-meta-llama3-70b', and
+#' 'databricks-mixtral8x7b'.
 #' The value 'test' is also acceptable, but it is meant for package examples,
 #' and internal testing.
 #' @param ... Default values to modify.
@@ -30,6 +31,17 @@
 #' use.
 #' @export
 chattr_use <- function(x = NULL, ...) {
+  if(inherits(x, "Chat")) {
+    model <- x$get_model()
+    use_switch(
+      .file = ch_package_file("default"),
+      model = model,
+      provider = "ellmer",
+      label =  model,
+      ...
+    )
+    return(invisible())
+  }
   interactive_label <- is_interactive() && is.null(x)
   if (interactive_label) {
     x <- ch_get_ymls()
@@ -40,6 +52,7 @@ chattr_use <- function(x = NULL, ...) {
     x <- ch_package_file(x)
   }
   use_switch(.file = x, ...)
+  invisible()
 }
 
 ch_get_ymls <- function(menu = TRUE) {

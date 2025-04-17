@@ -1,0 +1,22 @@
+default:
+  include_history: FALSE
+  max_data_files: 0
+  max_data_frames: 0
+  include_doc_contents: FALSE
+  system_msg: |
+    {readLines(system.file('prompt/base.txt', package = 'chattr'))}
+    You are a helpful coding assistant that uses R and the tidyverse
+chat:
+  prompt: |
+    For code output, use RMarkdown code chunks
+    Avoid all code chunk options
+console:
+  prompt: |
+    For any line that is not code, prefix with a: #
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code
+script:
+  prompt: |
+    For any line that is not code, prefix with a: #
+    Keep each line of explanations to no more than 80 characters
+    DO NOT use Markdown for the code
