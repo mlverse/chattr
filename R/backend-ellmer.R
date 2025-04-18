@@ -18,7 +18,7 @@ ch_submit.ch_ellmer <- function(
   coro::loop(for (chunk in chat) {
     ret <- paste0(ret, chunk)
     if(stream) {
-      cat(chunk)
+      ide_paste_text(chunk)
     }
   })
   ret
