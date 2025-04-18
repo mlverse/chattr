@@ -24,3 +24,8 @@ script:
     For any line that is not code, prefix with a: #
     Keep each line of explanations to no more than 80 characters
     DO NOT use Markdown for the code
+markdown:
+  prompt: |
+    For code output, use RMarkdown code chunks
+    Keep each explanation line no longer than 40 characters
+

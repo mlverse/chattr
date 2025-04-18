@@ -73,7 +73,11 @@ ide_comment_selection <- function() {
 
     prompt <- trimws(original)
 
-    prefix <- ifelse(commented, "", "# ")
+    prefix <- ""
+
+    if (ui_current() == "script") {
+      prefix <- "# "
+    }
 
     replacement <- paste0(prefix, selected, collapse = "\n")
 

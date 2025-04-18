@@ -3,19 +3,23 @@ ch_submit.ch_ellmer <- function(
     defaults,
     prompt = NULL,
     stream = TRUE,
-    prompt_build = FALSE,
+    prompt_build = TRUE,
     preview = FALSE,
     ...) {
   if (preview) {
     return(prompt)
   }
   ch_ellmer_init(defaults)
-  prompt <- ch_ellmer_prompt(prompt, defaults)
-  stream <- ch_env$ellmer_obj$stream(prompt)
+  if(prompt_build) {
+    prompt <- ch_ellmer_prompt(prompt, defaults)
+  }
+  chat <- ch_env$ellmer_obj$stream(prompt)
   ret <- NULL
-  coro::loop(for (chunk in stream) {
+  coro::loop(for (chunk in chat) {
     ret <- paste0(ret, chunk)
-    cat(chunk)
+    if(stream) {
+      cat(chunk)
+    }
   })
   ret
 }
