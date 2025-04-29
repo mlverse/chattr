@@ -1,8 +1,8 @@
 #' Sets the LLM model to use in your session
 #' @param x The label of the LLM model to use, or the path of a valid YAML
 #' default file, or an `ellmer` chat object. Valid values are 'gpt4', 'gpt35',
-#' 'llamagpt', databricks-dbrx', 'databricks-meta-llama3-70b', and
-#' 'databricks-mixtral8x7b'.
+#' 'llamagpt', databricks-dbrx', 'databricks-meta-llama3-70b',
+#' 'databricks-mixtral8x7b', and 'ollama'.
 #' The value 'test' is also acceptable, but it is meant for package examples,
 #' and internal testing.
 #' @param ... Default values to modify.
@@ -31,12 +31,13 @@
 #' use.
 #' @export
 chattr_use <- function(x = NULL, ...) {
+  curr_x <- x
   opt_chat <- getOption(".chattr_chat")
-  if (is.null(x) && !is.null(opt_chat)) {
-    x <- opt_chat
+  if (is.null(curr_x) && !is.null(opt_chat)) {
+    curr_x <- opt_chat
   }
-  if (inherits(x, "Chat")) {
-    model <- x$get_model()
+  if (inherits(curr_x, "Chat")) {
+    model <- curr_x$get_model()
     use_switch(
       .file = ch_package_file("ellmer"),
       model = model,
@@ -44,22 +45,22 @@ chattr_use <- function(x = NULL, ...) {
       label = model,
       ...
     )
-    ch_ellmer_init(chat = x)
+    ch_ellmer_init(chat = curr_x)
     return(invisible())
   }
-  if (is_interactive() && is.null(x)) {
-    x <- ch_get_ymls()
+  if (is_interactive() && is.null(curr_x)) {
+    curr_x <- ch_get_ymls(x = x)
   }
-  if (is_file(x)) {
-    x <- path_expand(x)
+  if (is_file(curr_x)) {
+    curr_x <- path_expand(curr_x)
   } else {
-    x <- ch_package_file(x)
+    curr_x <- ch_package_file(curr_x)
   }
-  use_switch(.file = x, ...)
+  use_switch(.file = curr_x, ...)
   invisible()
 }
 
-ch_get_ymls <- function(menu = TRUE) {
+ch_get_ymls <- function(menu = TRUE, x = NULL) {
   files <- package_file("configs") %>%
     dir_ls() %>%
     discard(~ grepl("ellmer.yml", .x))
@@ -91,6 +92,11 @@ ch_get_ymls <- function(menu = TRUE) {
   if(is.null(dbrx_token) | is.null(dbrx_host)) {
     prep_files <- prep_files %>%
       discard(~ grepl("Databricks", .x[1]))
+  }
+
+  if(!ch_ollama_check()) {
+    prep_files <- prep_files %>%
+      discard(~ grepl("Ollama", .x[1]))
   }
 
   if (length(prep_files) == 0) {
