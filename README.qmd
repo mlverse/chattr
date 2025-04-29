@@ -45,47 +45,72 @@ url <- urls[grepl(".io", urls)][[1]]
 
 ## Intro {#intro}
 
-`chattr` is an interface to LLMs (Large Language Models). It enables interaction with the model directly from the RStudio IDE. `chattr` allows you to submit a prompt to the LLM from your script, or by using the provided Shiny Gadget.
+`chattr` is an interface to LLMs (Large Language Models). It enables interaction 
+with the model directly from RStudio and Positron. `chattr` allows you to submit 
+a prompt to the LLM from your script, or by using the provided Shiny Gadget.
 
-This package's main goal is to aid in exploratory data analysis (EDA) tasks. The additional information appended to your request, provides a sort of "guard rails", so that the packages and techniques we usually recommend as best practice, are used in the model's responses.
+This package's main goal is to aid in exploratory data analysis (EDA) tasks. 
+The additional information appended to your request, provides a sort of 
+"guard rails", so that the packages and techniques we usually recommend as 
+best practice, are used in the model's responses.
 
 ## Install {#install}
 
-Since this is a very early version of the package install the package from GitHub:
+To install the CRAN version of this package use:
 
 ```{r}
 #| eval: false
-remotes::install_github("mlverse/chattr")
+install.packages("chattr")
+```
+
+If you wish to use the development version use: 
+
+```{r}
+#| eval: false
+# install.packages("pak")
+pak::pak("mlverse/chattr")
 ```
 
 ## Available models {#available-models}
 
-`chattr` provides two main integration with two main LLM back-ends. Each back-end provides access to multiple LLM types. The plan is to add more back-ends as time goes by:
+As of version 0.3, `chattr` integrates with LLM's via the [`ellmer`](https://ellmer.tidyverse.org/)
+package.
 
-|                                                          Provider                                                           |                                                                                                     Models                                                                                                      |                                                  Setup Instructions                                                  |
-|:-------------------:|:--------------------------------:|:----------------:|
-|                                                           OpenAI                                                            |                                              GPT Models accessible via the OpenAI's REST API. `chattr` provides a convenient way to interact with GPT 4, and 3.5.                                               |             [Interact with OpenAI GPT models](https://mlverse.github.io/chattr/articles/openai-gpt.html)             |
-|                                  [LLamaGPT-Chat](https://github.com/kuvaus/LlamaGPTJ-chat)                                  | LLM models available in your computer. Including GPT-J, LLaMA, and MPT. Tested on a [GPT4ALL](https://gpt4all.io/index.html) model. **LLamaGPT-Chat** is a command line chat program for models written in C++. |            [Interact with local models](https://mlverse.github.io/chattr/articles/backend-llamagpt.html)             |
-|                        [GitHub Copilot](https://docs.posit.co/ide/user/ide/guide/tools/copilot.html)                        |                                                                    AI pair programmer that offers autocomplete-style suggestions as you code                                                                    |           [Interact with GitHub Copilot Chat](https://mlverse.github.io/chattr/articles/copilot-chat.html)           |
-| [Databricks](https://docs.databricks.com/en/machine-learning/foundation-models/index.html#databricks-foundation-model-apis) |    DBRX, Meta Llama 3 70B, and Mixtral 8x7B via [Databricks foundational model REST API](https://docs.databricks.com/en/machine-learning/foundation-models/index.html#pay-per-token-foundation-model-apis).     | [Interact with Databricks foundation chat models](https://mlverse.github.io/chattr/articles/backend-databricks.html) |
+The `ellmer` package has a growing list of LLM integrations, including OpenAI,
+Gemini, Deepseek and others. To find out how to connect to a given LLM provider
+and model, use the corresponding help guide found here:
+https://ellmer.tidyverse.org/reference/index.html.
 
 ## Using {#using}
 
 ### The App {#the-app}
 
-The main way to use `chattr` is through the Shiny Gadget app. By default, in RStudio the app will run inside the Viewer pane. `chattr` will prompt you to select the model back-end you with to use. The list of the actual models will depend on which of them you have a setup for. If no model setup is found, it will return an error. If you receive the error, please refer to the previous section to learn how to setup a model back-end in your machine. Here is an example of what the selection prompt will look like:
+The main way to use `chattr` is through the Shiny Gadget app. By default, in 
+RStudio the app will run inside the Viewer pane. 
+
+`chattr` will prompt you to select the model back-end you with to use. The list 
+of the actual models will depend on which of them you have a setup for. 
+If no model setup is found, it will return an error. If you receive the error,
+please refer to the previous section to learn how to setup a model back-end in 
+your machine. Here is an example of what the selection prompt will look like:
 
 ``` r
-chattr::chattr_app()
+chattr_use()
 
-#> ── chattr - Available models 
-#> 
-#> 1: GitHub - Copilot Chat -  (copilot) 
-#> 2: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) 
-#> 3: OpenAI - Chat Completions - gpt-4 (gpt4) 
-#> 4: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) 
-#> 
-#> Select the number of the model you would like to use:
+── chattr - Available models 
+Select the number of the model you would like to use:
+
+1: Databricks - databricks-dbrx-instruct (databricks-dbrx) 
+2: Databricks - databricks-meta-llama-3-3-70b-instruct (databricks-meta-llama31-70b) 
+3: Databricks - databricks-mixtral-8x7b-instruct (databricks-mixtral8x7b) 
+4: OpenAI - Chat Completions - gpt-4.1-mini (gpt41-mini) 
+5: OpenAI - Chat Completions - gpt-4.1-nano (gpt41-nano) 
+6: OpenAI - Chat Completions - gpt-4.1 (gpt41) 
+7: OpenAI - Chat Completions - gpt-4o (gpt4o) 
+8: Ollama - llama3.2 (ollama) 
+
+
+Selection: 
 ```
 
 This prompt only occurs the first time you call `chattr_app()`, or `chattr()`. If you close the app, and open it again, the app will use the model you initially selected. The selection is set for the rest of your R session, or until you manually change it. Please note that if, for example, `chattr` cannot find the setup for OpenAI, then those lines would not show up as options in your actual prompt.
@@ -137,7 +162,7 @@ library(chattr)
 data(mtcars)
 data(iris)
 
-chattr_use("gpt4")
+chattr_use("gpt4o")
 
 chattr(preview = TRUE)
 ```

@@ -1,5 +1,6 @@
 # chattr
 
+
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml)
@@ -28,7 +29,7 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 ## Intro
 
 `chattr` is an interface to LLMs (Large Language Models). It enables
-interaction with the model directly from the RStudio IDE. `chattr`
+interaction with the model directly from RStudio and Positron. `chattr`
 allows you to submit a prompt to the LLM from your script, or by using
 the provided Shiny Gadget.
 
@@ -39,102 +40,60 @@ recommend as best practice, are used in the model’s responses.
 
 ## Install
 
-Since this is a very early version of the package install the package
-from GitHub:
+To install the CRAN version of this package use:
 
 ``` r
-remotes::install_github("mlverse/chattr")
+install.packages("chattr")
+```
+
+If you wish to use the development version use:
+
+``` r
+# install.packages("pak")
+pak::pak("mlverse/chattr")
 ```
 
 ## Available models
 
-`chattr` provides two main integration with two main LLM back-ends. Each
-back-end provides access to multiple LLM types. The plan is to add more
-back-ends as time goes by:
+As of version 0.3, `chattr` integrates with LLM’s via the
+[`ellmer`](https://ellmer.tidyverse.org/) package.
 
-<table style="width:100%;">
-<colgroup>
-<col style="width: 28%" />
-<col style="width: 46%" />
-<col style="width: 24%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Provider</th>
-<th style="text-align: center;">Models</th>
-<th style="text-align: center;">Setup Instructions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">OpenAI</td>
-<td style="text-align: center;">GPT Models accessible via the OpenAI’s
-REST API. <code>chattr</code> provides a convenient way to interact with
-GPT 4, and 3.5.</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/openai-gpt.html">Interact
-with OpenAI GPT models</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><a
-href="https://github.com/kuvaus/LlamaGPTJ-chat">LLamaGPT-Chat</a></td>
-<td style="text-align: center;">LLM models available in your computer.
-Including GPT-J, LLaMA, and MPT. Tested on a <a
-href="https://gpt4all.io/index.html">GPT4ALL</a> model.
-<strong>LLamaGPT-Chat</strong> is a command line chat program for models
-written in C++.</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/backend-llamagpt.html">Interact
-with local models</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><a
-href="https://docs.posit.co/ide/user/ide/guide/tools/copilot.html">GitHub
-Copilot</a></td>
-<td style="text-align: center;">AI pair programmer that offers
-autocomplete-style suggestions as you code</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/copilot-chat.html">Interact
-with GitHub Copilot Chat</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><a
-href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#databricks-foundation-model-apis">Databricks</a></td>
-<td style="text-align: center;">DBRX, Meta Llama 3 70B, and Mixtral 8x7B
-via <a
-href="https://docs.databricks.com/en/machine-learning/foundation-models/index.html#pay-per-token-foundation-model-apis">Databricks
-foundational model REST API</a>.</td>
-<td style="text-align: center;"><a
-href="https://mlverse.github.io/chattr/articles/backend-databricks.html">Interact
-with Databricks foundation chat models</a></td>
-</tr>
-</tbody>
-</table>
+The `ellmer` package has a growing list of LLM integrations, including
+OpenAI, Gemini, Deepseek and others. To find out how to connect to a
+given LLM provider and model, use the corresponding help guide found
+here: https://ellmer.tidyverse.org/reference/index.html.
 
 ## Using
 
 ### The App
 
 The main way to use `chattr` is through the Shiny Gadget app. By
-default, in RStudio the app will run inside the Viewer pane. `chattr`
-will prompt you to select the model back-end you with to use. The list
-of the actual models will depend on which of them you have a setup for.
-If no model setup is found, it will return an error. If you receive the
-error, please refer to the previous section to learn how to setup a
-model back-end in your machine. Here is an example of what the selection
-prompt will look like:
+default, in RStudio the app will run inside the Viewer pane.
+
+`chattr` will prompt you to select the model back-end you with to use.
+The list of the actual models will depend on which of them you have a
+setup for. If no model setup is found, it will return an error. If you
+receive the error, please refer to the previous section to learn how to
+setup a model back-end in your machine. Here is an example of what the
+selection prompt will look like:
 
 ``` r
-chattr::chattr_app()
+chattr_use()
 
-#> ── chattr - Available models 
-#> 
-#> 1: GitHub - Copilot Chat -  (copilot) 
-#> 2: OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) 
-#> 3: OpenAI - Chat Completions - gpt-4 (gpt4) 
-#> 4: LlamaGPT - ~/ggml-gpt4all-j-v1.3-groovy.bin (llamagpt) 
-#> 
-#> Select the number of the model you would like to use:
+── chattr - Available models 
+Select the number of the model you would like to use:
+
+1: Databricks - databricks-dbrx-instruct (databricks-dbrx) 
+2: Databricks - databricks-meta-llama-3-3-70b-instruct (databricks-meta-llama31-70b) 
+3: Databricks - databricks-mixtral-8x7b-instruct (databricks-mixtral8x7b) 
+4: OpenAI - Chat Completions - gpt-4.1-mini (gpt41-mini) 
+5: OpenAI - Chat Completions - gpt-4.1-nano (gpt41-nano) 
+6: OpenAI - Chat Completions - gpt-4.1 (gpt41) 
+7: OpenAI - Chat Completions - gpt-4o (gpt4o) 
+8: Ollama - llama3.2 (ollama) 
+
+
+Selection: 
 ```
 
 This prompt only occurs the first time you call `chattr_app()`, or
@@ -154,8 +113,12 @@ chattr_use("gpt35")
 chattr_app()
 ```
 
-![Screenshot of the Sniny gadget app in a dark mode RStudio
-theme](man/figures/readme/chat1.png)
+<figure>
+<img src="man/figures/readme/chat1.png"
+alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme" />
+<figcaption aria-hidden="true">Screenshot of the Sniny gadget app in a
+dark mode RStudio theme</figcaption>
+</figure>
 
 <br>
 
@@ -190,7 +153,12 @@ The screen that opens will contain the following:
     information attached to your prompt. Including the number of max
     data files, and data frames sent to the LLM.
 
-![Screenshot of the Sniny gadget options](man/figures/readme/chat2.png)
+<figure>
+<img src="man/figures/readme/chat2.png"
+alt="Screenshot of the Sniny gadget options" />
+<figcaption aria-hidden="true">Screenshot of the Sniny gadget
+options</figcaption>
+</figure>
 
 ### Additional ways to interact
 
@@ -205,8 +173,12 @@ structure of data frames currently in your environment, the path for the
 data files in your working directory. If supported by the model,
 `chattr` will include the current chat history.
 
-![Diagram that illustrates how `chattr` handles model
-requests](man/figures/readme/chattr-diagram.png)
+<figure>
+<img src="man/figures/readme/chattr-diagram.png"
+alt="Diagram that illustrates how chattr handles model requests" />
+<figcaption aria-hidden="true">Diagram that illustrates how
+<code>chattr</code> handles model requests</figcaption>
+</figure>
 
 To see what `chattr` will send to the model, set the `preview` argument
 to `TRUE`:
@@ -217,13 +189,13 @@ library(chattr)
 data(mtcars)
 data(iris)
 
-chattr_use("gpt4")
+chattr_use("gpt4o")
 #> 
 #> ── chattr
 #> • Provider: OpenAI - Chat Completions
 #> • Path/URL: https://api.openai.com/v1/chat/completions
-#> • Model: gpt-4
-#> • Label: GPT 4 (OpenAI)
+#> • Model: gpt-4o
+#> • Label: GPT 4 Omni (OpenAI)
 
 chattr(preview = TRUE)
 #> 
@@ -232,26 +204,13 @@ chattr(preview = TRUE)
 #> ── Preview for: Console
 #> • Provider: OpenAI - Chat Completions
 #> • Path/URL: https://api.openai.com/v1/chat/completions
-#> • Model: gpt-4
-#> • Label: GPT 4 (OpenAI)
+#> • Model: gpt-4o
+#> • Label: GPT 4 Omni (OpenAI)
 #> • temperature: 0.01
 #> • max_tokens: 1000
 #> • stream: TRUE
 #> 
 #> ── Prompt:
-#> role: system
-#> content: You are a helpful coding assistant
-#> role: user
-#> content:
-#> * Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference
-#> * Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference
-#> * Use tidyverse packages: readr, ggplot2, dplyr, tidyr
-#> * For models, use tidymodels packages: recipes, parsnip, yardstick, workflows,
-#> broom
-#> * Avoid explanations unless requested by user, expecting code only
-#> * For any line that is not code, prefix with a: #
-#> * Keep each line of explanations to no more than 80 characters
-#> * DO NOT use Markdown for the code
 #> [Your future prompt goes here]
 ```
 
@@ -269,18 +228,30 @@ section.
 -   Select *Tools* in the top menu, and then select *Modify Keyboard
     Shortcuts*
 
+    <figure>
     <img src="man/figures/readme/keyboard-shortcuts.png" width="700"
     alt="Screenshot that shows where to find the option to modify the keyboard shortcuts" />
+    <figcaption aria-hidden="true">Screenshot that shows where to find the
+    option to modify the keyboard shortcuts</figcaption>
+    </figure>
 
 -   Search for the `chattr` adding by writing “open chat”, in the search
     box
 
+    <figure>
     <img src="man/figures/readme/addin-find.png" width="500"
     alt="Screenshot that shows where to input the addin search" />
+    <figcaption aria-hidden="true">Screenshot that shows where to input the
+    addin search</figcaption>
+    </figure>
 
 -   To select a key combination for your shortcut, click on the Shortcut
     box and then type *press* the key combination in your keyboard. In
     my case, I chose *Ctrl+Shift+C*
 
+    <figure>
     <img src="man/figures/readme/addin-assign.png" width="500"
     alt="Screenshot that shows what the interface looks like when a shortcut has been selected" />
+    <figcaption aria-hidden="true">Screenshot that shows what the interface
+    looks like when a shortcut has been selected</figcaption>
+    </figure>
