@@ -15,8 +15,8 @@ status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project
 
 -   [Intro](#intro)
 -   [Install](#install)
--   [Available models](#available-models)
 -   [Using](#using)
+    -   [Available models](#available-models)
     -   [The App](#the-app)
     -   [Additional ways to interact](#additional-ways-to-interact)
 -   [How it works](#how-it-works)
@@ -49,21 +49,68 @@ install.packages("chattr")
 If you wish to use the development version use:
 
 ``` r
-# install.packages("pak")
 pak::pak("mlverse/chattr")
 ```
 
-## Available models
-
-As of version 0.3, `chattr` integrates with LLM’s via the
-[`ellmer`](https://ellmer.tidyverse.org/) package.
-
-The `ellmer` package has a growing list of LLM integrations, including
-OpenAI, Gemini, Deepseek and others. To find out how to connect to a
-given LLM provider and model, use the corresponding help guide found
-here: https://ellmer.tidyverse.org/reference/index.html.
-
 ## Using
+
+Starting with version 0.3, `chattr` integrates with LLM’s via the
+[`ellmer`](https://ellmer.tidyverse.org/) package. `ellmer` has a
+growing list of LLM integrations, including
+[OpenAI](https://ellmer.tidyverse.org/reference/chat_openai.html),
+[Gemini](https://ellmer.tidyverse.org/reference/chat_gemini.html),
+[Deepseek](https://ellmer.tidyverse.org/reference/chat_deepseek.html)
+and others.
+
+There are several ways to let `chattr` know which LLM to use:
+
+-   **Pre-set an R option** - Pass your desired `ellmer` connection
+    command in the `.chattr_chat` option, for example:
+    `options(.chattr_chat = ellmer::chat_claude())`. If you add that
+    code to your *.Rprofile*, `chattr` will use that as the default
+    model and settings to use every time you start an R session. Use the
+    `usethis::edit_r_profile()` command to easily edit your *.Rprofile*
+
+-   **Use a `Chat` object** - You can create an `ellmer` chat object
+    first, which you can pass to `chattr_use()`, for example:
+
+    ``` r
+      my_chat <- ellmer::chat_claude()
+      chattr_use(my_chat)
+    ```
+
+-   **Select one from a menu (legacy)** - If nothing is passed to
+    `chattr_use()`, and no option is set, then `chattr` will attempt to
+    create the `ellmer` chat for you. It will try to figure if you have
+    the needed setup to connect to one, or all, of three specific
+    providers: **OpenAI** token ,**Databricks** personal access token
+    (PAT), and checks if the **Ollama** service running locally in your
+    machine `chattr` will then return a menu for you to select a model:
+
+    ``` r
+      chattr_use()
+
+      ── chattr - Available models 
+      Select the number of the model you would like to use:
+
+      1: Databricks - databricks-dbrx-instruct (databricks-dbrx) 
+      2: Databricks - databricks-meta-llama-3-3-70b-instruct (databricks-meta-llama31-70b) 
+      3: Databricks - databricks-mixtral-8x7b-instruct (databricks-mixtral8x7b) 
+      4: OpenAI - Chat Completions - gpt-4.1-mini (gpt41-mini) 
+      5: OpenAI - Chat Completions - gpt-4.1-nano (gpt41-nano) 
+      6: OpenAI - Chat Completions - gpt-4.1 (gpt41) 
+      7: OpenAI - Chat Completions - gpt-4o (gpt4o) 
+      8: Ollama - llama3.2 (ollama) 
+
+
+      Selection: 
+    ```
+
+### Available models
+
+To see the full list, and how to setup or authenticate to a given
+provider, see the list in the `ellmer` official site:
+https://ellmer.tidyverse.org/index.html#providers
 
 ### The App
 
