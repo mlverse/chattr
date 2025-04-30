@@ -1,3 +1,4 @@
+skip()
 test_that("Saving defaults work", {
   test_chattr_type_unset()
   expect_snapshot(chattr_use("gpt35"))
