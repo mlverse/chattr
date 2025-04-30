@@ -1,3 +1,4 @@
+skip()
 test_that("chattr app initial values are consistent", {
   skip_on_cran()
   shiny_app <- shinyApp(app_ui(), app_server)

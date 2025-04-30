@@ -1,14 +1,13 @@
-# Set to GPT3.5
+# Set to ollama
 
     Code
-      chattr_use("gpt35")
+      chattr_use("ollama")
     Message
       
       -- chattr 
-      * Provider: OpenAI - Chat Completions
-      * Path/URL: https://api.openai.com/v1/chat/completions
-      * Model: gpt-3.5-turbo
-      * Label: GPT 3.5 (OpenAI)
+      * Provider: Ollama
+      * Model: llama3.2
+      * Label: Llama 3.2 (Ollama)
 
 # UI output is as expected
 
@@ -57,43 +56,38 @@
        [6] "        <hr/>"                                                                                                                                                                                                                                 
        [7] "        <div class=\"form-group shiny-input-container\">"                                                                                                                                                                                      
        [8] "          <label class=\"control-label\" id=\"prompt2-label\" for=\"prompt2\">Prompt</label>"                                                                                                                                                  
-       [9] "          <textarea id=\"prompt2\" class=\"shiny-input-textarea form-control\">Use the 'Tidy Modeling with R' (https://www.tmwr.org/) book as main reference"                                                                                  
-      [10] "Use the 'R for Data Science' (https://r4ds.had.co.nz/) book as main reference"                                                                                                                                                                 
-      [11] "Use tidyverse packages: readr, ggplot2, dplyr, tidyr"                                                                                                                                                                                          
-      [12] "For models, use tidymodels packages: recipes, parsnip, yardstick, workflows, broom"                                                                                                                                                            
-      [13] "Avoid explanations unless requested by user, expecting code only"                                                                                                                                                                              
-      [14] "For code output, use RMarkdown code chunks"                                                                                                                                                                                                    
-      [15] "Avoid all code chunk options</textarea>"                                                                                                                                                                                                       
+       [9] "          <textarea id=\"prompt2\" class=\"shiny-input-textarea form-control\">For code output, use RMarkdown code chunks"                                                                                                                     
+      [10] "Avoid all code chunk options</textarea>"                                                                                                                                                                                                       
+      [11] "        </div>"                                                                                                                                                                                                                                
+      [12] "        <br/>"                                                                                                                                                                                                                                 
+      [13] "        <div class=\"form-group shiny-input-container\">"                                                                                                                                                                                      
+      [14] "          <label class=\"control-label\" id=\"i_data-label\" for=\"i_data\">Max Data Frames</label>"                                                                                                                                           
+      [15] "          <input id=\"i_data\" type=\"text\" class=\"shiny-input-text form-control\" value=\"0\"/>"                                                                                                                                            
       [16] "        </div>"                                                                                                                                                                                                                                
-      [17] "        <br/>"                                                                                                                                                                                                                                 
-      [18] "        <div class=\"form-group shiny-input-container\">"                                                                                                                                                                                      
-      [19] "          <label class=\"control-label\" id=\"i_data-label\" for=\"i_data\">Max Data Frames</label>"                                                                                                                                           
-      [20] "          <input id=\"i_data\" type=\"text\" class=\"shiny-input-text form-control\" value=\"0\"/>"                                                                                                                                            
-      [21] "        </div>"                                                                                                                                                                                                                                
-      [22] "        <div class=\"form-group shiny-input-container\">"                                                                                                                                                                                      
-      [23] "          <label class=\"control-label\" id=\"i_files-label\" for=\"i_files\">Max Data Files</label>"                                                                                                                                          
-      [24] "          <input id=\"i_files\" type=\"text\" class=\"shiny-input-text form-control\" value=\"0\"/>"                                                                                                                                           
-      [25] "        </div>"                                                                                                                                                                                                                                
-      [26] "        <div class=\"form-group shiny-input-container\">"                                                                                                                                                                                      
-      [27] "          <div class=\"checkbox\">"                                                                                                                                                                                                            
-      [28] "            <label>"                                                                                                                                                                                                                           
-      [29] "              <input id=\"i_history\" type=\"checkbox\" class=\"shiny-input-checkbox\" checked=\"checked\"/>"                                                                                                                                  
-      [30] "              <span>Include Chat History</span>"                                                                                                                                                                                               
-      [31] "            </label>"                                                                                                                                                                                                                          
-      [32] "          </div>"                                                                                                                                                                                                                              
-      [33] "        </div>"                                                                                                                                                                                                                                
-      [34] "        <button id=\"saved\" type=\"button\" class=\"btn btn-default action-button\" style=\"padding-top: 4px;padding-bottom: 4px;padding-left: 10px;padding-right: 10px;font-size: 60%;color: #fff;background-color: #3E4A56;\">Save</button>"
-      [35] "      </div>"                                                                                                                                                                                                                                  
-      [36] "      <div class=\"modal-footer\"></div>"                                                                                                                                                                                                      
-      [37] "    </div>"                                                                                                                                                                                                                                    
-      [38] "  </div>"                                                                                                                                                                                                                                      
-      [39] "  <script>if (window.bootstrap && !window.bootstrap.Modal.VERSION.match(/^4\\./)) {"                                                                                                                                                           
-      [40] "         var modal = new bootstrap.Modal(document.getElementById('shiny-modal'));"                                                                                                                                                             
-      [41] "         modal.show();"                                                                                                                                                                                                                        
-      [42] "      } else {"                                                                                                                                                                                                                                
-      [43] "         $('#shiny-modal').modal().focus();"                                                                                                                                                                                                   
-      [44] "      }</script>"                                                                                                                                                                                                                              
-      [45] "</div>"                                                                                                                                                                                                                                        
+      [17] "        <div class=\"form-group shiny-input-container\">"                                                                                                                                                                                      
+      [18] "          <label class=\"control-label\" id=\"i_files-label\" for=\"i_files\">Max Data Files</label>"                                                                                                                                          
+      [19] "          <input id=\"i_files\" type=\"text\" class=\"shiny-input-text form-control\" value=\"0\"/>"                                                                                                                                           
+      [20] "        </div>"                                                                                                                                                                                                                                
+      [21] "        <div class=\"form-group shiny-input-container\">"                                                                                                                                                                                      
+      [22] "          <div class=\"checkbox\">"                                                                                                                                                                                                            
+      [23] "            <label>"                                                                                                                                                                                                                           
+      [24] "              <input id=\"i_history\" type=\"checkbox\" class=\"shiny-input-checkbox\"/>"                                                                                                                                                      
+      [25] "              <span>Include Chat History</span>"                                                                                                                                                                                               
+      [26] "            </label>"                                                                                                                                                                                                                          
+      [27] "          </div>"                                                                                                                                                                                                                              
+      [28] "        </div>"                                                                                                                                                                                                                                
+      [29] "        <button id=\"saved\" type=\"button\" class=\"btn btn-default action-button\" style=\"padding-top: 4px;padding-bottom: 4px;padding-left: 10px;padding-right: 10px;font-size: 60%;color: #fff;background-color: #3E4A56;\">Save</button>"
+      [30] "      </div>"                                                                                                                                                                                                                                  
+      [31] "      <div class=\"modal-footer\"></div>"                                                                                                                                                                                                      
+      [32] "    </div>"                                                                                                                                                                                                                                    
+      [33] "  </div>"                                                                                                                                                                                                                                      
+      [34] "  <script>if (window.bootstrap && !window.bootstrap.Modal.VERSION.match(/^4\\./)) {"                                                                                                                                                           
+      [35] "         var modal = new bootstrap.Modal(document.getElementById('shiny-modal'));"                                                                                                                                                             
+      [36] "         modal.show();"                                                                                                                                                                                                                        
+      [37] "      } else {"                                                                                                                                                                                                                                
+      [38] "         $('#shiny-modal').modal().focus();"                                                                                                                                                                                                   
+      [39] "      }</script>"                                                                                                                                                                                                                              
+      [40] "</div>"                                                                                                                                                                                                                                        
 
 # UI entry for assistant reponse works as expected
 

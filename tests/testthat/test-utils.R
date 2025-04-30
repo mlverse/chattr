@@ -1,5 +1,5 @@
 test_that("Creation and printing ch_request objects", {
-  def <- test_simulate_model("gpt35.yml")
+  def <- test_simulate_model("gpt41.yml")
   x <- list()
   x$provider <- "Test Provider"
   x$type <- "chat"

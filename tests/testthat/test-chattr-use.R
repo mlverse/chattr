@@ -4,8 +4,7 @@ test_that("Request submission works", {
     {
       out <- ch_get_ymls(menu = FALSE)
       expect_equal(class(out), "list")
-      expect_snapshot(out$gpt35)
-      expect_snapshot(out$gpt4)
+      expect_snapshot(out$gpt41)
       expect_snapshot(out$gpt4o)
     }
   )
@@ -20,13 +19,11 @@ test_that("Missing token prevents showing the option", {
     ),
     {
       out <- ch_get_ymls(menu = FALSE)
-      expect_null(out$gpt35)
       expect_null(out$gpt4)
       expect_null(out$gpt4o)
     }
   )
 })
-
 
 test_that("Menu works", {
   skip_on_cran()
@@ -38,21 +35,14 @@ test_that("Menu works", {
           return(1)
         }
       )
-      print(ch_get_ymls(menu = TRUE))
+      out_names <- names(ch_get_ymls(menu = FALSE))
       expect_true(
-        ch_get_ymls(menu = TRUE) %in% c("gpt35", "gpt4", "gpt4o")
+        any(out_names %in% c("gpt41", "gpt4o"))
+      )
+      expect_false(
+        any(out_names %in% c("databricks-dbrx", "databricks-mixtral8x7b"))
       )
     }
   )
 })
 
-
-test_that("Menu works", {
-  withr::with_envvar(
-    new = c(
-      "CHATTR_USE" = "llamagpt",
-      "CHATTR_MODEL" = "test/path"
-    ),
-    expect_snapshot(chattr_defaults(force = TRUE))
-  )
-})

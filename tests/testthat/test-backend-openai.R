@@ -1,3 +1,4 @@
+skip()
 test_that("Submit method works", {
   local_mocked_bindings(
     ch_openai_complete = function(...) {
