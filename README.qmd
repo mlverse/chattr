@@ -15,6 +15,8 @@ format: md
 
 source("utils/toc.R")
 toc()
+source("utils/models.R")
+models()
 ```
 
 ```{r}
@@ -79,6 +81,17 @@ model and settings to use every time you start an R session. Use the
     chattr_use(my_chat)
   ```
   
+- **Named model** - You pass one of several pre-defined provider/model setups. 
+These setups are represented by labels set by `chattr`. At this time, the combinations
+cover 3 providers: OpenAI, Databricks, and Ollama. To use, simply pass the label
+to `chattr_use`. To see a full list of the available pre-defined combinations 
+and their argument values see [Available models](#available-models). For example,
+if you wish to use OpenAI's GPT 4.1 Nano model, you simply pass the corresponding
+label:
+  ```r
+    chattr_use("gpt41-nano")
+  ```
+  
 - **Select one from a menu (legacy)** - If nothing is passed to `chattr_use()`, 
 and no option is set, `chattr` will try to create the `ellmer` chat for
 you. It will try to figure if you have authentication tokens for **OpenAI**, 
@@ -108,17 +121,34 @@ then returns a menu based on the providers it was able to find:
 To see the full list, and how to setup or authenticate to a given provider, 
 see the list in the `ellmer` official site: https://ellmer.tidyverse.org/index.html#providers
 
+For convenience, `chattr` contains some provider/model combinations that you can
+use by passing what is under **Use value** to `chattr_use()`:
+
+<!-- models: start -->
+|Model & Provider| Use value|
+|----|----|
+|DBRX (Databricks)|databricks-dbrx|
+|Meta Llama 3.3 70B (Databricks)|databricks-meta-llama31-70b|
+|Mixtral 8x7b (Datbricks)|databricks-mixtral8x7b|
+|GPT 4.1 Mini (OpenAI)|gpt41-mini|
+|GPT 4.1 Nano (OpenAI)|gpt41-nano|
+|GPT 4.1 (OpenAI)|gpt41|
+|GPT 4 Omni (OpenAI)|gpt4o|
+|Llama 3.2 (Ollama)|ollama|
+<!-- models: end -->
+
+If the provider and/or model you wish to use is not listed in the table above,
+use the [`ellmer` Providers](https://ellmer.tidyverse.org/index.html#providers)
+section to see how to connect, and pass the connected `ellmer` chat object
+to `chattr_use()`.
+
 ### The App {#the-app}
 
 The main way to use `chattr` is through the Shiny Gadget app. By default, in
 RStudio the app will run inside the Viewer pane.
 
-This prompt only occurs the first time you call `chattr_app()`, or `chattr()`. If you close the app, and open it again, the app will use the model you initially selected. The selection is set for the rest of your R session, or until you manually change it. Please note that if, for example, `chattr` cannot find the setup for OpenAI, then those lines would not show up as options in your actual prompt.
-
-If you wish to avoid the interactive prompt, then call `chattr_use()` to designate the model you wish to use before calling the app. You can also use `chattr_use()` to change the model back-end you are interacting with during your R session:
-
 ``` r
-chattr_use("gpt35")
+chattr_use("ollama")
 chattr_app()
 ```
 
@@ -126,31 +156,50 @@ chattr_app()
 
 <br>
 
-After the LLM finishes its response, the `chattr` app processes all markdown code chunks. It will place three convenience buttons:
+After the LLM finishes its response, the `chattr` app processes all markdown 
+code chunks. It will place three convenience buttons:
 
--   **Copy to clipboard** - It will write the code inside the chunk to your clipboard.
+-   **Copy to clipboard** - It will write the code inside the chunk to your 
+clipboard.
 
--   **Copy to document** - It will copy-paste the code directly to where the app was called from. If the app is started while working on a script, `chattr` will copy the code to that same script.
+-   **Copy to document** - It will copy-paste the code directly to where the app 
+was called from. If the app is started while working on a script, `chattr` will 
+copy the code to that same script.
 
--   **Copy to new script** - It creates a new R script in the RStudio IDE, and copies the content of the chunk directly to it. Very useful when the LLM writes a Shiny app for you
+-   **Copy to new script** - It creates a new R script in the RStudio IDE, and
+copies the content of the chunk directly to it. Very useful when the LLM writes 
+a Shiny app for you
 
-A lot of effort was put in to make the app's appearance as close as possible to the IDE. This way it feels more integrated with your work space. This includes switching the color scheme based on the current RStudio theme being light, or dark.
+A lot of effort was put in to make the app's appearance as close as possible to 
+the IDE. This way it feels more integrated with your work space. This includes 
+switching the color scheme based on the current RStudio theme being light, or 
+dark.
 
-The settings screen can be accessed by clicking on the "gear" button. The screen that opens will contain the following:
+The settings screen can be accessed by clicking on the "gear" button. The 
+screen that opens will contain the following:
 
--   Save and Open chats - This is an early experiment to allow us to save and retrieve past chats. `chattr` will save the file in an RDS format. The main objective of this feature, is to be able to see past chats, not to continue previous conversations with the LLM.
+-   Save and Open chats - This is an early experiment to allow us to save and 
+retrieve past chats. `chattr` will save the file in an RDS format. The main 
+objective of this feature, is to be able to see past chats, not to continue 
+previous conversations with the LLM.
 
--   Prompt settings - In this section you can change the additional information attached to your prompt. Including the number of max data files, and data frames sent to the LLM.
+-   Prompt settings - In this section you can change the additional information 
+attached to your prompt. Including the number of max data files, and data frames
+sent to the LLM.
 
 ![Screenshot of the Sniny gadget options](man/figures/readme/chat2.png)
 
 ### Additional ways to interact {#additional-ways-to-interact}
 
-Apart from the Shiny app, `chattr` provides two more ways to interact with the LLM. For details, see: [Other interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.html)
+Apart from the Shiny app, `chattr` provides two more ways to interact with the
+LLM. For details, see: [Other interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.html)
 
 ## How it works {#how-it-works}
 
-`chattr` enriches your request with additional instructions, name and structure of data frames currently in your environment, the path for the data files in your working directory. If supported by the model, `chattr` will include the current chat history.
+`chattr` enriches your request with additional instructions, name and structure 
+of data frames currently in your environment, the path for the data files in 
+your working directory. If supported by the model, `chattr` will include the 
+current chat history.
 
 ![Diagram that illustrates how `chattr` handles model requests](man/figures/readme/chattr-diagram.png)
 
@@ -169,7 +218,11 @@ chattr(preview = TRUE)
 
 ## Keyboard Shortcut {#keyboard-shortcut}
 
-The best way to access `chattr`'s app is by setting up a keyboard shortcut for it. This package includes an RStudio Addin that gives us direct access to the app, which in turn, allows a **keyboard shortcut** to be assigned to the addin. The name of the addin is: "Open Chat". If you are not familiar with how to assign a keyboard shortcut see the next section.
+The best way to access `chattr`'s app is by setting up a keyboard shortcut for 
+it. This package includes an RStudio Addin that gives us direct access to the 
+app, which in turn, allows a **keyboard shortcut** to be assigned to the addin.
+The name of the addin is: "Open Chat". If you are not familiar with how to 
+assign a keyboard shortcut see the next section.
 
 ### How to setup the keyboard shortcut {#how-to-setup-the-keyboard-shortcut}
 
@@ -181,6 +234,8 @@ The best way to access `chattr`'s app is by setting up a keyboard shortcut for i
 
     ![Screenshot that shows where to input the addin search](man/figures/readme/addin-find.png){width="500"}
 
--   To select a key combination for your shortcut, click on the Shortcut box and then type *press* the key combination in your keyboard. In my case, I chose *Ctrl+Shift+C*
+-   To select a key combination for your shortcut, click on the Shortcut box 
+and then type *press* the key combination in your keyboard. In my case, I 
+chose *Ctrl+Shift+C*
 
     ![Screenshot that shows what the interface looks like when a shortcut has been selected](man/figures/readme/addin-assign.png){width="500"}

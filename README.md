@@ -79,6 +79,19 @@ There are several ways to let `chattr` know which LLM to use:
       chattr_use(my_chat)
     ```
 
+-   **Named model** - You pass one of several pre-defined provider/model
+    setups. These setups are represented by labels set by `chattr`. At
+    this time, the combinations cover 3 providers: OpenAI, Databricks,
+    and Ollama. To use, simply pass the label to `chattr_use`. To see a
+    full list of the available pre-defined combinations and their
+    argument values see [Available models](#available-models). For
+    example, if you wish to use OpenAI’s GPT 4.1 Nano model, you simply
+    pass the corresponding label:
+
+    ``` r
+      chattr_use("gpt41-nano")
+    ```
+
 -   **Select one from a menu (legacy)** - If nothing is passed to
     `chattr_use()`, and no option is set, `chattr` will try to create
     the `ellmer` chat for you. It will try to figure if you have
@@ -111,25 +124,69 @@ To see the full list, and how to setup or authenticate to a given
 provider, see the list in the `ellmer` official site:
 https://ellmer.tidyverse.org/index.html#providers
 
+For convenience, `chattr` contains some provider/model combinations that
+you can use by passing what is under **Use value** to `chattr_use()`:
+
+<!-- models: start -->
+
+<table>
+<thead>
+<tr class="header">
+<th>Model &amp; Provider</th>
+<th>Use value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DBRX (Databricks)</td>
+<td>databricks-dbrx</td>
+</tr>
+<tr class="even">
+<td>Meta Llama 3.3 70B (Databricks)</td>
+<td>databricks-meta-llama31-70b</td>
+</tr>
+<tr class="odd">
+<td>Mixtral 8x7b (Datbricks)</td>
+<td>databricks-mixtral8x7b</td>
+</tr>
+<tr class="even">
+<td>GPT 4.1 Mini (OpenAI)</td>
+<td>gpt41-mini</td>
+</tr>
+<tr class="odd">
+<td>GPT 4.1 Nano (OpenAI)</td>
+<td>gpt41-nano</td>
+</tr>
+<tr class="even">
+<td>GPT 4.1 (OpenAI)</td>
+<td>gpt41</td>
+</tr>
+<tr class="odd">
+<td>GPT 4 Omni (OpenAI)</td>
+<td>gpt4o</td>
+</tr>
+<tr class="even">
+<td>Llama 3.2 (Ollama)</td>
+<td>ollama</td>
+</tr>
+</tbody>
+</table>
+
+<!-- models: end -->
+
+If the provider and/or model you wish to use is not listed in the table
+above, use the [`ellmer`
+Providers](https://ellmer.tidyverse.org/index.html#providers) section to
+see how to connect, and pass the connected `ellmer` chat object to
+`chattr_use()`.
+
 ### The App
 
 The main way to use `chattr` is through the Shiny Gadget app. By
 default, in RStudio the app will run inside the Viewer pane.
 
-This prompt only occurs the first time you call `chattr_app()`, or
-`chattr()`. If you close the app, and open it again, the app will use
-the model you initially selected. The selection is set for the rest of
-your R session, or until you manually change it. Please note that if,
-for example, `chattr` cannot find the setup for OpenAI, then those lines
-would not show up as options in your actual prompt.
-
-If you wish to avoid the interactive prompt, then call `chattr_use()` to
-designate the model you wish to use before calling the app. You can also
-use `chattr_use()` to change the model back-end you are interacting with
-during your R session:
-
 ``` r
-chattr_use("gpt35")
+chattr_use("ollama")
 chattr_app()
 ```
 
