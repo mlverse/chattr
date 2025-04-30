@@ -1,8 +1,8 @@
 default:
-  ellmer: ellmer::chat_ollama(model = "llama3.2")
+  ellmer: ellmer::chat_ollama(model = "llama3.2", seed = 100)
   provider: Ollama
   model: llama3.2
-  label:  Ollama
+  label:  Llama 3.2 (Ollama)
   include_history: FALSE
   max_data_files: 0
   max_data_frames: 0

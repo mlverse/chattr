@@ -64,15 +64,15 @@ and others.
 
 There are several ways to let `chattr` know which LLM to use:
 
--   **Pre-set an R option** - Pass your desired `ellmer` connection
-    command in the `.chattr_chat` option, for example:
+-   **Pre-set an R option** - Pass the `ellmer` connection command you
+    wish to use in the `.chattr_chat` option, for example:
     `options(.chattr_chat = ellmer::chat_claude())`. If you add that
     code to your *.Rprofile*, `chattr` will use that as the default
     model and settings to use every time you start an R session. Use the
     `usethis::edit_r_profile()` command to easily edit your *.Rprofile*
 
--   **Use a `Chat` object** - You can create an `ellmer` chat object
-    first, which you can pass to `chattr_use()`, for example:
+-   **Use an `ellmer` object** - You can pass an `ellmer` chat object
+    directly to `chattr_use()`:
 
     ``` r
       my_chat <- ellmer::chat_claude()
@@ -80,12 +80,11 @@ There are several ways to let `chattr` know which LLM to use:
     ```
 
 -   **Select one from a menu (legacy)** - If nothing is passed to
-    `chattr_use()`, and no option is set, then `chattr` will attempt to
-    create the `ellmer` chat for you. It will try to figure if you have
-    the needed setup to connect to one, or all, of three specific
-    providers: **OpenAI** token ,**Databricks** personal access token
-    (PAT), and checks if the **Ollama** service running locally in your
-    machine `chattr` will then return a menu for you to select a model:
+    `chattr_use()`, and no option is set, `chattr` will try to create
+    the `ellmer` chat for you. It will try to figure if you have
+    authentication tokens for **OpenAI**, **Databricks**, and checks if
+    **Ollama** is running on your machine. `chattr` then returns a menu
+    based on the providers it was able to find:
 
     ``` r
       chattr_use()
@@ -116,32 +115,6 @@ https://ellmer.tidyverse.org/index.html#providers
 
 The main way to use `chattr` is through the Shiny Gadget app. By
 default, in RStudio the app will run inside the Viewer pane.
-
-`chattr` will prompt you to select the model back-end you with to use.
-The list of the actual models will depend on which of them you have a
-setup for. If no model setup is found, it will return an error. If you
-receive the error, please refer to the previous section to learn how to
-setup a model back-end in your machine. Here is an example of what the
-selection prompt will look like:
-
-``` r
-chattr_use()
-
-── chattr - Available models 
-Select the number of the model you would like to use:
-
-1: Databricks - databricks-dbrx-instruct (databricks-dbrx) 
-2: Databricks - databricks-meta-llama-3-3-70b-instruct (databricks-meta-llama31-70b) 
-3: Databricks - databricks-mixtral-8x7b-instruct (databricks-mixtral8x7b) 
-4: OpenAI - Chat Completions - gpt-4.1-mini (gpt41-mini) 
-5: OpenAI - Chat Completions - gpt-4.1-nano (gpt41-nano) 
-6: OpenAI - Chat Completions - gpt-4.1 (gpt41) 
-7: OpenAI - Chat Completions - gpt-4o (gpt4o) 
-8: Ollama - llama3.2 (ollama) 
-
-
-Selection: 
-```
 
 This prompt only occurs the first time you call `chattr_app()`, or
 `chattr()`. If you close the app, and open it again, the app will use
@@ -240,7 +213,7 @@ chattr_use("gpt4o")
 #> 
 #> ── chattr
 #> • Provider: OpenAI - Chat Completions
-#> • Path/URL: https://api.openai.com/v1/chat/completions
+#> • Path/URL:
 #> • Model: gpt-4o
 #> • Label: GPT 4 Omni (OpenAI)
 
@@ -250,7 +223,7 @@ chattr(preview = TRUE)
 #> 
 #> ── Preview for: Console
 #> • Provider: OpenAI - Chat Completions
-#> • Path/URL: https://api.openai.com/v1/chat/completions
+#> • Path/URL:
 #> • Model: gpt-4o
 #> • Label: GPT 4 Omni (OpenAI)
 #> • temperature: 0.01

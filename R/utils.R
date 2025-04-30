@@ -106,7 +106,9 @@ ui_validate <- function(x) {
 print_provider <- function(x) {
   cli_div(theme = cli_colors())
   cli_li("{.val0 Provider:} {.val1 {x[['provider']]}}")
-  cli_li("{.val0 Path/URL:} {.val1 {x[['path']]}}")
+  if(!is.null(x[['path']])) {
+    cli_li("{.val0 Path/URL:} {.val1 {x[['path']]}}")
+  }
   cli_li("{.val0 Model:} {.val1 {x[['model']]}}")
   cli_li("{.val0 Label:} {.val1 {x[['label']]}}")
 }

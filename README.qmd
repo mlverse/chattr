@@ -23,23 +23,18 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-pkg <- pkgdown::as_pkgdown()
-urls <- pkg$desc$get_urls()
-url <- urls[grepl(".io", urls)][[1]]
 ```
 
 <!-- toc: start -->
-
--   [Intro](#intro)
--   [Install](#install)
--   [Using](#using)
-    -   [Available models](#available-models)
-    -   [The App](#the-app)
-    -   [Additional ways to interact](#additional-ways-to-interact)
--   [How it works](#how-it-works)
--   [Keyboard Shortcut](#keyboard-shortcut)
-    -   [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
+- [Intro](#intro)
+- [Install](#install)
+- [Using](#using)
+    - [Available models](#available-models)
+    - [The App](#the-app)
+    - [Additional ways to interact](#additional-ways-to-interact)
+- [How it works](#how-it-works)
+- [Keyboard Shortcut](#keyboard-shortcut)
+    - [How to setup the keyboard shortcut](#how-to-setup-the-keyboard-shortcut)
 
 <!-- toc: end -->
 
@@ -71,26 +66,24 @@ Starting with version 0.3, `chattr` integrates with LLM's via the [`ellmer`](htt
 
 There are several ways to let `chattr` know which LLM to use:
 
-- **Pre-set an R option** - Pass your desired `ellmer` connection command in the
-`.chattr_chat` option, for example: `options(.chattr_chat = ellmer::chat_claude())`.
+- **Pre-set an R option** - Pass the `ellmer` connection command you wish to use
+in the `.chattr_chat` option, for example: `options(.chattr_chat = ellmer::chat_claude())`.
 If you add that code to  your *.Rprofile*, `chattr` will use that as the default
 model and settings to use every time you start an R session. Use the 
 `usethis::edit_r_profile()` command to easily edit your *.Rprofile* 
 
-- **Use a `Chat` object** - You can create an `ellmer` chat object first, which
-you can pass to `chattr_use()`, for example:
+- **Use an `ellmer` object** - You can pass an `ellmer` chat object directly to
+`chattr_use()`:
   ```r
     my_chat <- ellmer::chat_claude()
     chattr_use(my_chat)
   ```
   
-- **Select one from a menu (legacy)** - 
-If nothing is passed to `chattr_use()`, and no option is set, then 
-`chattr` will attempt to create the `ellmer` chat for you. It will try to figure 
-if you have the needed setup to connect to one, or all, of three specific providers:
-**OpenAI** token ,**Databricks** personal access token (PAT), and 
-checks if the **Ollama** service running locally in your machine `chattr` will 
-then return a menu for you to select a model:
+- **Select one from a menu (legacy)** - If nothing is passed to `chattr_use()`, 
+and no option is set, `chattr` will try to create the `ellmer` chat for
+you. It will try to figure if you have authentication tokens for **OpenAI**, 
+**Databricks**, and checks if **Ollama** is running on your machine.  `chattr`
+then returns a menu based on the providers it was able to find:
   ``` r
     chattr_use()
     
@@ -109,36 +102,16 @@ then return a menu for you to select a model:
     
     Selection: 
   ```
-  
-  
+
 ### Available models {#available-models}
 
-To see the full list, and how to setup or authenticate to a given provider, see the list in the `ellmer` official site: https://ellmer.tidyverse.org/index.html#providers
+To see the full list, and how to setup or authenticate to a given provider, 
+see the list in the `ellmer` official site: https://ellmer.tidyverse.org/index.html#providers
 
 ### The App {#the-app}
 
-The main way to use `chattr` is through the Shiny Gadget app. By default, in RStudio the app will run inside the Viewer pane.
-
-`chattr` will prompt you to select the model back-end you with to use. The list of the actual models will depend on which of them you have a setup for. If no model setup is found, it will return an error. If you receive the error, please refer to the previous section to learn how to setup a model back-end in your machine. Here is an example of what the selection prompt will look like:
-
-``` r
-chattr_use()
-
-── chattr - Available models 
-Select the number of the model you would like to use:
-
-1: Databricks - databricks-dbrx-instruct (databricks-dbrx) 
-2: Databricks - databricks-meta-llama-3-3-70b-instruct (databricks-meta-llama31-70b) 
-3: Databricks - databricks-mixtral-8x7b-instruct (databricks-mixtral8x7b) 
-4: OpenAI - Chat Completions - gpt-4.1-mini (gpt41-mini) 
-5: OpenAI - Chat Completions - gpt-4.1-nano (gpt41-nano) 
-6: OpenAI - Chat Completions - gpt-4.1 (gpt41) 
-7: OpenAI - Chat Completions - gpt-4o (gpt4o) 
-8: Ollama - llama3.2 (ollama) 
-
-
-Selection: 
-```
+The main way to use `chattr` is through the Shiny Gadget app. By default, in
+RStudio the app will run inside the Viewer pane.
 
 This prompt only occurs the first time you call `chattr_app()`, or `chattr()`. If you close the app, and open it again, the app will use the model you initially selected. The selection is set for the rest of your R session, or until you manually change it. Please note that if, for example, `chattr` cannot find the setup for OpenAI, then those lines would not show up as options in your actual prompt.
 

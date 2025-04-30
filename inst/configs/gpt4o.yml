@@ -1,7 +1,6 @@
 default:
   ellmer: ellmer::chat_openai(model = "gpt-4o")
   provider: OpenAI - Chat Completions
-  path: https://api.openai.com/v1/chat/completions
   label: GPT 4 Omni (OpenAI)
   model: gpt-4o
   max_data_files: 0
