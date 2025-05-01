@@ -5,6 +5,7 @@ ch_submit.ch_ellmer <- function(
     stream = TRUE,
     prompt_build = TRUE,
     preview = FALSE,
+    shiny = FALSE,
     ...) {
   if (preview) {
     return(prompt)
@@ -13,14 +14,26 @@ ch_submit.ch_ellmer <- function(
   if(prompt_build) {
     prompt <- ch_ellmer_prompt(prompt, defaults)
   }
-  chat <- ch_env$ellmer_obj$stream(prompt)
   ret <- NULL
-  coro::loop(for (chunk in chat) {
-    ret <- paste0(ret, chunk)
-    if(stream) {
-      ide_paste_text(chunk)
-    }
-  })
+  if(!shiny) {
+    chat <- ch_env$ellmer_obj$stream(prompt)
+    coro::loop(for (chunk in chat) {
+      ret <- paste0(ret, chunk)
+      if(stream) {
+        ide_paste_text(chunk)
+      }
+    })
+  } else {
+    ch_app_output(reset = TRUE)
+    stream <- ch_env$ellmer_obj$stream_async(prompt)
+    coro::async(function() {
+      ch_app_status("busy")
+      for (chunk in coro::await_each(stream)) {
+        ch_app_output(append = chunk)
+      }
+      ch_app_status("idle")
+    })()
+  }
   ret
 }
 
@@ -63,4 +76,26 @@ ch_ellmer_prompt <- function(prompt, defaults) {
       prompt
     )
   )
+}
+
+# TODO: this needs to move to another script when done
+
+ch_app_status <- function(set_to = NULL) {
+  if(!is.null(set_to)) {
+    ch_env$stream_status <- set_to
+  }
+  ch_env$stream_status
+}
+
+ch_app_output <- function(append = NULL, reset = FALSE) {
+  if(reset) {
+    ch_env$stream_output <- NULL
+    return(invisible())
+  }
+  if(is.null(append)){
+    return(ch_env$stream_output)
+  } else {
+    ch_env$stream_output <- paste0(ch_env$stream_output, append)
+  }
+  return(invisible())
 }

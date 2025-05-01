@@ -40,3 +40,25 @@ ch_test.ch_ellmer <- function(defaults = NULL) {
     cli_alert_danger("Connection to {defaults[['model']]} failed")
   }
 }
+
+#' @export
+ch_submit.ch_test_backend <- function(
+    defaults,
+    prompt = NULL,
+    stream = NULL,
+    prompt_build = TRUE,
+    preview = FALSE,
+    ...) {
+  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
+  if (stream && !is_test) {
+    for (i in seq_len(nchar(prompt))) {
+      cat(substr(prompt, i, i))
+      Sys.sleep(0.1)
+    }
+  }
+  if (is_test) {
+    invisible()
+  } else {
+    prompt
+  }
+}

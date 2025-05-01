@@ -3,7 +3,9 @@ app_server <- function(input, output, session) {
   style <- app_theme_style()
   ch_env$stream_output <- ""
   app_add_history(input)
-  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
+  defaults <- chattr_defaults(type = "chat")
+  test_backend <- defaults$provider %||% ""
+  is_test <- unlist(options("chattr-shiny-test")) %||% test_backend == "test" %||%  FALSE
   if (is_test) {
     chattr_use("test")
     invalidate_time <- 1000
@@ -52,7 +54,6 @@ app_server <- function(input, output, session) {
 
   observeEvent(input$submit, {
     if (input$prompt != "" && ch_env$ellmer_status == "idle") {
-      defaults <- chattr_defaults(type = "chat")
       prompt <- ch_ellmer_prompt(input$prompt, defaults)
       stream <- ch_env$ellmer_obj$stream_async(prompt)
       coro::async(function() {

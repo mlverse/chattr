@@ -23,3 +23,5 @@ ch_env <- new.env()
 ch_env$valid_uis <- c("console", "chat", "notebook", "script")
 ch_env$ellmer_output <- NULL
 ch_env$ellmer_status <- "idle"
+ch_env$stream_output <- ""
+ch_env$stream_status <- NULL
