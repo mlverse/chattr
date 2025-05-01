@@ -57,7 +57,7 @@ app_server <- function(input, output, session) {
       stream <- ch_env$ellmer_obj$stream_async(prompt)
       coro::async(function() {
         ch_env$ellmer_status <<- "busy"
-        for (chunk in await_each(stream)) {
+        for (chunk in coro::await_each(stream)) {
           ch_env$stream_output <<- paste0(ch_env$stream_output, chunk)
         }
         ch_env$ellmer_status <<- "idle"
