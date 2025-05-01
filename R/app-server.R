@@ -3,15 +3,14 @@ app_server <- function(input, output, session) {
   style <- app_theme_style()
   ch_env$stream_output <- ""
   app_add_history(input)
-  defaults <- chattr_defaults(type = "chat")
-  test_backend <- defaults$provider %||% ""
-  is_test <- unlist(options("chattr-shiny-test")) %||% test_backend == "test" %||%  FALSE
+  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
   if (is_test) {
     chattr_use("test")
     invalidate_time <- 1000
   } else {
     invalidate_time <- 100
   }
+  defaults <- chattr_defaults(type = "chat")
   auto_invalidate <- shiny::reactiveTimer(invalidate_time)
   session$sendCustomMessage(type = "refocus", message = list(NULL))
 
@@ -26,7 +25,7 @@ app_server <- function(input, output, session) {
 
   output$stream <- renderText({
     auto_invalidate()
-    if (ch_env$ellmer_status == "busy") {
+    if (ch_app_status() == "busy") {
       markdown(ch_env$stream_output)
     }
   })
@@ -53,16 +52,8 @@ app_server <- function(input, output, session) {
   })
 
   observeEvent(input$submit, {
-    if (input$prompt != "" && ch_env$ellmer_status == "idle") {
-      prompt <- ch_ellmer_prompt(input$prompt, defaults)
-      stream <- ch_env$ellmer_obj$stream_async(prompt)
-      coro::async(function() {
-        ch_env$ellmer_status <<- "busy"
-        for (chunk in coro::await_each(stream)) {
-          ch_env$stream_output <<- paste0(ch_env$stream_output, chunk)
-        }
-        ch_env$ellmer_status <<- "idle"
-      })()
+    if (input$prompt != "" && ch_app_status() == "idle") {
+      ch_submit(defaults, input$prompt, shiny = TRUE)
     }
     ch_history_append(user = input$prompt)
     app_add_user(input$prompt)
@@ -92,11 +83,12 @@ app_server <- function(input, output, session) {
 
   observe({
     auto_invalidate()
-    if (ch_env$ellmer_status == "idle" && ch_env$stream_output != "") {
+    curr_output <- ch_app_output() %||% ""
+    if (ch_app_status() == "idle" && curr_output != "") {
       Sys.sleep(0.02)
-      ch_history_append(assistant = ch_env$stream_output)
-      app_add_assistant(ch_env$stream_output, input)
-      ch_env$stream_output <- ""
+      ch_history_append(assistant = ch_app_output())
+      app_add_assistant(ch_app_output(), input)
+      ch_app_output(reset = TRUE)
     }
   })
 

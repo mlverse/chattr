@@ -11,15 +11,15 @@ ch_submit.ch_ellmer <- function(
     return(prompt)
   }
   ch_ellmer_init(defaults)
-  if(prompt_build) {
+  if (prompt_build) {
     prompt <- ch_ellmer_prompt(prompt, defaults)
   }
   ret <- NULL
-  if(!shiny) {
+  if (!shiny) {
     chat <- ch_env$ellmer_obj$stream(prompt)
     coro::loop(for (chunk in chat) {
       ret <- paste0(ret, chunk)
-      if(stream) {
+      if (stream) {
         ide_paste_text(chunk)
       }
     })
@@ -38,7 +38,7 @@ ch_submit.ch_ellmer <- function(
 }
 
 ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
-  if(is.null(chat)) {
+  if (is.null(chat)) {
     chat <- ch_env$ellmer_obj
   }
   if (!is.null(defaults)) {
@@ -81,18 +81,18 @@ ch_ellmer_prompt <- function(prompt, defaults) {
 # TODO: this needs to move to another script when done
 
 ch_app_status <- function(set_to = NULL) {
-  if(!is.null(set_to)) {
+  if (!is.null(set_to)) {
     ch_env$stream_status <- set_to
   }
   ch_env$stream_status
 }
 
 ch_app_output <- function(append = NULL, reset = FALSE) {
-  if(reset) {
+  if (reset) {
     ch_env$stream_output <- NULL
     return(invisible())
   }
-  if(is.null(append)){
+  if (is.null(append)) {
     return(ch_env$stream_output)
   } else {
     ch_env$stream_output <- paste0(ch_env$stream_output, append)

@@ -1,5 +1,4 @@
 test_that("chattr app initial values are consistent", {
-  skip()
   skip_on_cran()
   shiny_app <- shinyApp(app_ui(), app_server)
   app <- shinytest2::AppDriver$new(

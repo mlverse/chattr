@@ -45,4 +45,3 @@ test_that("Menu works", {
     }
   )
 })
-

@@ -28,7 +28,7 @@ ui_current <- function(default = "") {
   } else {
     ret <- "console"
   }
-  if(default != "" && ret == "") {
+  if (default != "" && ret == "") {
     ret <- default
   }
   ret

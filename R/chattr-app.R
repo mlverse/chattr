@@ -32,7 +32,6 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
     app_init_message(td)
   }
   if (!as_job) {
-    ch_ellmer_init(td)
     app <- app_interactive(as_job = as_job)
     if (ide_is_rstudio()) {
       runGadget(app$ui, app$server, viewer = viewer)

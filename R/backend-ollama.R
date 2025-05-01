@@ -5,13 +5,12 @@ ch_ollama_check <- function() {
   )
   check_urls <- urls %>%
     map(\(x)
-        request(x) %>%
-          req_perform() %>%
-          try(silent = TRUE)
-        ) |>
+    request(x) %>%
+      req_perform() %>%
+      try(silent = TRUE)) |>
     map_lgl(\(x) {
-      if(inherits(x, "httr2_response")) {
-        if(x$status_code == 200) {
+      if (inherits(x, "httr2_response")) {
+        if (x$status_code == 200) {
           TRUE
         }
       } else {

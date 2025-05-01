@@ -158,8 +158,8 @@ as_ch_model <- function(x, type) {
 
 prep_class_name <- function(x) {
   x <- tolower(x)
-  look_for <- c(" - ", "-"," \\(", " ", "\\(", "\\) ", "\\)")
-  for(item in look_for) {
+  look_for <- c(" - ", "-", " \\(", " ", "\\(", "\\) ", "\\)")
+  for (item in look_for) {
     x <- gsub(item, "_", x)
   }
   x
@@ -243,7 +243,7 @@ chattr_defaults_set <- function(arguments = list(),
 }
 
 bulleted_list <- function(x) {
-  if(length(x) == 1) {
+  if (length(x) == 1) {
     x <- unlist(strsplit(x, split = "\n"))
   }
   x <- process_prompt(x)

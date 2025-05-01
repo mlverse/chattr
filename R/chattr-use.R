@@ -82,19 +82,19 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
     )
 
   gpt_token <- ch_openai_token(fail = FALSE)
-  if(is.null(gpt_token)) {
+  if (is.null(gpt_token)) {
     prep_files <- prep_files %>%
       discard(~ grepl("OpenAI", .x[1]))
   }
 
   dbrx_token <- ch_databricks_token(fail = FALSE)
   dbrx_host <- ch_databricks_host(fail = FALSE)
-  if(is.null(dbrx_token) | is.null(dbrx_host)) {
+  if (is.null(dbrx_token) | is.null(dbrx_host)) {
     prep_files <- prep_files %>%
       discard(~ grepl("Databricks", .x[1]))
   }
 
-  if(!ch_ollama_check()) {
+  if (!ch_ollama_check()) {
     prep_files <- prep_files %>%
       discard(~ grepl("Ollama", .x[1]))
   }

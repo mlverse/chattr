@@ -21,7 +21,7 @@ ch_test.ch_ellmer <- function(defaults = NULL) {
   } else {
     prompt <- "Hi!"
     out <- try(capture.output(chattr(prompt)), silent = TRUE)
-    if(inherits(out, "try-error")) {
+    if (inherits(out, "try-error")) {
       out <- ""
     }
   }
@@ -45,20 +45,23 @@ ch_test.ch_ellmer <- function(defaults = NULL) {
 ch_submit.ch_test_backend <- function(
     defaults,
     prompt = NULL,
-    stream = NULL,
+    stream = TRUE,
     prompt_build = TRUE,
     preview = FALSE,
+    shiny = FALSE,
     ...) {
-  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
-  if (stream && !is_test) {
+  if (stream) {
+    ch_app_status("busy")
     for (i in seq_len(nchar(prompt))) {
-      cat(substr(prompt, i, i))
+      out <- substr(prompt, i, i)
+      if (shiny) {
+        ch_app_output(out)
+      } else {
+        cat(out)
+      }
       Sys.sleep(0.1)
     }
+    ch_app_status("idle")
   }
-  if (is_test) {
-    invisible()
-  } else {
-    prompt
-  }
+  prompt
 }
