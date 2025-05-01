@@ -5,9 +5,9 @@
 #' @importFrom clipr write_clip
 #' @importFrom bslib bs_theme
 #' @importFrom grDevices rgb
-#' @importFrom ollamar test_connection
 #' @import rstudioapi
 #' @import processx
+#' @import ellmer
 #' @import callr
 #' @import httr2
 #' @import shiny

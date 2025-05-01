@@ -1,5 +1,5 @@
 test_that("Testing the function directly", {
-  withr::with_options(list("chattr-shiny-test" = TRUE),{
+  withr::with_options(list("chattr-shiny-test" = TRUE), {
     expect_null(
       shiny::testServer(app_server, {
         session$setInputs(prompt = "hello", submit = TRUE)

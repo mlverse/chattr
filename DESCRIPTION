@@ -21,7 +21,6 @@ Imports:
     rstudioapi,
     lifecycle,
     processx,
-    jsonlite,
     config,
     httr2 (>= 1.1.0),
     purrr,
