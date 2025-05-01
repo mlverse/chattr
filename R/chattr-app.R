@@ -65,9 +65,9 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
       app_code,
       con = run_file
     )
-    jobRunScript(path = run_file)
+    rstudioapi_jobRunScript(path = run_file)
     Sys.sleep(3)
-    viewer(paste0("http://", as_job_host, ":", as_job_port))
+    rstudioapi_viewer(paste0("http://", as_job_host, ":", as_job_port))
   }
 }
 
@@ -83,4 +83,13 @@ app_init_message <- function(defaults) {
 #' @export
 app_init_message.default <- function(defaults) {
   print_provider(defaults)
+}
+
+
+rstudioapi_jobRunScript <- function(...) {
+  rstudioapi::jobRunScript(...)
+}
+
+rstudioapi_viewer <- function(...) {
+  rstudioapi::viewer(...)
 }

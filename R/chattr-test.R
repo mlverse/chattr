@@ -57,7 +57,7 @@ ch_submit.ch_test_backend <- function(
       if (shiny) {
         ch_app_output(out)
       } else {
-        cat(out)
+        ide_paste_text(out)
       }
       Sys.sleep(0.1)
     }

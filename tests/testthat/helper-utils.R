@@ -5,6 +5,6 @@ test_simulate_model <- function(file, type = "console") {
 }
 
 test_model_backend <- function() {
-  chattr_use("gpt41")
+  chattr_use("test")
   chattr_defaults(provider = "test backend")
 }

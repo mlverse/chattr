@@ -20,7 +20,7 @@
     Code
       ch_context_data_files(file_types = "R")
     Output
-      [1] "Data files available: \n|- helper-utils.R\n|- setup.R\n|- test-app-server.R\n|- test-app-ui.R\n|- test-backend-databricks.R\n|- test-backend-openai.R\n|- test-ch-defaults-save.R\n|- test-ch_context.R\n|- test-ch_defaults.R\n|- test-chattr-test.R\n|- test-chattr-use.R\n|- test-chattr.R\n|- test-ide.R\n|- test-utils.R"
+      [1] "Data files available: \n|- helper-utils.R\n|- setup.R\n|- test-app-server.R\n|- test-app-ui.R\n|- test-backend-databricks.R\n|- test-backend-openai.R\n|- test-ch-defaults-save.R\n|- test-ch_context.R\n|- test-ch_defaults.R\n|- test-chattr-app.R\n|- test-chattr-defaults.R\n|- test-chattr-test.R\n|- test-chattr-use.R\n|- test-chattr.R\n|- test-ide.R\n|- test-utils.R"
 
 ---
 
