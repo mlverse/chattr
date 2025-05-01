@@ -1,3 +1,13 @@
+test_that("Testing the function directly", {
+  withr::with_options(list("chattr-shiny-test" = TRUE),{
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(prompt = "hello", submit = TRUE)
+      })
+    )
+  })
+})
+
 test_that("chattr app initial values are consistent", {
   skip_on_cran()
   shiny_app <- shinyApp(app_ui(), app_server)
