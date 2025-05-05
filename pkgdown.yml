@@ -1,14 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
-  backend-databricks: backend-databricks.html
-  backend-llamagpt: backend-llamagpt.html
-  copilot-chat: copilot-chat.html
-  openai-gpt: openai-gpt.html
   other-interfaces: other-interfaces.html
   prompt_defaults: prompt_defaults.html
-last_built: 2025-01-30T19:52Z
+last_built: 2025-05-05T19:20Z
 urls:
   reference: https://mlverse.github.io/chattr/reference
   article: https://mlverse.github.io/chattr/articles

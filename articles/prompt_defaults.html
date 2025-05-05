@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Modify prompt enhancements • chattr</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -26,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">chattr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,11 +38,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/backend-databricks.html">Interact with Databricks foundation models</a></li>
-    <li><a class="dropdown-item" href="../articles/backend-llamagpt.html">Interact with local models</a></li>
-    <li><a class="dropdown-item" href="../articles/copilot-chat.html">Interact with GitHub Copilot Chat</a></li>
-    <li><a class="dropdown-item" href="../articles/openai-gpt.html">Interact with OpenAI GPT models</a></li>
-    <li><a class="dropdown-item" href="../articles/other-interfaces.html">Other interfaces</a></li>
+<li><a class="dropdown-item" href="../articles/other-interfaces.html">Other interfaces</a></li>
     <li><a class="dropdown-item" href="../articles/prompt_defaults.html">Modify prompt enhancements</a></li>
   </ul>
 </li>
@@ -83,13 +78,12 @@ R object. The object can be accessed via the function
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr" class="external-link">chattr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"gpt4"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="st">"ollama"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── chattr</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 4 (OpenAI)</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Ollama</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">llama3.2</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Llama 3.2 (Ollama)</span></span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/chattr_defaults.html">chattr_defaults</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -98,23 +92,16 @@ R object. The object can be accessed via the function
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Defaults for: </span><span style="color: #0000BB; font-weight: bold;">Default</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; • <span style="color: #008700;">{{readLines(system.file('prompt/base.txt', package = 'chattr'))}}</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 4 (OpenAI)</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model Arguments:</span></span>
-<span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
-<span><span class="co">#&gt; • max_tokens: <span style="color: #0000BB;">1000</span></span></span>
-<span><span class="co">#&gt; • stream: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Ollama</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">llama3.2</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Llama 3.2 (Ollama)</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Context:</span></span>
 <span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Chat History</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Chat History</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p><strong>NOTE:</strong> - For most users, this change will not work
 because accessing GPT 4 via the REST API endpoints is currently
@@ -145,20 +132,14 @@ currently in your R session that contain “x”:</p>
 <span><span class="co">#&gt; • <span style="color: #008700;">{{ my_list() }}</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Model</span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 4 (OpenAI)</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Model Arguments:</span></span>
-<span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
-<span><span class="co">#&gt; • max_tokens: <span style="color: #0000BB;">1000</span></span></span>
-<span><span class="co">#&gt; • stream: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Ollama</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">llama3.2</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Llama 3.2 (Ollama)</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Context:</span></span>
 <span><span class="co">#&gt; Max Data Files: <span style="color: #0000BB;">0</span></span></span>
 <span><span class="co">#&gt; Max Data Frames: <span style="color: #0000BB;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Chat History</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Chat History</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Document contents</span></span></code></pre></div>
 <p>Now we can test it, by setting two variables that start with “x”</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -173,21 +154,11 @@ part of the prompt:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Console</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 4 (OpenAI)</span></span></span>
-<span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
-<span><span class="co">#&gt; • max_tokens: <span style="color: #0000BB;">1000</span></span></span>
-<span><span class="co">#&gt; • stream: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Ollama</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">llama3.2</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Llama 3.2 (Ollama)</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; role: <span style="color: #008700;">system</span></span></span>
-<span><span class="co">#&gt; content: <span style="color: #008700;">You are a helpful coding assistant</span></span></span>
-<span><span class="co">#&gt; role: <span style="color: #008700;">user</span></span></span>
-<span><span class="co">#&gt; content:</span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x2</span></span></span>
 <span><span class="co">#&gt; <span style="color: #008700;">[Your future prompt goes here]</span></span></span></code></pre></div>
 <p>We can see how the adding a new variable will modify the prompt with
 out us having to modify <code><a href="../reference/chattr_defaults.html">chattr_defaults()</a></code>:</p>
@@ -199,22 +170,11 @@ out us having to modify <code><a href="../reference/chattr_defaults.html">chattr
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">chattr</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Preview for: <span style="color: #0000BB;">Console</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">OpenAI - Chat Completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Path/URL:</span> <span style="color: #0000BB;">https://api.openai.com/v1/chat/completions</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">gpt-4</span></span></span>
-<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">GPT 4 (OpenAI)</span></span></span>
-<span><span class="co">#&gt; • temperature: <span style="color: #0000BB;">0.01</span></span></span>
-<span><span class="co">#&gt; • max_tokens: <span style="color: #0000BB;">1000</span></span></span>
-<span><span class="co">#&gt; • stream: <span style="color: #0000BB;">TRUE</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Provider:</span> <span style="color: #0000BB;">Ollama</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Model:</span> <span style="color: #0000BB;">llama3.2</span></span></span>
+<span><span class="co">#&gt; • <span style="color: #000000;">Label:</span> <span style="color: #0000BB;">Llama 3.2 (Ollama)</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; role: <span style="color: #008700;">system</span></span></span>
-<span><span class="co">#&gt; content: <span style="color: #008700;">You are a helpful coding assistant</span></span></span>
-<span><span class="co">#&gt; role: <span style="color: #008700;">user</span></span></span>
-<span><span class="co">#&gt; content:</span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x1</span></span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x2</span></span></span>
-<span><span class="co">#&gt; <span style="color: #008700;">* x3</span></span></span>
 <span><span class="co">#&gt; <span style="color: #008700;">[Your future prompt goes here]</span></span></span></code></pre></div>
 </div>
   </main>
@@ -227,7 +187,7 @@ out us having to modify <code><a href="../reference/chattr_defaults.html">chattr
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
