@@ -28,7 +28,6 @@ Imports:
     bslib,
     shiny,
     clipr,
-    callr,
     yaml,
     glue,
     cli,

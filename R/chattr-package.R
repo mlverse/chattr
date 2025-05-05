@@ -1,6 +1,6 @@
-#' @importFrom purrr map_chr map_lgl map imap set_names walk flatten
-#' @importFrom purrr iwalk discard keep imap_lgl reduce transpose
-#' @importFrom rlang %||% abort is_named is_interactive is_na
+#' @importFrom purrr map_chr map_lgl map set_names walk imap
+#' @importFrom purrr iwalk discard keep imap_lgl reduce
+#' @importFrom rlang %||% abort is_named is_interactive
 #' @importFrom utils capture.output head menu
 #' @importFrom clipr write_clip
 #' @importFrom bslib bs_theme
@@ -8,7 +8,6 @@
 #' @import rstudioapi
 #' @import processx
 #' @import ellmer
-#' @import callr
 #' @import httr2
 #' @import shiny
 #' @import glue
