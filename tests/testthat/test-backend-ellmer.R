@@ -1,6 +1,6 @@
 test_that("Ellmer init works", {
   test_chat <- list(a = 1)
-  chattr_use("test")
+  test_model_backend()
   expect_silent(
     ch_ellmer_init(chat = test_chat, chattr_defaults())
   )
@@ -8,7 +8,7 @@ test_that("Ellmer init works", {
 })
 
 test_that("Ellmer prompt works", {
-  chattr_use("test")
+  test_model_backend()
   expect_snapshot(
     ch_ellmer_prompt(prompt = "test", defaults = chattr_defaults())
   )

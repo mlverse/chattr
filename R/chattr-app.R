@@ -82,7 +82,9 @@ app_init_message <- function(defaults) {
 
 #' @export
 app_init_message.default <- function(defaults) {
-  print_provider(defaults)
+  if (!is_test()) {
+    print_provider(defaults)
+  }
 }
 
 

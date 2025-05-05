@@ -36,7 +36,6 @@
 #' # Pass an `ellmer` object
 #' my_chat <- ellmer::chat_claude()
 #' chattr_use(my_chat)
-#'
 #' }
 #'
 #' @export
@@ -141,7 +140,7 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
   }
 }
 
-use_switch <- function(..., .file) {
+use_switch <- function(..., .file, .silent = FALSE) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
 
@@ -167,9 +166,11 @@ use_switch <- function(..., .file) {
 
   chattr_defaults_set(list(mode = label), "default")
 
-  cli_div(theme = cli_colors())
-  cli_h3("chattr")
-  print_provider(chattr_defaults(...))
+  if (!.silent) {
+    cli_div(theme = cli_colors())
+    cli_h3("chattr")
+    print_provider(chattr_defaults(...))
+  }
 }
 
 ch_package_file <- function(x) {

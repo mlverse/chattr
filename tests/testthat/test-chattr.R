@@ -1,5 +1,5 @@
 test_that("chattr() works", {
-  chattr_use("test")
+  test_model_backend()
   local_mocked_bindings(
     ui_current = function(...) {
       "console"

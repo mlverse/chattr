@@ -5,6 +5,5 @@ test_simulate_model <- function(file, type = "console") {
 }
 
 test_model_backend <- function() {
-  chattr_use("test")
-  chattr_defaults(provider = "test backend")
+  use_switch(.file = package_file("apptest/test.yml"), .silent = TRUE)
 }

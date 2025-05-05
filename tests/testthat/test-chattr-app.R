@@ -3,6 +3,8 @@ test_that("chattr_app() runs", {
     rstudioapi_jobRunScript = function(...) invisible(),
     rstudioapi_viewer = function(...) 0
   )
-  chattr_use("test")
-  expect_length(chattr_app(as_job = TRUE), 1)
+  withr::with_options(list("chattr-shiny-test" = TRUE), {
+    test_model_backend()
+    expect_length(chattr_app(as_job = TRUE), 1)
+  })
 })

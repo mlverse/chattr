@@ -3,9 +3,8 @@ app_server <- function(input, output, session) {
   style <- app_theme_style()
   ch_env$stream_output <- ""
   app_add_history(input)
-  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
-  if (is_test) {
-    chattr_use("test")
+  if (is_test()) {
+    use_switch(.file = package_file("apptest/test.yml"), .silent = TRUE)
     invalidate_time <- 1000
   } else {
     invalidate_time <- 100

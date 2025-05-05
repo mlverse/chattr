@@ -1,4 +1,5 @@
 test_that("Testing the function directly", {
+  library(shiny)
   withr::with_options(list("chattr-shiny-test" = TRUE), {
     expect_null(
       shiny::testServer(app_server, {

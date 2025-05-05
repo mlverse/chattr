@@ -8,5 +8,6 @@
 
 library(testthat)
 library(chattr)
+library(shiny)
 
 test_check("chattr")

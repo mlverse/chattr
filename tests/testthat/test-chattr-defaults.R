@@ -1,4 +1,4 @@
 test_that("Defaults print works", {
-  chattr_use("test")
+  test_model_backend()
   expect_snapshot(print(chattr_defaults()))
 })

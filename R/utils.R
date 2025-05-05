@@ -81,12 +81,11 @@ package_file <- function(..., .fail = TRUE) {
     pkg_file <- system.file(default_file, package = "chattr")
   }
   if (!file_exists(pkg_file)) {
-    if(.fail) {
+    if (.fail) {
       abort(paste0("'", default_file, "' not found"))
     } else {
       return(NULL)
     }
-
   }
   pkg_file
 }
@@ -134,4 +133,9 @@ os_win <- function() {
 
 os_mac <- function() {
   ifelse(os_get() == "mac", TRUE, FALSE)
+}
+
+# ----------------------- Test? -----------------------------------------------
+is_test <- function() {
+  unlist(options("chattr-shiny-test")) %||% FALSE
 }
