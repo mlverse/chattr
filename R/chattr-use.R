@@ -28,7 +28,6 @@
 #' use.
 #'
 #' @examples
-#'
 #' \dontrun{
 #'
 #' # Use a valid provider/model label
@@ -143,7 +142,6 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
 }
 
 use_switch <- function(..., .file) {
-
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
 
@@ -180,8 +178,14 @@ ch_package_file <- function(x) {
   }
   env_folder <- ifelse(x == "test", "apptest", "configs")
   out <- package_file(env_folder, path_ext_set(x, "yml"), .fail = FALSE)
-  if(is.null(out)) {
-    abort(glue("'{x}' is not acceptable, it may be deprecated."), call = NULL)
+  if (is.null(out)) {
+    configs <- dir_ls("inst/configs/")
+    configs <- configs[path_file(configs) != "ellmer.yml"]
+    configs <- configs %>%
+      path_file() %>%
+      path_ext_remove()
+    msg <- glue("'{x}' is not acceptable, it may be deprecated. Valid values are:")
+    abort(c(msg, configs), call = NULL)
   }
   out
 }

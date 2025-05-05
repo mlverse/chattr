@@ -40,7 +40,6 @@ model and settings to use every time you start an R session. Use the
 }
 }
 \examples{
-
 \dontrun{
 
 # Use a valid provider/model label
