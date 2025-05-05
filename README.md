@@ -120,10 +120,6 @@ There are several ways to let `chattr` know which LLM to use:
 
 ### Available models
 
-To see the full list, and how to setup or authenticate to a given
-provider, see the list in the `ellmer` official site:
-https://ellmer.tidyverse.org/index.html#providers
-
 For convenience, `chattr` contains some provider/model combinations that
 you can use by passing what is under **Use value** to `chattr_use()`:
 
@@ -139,35 +135,35 @@ you can use by passing what is under **Use value** to `chattr_use()`:
 <tbody>
 <tr class="odd">
 <td>DBRX (Databricks)</td>
-<td>databricks-dbrx</td>
+<td><code>databricks-dbrx</code></td>
 </tr>
 <tr class="even">
 <td>Meta Llama 3.3 70B (Databricks)</td>
-<td>databricks-meta-llama31-70b</td>
+<td><code>databricks-meta-llama31-70b</code></td>
 </tr>
 <tr class="odd">
 <td>Mixtral 8x7b (Datbricks)</td>
-<td>databricks-mixtral8x7b</td>
+<td><code>databricks-mixtral8x7b</code></td>
 </tr>
 <tr class="even">
 <td>GPT 4.1 Mini (OpenAI)</td>
-<td>gpt41-mini</td>
+<td><code>gpt41-mini</code></td>
 </tr>
 <tr class="odd">
 <td>GPT 4.1 Nano (OpenAI)</td>
-<td>gpt41-nano</td>
+<td><code>gpt41-nano</code></td>
 </tr>
 <tr class="even">
 <td>GPT 4.1 (OpenAI)</td>
-<td>gpt41</td>
+<td><code>gpt41</code></td>
 </tr>
 <tr class="odd">
 <td>GPT 4 Omni (OpenAI)</td>
-<td>gpt4o</td>
+<td><code>gpt4o</code></td>
 </tr>
 <tr class="even">
 <td>Llama 3.2 (Ollama)</td>
-<td>ollama</td>
+<td><code>ollama</code></td>
 </tr>
 </tbody>
 </table>
@@ -175,10 +171,41 @@ you can use by passing what is under **Use value** to `chattr_use()`:
 <!-- models: end -->
 
 If the provider and/or model you wish to use is not listed in the table
-above, use the [`ellmer`
-Providers](https://ellmer.tidyverse.org/index.html#providers) section to
-see how to connect, and pass the connected `ellmer` chat object to
-`chattr_use()`.
+above, you can create an `ellmer` chat connection directly. And then
+pass that chat object to `chattr_use()`. Here is a list of the providers
+that are currently available in that package:
+
+<!-- providers: start -->
+
+-   Anthropic’s Claude:
+    [`ellmer::chat_claude()`](https://ellmer.tidyverse.org/reference/chat_claude.html)
+-   AWS Bedrock:
+    [`ellmer::chat_bedrock()`](https://ellmer.tidyverse.org/reference/chat_bedrock.html)
+-   Azure OpenAI:
+    [`ellmer::chat_azure()`](https://ellmer.tidyverse.org/reference/chat_azure.html)
+-   Databricks:
+    [`ellmer::chat_databricks()`](https://ellmer.tidyverse.org/reference/chat_databricks.html)
+-   DeepSeek:
+    [`ellmer::chat_deepseek()`](https://ellmer.tidyverse.org/reference/chat_deepseek.html)
+-   GitHub model marketplace:
+    [`ellmer::chat_github()`](https://ellmer.tidyverse.org/reference/chat_github.html)
+-   Google Gemini:
+    [`ellmer::chat_gemini()`](https://ellmer.tidyverse.org/reference/chat_gemini.html)
+-   Groq:
+    [`ellmer::chat_groq()`](https://ellmer.tidyverse.org/reference/chat_groq.html)
+-   Ollama:
+    [`ellmer::chat_ollama()`](https://ellmer.tidyverse.org/reference/chat_ollama.html)
+-   OpenAI:
+    [`ellmer::chat_openai()`](https://ellmer.tidyverse.org/reference/chat_openai.html)
+-   OpenRouter:
+    [`ellmer::chat_openrouter()`](https://ellmer.tidyverse.org/reference/chat_openrouter.html)
+-   perplexity.ai:
+    [`ellmer::chat_perplexity()`](https://ellmer.tidyverse.org/reference/chat_perplexity.html)
+-   Snowflake Cortex:
+    [`ellmer::chat_snowflake()`](https://ellmer.tidyverse.org/reference/chat_snowflake.html)
+-   VLLM:
+    [`ellmer::chat_cortex_analyst()`](https://ellmer.tidyverse.org/reference/chat_cortex_analyst.html)
+    <!-- providers: end -->
 
 ### The App
 
@@ -270,7 +297,6 @@ chattr_use("gpt4o")
 #> 
 #> ── chattr
 #> • Provider: OpenAI - Chat Completions
-#> • Path/URL:
 #> • Model: gpt-4o
 #> • Label: GPT 4 Omni (OpenAI)
 
@@ -280,7 +306,6 @@ chattr(preview = TRUE)
 #> 
 #> ── Preview for: Console
 #> • Provider: OpenAI - Chat Completions
-#> • Path/URL:
 #> • Model: gpt-4o
 #> • Label: GPT 4 Omni (OpenAI)
 #> • temperature: 0.01

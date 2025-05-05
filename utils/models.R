@@ -13,7 +13,7 @@ models <- function() {
   full_configs <- map(configs, read_yaml)
 
   text_configs <- full_configs |>
-    imap(\(x, y)paste0("|", x$default$label, "|", path_ext_remove(path_file(y)), "|")) |>
+    imap(\(x, y)paste0("|", x$default$label, "| `", path_ext_remove(path_file(y)), "`|")) |>
     paste0(collapse = "\n")
 
   quarto_tbl <- paste0(
