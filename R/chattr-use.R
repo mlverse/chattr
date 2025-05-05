@@ -132,6 +132,7 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
 }
 
 use_switch <- function(..., .file) {
+
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
 
@@ -167,5 +168,9 @@ ch_package_file <- function(x) {
     return(NULL)
   }
   env_folder <- ifelse(x == "test", "apptest", "configs")
-  package_file(env_folder, path_ext_set(x, "yml"))
+  out <- package_file(env_folder, path_ext_set(x, "yml"), .fail = FALSE)
+  if(is.null(out)) {
+    abort(glue("'{x}' is not acceptable, it may be deprecated."), call = NULL)
+  }
+  out
 }

@@ -71,7 +71,7 @@ print_history <- function(x) {
 
 # ------------------------------- Utils ----------------------------------------
 
-package_file <- function(...) {
+package_file <- function(..., .fail = TRUE) {
   default_file <- path(...)
   inst_file <- path("inst", default_file)
   pkg_file <- NULL
@@ -81,7 +81,12 @@ package_file <- function(...) {
     pkg_file <- system.file(default_file, package = "chattr")
   }
   if (!file_exists(pkg_file)) {
-    abort(paste0("'", default_file, "' not found"))
+    if(.fail) {
+      abort(paste0("'", default_file, "' not found"))
+    } else {
+      return(NULL)
+    }
+
   }
   pkg_file
 }
