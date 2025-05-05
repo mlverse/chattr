@@ -16,10 +16,16 @@ models <- function() {
     imap(\(x, y)paste0("|", x$default$label, "| `", path_ext_remove(path_file(y)), "`|")) |>
     paste0(collapse = "\n")
 
+  config_vals <- path_ext_remove(path_file(names(full_configs)))
+
+  out <- paste0("'", config_vals, "'", collapse = ", ")
+  out <- paste0("<!-- ", out, "-->")
+
   quarto_tbl <- paste0(
     models_start, "\n",
     "|Model & Provider| Use value|\n|----|----|\n",
     text_configs, "\n",
+    out, "\n",
     models_end
   )
 

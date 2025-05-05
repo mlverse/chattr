@@ -168,6 +168,7 @@ you can use by passing what is under **Use value** to `chattr_use()`:
 </tbody>
 </table>
 
+<!-- 'databricks-dbrx', 'databricks-meta-llama31-70b', 'databricks-mixtral8x7b', 'gpt41-mini', 'gpt41-nano', 'gpt41', 'gpt4o', 'ollama'-->
 <!-- models: end -->
 
 If the provider and/or model you wish to use is not listed in the table

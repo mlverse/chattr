@@ -133,6 +133,7 @@ use by passing what is under **Use value** to `chattr_use()`:
 |GPT 4.1 (OpenAI)| `gpt41`|
 |GPT 4 Omni (OpenAI)| `gpt4o`|
 |Llama 3.2 (Ollama)| `ollama`|
+<!-- 'databricks-dbrx', 'databricks-meta-llama31-70b', 'databricks-mixtral8x7b', 'gpt41-mini', 'gpt41-nano', 'gpt41', 'gpt4o', 'ollama'-->
 <!-- models: end -->
 
 If the provider and/or model you wish to use is not listed in the table above, 

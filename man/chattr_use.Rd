@@ -8,9 +8,9 @@ chattr_use(x = NULL, ...)
 }
 \arguments{
 \item{x}{The label of the LLM model to use, or the path of a valid YAML
-default file, or an \code{ellmer} chat object. Valid values are 'gpt4', 'gpt35',
-'llamagpt', databricks-dbrx', 'databricks-meta-llama3-70b',
-'databricks-mixtral8x7b', and 'ollama'.
+default file, or an \code{ellmer} chat object. Valid values are 'databricks-dbrx',
+'databricks-meta-llama31-70b', 'databricks-mixtral8x7b', 'gpt41-mini',
+'gpt41-nano', 'gpt41', 'gpt4o', and 'ollama'.
 The value 'test' is also acceptable, but it is meant for package examples,
 and internal testing.}
 
