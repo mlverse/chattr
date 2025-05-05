@@ -7,11 +7,10 @@
 chattr_use(x = NULL, ...)
 }
 \arguments{
-\item{x}{The label of the LLM model to use, or the path of a valid YAML
-default file . Valid values are 'copilot', 'gpt4', 'gpt35', 'llamagpt',
-'databricks-dbrx', 'databricks-meta-llama3-70b', and 'databricks-mixtral8x7b'.
+\item{x}{A pre-determined provider/model name, an \code{ellmer} \code{Chat} object,
+or the path to a YAML file that contains a valid \code{chattr} model specification.
 The value 'test' is also acceptable, but it is meant for package examples,
-and internal testing.}
+and internal testing. See 'Details' for more information.}
 
 \item{...}{Default values to modify.}
 }
@@ -23,23 +22,32 @@ use.
 Sets the LLM model to use in your session
 }
 \details{
-If the error "No model setup found" was returned, that is because none of the
-expected setup for Copilot, OpenAI or LLama was automatically detected. Here
-is how to setup a model:
-\itemize{
-\item OpenAI - The main thing \code{chattr} checks is the presence of the R user's
-OpenAI PAT (Personal Access Token). It looks for it in the 'OPENAI_API_KEY'
-environment variable. Get a PAT from the OpenAI website, and save it to that
-environment variable. Then restart R, and try again.
-\item GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
-R. \code{chattr} will look for the default location where RStudio saves the
-Copilot authentication information.
-\item Databricks - \code{chattr} checks for presence of R user's Databricks host and
-token ('DATABRICKS_HOST' and 'DATABRICKS TOKEN' environment variables).
+The valid pre-determined provider/models values are: 'databricks-dbrx',
+'databricks-meta-llama31-70b', 'databricks-mixtral8x7b', 'gpt41-mini',
+'gpt41-nano', 'gpt41', 'gpt4o', and 'ollama'.
+
+If you need a provider, or model, not available as a pre-determined value,
+create an \code{ellmer} chat object and pass that to \code{chattr_use()}. The list of
+valid models are found here: https://ellmer.tidyverse.org/index.html#providers
+\subsection{Set a default}{
+
+You can setup an R \code{option} to designate a default provider/model connection.
+To do this, pass an \code{ellmer} connection command you wish to use
+in the \code{.chattr_chat} option, for example: \code{options(.chattr_chat = ellmer::chat_claude())}.
+If you add that code to  your \emph{.Rprofile}, \code{chattr} will use that as the default
+model and settings to use every time you start an R session. Use the
+\code{usethis::edit_r_profile()} command to easily edit your \emph{.Rprofile}.
+}
+}
+\examples{
+\dontrun{
+
+# Use a valid provider/model label
+chattr_use("gpt41-mini")
+
+# Pass an `ellmer` object
+my_chat <- ellmer::chat_claude()
+chattr_use(my_chat)
 }
 
-Use the 'CHATTR_MODEL' environment variable to set it for the
-R session, or create a YAML file named 'chattr.yml' in your working directory
-to control the model, and the defaults it will use to communicate with such
-model.
 }

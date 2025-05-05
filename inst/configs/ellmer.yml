@@ -1,19 +1,11 @@
 default:
-  ellmer: ellmer::chat_openai(model = "gpt-4o")
-  provider: OpenAI - Chat Completions
-  label: GPT 4 Omni (OpenAI)
-  model: gpt-4o
+  include_history: FALSE
   max_data_files: 0
   max_data_frames: 0
   include_doc_contents: FALSE
-  include_history: FALSE
   system_msg: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     You are a helpful coding assistant that uses R and the tidyverse
-  model_arguments:
-    temperature: 0.01
-    max_tokens: 1000
-    stream: TRUE
 chat:
   prompt: |
     For code output, use RMarkdown code chunks

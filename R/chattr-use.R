@@ -1,74 +1,78 @@
 #' Sets the LLM model to use in your session
-#' @param x The label of the LLM model to use, or the path of a valid YAML
-#' default file . Valid values are 'copilot', 'gpt4', 'gpt35', 'llamagpt',
-#' 'databricks-dbrx', 'databricks-meta-llama3-70b', and 'databricks-mixtral8x7b'.
+#' @param x A pre-determined provider/model name, an `ellmer` `Chat` object,
+#' or the path to a YAML file that contains a valid `chattr` model specification.
 #' The value 'test' is also acceptable, but it is meant for package examples,
-#' and internal testing.
+#' and internal testing. See 'Details' for more information.
 #' @param ... Default values to modify.
 #' @details
-#' If the error "No model setup found" was returned, that is because none of the
-#' expected setup for Copilot, OpenAI or LLama was automatically detected. Here
-#' is how to setup a model:
 #'
-#' * OpenAI - The main thing `chattr` checks is the presence of the R user's
-#' OpenAI PAT (Personal Access Token). It looks for it in the 'OPENAI_API_KEY'
-#' environment variable. Get a PAT from the OpenAI website, and save it to that
-#' environment variable. Then restart R, and try again.
+#' The valid pre-determined provider/models values are: 'databricks-dbrx',
+#' 'databricks-meta-llama31-70b', 'databricks-mixtral8x7b', 'gpt41-mini',
+#' 'gpt41-nano', 'gpt41', 'gpt4o', and 'ollama'.
 #'
-#' * GitHub Copilot - Setup GitHub Copilot in your RStudio IDE, and restart
-#' R. `chattr` will look for the default location where RStudio saves the
-#' Copilot authentication information.
+#' If you need a provider, or model, not available as a pre-determined value,
+#' create an `ellmer` chat object and pass that to `chattr_use()`. The list of
+#' valid models are found here: https://ellmer.tidyverse.org/index.html#providers
 #'
-#' * Databricks - `chattr` checks for presence of R user's Databricks host and
-#'  token ('DATABRICKS_HOST' and 'DATABRICKS TOKEN' environment variables).
+#' ## Set a default
 #'
-#' Use the 'CHATTR_MODEL' environment variable to set it for the
-#' R session, or create a YAML file named 'chattr.yml' in your working directory
-#' to control the model, and the defaults it will use to communicate with such
-#' model.
+#' You can setup an R `option` to designate a default provider/model connection.
+#' To do this, pass an `ellmer` connection command you wish to use
+#' in the `.chattr_chat` option, for example: `options(.chattr_chat = ellmer::chat_claude())`.
+#' If you add that code to  your *.Rprofile*, `chattr` will use that as the default
+#' model and settings to use every time you start an R session. Use the
+#' `usethis::edit_r_profile()` command to easily edit your *.Rprofile*.
+#'
+#'
 #' @returns It returns console messages to allow the user select the model to
 #' use.
+#'
+#' @examples
+#' \dontrun{
+#'
+#' # Use a valid provider/model label
+#' chattr_use("gpt41-mini")
+#'
+#' # Pass an `ellmer` object
+#' my_chat <- ellmer::chat_claude()
+#' chattr_use(my_chat)
+#' }
+#'
 #' @export
 chattr_use <- function(x = NULL, ...) {
-  interactive_label <- is_interactive() && is.null(x)
-  if (interactive_label) {
-    x <- ch_get_ymls()
+  curr_x <- x
+  opt_chat <- getOption(".chattr_chat")
+  if (is.null(curr_x) && !is.null(opt_chat)) {
+    curr_x <- opt_chat
   }
-  if (is_file(x)) {
-    x <- path_expand(x)
+  if (inherits(curr_x, "Chat")) {
+    model <- curr_x$get_model()
+    use_switch(
+      .file = ch_package_file("ellmer"),
+      model = model,
+      provider = "ellmer",
+      label = model,
+      ...
+    )
+    ch_ellmer_init(chat = curr_x)
+    return(invisible())
+  }
+  if (is_interactive() && is.null(curr_x)) {
+    curr_x <- ch_get_ymls(x = x)
+  }
+  if (is_file(curr_x)) {
+    curr_x <- path_expand(curr_x)
   } else {
-    x <- ch_package_file(x)
+    curr_x <- ch_package_file(curr_x)
   }
-  use_switch(.file = x, ...)
+  use_switch(.file = curr_x, ...)
+  invisible()
 }
 
-ch_get_ymls <- function(menu = TRUE) {
+ch_get_ymls <- function(menu = TRUE, x = NULL) {
   files <- package_file("configs") %>%
-    dir_ls()
-
-  copilot_defaults <- "configs/copilot.yml" %>%
-    package_file() %>%
-    read_yaml()
-
-  copilot_token <- ch_gh_token(
-    defaults = copilot_defaults$default,
-    fail = FALSE
-  )
-  copilot_exists <- !is.null(copilot_token)
-
-  gpt_token <- ch_openai_token(fail = FALSE)
-  gpt_exists <- !is.null(gpt_token)
-
-  dbrx_token <- ch_databricks_token(fail = FALSE)
-  dbrx_host <- ch_databricks_host(fail = FALSE)
-  dbrx_exists <- !is.null(dbrx_token) && !is.null(dbrx_host)
-
-  llama_defaults <- "configs/llamagpt.yml" %>%
-    package_file() %>%
-    read_yaml()
-
-  llama_exists <- file_exists(llama_defaults$default$path) &&
-    file_exists(llama_defaults$default$model)
+    dir_ls() %>%
+    discard(~ grepl("ellmer.yml", .x))
 
   prep_files <- files %>%
     map(read_yaml) %>%
@@ -86,24 +90,22 @@ ch_get_ymls <- function(menu = TRUE) {
         path_ext_remove()
     )
 
-  if (!copilot_exists) {
-    prep_files$copilot <- NULL
+  gpt_token <- ch_openai_token(fail = FALSE)
+  if (is.null(gpt_token)) {
+    prep_files <- prep_files %>%
+      discard(~ grepl("OpenAI", .x[1]))
   }
 
-  if (!gpt_exists) {
-    prep_files$gpt35 <- NULL
-    prep_files$gpt4 <- NULL
-    prep_files$gpt4o <- NULL
+  dbrx_token <- ch_databricks_token(fail = FALSE)
+  dbrx_host <- ch_databricks_host(fail = FALSE)
+  if (is.null(dbrx_token) | is.null(dbrx_host)) {
+    prep_files <- prep_files %>%
+      discard(~ grepl("Databricks", .x[1]))
   }
 
-  if (!dbrx_exists) {
-    prep_files$`databricks-dbrx` <- NULL
-    prep_files$`databricks-meta-llama3-70b` <- NULL
-    prep_files$`databricks-mixtral8x7b` <- NULL
-  }
-
-  if (!llama_exists) {
-    prep_files$llamagpt <- NULL
+  if (!ch_ollama_check()) {
+    prep_files <- prep_files %>%
+      discard(~ grepl("Ollama", .x[1]))
   }
 
   if (length(prep_files) == 0) {
@@ -138,7 +140,7 @@ ch_get_ymls <- function(menu = TRUE) {
   }
 }
 
-use_switch <- function(..., .file) {
+use_switch <- function(..., .file, .silent = FALSE) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
 
@@ -164,9 +166,11 @@ use_switch <- function(..., .file) {
 
   chattr_defaults_set(list(mode = label), "default")
 
-  cli_div(theme = cli_colors())
-  cli_h3("chattr")
-  print_provider(chattr_defaults(...))
+  if (!.silent) {
+    cli_div(theme = cli_colors())
+    cli_h3("chattr")
+    print_provider(chattr_defaults(...))
+  }
 }
 
 ch_package_file <- function(x) {
@@ -174,5 +178,19 @@ ch_package_file <- function(x) {
     return(NULL)
   }
   env_folder <- ifelse(x == "test", "apptest", "configs")
-  package_file(env_folder, path_ext_set(x, "yml"))
+  out <- package_file(env_folder, path_ext_set(x, "yml"), .fail = FALSE)
+  if (is.null(out)) {
+    conf_folder <- "inst/configs/"
+    if(!dir_exists(conf_folder)) {
+      conf_folder <- system.file("configs", package = "chattr")
+    }
+    configs <- dir_ls(conf_folder)
+    configs <- configs[path_file(configs) != "ellmer.yml"]
+    configs <- configs %>%
+      path_file() %>%
+      path_ext_remove()
+    msg <- glue("'{x}' is not acceptable, it may be deprecated. Valid values are:")
+    abort(c(msg, configs), call = NULL)
+  }
+  out
 }

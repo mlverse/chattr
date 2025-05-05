@@ -71,7 +71,7 @@ print_history <- function(x) {
 
 # ------------------------------- Utils ----------------------------------------
 
-package_file <- function(...) {
+package_file <- function(..., .fail = TRUE) {
   default_file <- path(...)
   inst_file <- path("inst", default_file)
   pkg_file <- NULL
@@ -81,7 +81,11 @@ package_file <- function(...) {
     pkg_file <- system.file(default_file, package = "chattr")
   }
   if (!file_exists(pkg_file)) {
-    abort(paste0("'", default_file, "' not found"))
+    if (.fail) {
+      abort(paste0("'", default_file, "' not found"))
+    } else {
+      return(NULL)
+    }
   }
   pkg_file
 }
@@ -106,9 +110,10 @@ ui_validate <- function(x) {
 print_provider <- function(x) {
   cli_div(theme = cli_colors())
   cli_li("{.val0 Provider:} {.val1 {x[['provider']]}}")
-  cli_li("{.val0 Path/URL:} {.val1 {x[['path']]}}")
   cli_li("{.val0 Model:} {.val1 {x[['model']]}}")
-  cli_li("{.val0 Label:} {.val1 {x[['label']]}}")
+  if (x[["label"]] != x[["model"]]) {
+    cli_li("{.val0 Label:} {.val1 {x[['label']]}}")
+  }
 }
 
 # ------------------------ Determine OS ----------------------------------------
@@ -128,4 +133,9 @@ os_win <- function() {
 
 os_mac <- function() {
   ifelse(os_get() == "mac", TRUE, FALSE)
+}
+
+# ----------------------- Test? -----------------------------------------------
+is_test <- function() {
+  unlist(options("chattr-shiny-test")) %||% FALSE
 }

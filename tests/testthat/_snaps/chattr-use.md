@@ -1,16 +1,9 @@
 # Request submission works
 
     Code
-      out$gpt35
+      out$gpt41
     Output
-      [1] "OpenAI - Chat Completions - gpt-3.5-turbo (gpt35) \n"
-
----
-
-    Code
-      out$gpt4
-    Output
-      [1] "OpenAI - Chat Completions - gpt-4 (gpt4) \n"
+      [1] "OpenAI - Chat Completions - gpt-4.1 (gpt41) \n"
 
 ---
 
@@ -19,33 +12,29 @@
     Output
       [1] "OpenAI - Chat Completions - gpt-4o (gpt4o) \n"
 
-# Menu works
+# If all missing show error
+
+    No model setup found. Please use `?chattr_use` to get started
+
+# Invalid label returns expected error
+
+    'notexists' is not acceptable, it may be deprecated. Valid values are:
+    * databricks-dbrx
+    * databricks-meta-llama31-70b
+    * databricks-mixtral8x7b
+    * gpt41-mini
+    * gpt41-nano
+    * gpt41
+    * gpt4o
+    * ollama
+
+# Uses ellmer object
 
     Code
-      chattr_defaults(force = TRUE)
+      chattr_use(my_model)
     Message
       
-      -- chattr ----------------------------------------------------------------------
-      
-      -- Defaults for: Default --
-      
-      -- Prompt: 
-      * Use the R language, the tidyverse, and tidymodels
-      
-      -- Model 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: test/path
-      * Label: GPT4ALL 1.3 (LlamaGPT)
-      
-      -- Model Arguments: 
-      * threads: 4
-      * temp: 0.01
-      * n_predict: 1000
-      
-      -- Context: 
-      Max Data Files: 0
-      Max Data Frames: 0
-      x Chat History
-      x Document contents
+      -- chattr 
+      * Provider: ellmer
+      * Model: claude-3-5-sonnet-latest
 

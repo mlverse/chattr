@@ -1,4 +1,32 @@
+test_that("Testing the function directly", {
+  skip_on_os("windows")
+  library(shiny)
+  withr::with_options(list("chattr-shiny-test" = TRUE), {
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(prompt = "hello", submit = TRUE)
+      })
+    )
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(saved = TRUE)
+      })
+    )
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(open = TRUE)
+      })
+    )
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(save = TRUE)
+      })
+    )
+  })
+})
+
 test_that("chattr app initial values are consistent", {
+  skip_on_os("windows")
   skip_on_cran()
   shiny_app <- shinyApp(app_ui(), app_server)
   app <- shinytest2::AppDriver$new(

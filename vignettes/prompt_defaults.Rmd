@@ -23,7 +23,7 @@ function `chattr_defaults()`:
 ```{r}
 library(chattr)
 
-chattr_use("gpt4")
+chattr_use("ollama")
 
 chattr_defaults()
 ```

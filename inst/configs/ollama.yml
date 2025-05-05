@@ -1,19 +1,15 @@
 default:
-  ellmer: ellmer::chat_openai(model = "gpt-4o")
-  provider: OpenAI - Chat Completions
-  label: GPT 4 Omni (OpenAI)
-  model: gpt-4o
+  ellmer: ellmer::chat_ollama(model = "llama3.2", seed = 100)
+  provider: Ollama
+  model: llama3.2
+  label:  Llama 3.2 (Ollama)
+  include_history: FALSE
   max_data_files: 0
   max_data_frames: 0
   include_doc_contents: FALSE
-  include_history: FALSE
   system_msg: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     You are a helpful coding assistant that uses R and the tidyverse
-  model_arguments:
-    temperature: 0.01
-    max_tokens: 1000
-    stream: TRUE
 chat:
   prompt: |
     For code output, use RMarkdown code chunks
@@ -28,3 +24,8 @@ script:
     For any line that is not code, prefix with a: #
     Keep each line of explanations to no more than 80 characters
     DO NOT use Markdown for the code
+markdown:
+  prompt: |
+    For code output, use RMarkdown code chunks
+    Keep each explanation line no longer than 40 characters
+

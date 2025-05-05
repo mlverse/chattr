@@ -31,3 +31,5 @@ docs
 inst/doc
 # macOS files
 *.DS_Store
+/doc/
+/Meta/

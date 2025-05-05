@@ -65,9 +65,9 @@ chattr_app <- function(viewer = c("viewer", "dialog"),
       app_code,
       con = run_file
     )
-    jobRunScript(path = run_file)
+    rstudioapi_jobRunScript(path = run_file)
     Sys.sleep(3)
-    viewer(paste0("http://", as_job_host, ":", as_job_port))
+    rstudioapi_viewer(paste0("http://", as_job_host, ":", as_job_port))
   }
 }
 
@@ -82,5 +82,36 @@ app_init_message <- function(defaults) {
 
 #' @export
 app_init_message.default <- function(defaults) {
-  print_provider(defaults)
+  if (!is_test()) {
+    print_provider(defaults)
+  }
+}
+
+
+rstudioapi_jobRunScript <- function(...) {
+  rstudioapi::jobRunScript(...)
+}
+
+rstudioapi_viewer <- function(...) {
+  rstudioapi::viewer(...)
+}
+
+ch_app_status <- function(set_to = NULL) {
+  if (!is.null(set_to)) {
+    ch_env$stream_status <- set_to
+  }
+  ch_env$stream_status
+}
+
+ch_app_output <- function(append = NULL, reset = FALSE) {
+  if (reset) {
+    ch_env$stream_output <- NULL
+    return(invisible())
+  }
+  if (is.null(append)) {
+    return(ch_env$stream_output)
+  } else {
+    ch_env$stream_output <- paste0(ch_env$stream_output, append)
+  }
+  return(invisible())
 }

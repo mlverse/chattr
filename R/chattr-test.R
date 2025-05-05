@@ -13,15 +13,17 @@ ch_test <- function(defaults = NULL) {
   UseMethod("ch_test")
 }
 
-# ------------------------------ OpenAI ----------------------------------------
 #' @export
-ch_test.ch_openai_chat_completions <- function(defaults = NULL) {
+ch_test.ch_ellmer <- function(defaults = NULL) {
   if (ch_debug_get()) {
     prompt <- "TEST"
     out <- "TEST"
   } else {
     prompt <- "Hi!"
-    out <- capture.output(chattr(prompt))
+    out <- try(capture.output(chattr(prompt)), silent = TRUE)
+    if (inherits(out, "try-error")) {
+      out <- ""
+    }
   }
 
   if (is.null(out)) out <- ""
@@ -29,74 +31,13 @@ ch_test.ch_openai_chat_completions <- function(defaults = NULL) {
   cli_div(theme = cli_colors())
   cli_h3("Testing chattr")
   print_provider(defaults)
-
+  out <- paste0(out, collapse = "\n")
   if (nchar(out) > 0) {
-    cli_alert_success("Connection with OpenAI cofirmed")
+    cli_alert_success("Connection to {defaults[['model']]} cofirmed")
     cli_text("|--Prompt: {.val2 {prompt}}")
     cli_text("|--Response: {.val1 {out}}")
   } else {
-    cli_alert_danger("Connection with OpenAI failed")
-  }
-}
-
-# ----------------------------- LlamaGPT ---------------------------------------
-
-#' @export
-ch_test.ch_llamagpt <- function(defaults = NULL) {
-  if (ch_debug_get()) {
-    error <- ""
-    x <- TRUE
-  } else {
-    ch_llamagpt_session(defaults = defaults, testing = TRUE)
-    session <- ch_llamagpt_session()
-    Sys.sleep(0.1)
-    error <- session$read_error()
-    x <- ch_llamagpt_stop()
-  }
-
-  cli_div(theme = cli_colors())
-  cli_h3("Testing chattr")
-  print_provider(defaults)
-
-  if (error == "") {
-    cli_alert_success("Model started sucessfully")
-  } else {
-    cli_text(error)
-    cli_alert_danger("Errors loading model")
-  }
-
-  if (x) {
-    cli_alert_success("Model session closed sucessfully")
-  } else {
-    cli_alert_danger("Errors closing model session")
-  }
-  invisible()
-}
-
-# ----------------------------- Copilot ----------------------------------------
-
-#' @export
-ch_test.ch_openai_github_copilot_chat <- function(defaults = NULL) {
-  if (ch_debug_get()) {
-    prompt <- "TEST"
-    out <- "TEST"
-  } else {
-    prompt <- "Hi!"
-    out <- capture.output(chattr(prompt))
-  }
-
-  if (is.null(out)) out <- ""
-
-  cli_div(theme = cli_colors())
-  cli_h3("Testing chattr")
-  print_provider(defaults)
-
-  if (nchar(out) > 0) {
-    cli_alert_success("Connection with GitHub Copilot cofirmed")
-    cli_text("|--Prompt: {.val2 {prompt}}")
-    cli_text("|--Response: {.val1 {out}}")
-  } else {
-    cli_alert_danger("Connection with GitHub Copilot failed")
+    cli_alert_danger("Connection to {defaults[['model']]} failed")
   }
 }
 
@@ -104,20 +45,23 @@ ch_test.ch_openai_github_copilot_chat <- function(defaults = NULL) {
 ch_submit.ch_test_backend <- function(
     defaults,
     prompt = NULL,
-    stream = NULL,
+    stream = TRUE,
     prompt_build = TRUE,
     preview = FALSE,
+    shiny = FALSE,
     ...) {
-  is_test <- unlist(options("chattr-shiny-test")) %||% FALSE
-  if (stream && !is_test) {
+  if (stream) {
+    ch_app_status("busy")
     for (i in seq_len(nchar(prompt))) {
-      cat(substr(prompt, i, i))
+      out <- substr(prompt, i, i)
+      if (shiny) {
+        ch_app_output(out)
+      } else {
+        ide_paste_text(out)
+      }
       Sys.sleep(0.1)
     }
+    ch_app_status("idle")
   }
-  if (is_test) {
-    invisible()
-  } else {
-    prompt
-  }
+  prompt
 }

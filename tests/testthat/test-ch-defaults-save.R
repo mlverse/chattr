@@ -1,6 +1,6 @@
 test_that("Saving defaults work", {
   test_chattr_type_unset()
-  expect_snapshot(chattr_use("gpt35"))
+  expect_snapshot(chattr_use("gpt41"))
   defaults_file <- tempfile()
   expect_silent(
     chattr_defaults_save(

@@ -1,51 +1,35 @@
 # Saving defaults work
 
     Code
-      chattr_use("gpt35")
+      chattr_use("gpt41")
     Message
       
       -- chattr 
       * Provider: OpenAI - Chat Completions
-      * Path/URL: https://api.openai.com/v1/chat/completions
-      * Model: gpt-3.5-turbo
-      * Label: GPT 3.5 (OpenAI)
+      * Model: gpt-4.1
+      * Label: GPT 4.1 (OpenAI)
 
 ---
 
     Code
       readLines(defaults_file)
     Output
-       [1] "default:"                                                                       
-       [2] "  prompt: '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"
-       [3] "  max_data_files: 0"                                                            
-       [4] "  max_data_frames: 0"                                                           
-       [5] "  include_doc_contents: no"                                                     
-       [6] "  include_history: yes"                                                         
-       [7] "  provider: OpenAI - Chat Completions"                                          
-       [8] "  path: https://api.openai.com/v1/chat/completions"                             
-       [9] "  model: gpt-3.5-turbo"                                                         
-      [10] "  model_arguments:"                                                             
-      [11] "    temperature: 0.01"                                                          
-      [12] "    max_tokens: 1000"                                                           
-      [13] "    stream: yes"                                                                
-      [14] "  system_msg: You are a helpful coding assistant"                               
-      [15] "  label: GPT 3.5 (OpenAI)"                                                      
-      [16] "  mode: gpt35"                                                                  
-      [17] "console:"                                                                       
-      [18] "  prompt:"                                                                      
-      [19] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
-      [20] "  - 'For any line that is not code, prefix with a: #'"                          
-      [21] "  - Keep each line of explanations to no more than 80 characters"               
-      [22] "  - DO NOT use Markdown for the code"                                           
-      [23] "chat:"                                                                          
-      [24] "  prompt:"                                                                      
-      [25] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
-      [26] "  - For code output, use RMarkdown code chunks"                                 
-      [27] "  - Avoid all code chunk options"                                               
-      [28] "script:"                                                                        
-      [29] "  prompt:"                                                                      
-      [30] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"      
-      [31] "  - 'For any line that is not code, prefix with a: #'"                          
-      [32] "  - Keep each line of explanations to no more than 80 characters"               
-      [33] "  - DO NOT use Markdown for the code"                                           
+       [1] "default:"                                                                 
+       [2] "  max_data_files: 0"                                                      
+       [3] "  max_data_frames: 0"                                                     
+       [4] "  include_doc_contents: no"                                               
+       [5] "  include_history: no"                                                    
+       [6] "  provider: OpenAI - Chat Completions"                                    
+       [7] "  path: https://api.openai.com/v1/chat/completions"                       
+       [8] "  model: gpt-4.1"                                                         
+       [9] "  model_arguments:"                                                       
+      [10] "    temperature: 0.01"                                                    
+      [11] "    max_tokens: 1000"                                                     
+      [12] "    stream: yes"                                                          
+      [13] "  system_msg:"                                                            
+      [14] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"
+      [15] "  - You are a helpful coding assistant that uses R and the tidyverse"     
+      [16] "  label: GPT 4.1 (OpenAI)"                                                
+      [17] "  mode: gpt41"                                                            
+      [18] "  ellmer: ellmer::chat_openai(model = \"gpt-4.1\")"                       
 

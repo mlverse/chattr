@@ -1,14 +1,13 @@
-# Test function works for OpenAI
+# Test function works for GPT 4.1
 
     Code
-      chattr_use("gpt35")
+      chattr_use("gpt41")
     Message
       
       -- chattr 
       * Provider: OpenAI - Chat Completions
-      * Path/URL: https://api.openai.com/v1/chat/completions
-      * Model: gpt-3.5-turbo
-      * Label: GPT 3.5 (OpenAI)
+      * Model: gpt-4.1
+      * Label: GPT 4.1 (OpenAI)
 
 ---
 
@@ -18,63 +17,23 @@
       
       -- Testing chattr 
       * Provider: OpenAI - Chat Completions
-      * Path/URL: https://api.openai.com/v1/chat/completions
-      * Model: gpt-3.5-turbo
-      * Label: GPT 3.5 (OpenAI)
-      v Connection with OpenAI cofirmed
+      * Model: gpt-4.1
+      * Label: GPT 4.1 (OpenAI)
+      v Connection to gpt-4.1 cofirmed
       |--Prompt: TEST
       |--Response: TEST
 
-# Test function works for LlamaGPT
+# chattr_app() runs
 
     Code
-      chattr_use("llamagpt")
-    Message
-      
-      -- chattr 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
-
----
-
-    Code
-      chattr_test()
+      chattr_test(td)
     Message
       
       -- Testing chattr 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
-      v Model started sucessfully
-      v Model session closed sucessfully
-
-# Test function works for Copilot
-
-    Code
-      chattr_use("copilot")
-    Message
-      
-      -- chattr 
-      * Provider: OpenAI - GitHub Copilot Chat
-      * Path/URL: https://api.githubcopilot.com/chat/completions
-      * Model: gpt-4
-      * Label: Copilot (GitHub)
-
----
-
-    Code
-      chattr_test()
-    Message
-      
-      -- Testing chattr 
-      * Provider: OpenAI - GitHub Copilot Chat
-      * Path/URL: https://api.githubcopilot.com/chat/completions
-      * Model: gpt-4
-      * Label: Copilot (GitHub)
-      v Connection with GitHub Copilot cofirmed
-      |--Prompt: TEST
-      |--Response: TEST
+      * Provider: OpenAI - Chat Completions
+      * Model: gpt-4.1
+      * Label: GPT 4.1 (OpenAI)
+      v Connection to gpt-4.1 cofirmed
+      |--Prompt: Hi!
+      |--Response: [1] "Hi!"
 

@@ -108,6 +108,9 @@ chattr_defaults <- function(type = "default",
           if (length(td$prompt) > 0 && any(grepl("\n", td$prompt))) {
             td$prompt <- unlist(strsplit(td$prompt, split = "\n"))
           }
+          if (length(td$system_msg) > 0 && any(grepl("\n", td$system_msg))) {
+            td$system_msg <- unlist(strsplit(td$system_msg, split = "\n"))
+          }
           chattr_defaults_set(
             arguments = td,
             type = type
@@ -138,7 +141,14 @@ as_ch_model <- function(x, type) {
     first_cl <- NULL
   }
 
+  if (!is.null(x$ellmer)) {
+    ch_ellmer <- "ch_ellmer"
+  } else {
+    ch_ellmer <- NULL
+  }
+
   class(x) <- c(
+    ch_ellmer,
     paste0("ch_", prep_class_name(provider)),
     first_cl,
     "ch_model"
@@ -148,13 +158,10 @@ as_ch_model <- function(x, type) {
 
 prep_class_name <- function(x) {
   x <- tolower(x)
-  x <- gsub(" - ", "_", x)
-  x <- gsub("-", "_", x)
-  x <- gsub(" \\(", "_", x)
-  x <- gsub(" ", "_", x)
-  x <- gsub("\\(", "_", x)
-  x <- gsub("\\) ", "_", x)
-  x <- gsub("\\)", "_", x)
+  look_for <- c(" - ", "-", " \\(", " ", "\\(", "\\) ", "\\)")
+  for (item in look_for) {
+    x <- gsub(item, "_", x)
+  }
   x
 }
 
@@ -233,6 +240,14 @@ chattr_defaults_set <- function(arguments = list(),
   arguments$force <- NULL
 
   ch_env$defaults[[type]] <- arguments
+}
+
+bulleted_list <- function(x) {
+  if (length(x) == 1) {
+    x <- unlist(strsplit(x, split = "\n"))
+  }
+  x <- process_prompt(x)
+  paste0("* ", x, collapse = " \n")
 }
 
 process_prompt <- function(x) {

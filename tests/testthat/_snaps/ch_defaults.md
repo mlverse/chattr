@@ -1,14 +1,13 @@
 # Basic default tests
 
     Code
-      chattr_use("llamagpt")
+      chattr_use("ollama")
     Message
       
       -- chattr 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
+      * Provider: Ollama
+      * Model: llama3.2
+      * Label: Llama 3.2 (Ollama)
 
 ---
 
@@ -21,18 +20,14 @@
       -- Defaults for: Console --
       
       -- Prompt: 
-      * Use the R language, the tidyverse, and tidymodels
+      * For any line that is not code, prefix with a: #
+      * Keep each line of explanations to no more than 80 characters
+      * DO NOT use Markdown for the code
       
       -- Model 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
-      
-      -- Model Arguments: 
-      * threads: 4
-      * temp: 0.01
-      * n_predict: 1000
+      * Provider: Ollama
+      * Model: llama3.2
+      * Label: Llama 3.2 (Ollama)
       
       -- Context: 
       Max Data Files: 0
@@ -43,14 +38,13 @@
 # Makes sure that changing something on 'default' changes it every where
 
     Code
-      chattr_use("llamagpt")
+      chattr_use("ollama")
     Message
       
       -- chattr 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
+      * Provider: Ollama
+      * Model: llama3.2
+      * Label: Llama 3.2 (Ollama)
 
 ---
 
@@ -63,18 +57,11 @@
       -- Defaults for: Default --
       
       -- Prompt: 
-      * Use the R language, the tidyverse, and tidymodels
       
       -- Model 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
+      * Provider: Ollama
       * Model: test
-      * Label: GPT4ALL 1.3 (LlamaGPT)
-      
-      -- Model Arguments: 
-      * threads: 4
-      * temp: 0.01
-      * n_predict: 1000
+      * Label: Llama 3.2 (Ollama)
       
       -- Context: 
       Max Data Files: 0
@@ -85,12 +72,11 @@
 # Changing something in non-default does not impact others
 
     Code
-      chattr_use("llamagpt")
+      chattr_use("ollama")
     Message
       
       -- chattr 
-      * Provider: LlamaGPT
-      * Path/URL: ~/LlamaGPTJ-chat/build/bin/chat
-      * Model: ~/ggml-gpt4all-j-v1.3-groovy.bin
-      * Label: GPT4ALL 1.3 (LlamaGPT)
+      * Provider: Ollama
+      * Model: llama3.2
+      * Label: Llama 3.2 (Ollama)
 

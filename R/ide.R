@@ -11,7 +11,7 @@ globalVariables("RStudio.Version")
 
 # -------------------------- UI Identification ---------------------------------
 
-ui_current <- function() {
+ui_current <- function(default = "") {
   ret <- ""
   if (ide_is_rstudio()) {
     cont <- rstudio_active_contents()
@@ -28,6 +28,9 @@ ui_current <- function() {
   } else {
     ret <- "console"
   }
+  if (default != "" && ret == "") {
+    ret <- default
+  }
   ret
 }
 
@@ -42,8 +45,10 @@ ui_current_markdown <- function() {
 # -------------------------- Document contents ---------------------------------
 
 ide_paste_text <- function(x) {
-  if (ide_is_rstudio()) {
+  if (ide_is_rstudio() && ui_current() != "console") {
     insertText(text = x)
+  } else {
+    cat(x)
   }
   invisible()
 }
@@ -73,7 +78,11 @@ ide_comment_selection <- function() {
 
     prompt <- trimws(original)
 
-    prefix <- ifelse(commented, "", "# ")
+    prefix <- ""
+
+    if (ui_current() == "script") {
+      prefix <- "# "
+    }
 
     replacement <- paste0(prefix, selected, collapse = "\n")
 
