@@ -93,3 +93,23 @@ rstudioapi_jobRunScript <- function(...) {
 rstudioapi_viewer <- function(...) {
   rstudioapi::viewer(...)
 }
+
+ch_app_status <- function(set_to = NULL) {
+  if (!is.null(set_to)) {
+    ch_env$stream_status <- set_to
+  }
+  ch_env$stream_status
+}
+
+ch_app_output <- function(append = NULL, reset = FALSE) {
+  if (reset) {
+    ch_env$stream_output <- NULL
+    return(invisible())
+  }
+  if (is.null(append)) {
+    return(ch_env$stream_output)
+  } else {
+    ch_env$stream_output <- paste0(ch_env$stream_output, append)
+  }
+  return(invisible())
+}

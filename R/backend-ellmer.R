@@ -59,10 +59,6 @@ ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
     system_msg <- bulleted_list(system_msg)
     chat$set_system_prompt(system_msg)
   }
-  if (is.null(chat)) {
-    # TODO better error message
-    stop("No chat object found")
-  }
   ch_env$ellmer_obj <- chat
   invisible()
 }
@@ -76,26 +72,4 @@ ch_ellmer_prompt <- function(prompt, defaults) {
       prompt
     )
   )
-}
-
-# TODO: this needs to move to another script when done
-
-ch_app_status <- function(set_to = NULL) {
-  if (!is.null(set_to)) {
-    ch_env$stream_status <- set_to
-  }
-  ch_env$stream_status
-}
-
-ch_app_output <- function(append = NULL, reset = FALSE) {
-  if (reset) {
-    ch_env$stream_output <- NULL
-    return(invisible())
-  }
-  if (is.null(append)) {
-    return(ch_env$stream_output)
-  } else {
-    ch_env$stream_output <- paste0(ch_env$stream_output, append)
-  }
-  return(invisible())
 }
