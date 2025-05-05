@@ -12,6 +12,10 @@
     Output
       [1] "OpenAI - Chat Completions - gpt-4o (gpt4o) \n"
 
+# If all missing show error
+
+    No model setup found. Please use `?chattr_use` to get started
+
 # Invalid label returns expected error
 
     'notexists' is not acceptable, it may be deprecated. Valid values are:

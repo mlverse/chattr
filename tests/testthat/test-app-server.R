@@ -6,6 +6,21 @@ test_that("Testing the function directly", {
         session$setInputs(prompt = "hello", submit = TRUE)
       })
     )
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(saved = TRUE)
+      })
+    )
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(open = TRUE)
+      })
+    )
+    expect_null(
+      shiny::testServer(app_server, {
+        session$setInputs(save = TRUE)
+      })
+    )
   })
 })
 

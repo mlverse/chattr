@@ -11,16 +11,36 @@ test_that("Request submission works", {
 })
 
 test_that("Missing token prevents showing the option", {
+  local_mocked_bindings(
+    ch_ollama_check = function(x) return(TRUE)
+  )
   withr::with_envvar(
     new = c(
       "OPENAI_API_KEY" = NA,
-      "DATABRICKS_TOKEN" = "test",
-      "DATABRICKS_HOST" = "test"
+      "DATABRICKS_TOKEN" = NA,
+      "DATABRICKS_HOST" = NA
     ),
     {
       out <- ch_get_ymls(menu = FALSE)
       expect_null(out$gpt4)
       expect_null(out$gpt4o)
+      expect_null(out$`databricks-dbrx`)
+    }
+  )
+})
+
+test_that("If all missing show error", {
+  local_mocked_bindings(
+    ch_ollama_check = function(x) return(FALSE)
+  )
+  withr::with_envvar(
+    new = c(
+      "OPENAI_API_KEY" = NA,
+      "DATABRICKS_TOKEN" = NA,
+      "DATABRICKS_HOST" = NA
+    ),
+    {
+      expect_snapshot_error(ch_get_ymls(menu = FALSE))
     }
   )
 })
