@@ -180,7 +180,11 @@ ch_package_file <- function(x) {
   env_folder <- ifelse(x == "test", "apptest", "configs")
   out <- package_file(env_folder, path_ext_set(x, "yml"), .fail = FALSE)
   if (is.null(out)) {
-    configs <- dir_ls("inst/configs/")
+    conf_folder <- "inst/configs/"
+    if(!dir_exists(conf_folder)) {
+      conf_folder <- system.file("configs", package = "chattr")
+    }
+    configs <- dir_ls(conf_folder)
     configs <- configs[path_file(configs) != "ellmer.yml"]
     configs <- configs %>%
       path_file() %>%

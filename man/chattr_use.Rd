@@ -48,7 +48,6 @@ chattr_use("gpt41-mini")
 # Pass an `ellmer` object
 my_chat <- ellmer::chat_claude()
 chattr_use(my_chat)
-
 }
 
 }

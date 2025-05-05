@@ -14,7 +14,15 @@
 
 # Invalid label returns expected error
 
-    [ENOENT] Failed to search directory 'inst/configs': no such file or directory
+    'notexists' is not acceptable, it may be deprecated. Valid values are:
+    * databricks-dbrx
+    * databricks-meta-llama31-70b
+    * databricks-mixtral8x7b
+    * gpt41-mini
+    * gpt41-nano
+    * gpt41
+    * gpt4o
+    * ollama
 
 # Uses ellmer object
 
