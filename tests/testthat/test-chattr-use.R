@@ -45,3 +45,18 @@ test_that("Menu works", {
     }
   )
 })
+
+
+test_that("Invalid label returns expected error", {
+  expect_snapshot_error(ch_package_file("notexists"))
+})
+
+test_that("Uses ellmer object", {
+  withr::with_envvar(
+    new = c("ANTHROPIC_API_KEY" = "not really a key"), {
+      my_model <- ellmer::chat_claude()
+      expect_snapshot(chattr_use(my_model))
+
+    }
+  )
+})
