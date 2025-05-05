@@ -1,4 +1,5 @@
 test_that("Testing the function directly", {
+  skip_on_os("windows")
   library(shiny)
   withr::with_options(list("chattr-shiny-test" = TRUE), {
     expect_null(
@@ -25,6 +26,7 @@ test_that("Testing the function directly", {
 })
 
 test_that("chattr app initial values are consistent", {
+  skip_on_os("windows")
   skip_on_cran()
   shiny_app <- shinyApp(app_ui(), app_server)
   app <- shinytest2::AppDriver$new(

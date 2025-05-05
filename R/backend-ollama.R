@@ -7,7 +7,7 @@ ch_ollama_check <- function() {
     map(\(x)
     request(x) %>%
       req_perform() %>%
-      try(silent = TRUE)) |>
+      try(silent = TRUE)) %>%
     map_lgl(\(x) {
       if (inherits(x, "httr2_response")) {
         if (x$status_code == 200) {
