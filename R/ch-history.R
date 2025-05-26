@@ -1,8 +1,28 @@
-#' Displays the current session' chat history
+#' Displays and sets the current session' chat history
 #' @param x An list object that contains chat history. Use this argument to
 #' override the current history.
 #' @keywords internal
 #' @returns A list object with the current chat history
+#' @examples
+#' library(chattr)
+#'
+#' chattr_use("test", stream = FALSE)
+#'
+#' chattr("hello")
+#'
+#' # View history
+#' ch_history()
+#'
+#' # Save history to a file
+#' chat_file <- tempfile()
+#' saveRDS(ch_history(), chat_file)
+#'
+#' # Reset history
+#' ch_history(list())
+#'
+#' # Re-load history
+#' ch_history(readRDS(chat_file))
+#'
 #' @export
 ch_history <- function(x = NULL) {
   if (!is.null(x)) {
