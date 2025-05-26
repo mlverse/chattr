@@ -47,11 +47,13 @@ chattr_use <- function(x = NULL, ...) {
   }
   if (inherits(curr_x, "Chat")) {
     model <- curr_x$get_model()
+    provider <- curr_x$get_provider()
+    provider_name <- provider@name
     use_switch(
       .file = ch_package_file("ellmer"),
       model = model,
-      provider = "ellmer",
-      label = model,
+      provider = provider_name,
+      label = glue("{model} ({provider_name})"),
       ...
     )
     ch_ellmer_init(chat = curr_x)

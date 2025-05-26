@@ -35,6 +35,7 @@
     Message
       
       -- chattr 
-      * Provider: ellmer
+      * Provider: Anthropic
       * Model: claude-3-7-sonnet-latest
+      * Label: claude-3-7-sonnet-latest (Anthropic)
 
