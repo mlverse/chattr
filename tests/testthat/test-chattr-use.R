@@ -74,7 +74,7 @@ test_that("Invalid label returns expected error", {
 test_that("Uses ellmer object", {
   withr::with_envvar(
     new = c("ANTHROPIC_API_KEY" = "not really a key"), {
-      my_model <- ellmer::chat_claude()
+      my_model <- ellmer::chat_anthropic()
       expect_snapshot(chattr_use(my_model))
 
     }

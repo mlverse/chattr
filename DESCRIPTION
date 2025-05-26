@@ -22,18 +22,18 @@ Imports:
     lifecycle,
     processx,
     config,
-    httr2 (>= 1.1.0),
+    ellmer (>= 0.2.0),
     purrr,
     rlang,
     bslib,
     shiny,
     clipr,
+    httr2 (>= 1.1.0),    
     yaml,
     glue,
+    coro,
     cli,
-    fs,
-    ellmer,
-    coro
+    fs    
 Depends: 
     R (>= 2.10)
 LazyData: true

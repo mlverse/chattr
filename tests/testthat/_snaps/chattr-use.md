@@ -36,5 +36,5 @@
       
       -- chattr 
       * Provider: ellmer
-      * Model: claude-3-5-sonnet-latest
+      * Model: claude-3-7-sonnet-latest
 
