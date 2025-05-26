@@ -49,14 +49,14 @@ chattr_use <- function(x = NULL, ...) {
     model <- curr_x$get_model()
     provider <- curr_x$get_provider()
     provider_name <- provider@name
-    use_switch(
+    defaults <- use_switch(
       .file = ch_package_file("ellmer"),
       model = model,
       provider = provider_name,
       label = glue("{model} ({provider_name})"),
       ...
     )
-    ch_ellmer_init(chat = curr_x)
+    ch_ellmer_init(defaults, chat = curr_x)
     return(invisible())
   }
   if (is_interactive() && is.null(curr_x)) {
@@ -173,6 +173,7 @@ use_switch <- function(..., .file, .silent = FALSE) {
     cli_h3("chattr")
     print_provider(chattr_defaults(...))
   }
+  chattr_defaults_get()
 }
 
 ch_package_file <- function(x) {
