@@ -15,6 +15,4 @@
       * stream: TRUE
       
       -- Prompt: 
-      Test Provider
-      chat
 

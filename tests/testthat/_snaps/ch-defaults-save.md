@@ -30,6 +30,5 @@
       [14] "  - '{readLines(system.file(''prompt/base.txt'', package = ''chattr''))}'"
       [15] "  - You are a helpful coding assistant that uses R and the tidyverse"     
       [16] "  label: GPT 4.1 (OpenAI)"                                                
-      [17] "  mode: gpt41"                                                            
-      [18] "  ellmer: ellmer::chat_openai(model = \"gpt-4.1\")"                       
+      [17] "  ellmer: ellmer::chat_openai(model = \"gpt-4.1\")"                       
 
