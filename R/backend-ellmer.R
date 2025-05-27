@@ -72,3 +72,22 @@ ch_ellmer_prompt <- function(prompt, defaults) {
     )
   )
 }
+
+ch_ellmer_history <- function(x) {
+  if (chattr_defaults()$mode %||% "" == "ellmer" &&
+    inherits(x, c("list", "ch_history"))
+  ) {
+    new_history <- map(
+      x,
+      \(.x) {
+        ellmer::Turn(
+          role = .x$role,
+          contents = list(ellmer::ContentText(.x$content)),
+          tokens = .x$tokens %||% c(0, 0)
+        )
+      }
+    )
+    ch_env$ellmer_obj$set_turns(new_history)
+  }
+  invisible()
+}

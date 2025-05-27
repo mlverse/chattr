@@ -51,19 +51,21 @@ print_history <- function(x) {
     x <- .x
     x_named <- is_named(x)
     iwalk(x, ~ {
-      split_x <- .x %>%
-        strsplit("\n") %>%
-        unlist()
-      if (x_named) {
-        title <- glue("{.y}:")
-      } else {
-        title <- NULL
-      }
-      if (length(split_x) == 1) {
-        cli_text("{title} {.val2 {.x}}")
-      } else {
-        cli_text("{title}")
-        walk(split_x, ~ cli_bullets("{.val2 {.x}}"))
+      if (.y %in% c("role", "content")) {
+        split_x <- .x %>%
+          strsplit("\n") %>%
+          unlist()
+        if (x_named) {
+          title <- glue("{.y}:")
+        } else {
+          title <- NULL
+        }
+        if (length(split_x) == 1) {
+          cli_text("{title} {.val2 {.x}}")
+        } else {
+          cli_text("{title}")
+          walk(split_x, ~ cli_bullets("{.val2 {.x}}"))
+        }
       }
     })
   })

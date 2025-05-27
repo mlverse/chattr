@@ -26,7 +26,8 @@
 #' @export
 ch_history <- function(x = NULL) {
   if (!is.null(x)) {
-    if(inherits(x, c("list", "ch_history"))) {
+    if (inherits(x, c("list", "ch_history"))) {
+      ch_ellmer_history(x)
       ch_env$chat_history <- x
     } else {
       abort("Only list objects are acceptable as history")
