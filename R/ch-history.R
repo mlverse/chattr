@@ -26,7 +26,11 @@
 #' @export
 ch_history <- function(x = NULL) {
   if (!is.null(x)) {
-    ch_env$chat_history <- x
+    if(inherits(x, c("list", "ch_history"))) {
+      ch_env$chat_history <- x
+    } else {
+      abort("Only list objects are acceptable as history")
+    }
   }
   if (!is.null(ch_env$chat_history)) {
     class(ch_env$chat_history) <- "ch_history"
