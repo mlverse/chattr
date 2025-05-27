@@ -3,6 +3,7 @@ default:
   max_data_files: 0
   max_data_frames: 0
   include_doc_contents: FALSE
+  mode: 'ellmer'
   system_msg: |
     {readLines(system.file('prompt/base.txt', package = 'chattr'))}
     You are a helpful coding assistant that uses R and the tidyverse

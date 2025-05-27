@@ -145,17 +145,11 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
 use_switch <- function(..., .file, .silent = FALSE) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
-
-  label <- .file %>%
-    path_file() %>%
-    path_ext_remove()
-
   chattr_defaults(
     type = "default",
     yaml_file = .file,
     force = TRUE
   )
-
   walk(
     ch_env$valid_uis,
     ~ {
@@ -165,9 +159,6 @@ use_switch <- function(..., .file, .silent = FALSE) {
       )
     }
   )
-
-  chattr_defaults_set(list(mode = label), "default")
-
   if (!.silent) {
     cli_div(theme = cli_colors())
     cli_h3("chattr")
@@ -184,7 +175,7 @@ ch_package_file <- function(x) {
   out <- package_file(env_folder, path_ext_set(x, "yml"), .fail = FALSE)
   if (is.null(out)) {
     conf_folder <- "inst/configs/"
-    if(!dir_exists(conf_folder)) {
+    if (!dir_exists(conf_folder)) {
       conf_folder <- system.file("configs", package = "chattr")
     }
     configs <- dir_ls(conf_folder)
