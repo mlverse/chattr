@@ -66,7 +66,7 @@ There are several ways to let `chattr` know which LLM to use:
 
 -   **Pre-set an R option** - Pass the `ellmer` connection command you
     wish to use in the `.chattr_chat` option, for example:
-    `options(.chattr_chat = ellmer::chat_claude())`. If you add that
+    `options(.chattr_chat = ellmer::chat_anthropic())`. If you add that
     code to your *.Rprofile*, `chattr` will use that as the default
     model and settings to use every time you start an R session. Use the
     `usethis::edit_r_profile()` command to easily edit your *.Rprofile*
@@ -75,7 +75,7 @@ There are several ways to let `chattr` know which LLM to use:
     directly to `chattr_use()`:
 
     ``` r
-      my_chat <- ellmer::chat_claude()
+      my_chat <- ellmer::chat_anthropic()
       chattr_use(my_chat)
     ```
 
@@ -127,41 +127,41 @@ you can use by passing what is under **Use value** to `chattr_use()`:
 
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Model &amp; Provider</th>
 <th>Use value</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>DBRX (Databricks)</td>
 <td><code>databricks-dbrx</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>Meta Llama 3.3 70B (Databricks)</td>
 <td><code>databricks-meta-llama31-70b</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Mixtral 8x7b (Datbricks)</td>
 <td><code>databricks-mixtral8x7b</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>GPT 4.1 Mini (OpenAI)</td>
 <td><code>gpt41-mini</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>GPT 4.1 Nano (OpenAI)</td>
 <td><code>gpt41-nano</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>GPT 4.1 (OpenAI)</td>
 <td><code>gpt41</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>GPT 4 Omni (OpenAI)</td>
 <td><code>gpt4o</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>Llama 3.2 (Ollama)</td>
 <td><code>ollama</code></td>
 </tr>
@@ -179,33 +179,39 @@ that are currently available in that package:
 <!-- providers: start -->
 
 -   Anthropic’s Claude:
-    [`ellmer::chat_claude()`](https://ellmer.tidyverse.org/reference/chat_claude.html)
+    [`ellmer::chat_anthropic()`](https://ellmer.tidyverse.org/reference/chat_anthropic.html)
 -   AWS Bedrock:
-    [`ellmer::chat_bedrock()`](https://ellmer.tidyverse.org/reference/chat_bedrock.html)
+    [`ellmer::chat_aws_bedrock()`](https://ellmer.tidyverse.org/reference/chat_aws_bedrock.html)
 -   Azure OpenAI:
-    [`ellmer::chat_azure()`](https://ellmer.tidyverse.org/reference/chat_azure.html)
+    [`ellmer::chat_azure_openai()`](https://ellmer.tidyverse.org/reference/chat_azure_openai.html)
+-   Cloudflare:
+    [`ellmer::chat_cloudflare()`](https://ellmer.tidyverse.org/reference/chat_cloudflare.html)
 -   Databricks:
     [`ellmer::chat_databricks()`](https://ellmer.tidyverse.org/reference/chat_databricks.html)
 -   DeepSeek:
     [`ellmer::chat_deepseek()`](https://ellmer.tidyverse.org/reference/chat_deepseek.html)
 -   GitHub model marketplace:
     [`ellmer::chat_github()`](https://ellmer.tidyverse.org/reference/chat_github.html)
--   Google Gemini:
-    [`ellmer::chat_gemini()`](https://ellmer.tidyverse.org/reference/chat_gemini.html)
+-   Google Gemini/Vertex AI:
+    [`ellmer::chat_google_gemini()`](https://ellmer.tidyverse.org/reference/chat_google_gemini.html)
 -   Groq:
+    [`ellmer::chat_google_vertex()`](https://ellmer.tidyverse.org/reference/chat_google_gemini.html)
+-   Hugging Face:
     [`ellmer::chat_groq()`](https://ellmer.tidyverse.org/reference/chat_groq.html)
+-   Mistral:
+    [`ellmer::chat_huggingface()`](https://ellmer.tidyverse.org/reference/chat_huggingface.html)
 -   Ollama:
-    [`ellmer::chat_ollama()`](https://ellmer.tidyverse.org/reference/chat_ollama.html)
+    [`ellmer::chat_mistral()`](https://ellmer.tidyverse.org/reference/chat_mistral.html)
 -   OpenAI:
-    [`ellmer::chat_openai()`](https://ellmer.tidyverse.org/reference/chat_openai.html)
+    [`ellmer::chat_ollama()`](https://ellmer.tidyverse.org/reference/chat_ollama.html)
 -   OpenRouter:
-    [`ellmer::chat_openrouter()`](https://ellmer.tidyverse.org/reference/chat_openrouter.html)
+    [`ellmer::chat_openai()`](https://ellmer.tidyverse.org/reference/chat_openai.html)
 -   perplexity.ai:
-    [`ellmer::chat_perplexity()`](https://ellmer.tidyverse.org/reference/chat_perplexity.html)
+    [`ellmer::chat_openrouter()`](https://ellmer.tidyverse.org/reference/chat_openrouter.html)
 -   Snowflake Cortex:
-    [`ellmer::chat_snowflake()`](https://ellmer.tidyverse.org/reference/chat_snowflake.html)
+    [`ellmer::chat_perplexity()`](https://ellmer.tidyverse.org/reference/chat_perplexity.html)
 -   VLLM:
-    [`ellmer::chat_cortex_analyst()`](https://ellmer.tidyverse.org/reference/chat_cortex_analyst.html)
+    [`ellmer::chat_snowflake()`](https://ellmer.tidyverse.org/reference/chat_snowflake.html)
     <!-- providers: end -->
 
 ### The App
@@ -314,7 +320,6 @@ chattr(preview = TRUE)
 #> • stream: TRUE
 #> 
 #> ── Prompt:
-#> [Your future prompt goes here]
 ```
 
 ## Keyboard Shortcut

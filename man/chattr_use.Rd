@@ -33,7 +33,7 @@ valid models are found here: https://ellmer.tidyverse.org/index.html#providers
 
 You can setup an R \code{option} to designate a default provider/model connection.
 To do this, pass an \code{ellmer} connection command you wish to use
-in the \code{.chattr_chat} option, for example: \code{options(.chattr_chat = ellmer::chat_claude())}.
+in the \code{.chattr_chat} option, for example: \code{options(.chattr_chat = ellmer::chat_anthropic())}.
 If you add that code to  your \emph{.Rprofile}, \code{chattr} will use that as the default
 model and settings to use every time you start an R session. Use the
 \code{usethis::edit_r_profile()} command to easily edit your \emph{.Rprofile}.
@@ -46,7 +46,7 @@ model and settings to use every time you start an R session. Use the
 chattr_use("gpt41-mini")
 
 # Pass an `ellmer` object
-my_chat <- ellmer::chat_claude()
+my_chat <- ellmer::chat_anthropic()
 chattr_use(my_chat)
 }
 
