@@ -3,14 +3,13 @@
 
 <!-- badges: start -->
 
+<a href="https://cran.r-project.org/package=chattr" data-original-href="https://cran.r-project.org/package=chattr"><img src="https://www.r-pkg.org/badges/version/chattr" alt="CRAN status" class="img-fluid"/></a>
 [![R-CMD-check](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mlverse/chattr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/mlverse/chattr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mlverse/chattr?branch=main)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/chattr.png)](https://CRAN.R-project.org/package=chattr)
 [![](man/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-
 <!-- badges: end -->
+
 <!-- toc: start -->
 
 -   [Intro](#intro)
