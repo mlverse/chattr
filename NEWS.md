@@ -1,3 +1,13 @@
+# chattr 0.3.0
+
+* Switches to `ellmer` for all integration with the LLMs. This effectively 
+removes any direct integration such as that one used for OpenAI, Databricks
+and LlamaGPT-chat. It will now only integrate with whatever backend
+`ellmer` integrates with.
+
+* Shiny app now uses the stream from functionality from `ellmer` instead of the
+more complex, and error prone, background process.
+
 # chattr 0.2.1
 
 * Prevents OpenAI 4o from showing as an option if no token is found

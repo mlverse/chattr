@@ -80,7 +80,7 @@ ch_ellmer_history <- function(x) {
   ) {
     new_history <- map(
       x,
-      \(.x) {
+      ~ {
         ellmer::Turn(
           role = .x$role,
           contents = list(ellmer::ContentText(.x$content)),
