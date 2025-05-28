@@ -79,7 +79,7 @@ valid models are found here: https://ellmer.tidyverse.org/index.html#providers</
 
 <p>You can setup an R <code>option</code> to designate a default provider/model connection.
 To do this, pass an <code>ellmer</code> connection command you wish to use
-in the <code>.chattr_chat</code> option, for example: <code>options(.chattr_chat = ellmer::chat_claude())</code>.
+in the <code>.chattr_chat</code> option, for example: <code>options(.chattr_chat = ellmer::chat_anthropic())</code>.
 If you add that code to  your <em>.Rprofile</em>, <code>chattr</code> will use that as the default
 model and settings to use every time you start an R session. Use the
 <code>usethis::edit_r_profile()</code> command to easily edit your <em>.Rprofile</em>.</p>
@@ -95,7 +95,7 @@ model and settings to use every time you start an R session. Use the
 <span class="r-in"><span><span class="fu">chattr_use</span><span class="op">(</span><span class="st">"gpt41-mini"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pass an `ellmer` object</span></span></span>
-<span class="r-in"><span><span class="va">my_chat</span> <span class="op">&lt;-</span> <span class="fu">ellmer</span><span class="fu">::</span><span class="fu"><a href="https://ellmer.tidyverse.org/reference/deprecated.html" class="external-link">chat_claude</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">my_chat</span> <span class="op">&lt;-</span> <span class="fu">ellmer</span><span class="fu">::</span><span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_anthropic.html" class="external-link">chat_anthropic</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">chattr_use</span><span class="op">(</span><span class="va">my_chat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

@@ -109,11 +109,11 @@
 <p>Starting with version 0.3, <code>chattr</code> integrates with LLM’s via the <a href="https://ellmer.tidyverse.org/" class="external-link"><code>ellmer</code></a> package. <code>ellmer</code> has a growing list of LLM integrations, including <a href="https://ellmer.tidyverse.org/reference/chat_openai.html" class="external-link">OpenAI</a>, <a href="https://ellmer.tidyverse.org/reference/chat_gemini.html" class="external-link">Gemini</a>, <a href="https://ellmer.tidyverse.org/reference/chat_deepseek.html" class="external-link">Deepseek</a> and others.</p>
 <p>There are several ways to let <code>chattr</code> know which LLM to use:</p>
 <ul>
-<li><p><strong>Pre-set an R option</strong> - Pass the <code>ellmer</code> connection command you wish to use in the <code>.chattr_chat</code> option, for example: <code>options(.chattr_chat = ellmer::chat_claude())</code>. If you add that code to your <em>.Rprofile</em>, <code>chattr</code> will use that as the default model and settings to use every time you start an R session. Use the <code>usethis::edit_r_profile()</code> command to easily edit your <em>.Rprofile</em></p></li>
+<li><p><strong>Pre-set an R option</strong> - Pass the <code>ellmer</code> connection command you wish to use in the <code>.chattr_chat</code> option, for example: <code>options(.chattr_chat = ellmer::chat_anthropic())</code>. If you add that code to your <em>.Rprofile</em>, <code>chattr</code> will use that as the default model and settings to use every time you start an R session. Use the <code>usethis::edit_r_profile()</code> command to easily edit your <em>.Rprofile</em></p></li>
 <li>
 <p><strong>Use an <code>ellmer</code> object</strong> - You can pass an <code>ellmer</code> chat object directly to <code><a href="reference/chattr_use.html">chattr_use()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">my_chat</span> <span class="op">&lt;-</span> <span class="fu">ellmer</span><span class="fu">::</span><span class="fu"><a href="https://ellmer.tidyverse.org/reference/deprecated.html" class="external-link">chat_claude</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span>  <span class="va">my_chat</span> <span class="op">&lt;-</span> <span class="fu">ellmer</span><span class="fu">::</span><span class="fu"><a href="https://ellmer.tidyverse.org/reference/chat_anthropic.html" class="external-link">chat_anthropic</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="reference/chattr_use.html">chattr_use</a></span><span class="op">(</span><span class="va">my_chat</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -147,7 +147,7 @@
 <p>For convenience, <code>chattr</code> contains some provider/model combinations that you can use by passing what is under <strong>Use value</strong> to <code><a href="reference/chattr_use.html">chattr_use()</a></code>:</p>
 <!-- models: start -->
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>
 Model &amp; Provider
 </th>
@@ -156,7 +156,7 @@ Use value
 </th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>
 DBRX (Databricks)
 </td>
@@ -164,7 +164,7 @@ DBRX (Databricks)
 <code>databricks-dbrx</code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>
 Meta Llama 3.3 70B (Databricks)
 </td>
@@ -172,7 +172,7 @@ Meta Llama 3.3 70B (Databricks)
 <code>databricks-meta-llama31-70b</code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>
 Mixtral 8x7b (Datbricks)
 </td>
@@ -180,7 +180,7 @@ Mixtral 8x7b (Datbricks)
 <code>databricks-mixtral8x7b</code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>
 GPT 4.1 Mini (OpenAI)
 </td>
@@ -188,7 +188,7 @@ GPT 4.1 Mini (OpenAI)
 <code>gpt41-mini</code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>
 GPT 4.1 Nano (OpenAI)
 </td>
@@ -196,7 +196,7 @@ GPT 4.1 Nano (OpenAI)
 <code>gpt41-nano</code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>
 GPT 4.1 (OpenAI)
 </td>
@@ -204,7 +204,7 @@ GPT 4.1 (OpenAI)
 <code>gpt41</code>
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>
 GPT 4 Omni (OpenAI)
 </td>
@@ -212,7 +212,7 @@ GPT 4 Omni (OpenAI)
 <code>gpt4o</code>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>
 Llama 3.2 (Ollama)
 </td>
@@ -225,11 +225,13 @@ Llama 3.2 (Ollama)
 <!-- 'databricks-dbrx', 'databricks-meta-llama31-70b', 'databricks-mixtral8x7b', 'gpt41-mini', 'gpt41-nano', 'gpt41', 'gpt4o', 'ollama'--><!-- models: end --><p>If the provider and/or model you wish to use is not listed in the table above, you can create an <code>ellmer</code> chat connection directly. And then pass that chat object to <code><a href="reference/chattr_use.html">chattr_use()</a></code>. Here is a list of the providers that are currently available in that package:</p>
 <!-- providers: start -->
 <ul>
-<li>Anthropic’s Claude: <a href="https://ellmer.tidyverse.org/reference/chat_claude.html" class="external-link"><code>ellmer::chat_claude()</code></a>
+<li>Anthropic’s Claude: <a href="https://ellmer.tidyverse.org/reference/chat_anthropic.html" class="external-link"><code>ellmer::chat_anthropic()</code></a>
 </li>
-<li>AWS Bedrock: <a href="https://ellmer.tidyverse.org/reference/chat_bedrock.html" class="external-link"><code>ellmer::chat_bedrock()</code></a>
+<li>AWS Bedrock: <a href="https://ellmer.tidyverse.org/reference/chat_aws_bedrock.html" class="external-link"><code>ellmer::chat_aws_bedrock()</code></a>
 </li>
-<li>Azure OpenAI: <a href="https://ellmer.tidyverse.org/reference/chat_azure.html" class="external-link"><code>ellmer::chat_azure()</code></a>
+<li>Azure OpenAI: <a href="https://ellmer.tidyverse.org/reference/chat_azure_openai.html" class="external-link"><code>ellmer::chat_azure_openai()</code></a>
+</li>
+<li>Cloudflare: <a href="https://ellmer.tidyverse.org/reference/chat_cloudflare.html" class="external-link"><code>ellmer::chat_cloudflare()</code></a>
 </li>
 <li>Databricks: <a href="https://ellmer.tidyverse.org/reference/chat_databricks.html" class="external-link"><code>ellmer::chat_databricks()</code></a>
 </li>
@@ -237,21 +239,25 @@ Llama 3.2 (Ollama)
 </li>
 <li>GitHub model marketplace: <a href="https://ellmer.tidyverse.org/reference/chat_github.html" class="external-link"><code>ellmer::chat_github()</code></a>
 </li>
-<li>Google Gemini: <a href="https://ellmer.tidyverse.org/reference/chat_gemini.html" class="external-link"><code>ellmer::chat_gemini()</code></a>
+<li>Google Gemini/Vertex AI: <a href="https://ellmer.tidyverse.org/reference/chat_google_gemini.html" class="external-link"><code>ellmer::chat_google_gemini()</code></a>
 </li>
-<li>Groq: <a href="https://ellmer.tidyverse.org/reference/chat_groq.html" class="external-link"><code>ellmer::chat_groq()</code></a>
+<li>Groq: <a href="https://ellmer.tidyverse.org/reference/chat_google_gemini.html" class="external-link"><code>ellmer::chat_google_vertex()</code></a>
 </li>
-<li>Ollama: <a href="https://ellmer.tidyverse.org/reference/chat_ollama.html" class="external-link"><code>ellmer::chat_ollama()</code></a>
+<li>Hugging Face: <a href="https://ellmer.tidyverse.org/reference/chat_groq.html" class="external-link"><code>ellmer::chat_groq()</code></a>
 </li>
-<li>OpenAI: <a href="https://ellmer.tidyverse.org/reference/chat_openai.html" class="external-link"><code>ellmer::chat_openai()</code></a>
+<li>Mistral: <a href="https://ellmer.tidyverse.org/reference/chat_huggingface.html" class="external-link"><code>ellmer::chat_huggingface()</code></a>
 </li>
-<li>OpenRouter: <a href="https://ellmer.tidyverse.org/reference/chat_openrouter.html" class="external-link"><code>ellmer::chat_openrouter()</code></a>
+<li>Ollama: <a href="https://ellmer.tidyverse.org/reference/chat_mistral.html" class="external-link"><code>ellmer::chat_mistral()</code></a>
 </li>
-<li>perplexity.ai: <a href="https://ellmer.tidyverse.org/reference/chat_perplexity.html" class="external-link"><code>ellmer::chat_perplexity()</code></a>
+<li>OpenAI: <a href="https://ellmer.tidyverse.org/reference/chat_ollama.html" class="external-link"><code>ellmer::chat_ollama()</code></a>
 </li>
-<li>Snowflake Cortex: <a href="https://ellmer.tidyverse.org/reference/chat_snowflake.html" class="external-link"><code>ellmer::chat_snowflake()</code></a>
+<li>OpenRouter: <a href="https://ellmer.tidyverse.org/reference/chat_openai.html" class="external-link"><code>ellmer::chat_openai()</code></a>
 </li>
-<li>VLLM: <a href="https://ellmer.tidyverse.org/reference/chat_cortex_analyst.html" class="external-link"><code>ellmer::chat_cortex_analyst()</code></a> <!-- providers: end -->
+<li>perplexity.ai: <a href="https://ellmer.tidyverse.org/reference/chat_openrouter.html" class="external-link"><code>ellmer::chat_openrouter()</code></a>
+</li>
+<li>Snowflake Cortex: <a href="https://ellmer.tidyverse.org/reference/chat_perplexity.html" class="external-link"><code>ellmer::chat_perplexity()</code></a>
+</li>
+<li>VLLM: <a href="https://ellmer.tidyverse.org/reference/chat_snowflake.html" class="external-link"><code>ellmer::chat_snowflake()</code></a> <!-- providers: end -->
 </li>
 </ul>
 </div>
@@ -319,8 +325,7 @@ Diagram that illustrates how <code>chattr</code> handles model requests
 <span><span class="co">#&gt; • max_tokens: 1000</span></span>
 <span><span class="co">#&gt; • stream: TRUE</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── Prompt:</span></span>
-<span><span class="co">#&gt; [Your future prompt goes here]</span></span></code></pre></div>
+<span><span class="co">#&gt; ── Prompt:</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="keyboard-shortcut">Keyboard Shortcut<a class="anchor" aria-label="anchor" href="#keyboard-shortcut"></a>
