@@ -16,3 +16,13 @@
       
       -- Prompt: 
 
+# Print history works
+
+    Code
+      print_history(list(list(role = "user", content = "test")))
+    Message
+      
+      -- Prompt: 
+      role: user
+      content: test
+

@@ -74,7 +74,8 @@ ch_ellmer_prompt <- function(prompt, defaults) {
 }
 
 ch_ellmer_history <- function(x) {
-  if (chattr_defaults()$mode %||% "" == "ellmer" &&
+  defaults <- chattr_defaults()
+  if (defaults$mode %||% "" == "ellmer" &&
     inherits(x, c("list", "ch_history"))
   ) {
     new_history <- map(
