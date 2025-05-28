@@ -2,6 +2,10 @@ url: https://mlverse.github.io/chattr/
 template:
   bootstrap: 5
 reference:
+
+- title: Start Up
+  contents:
+  - chattr_use
 - title: Main functions
   contents:
   - chattr_app
@@ -10,8 +14,6 @@ reference:
   contents: starts_with("chattr_defaults")
 - title: Utilities
   contents:
-  - chattr_use
+  - ch_history
   - chattr_test
-- title: Integration
-  contents:
-  - ch_submit
+

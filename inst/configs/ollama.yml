@@ -1,5 +1,6 @@
 default:
   ellmer: ellmer::chat_ollama(model = "llama3.2", seed = 100)
+  mode: ellmer
   provider: Ollama
   model: llama3.2
   label:  Llama 3.2 (Ollama)

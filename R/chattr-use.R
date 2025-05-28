@@ -47,14 +47,16 @@ chattr_use <- function(x = NULL, ...) {
   }
   if (inherits(curr_x, "Chat")) {
     model <- curr_x$get_model()
-    use_switch(
+    provider <- curr_x$get_provider()
+    provider_name <- provider@name
+    defaults <- use_switch(
       .file = ch_package_file("ellmer"),
       model = model,
-      provider = "ellmer",
-      label = model,
+      provider = provider_name,
+      label = glue("{model} ({provider_name})"),
       ...
     )
-    ch_ellmer_init(chat = curr_x)
+    ch_ellmer_init(defaults, chat = curr_x)
     return(invisible())
   }
   if (is_interactive() && is.null(curr_x)) {
@@ -143,17 +145,11 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
 use_switch <- function(..., .file, .silent = FALSE) {
   ch_env$defaults <- NULL
   ch_env$chat_history <- NULL
-
-  label <- .file %>%
-    path_file() %>%
-    path_ext_remove()
-
   chattr_defaults(
     type = "default",
     yaml_file = .file,
     force = TRUE
   )
-
   walk(
     ch_env$valid_uis,
     ~ {
@@ -163,14 +159,12 @@ use_switch <- function(..., .file, .silent = FALSE) {
       )
     }
   )
-
-  chattr_defaults_set(list(mode = label), "default")
-
   if (!.silent) {
     cli_div(theme = cli_colors())
     cli_h3("chattr")
     print_provider(chattr_defaults(...))
   }
+  chattr_defaults_get()
 }
 
 ch_package_file <- function(x) {
@@ -181,7 +175,7 @@ ch_package_file <- function(x) {
   out <- package_file(env_folder, path_ext_set(x, "yml"), .fail = FALSE)
   if (is.null(out)) {
     conf_folder <- "inst/configs/"
-    if(!dir_exists(conf_folder)) {
+    if (!dir_exists(conf_folder)) {
       conf_folder <- system.file("configs", package = "chattr")
     }
     configs <- dir_ls(conf_folder)

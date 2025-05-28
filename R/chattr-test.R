@@ -14,7 +14,7 @@ ch_test <- function(defaults = NULL) {
 }
 
 #' @export
-ch_test.ch_ellmer <- function(defaults = NULL) {
+ch_test.ch_model <- function(defaults = NULL) {
   if (ch_debug_get()) {
     prompt <- "TEST"
     out <- "TEST"

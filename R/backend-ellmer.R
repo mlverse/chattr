@@ -38,8 +38,8 @@ ch_submit.ch_ellmer <- function(
 }
 
 ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
-  if (is.null(chat)) {
-    chat <- ch_env$ellmer_obj
+  if (!is.null(chat)) {
+    ch_env$ellmer_obj <- chat$clone()$set_turns(list())
   }
   if (!is.null(defaults)) {
     new_code <- defaults$ellmer
@@ -49,7 +49,7 @@ ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
       run_code <- FALSE
       if (old_code != new_code) {
         code_expr <- rlang::parse_expr(new_code)
-        chat <- rlang::eval_bare(code_expr)
+        ch_env$ellmer_obj <- rlang::eval_bare(code_expr)
       }
     }
   } else {
@@ -57,9 +57,8 @@ ch_ellmer_init <- function(defaults = NULL, chat = NULL) {
   }
   if (!is.null(system_msg)) {
     system_msg <- bulleted_list(system_msg)
-    chat$set_system_prompt(system_msg)
+    ch_env$ellmer_obj$set_system_prompt(system_msg)
   }
-  ch_env$ellmer_obj <- chat
   invisible()
 }
 
@@ -72,4 +71,24 @@ ch_ellmer_prompt <- function(prompt, defaults) {
       prompt
     )
   )
+}
+
+ch_ellmer_history <- function(x) {
+  defaults <- chattr_defaults()
+  if (defaults$mode %||% "" == "ellmer" &&
+    inherits(x, c("list", "ch_history"))
+  ) {
+    new_history <- map(
+      x,
+      \(.x) {
+        ellmer::Turn(
+          role = .x$role,
+          contents = list(ellmer::ContentText(.x$content)),
+          tokens = .x$tokens %||% c(0, 0)
+        )
+      }
+    )
+    ch_env$ellmer_obj$set_turns(new_history)
+  }
+  invisible()
 }

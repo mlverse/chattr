@@ -15,3 +15,9 @@ test_that("OS functions work", {
     os_get() %in% c("mac", "win", "unix")
   )
 })
+
+test_that("Print history works", {
+  expect_snapshot(
+    print_history(list(list(role = "user", content = "test")))
+  )
+})

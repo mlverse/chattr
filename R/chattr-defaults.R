@@ -131,22 +131,19 @@ chattr_defaults <- function(type = "default",
 
 as_ch_model <- function(x, type) {
   x$type <- type
-
   provider <- tolower(x$provider)
-
   sp_provider <- unlist(strsplit(provider, " - "))
   if (length(sp_provider) > 1) {
     first_cl <- paste0("ch_", prep_class_name(sp_provider[[1]]))
   } else {
     first_cl <- NULL
   }
-
-  if (!is.null(x$ellmer)) {
+  x_mode <- x$mode %||% ""
+  if (x_mode == "ellmer") {
     ch_ellmer <- "ch_ellmer"
   } else {
     ch_ellmer <- NULL
   }
-
   class(x) <- c(
     ch_ellmer,
     paste0("ch_", prep_class_name(provider)),

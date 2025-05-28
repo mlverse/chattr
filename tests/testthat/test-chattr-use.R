@@ -12,7 +12,9 @@ test_that("Request submission works", {
 
 test_that("Missing token prevents showing the option", {
   local_mocked_bindings(
-    ch_ollama_check = function(x) return(TRUE)
+    ch_ollama_check = function(x) {
+      return(TRUE)
+    }
   )
   withr::with_envvar(
     new = c(
@@ -31,7 +33,9 @@ test_that("Missing token prevents showing the option", {
 
 test_that("If all missing show error", {
   local_mocked_bindings(
-    ch_ollama_check = function(x) return(FALSE)
+    ch_ollama_check = function(x) {
+      return(FALSE)
+    }
   )
   withr::with_envvar(
     new = c(
@@ -73,10 +77,10 @@ test_that("Invalid label returns expected error", {
 
 test_that("Uses ellmer object", {
   withr::with_envvar(
-    new = c("ANTHROPIC_API_KEY" = "not really a key"), {
-      my_model <- ellmer::chat_claude()
+    new = c("ANTHROPIC_API_KEY" = "not really a key"),
+    {
+      my_model <- ellmer::chat_anthropic()
       expect_snapshot(chattr_use(my_model))
-
     }
   )
 })
