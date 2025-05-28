@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   other-interfaces: other-interfaces.html
   prompt_defaults: prompt_defaults.html
-last_built: 2025-05-28T18:25Z
+last_built: 2025-05-28T18:35Z
 urls:
   reference: https://mlverse.github.io/chattr/reference
   article: https://mlverse.github.io/chattr/articles
