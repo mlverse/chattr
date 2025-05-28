@@ -1,5 +1,6 @@
 default:
   ellmer: ellmer::chat_databricks(model = "databricks-mixtral-8x7b-instruct")
+  mode: ellmer
   provider: Databricks
   path: serving-endpoints
   model: databricks-mixtral-8x7b-instruct

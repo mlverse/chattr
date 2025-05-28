@@ -31,4 +31,5 @@
       [15] "  - You are a helpful coding assistant that uses R and the tidyverse"     
       [16] "  label: GPT 4.1 (OpenAI)"                                                
       [17] "  ellmer: ellmer::chat_openai(model = \"gpt-4.1\")"                       
+      [18] "  mode: ellmer"                                                           
 
