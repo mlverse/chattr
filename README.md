@@ -225,8 +225,8 @@ chattr_app()
 
 <figure>
 <img src="man/figures/readme/chat1.png"
-alt="Screenshot of the Sniny gadget app in a dark mode RStudio theme" />
-<figcaption aria-hidden="true">Screenshot of the Sniny gadget app in a
+alt="Screenshot of the Shiny gadget app in a dark mode RStudio theme" />
+<figcaption aria-hidden="true">Screenshot of the Shiny gadget app in a
 dark mode RStudio theme</figcaption>
 </figure>
 
@@ -265,8 +265,8 @@ The screen that opens will contain the following:
 
 <figure>
 <img src="man/figures/readme/chat2.png"
-alt="Screenshot of the Sniny gadget options" />
-<figcaption aria-hidden="true">Screenshot of the Sniny gadget
+alt="Screenshot of the Shiny gadget options" />
+<figcaption aria-hidden="true">Screenshot of the Shiny gadget
 options</figcaption>
 </figure>
 

@@ -182,7 +182,7 @@ chattr_use("ollama")
 chattr_app()
 ```
 
-![Screenshot of the Sniny gadget app in a dark mode RStudio theme](man/figures/readme/chat1.png)
+![Screenshot of the Shiny gadget app in a dark mode RStudio theme](man/figures/readme/chat1.png)
 
 <br>
 
@@ -217,7 +217,7 @@ previous conversations with the LLM.
 attached to your prompt. Including the number of max data files, and data frames
 sent to the LLM.
 
-![Screenshot of the Sniny gadget options](man/figures/readme/chat2.png)
+![Screenshot of the Shiny gadget options](man/figures/readme/chat2.png)
 
 ### Additional ways to interact {#additional-ways-to-interact}
 
