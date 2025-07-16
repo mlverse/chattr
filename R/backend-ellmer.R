@@ -78,16 +78,13 @@ ch_ellmer_history <- function(x) {
   if (defaults$mode %||% "" == "ellmer" &&
     inherits(x, c("list", "ch_history"))
   ) {
-    new_history <- map(
-      x,
-      ~ {
-        ellmer::Turn(
-          role = .x$role,
-          contents = list(ellmer::ContentText(.x$content)),
-          tokens = .x$tokens %||% c(0, 0)
-        )
-      }
-    )
+    new_history <- map(x, ~ {
+      ellmer::Turn(
+        role = .x$role,
+        contents = list(ellmer::ContentText(.x$contents)),
+        tokens = .x$tokens %||% c(0, 0, if (packageVersion("ellmer") > "0.2.1") 0)
+      )
+    })
     ch_env$ellmer_obj$set_turns(new_history)
   }
   invisible()
