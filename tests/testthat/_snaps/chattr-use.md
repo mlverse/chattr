@@ -36,6 +36,6 @@
       
       -- chattr 
       * Provider: Anthropic
-      * Model: claude-3-7-sonnet-latest
-      * Label: claude-3-7-sonnet-latest (Anthropic)
+      * Model: claude-sonnet-4-20250514
+      * Label: claude-sonnet-4-20250514 (Anthropic)
 
