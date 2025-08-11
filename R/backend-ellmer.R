@@ -84,7 +84,7 @@ ch_ellmer_history <- function(x) {
         ellmer::Turn(
           role = .x$role,
           contents = list(ellmer::ContentText(.x$content)),
-          tokens = .x$tokens %||% c(0, 0)
+          tokens = .x$tokens %||% c(0, 0, 0)
         )
       }
     )
