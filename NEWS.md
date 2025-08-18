@@ -1,3 +1,7 @@
+# chattr 0.3.1
+
+* Addresses changes in `ellmer`'s token object (#147)
+
 # chattr 0.3.0
 
 * Switches to `ellmer` for all integration with the LLMs. This effectively 
