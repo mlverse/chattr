@@ -1,7 +1,8 @@
 ch_context_data_files <- function(
-    max = NULL,
-    file_types = c("csv", "parquet", "xls", "xlsx", "txt"),
-    path = ".") {
+  max = NULL,
+  file_types = c("csv", "parquet", "xls", "xlsx", "txt"),
+  path = "."
+) {
   if (is.null(max)) {
     files <- get_files(
       path = path,

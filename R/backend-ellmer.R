@@ -1,12 +1,13 @@
 #' @export
 ch_submit.ch_ellmer <- function(
-    defaults,
-    prompt = NULL,
-    stream = TRUE,
-    prompt_build = TRUE,
-    preview = FALSE,
-    shiny = FALSE,
-    ...) {
+  defaults,
+  prompt = NULL,
+  stream = TRUE,
+  prompt_build = TRUE,
+  preview = FALSE,
+  shiny = FALSE,
+  ...
+) {
   if (preview) {
     return(prompt)
   }
@@ -78,7 +79,8 @@ ch_ellmer_history <- function(x) {
   if (defaults$mode %||% "" == "ellmer" &&
     inherits(x, c("list", "ch_history"))
   ) {
-    new_history <- map(x,
+    new_history <- map(
+      x,
       \(.x) {
         ellmer::Turn(
           role = .x$role,
