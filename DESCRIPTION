@@ -46,3 +46,4 @@ Suggests:
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Config/usethis/last-upkeep: 2025-11-11
+Config/Needs/website: tidyverse/tidytemplate
