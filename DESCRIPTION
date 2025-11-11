@@ -36,7 +36,7 @@ Imports:
     fs,
     withr
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1)
 Suggests: 
     covr,
     knitr,
