@@ -39,14 +39,14 @@ ch_context_data_files <- function(
 }
 
 get_files <- function(path, file_types, recurse) {
-  x <- file_types %>%
+  x <- file_types |>
     map(~ dir_ls(
       path = path,
       type = "file",
       glob = paste0("*.", .x),
       recurse = recurse
-    )) %>%
-    reduce(c) %>%
+    )) |>
+    reduce(c) |>
     try(silent = TRUE)
 
   if (inherits(x, "try-error")) {
@@ -57,8 +57,8 @@ get_files <- function(path, file_types, recurse) {
 }
 
 ch_context_data_frames <- function(max = NULL) {
-  dfs <- ls(envir = .GlobalEnv) %>%
-    map(~ mget(.x, .GlobalEnv)) %>%
+  dfs <- ls(envir = .GlobalEnv) |>
+    map(~ mget(.x, .GlobalEnv)) |>
     keep(~ inherits(.x[[1]], "data.frame"))
 
   if (length(dfs) > 0) {
@@ -67,17 +67,17 @@ ch_context_data_frames <- function(max = NULL) {
       dfs <- dfs[!is.na(dfs)]
     }
 
-    dfs <- dfs %>%
-      discard(is.null) %>%
-      discard(is.na) %>%
+    dfs <- dfs |>
+      discard(is.null) |>
+      discard(is.na) |>
       map(~ {
-        fields <- .x[[1]] %>%
-          imap(~ paste0(.y)) %>%
+        fields <- .x[[1]] |>
+          imap(~ paste0(.y)) |>
           paste0(collapse = ", ")
         paste0("|--  ", names(.x), " (", fields, ")")
       })
 
-    data_frames <- dfs %>%
+    data_frames <- dfs |>
       paste0(collapse = " \n")
 
     if (length(dfs) > 0) {

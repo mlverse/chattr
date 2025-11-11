@@ -140,8 +140,10 @@ app_add_assistant <- function(content, input) {
       insertUI(
         selector = "#tabs",
         where = "afterEnd",
-        ui = app_ui_entry(content, is_code, len) %>%
-          tagAppendAttributes(style = "width: 100%;")
+        ui = tagAppendAttributes(
+          app_ui_entry(content, is_code, len),
+          style = "width: 100%;"
+        )
       )
       if (is_code) {
         observeEvent(input[[paste0("copy", len)]], {

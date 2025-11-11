@@ -1,10 +1,10 @@
 test_that("Data frames context", {
-  ch_context_data_frames() %>%
-    cat() %>%
+  ch_context_data_frames() |>
+    cat() |>
     expect_snapshot()
 
-  ch_context_data_frames(max = 1) %>%
-    cat() %>%
+  ch_context_data_frames(max = 1) |>
+    cat() |>
     expect_snapshot()
 })
 

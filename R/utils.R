@@ -52,8 +52,8 @@ print_history <- function(x) {
     x_named <- is_named(x)
     iwalk(x, ~ {
       if (.y %in% c("role", "content")) {
-        split_x <- .x %>%
-          strsplit("\n") %>%
+        split_x <- .x |>
+          strsplit("\n") |>
           unlist()
         if (x_named) {
           title <- glue("{.y}:")

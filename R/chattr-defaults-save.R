@@ -45,7 +45,7 @@ chattr_defaults_save <- function(path = "chattr.yml",
       )
       .x[match]
     }
-  ) %>%
+  ) |>
     keep(~ length(.x) > 0)
 
   td_all <- list(default = td_default)

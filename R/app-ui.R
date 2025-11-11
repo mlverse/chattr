@@ -60,7 +60,7 @@ app_ui <- function() {
             width = "100%",
             resize = "none"
           )
-        ) %>%
+        ) |>
           tagAppendAttributes(style = "width: 85%;"),
         column(
           width = 1,
@@ -80,7 +80,7 @@ app_ui <- function() {
             uiOutput("provider"),
             style = paste0("font-size:9px; color:", style$color_bk, ";")
           )
-        ) %>%
+        ) |>
           tagAppendAttributes(style = "width: 15%;"),
       ),
       style = style$ui_panel
@@ -102,8 +102,8 @@ app_ui_modal <- function() {
 
   tc <- chattr_defaults(type = "chat")
 
-  prompt2 <- tc$prompt %>%
-    process_prompt() %>%
+  prompt2 <- tc$prompt |>
+    process_prompt() |>
     paste(collapse = "\n")
 
   modalDialog(
@@ -135,8 +135,7 @@ app_ui_entry <- function(content, is_code, no_id) {
       width = 12,
       fluidRow(
         align = "right",
-        column(width = 10, div()) %>%
-          tagAppendAttributes(style = "width: 80%;"),
+        tagAppendAttributes(column(width = 10, div()), style = "width: 80%;"),
         column(
           width = 2,
           if (is_code) {
@@ -149,7 +148,7 @@ app_ui_entry <- function(content, is_code, no_id) {
             app_ui_button("New script", "new", "plus", no_id)
           },
           style = "padding: 0px"
-        ) %>%
+        ) |>
           tagAppendAttributes(style = "width: 20%;")
       ),
       fluidRow(
