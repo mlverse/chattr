@@ -44,7 +44,7 @@ test_that("If all missing show error", {
       "DATABRICKS_HOST" = NA
     ),
     {
-      expect_snapshot_error(ch_get_ymls(menu = FALSE))
+      expect_snapshot(ch_get_ymls(menu = FALSE), error = TRUE)
     }
   )
 })
@@ -72,7 +72,7 @@ test_that("Menu works", {
 
 
 test_that("Invalid label returns expected error", {
-  expect_snapshot_error(ch_package_file("notexists"))
+  expect_snapshot(ch_package_file("notexists"), error = TRUE)
 })
 
 test_that("Uses ellmer object", {
