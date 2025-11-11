@@ -181,7 +181,7 @@ print.ch_model <- function(x, ...) {
   prompt <- gsub("\\{", "\\{\\{", x$prompt)
   prompt <- gsub("\\}", "\\}\\}", prompt)
 
-  walk(prompt, ~ cli_li("{.val2 {.x}}"))
+  walk(prompt, \(.x) cli_li("{.val2 {.x}}"))
   cli_colors()
   cli_h3("Model")
   print_provider(x)
@@ -190,7 +190,7 @@ print.ch_model <- function(x, ...) {
     cli_h3("Model Arguments:")
     iwalk(
       x$model_arguments,
-      ~ cli_li("{.y}: {.val1 {.x}}")
+      \(.x, .y) cli_li("{.y}: {.val1 {.x}}")
     )
   }
   cli_h3("Context:")
@@ -252,6 +252,6 @@ process_prompt <- function(x) {
     return(x)
   }
   x |>
-    map(~ glue(.x)) |>
+    map(\(.x) glue(.x)) |>
     reduce(c)
 }

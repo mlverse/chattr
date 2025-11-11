@@ -40,7 +40,8 @@ ch_context_data_files <- function(
 
 get_files <- function(path, file_types, recurse) {
   x <- file_types |>
-    map(~ dir_ls(
+    map(\(.x)
+    dir_ls(
       path = path,
       type = "file",
       glob = paste0("*.", .x),
@@ -58,8 +59,8 @@ get_files <- function(path, file_types, recurse) {
 
 ch_context_data_frames <- function(max = NULL) {
   dfs <- ls(envir = .GlobalEnv) |>
-    map(~ mget(.x, .GlobalEnv)) |>
-    keep(~ inherits(.x[[1]], "data.frame"))
+    map(\(.x) mget(.x, .GlobalEnv)) |>
+    keep(\(.x) inherits(.x[[1]], "data.frame"))
 
   if (length(dfs) > 0) {
     if (!is.null(max)) {
@@ -70,9 +71,9 @@ ch_context_data_frames <- function(max = NULL) {
     dfs <- dfs |>
       discard(is.null) |>
       discard(is.na) |>
-      map(~ {
+      map(\(.x) {
         fields <- .x[[1]] |>
-          imap(~ paste0(.y)) |>
+          imap(\(.x, .y) paste0(.y)) |>
           paste0(collapse = ", ")
         paste0("|--  ", names(.x), " (", fields, ")")
       })

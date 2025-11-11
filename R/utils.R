@@ -35,7 +35,7 @@ print.ch_request <- function(x, ...) {
   if (!is.null(x$defaults$model_arguments)) {
     iwalk(
       x$defaults$model_arguments,
-      ~ {
+      \(.x, .y) {
         cli_div(theme = cli_colors())
         cli_li("{.y}: {.val1 {.x}}")
       }
@@ -47,10 +47,10 @@ print.ch_request <- function(x, ...) {
 print_history <- function(x) {
   cli_colors()
   cli_h3("Prompt:")
-  walk(x, ~ {
+  walk(x, \(.x) {
     x <- .x
     x_named <- is_named(x)
-    iwalk(x, ~ {
+    iwalk(x, \(.x, .y) {
       if (.y %in% c("role", "content")) {
         split_x <- .x |>
           strsplit("\n") |>
@@ -64,7 +64,7 @@ print_history <- function(x) {
           cli_text("{title} {.val2 {.x}}")
         } else {
           cli_text("{title}")
-          walk(split_x, ~ cli_bullets("{.val2 {.x}}"))
+          walk(split_x, \(.x) cli_bullets("{.val2 {.x}}"))
         }
       }
     })

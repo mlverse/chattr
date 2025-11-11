@@ -74,11 +74,11 @@ chattr_use <- function(x = NULL, ...) {
 ch_get_ymls <- function(menu = TRUE, x = NULL) {
   files <- package_file("configs") |>
     dir_ls() |>
-    discard(~ grepl("ellmer.yml", .x))
+    discard(\(.x) grepl("ellmer.yml", .x))
 
   prep_files <- files |>
     map(read_yaml) |>
-    imap(~ {
+    imap(\(.x, .y) {
       name <- .y |>
         path_file() |>
         path_ext_remove()
@@ -95,19 +95,19 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
   gpt_token <- ch_openai_token(fail = FALSE)
   if (is.null(gpt_token)) {
     prep_files <- prep_files |>
-      discard(~ grepl("OpenAI", .x[1]))
+      discard(\(.x) grepl("OpenAI", .x[1]))
   }
 
   dbrx_token <- ch_databricks_token(fail = FALSE)
   dbrx_host <- ch_databricks_host(fail = FALSE)
   if (is.null(dbrx_token) | is.null(dbrx_host)) {
     prep_files <- prep_files |>
-      discard(~ grepl("Databricks", .x[1]))
+      discard(\(.x) grepl("Databricks", .x[1]))
   }
 
   if (!ch_ollama_check()) {
     prep_files <- prep_files |>
-      discard(~ grepl("Ollama", .x[1]))
+      discard(\(.x) grepl("Ollama", .x[1]))
   }
 
   if (length(prep_files) == 0) {
@@ -121,7 +121,7 @@ ch_get_ymls <- function(menu = TRUE, x = NULL) {
 
   prep_files <- prep_files |>
     set_names(seq_along(prep_files)) |>
-    imap(~ {
+    imap(\(.x, .y) {
       if (.x[[1]] == .x[[2]] | is.logical(.x[[2]])) {
         x <- .x[[1]]
       } else {
@@ -152,7 +152,7 @@ use_switch <- function(..., .file, .silent = FALSE) {
   )
   walk(
     ch_env$valid_uis,
-    ~ {
+    \(.x) {
       chattr_defaults(
         type = .x,
         yaml_file = .file
