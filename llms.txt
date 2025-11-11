@@ -1,0 +1,344 @@
+# chattr
+
+- [Intro](#intro)
+- [Install](#install)
+- [Using](#using)
+  - [Available models](#available-models)
+  - [The App](#the-app)
+  - [Additional ways to interact](#additional-ways-to-interact)
+- [How it works](#how-it-works)
+- [Keyboard Shortcut](#keyboard-shortcut)
+  - [How to setup the keyboard
+    shortcut](#how-to-setup-the-keyboard-shortcut)
+
+## Intro
+
+`chattr` is an interface to LLMs (Large Language Models). It enables
+interaction with the model directly from RStudio and Positron. `chattr`
+allows you to submit a prompt to the LLM from your script, or by using
+the provided Shiny Gadget.
+
+This package’s main goal is to aid in exploratory data analysis (EDA)
+tasks. The additional information appended to your request, provides a
+sort of “guard rails”, so that the packages and techniques we usually
+recommend as best practice, are used in the model’s responses.
+
+## Install
+
+To install the CRAN version of this package use:
+
+``` r
+install.packages("chattr")
+```
+
+If you wish to use the development version use:
+
+``` r
+pak::pak("mlverse/chattr")
+```
+
+## Using
+
+Starting with version 0.3, `chattr` integrates with LLM’s via the
+[`ellmer`](https://ellmer.tidyverse.org/) package. `ellmer` has a
+growing list of LLM integrations, including
+[OpenAI](https://ellmer.tidyverse.org/reference/chat_openai.html),
+[Gemini](https://ellmer.tidyverse.org/reference/chat_gemini.html),
+[Deepseek](https://ellmer.tidyverse.org/reference/chat_deepseek.html)
+and others.
+
+There are several ways to let `chattr` know which LLM to use:
+
+- **Pre-set an R option** - Pass the `ellmer` connection command you
+  wish to use in the `.chattr_chat` option, for example:
+  `options(.chattr_chat = ellmer::chat_anthropic())`. If you add that
+  code to your *.Rprofile*, `chattr` will use that as the default model
+  and settings to use every time you start an R session. Use the
+  `usethis::edit_r_profile()` command to easily edit your *.Rprofile*
+
+- **Use an `ellmer` object** - You can pass an `ellmer` chat object
+  directly to
+  [`chattr_use()`](https://mlverse.github.io/chattr/reference/chattr_use.md):
+
+  ``` r
+    my_chat <- ellmer::chat_anthropic()
+    chattr_use(my_chat)
+  ```
+
+- **Named model** - You pass one of several pre-defined provider/model
+  setups. These setups are represented by labels set by `chattr`. At
+  this time, the combinations cover 3 providers: OpenAI, Databricks, and
+  Ollama. To use, simply pass the label to `chattr_use`. To see a full
+  list of the available pre-defined combinations and their argument
+  values see [Available models](#available-models). For example, if you
+  wish to use OpenAI’s GPT 4.1 Nano model, you simply pass the
+  corresponding label:
+
+  ``` r
+    chattr_use("gpt41-nano")
+  ```
+
+- **Select one from a menu (legacy)** - If nothing is passed to
+  [`chattr_use()`](https://mlverse.github.io/chattr/reference/chattr_use.md),
+  and no option is set, `chattr` will try to create the `ellmer` chat
+  for you. It will try to figure if you have authentication tokens for
+  **OpenAI**, **Databricks**, and checks if **Ollama** is running on
+  your machine. `chattr` then returns a menu based on the providers it
+  was able to find:
+
+  ``` r
+    chattr_use()
+
+    ── chattr - Available models 
+    Select the number of the model you would like to use:
+
+    1: Databricks - databricks-dbrx-instruct (databricks-dbrx) 
+    2: Databricks - databricks-meta-llama-3-3-70b-instruct (databricks-meta-llama31-70b) 
+    3: Databricks - databricks-mixtral-8x7b-instruct (databricks-mixtral8x7b) 
+    4: OpenAI - Chat Completions - gpt-4.1-mini (gpt41-mini) 
+    5: OpenAI - Chat Completions - gpt-4.1-nano (gpt41-nano) 
+    6: OpenAI - Chat Completions - gpt-4.1 (gpt41) 
+    7: OpenAI - Chat Completions - gpt-4o (gpt4o) 
+    8: Ollama - llama3.2 (ollama) 
+
+
+    Selection: 
+  ```
+
+### Available models
+
+For convenience, `chattr` contains some provider/model combinations that
+you can use by passing what is under **Use value** to
+[`chattr_use()`](https://mlverse.github.io/chattr/reference/chattr_use.md):
+
+| Model & Provider                | Use value                     |
+|---------------------------------|-------------------------------|
+| DBRX (Databricks)               | `databricks-dbrx`             |
+| Meta Llama 3.3 70B (Databricks) | `databricks-meta-llama31-70b` |
+| Mixtral 8x7b (Datbricks)        | `databricks-mixtral8x7b`      |
+| GPT 4.1 Mini (OpenAI)           | `gpt41-mini`                  |
+| GPT 4.1 Nano (OpenAI)           | `gpt41-nano`                  |
+| GPT 4.1 (OpenAI)                | `gpt41`                       |
+| GPT 4 Omni (OpenAI)             | `gpt4o`                       |
+| Llama 3.2 (Ollama)              | `ollama`                      |
+
+If the provider and/or model you wish to use is not listed in the table
+above, you can create an `ellmer` chat connection directly. And then
+pass that chat object to
+[`chattr_use()`](https://mlverse.github.io/chattr/reference/chattr_use.md).
+Here is a list of the providers that are currently available in that
+package:
+
+- Anthropic’s Claude:
+  [`ellmer::chat_anthropic()`](https://ellmer.tidyverse.org/reference/chat_anthropic.html)
+- AWS Bedrock:
+  [`ellmer::chat_aws_bedrock()`](https://ellmer.tidyverse.org/reference/chat_aws_bedrock.html)
+- Azure OpenAI:
+  [`ellmer::chat_azure_openai()`](https://ellmer.tidyverse.org/reference/chat_azure_openai.html)
+- Cloudflare:
+  [`ellmer::chat_cloudflare()`](https://ellmer.tidyverse.org/reference/chat_cloudflare.html)
+- Databricks:
+  [`ellmer::chat_databricks()`](https://ellmer.tidyverse.org/reference/chat_databricks.html)
+- DeepSeek:
+  [`ellmer::chat_deepseek()`](https://ellmer.tidyverse.org/reference/chat_deepseek.html)
+- GitHub model marketplace:
+  [`ellmer::chat_github()`](https://ellmer.tidyverse.org/reference/chat_github.html)
+- Google Gemini/Vertex AI:
+  [`ellmer::chat_google_gemini()`](https://ellmer.tidyverse.org/reference/chat_google_gemini.html)
+- Groq:
+  [`ellmer::chat_google_vertex()`](https://ellmer.tidyverse.org/reference/chat_google_gemini.html)
+- Hugging Face:
+  [`ellmer::chat_groq()`](https://ellmer.tidyverse.org/reference/chat_groq.html)
+- Mistral:
+  [`ellmer::chat_huggingface()`](https://ellmer.tidyverse.org/reference/chat_huggingface.html)
+- Ollama:
+  [`ellmer::chat_mistral()`](https://ellmer.tidyverse.org/reference/chat_mistral.html)
+- OpenAI:
+  [`ellmer::chat_ollama()`](https://ellmer.tidyverse.org/reference/chat_ollama.html)
+- OpenRouter:
+  [`ellmer::chat_openai()`](https://ellmer.tidyverse.org/reference/chat_openai.html)
+- perplexity.ai:
+  [`ellmer::chat_openrouter()`](https://ellmer.tidyverse.org/reference/chat_openrouter.html)
+- Snowflake Cortex:
+  [`ellmer::chat_perplexity()`](https://ellmer.tidyverse.org/reference/chat_perplexity.html)
+- VLLM:
+  [`ellmer::chat_snowflake()`](https://ellmer.tidyverse.org/reference/chat_snowflake.html)
+
+### The App
+
+The main way to use `chattr` is through the Shiny Gadget app. By
+default, in RStudio the app will run inside the Viewer pane.
+
+``` r
+chattr_use("ollama")
+chattr_app()
+```
+
+![Screenshot of the Sniny gadget app in a dark mode RStudio
+theme](reference/figures/readme/chat1.png)
+
+Screenshot of the Sniny gadget app in a dark mode RStudio theme
+
+  
+
+After the LLM finishes its response, the `chattr` app processes all
+markdown code chunks. It will place three convenience buttons:
+
+- **Copy to clipboard** - It will write the code inside the chunk to
+  your clipboard.
+
+- **Copy to document** - It will copy-paste the code directly to where
+  the app was called from. If the app is started while working on a
+  script, `chattr` will copy the code to that same script.
+
+- **Copy to new script** - It creates a new R script in the RStudio IDE,
+  and copies the content of the chunk directly to it. Very useful when
+  the LLM writes a Shiny app for you
+
+A lot of effort was put in to make the app’s appearance as close as
+possible to the IDE. This way it feels more integrated with your work
+space. This includes switching the color scheme based on the current
+RStudio theme being light, or dark.
+
+The settings screen can be accessed by clicking on the “gear” button.
+The screen that opens will contain the following:
+
+- Save and Open chats - This is an early experiment to allow us to save
+  and retrieve past chats. `chattr` will save the file in an RDS format.
+  The main objective of this feature, is to be able to see past chats,
+  not to continue previous conversations with the LLM.
+
+- Prompt settings - In this section you can change the additional
+  information attached to your prompt. Including the number of max data
+  files, and data frames sent to the LLM.
+
+![Screenshot of the Sniny gadget
+options](reference/figures/readme/chat2.png)
+
+Screenshot of the Sniny gadget options
+
+### Additional ways to interact
+
+Apart from the Shiny app, `chattr` provides two more ways to interact
+with the LLM. For details, see: [Other
+interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.html)
+
+## How it works
+
+`chattr` enriches your request with additional instructions, name and
+structure of data frames currently in your environment, the path for the
+data files in your working directory. If supported by the model,
+`chattr` will include the current chat history.
+
+![Diagram that illustrates how chattr handles model
+requests](reference/figures/readme/chattr-diagram.png)
+
+Diagram that illustrates how `chattr` handles model requests
+
+To see what `chattr` will send to the model, set the `preview` argument
+to `TRUE`:
+
+``` r
+library(chattr)
+
+data(mtcars)
+data(iris)
+
+chattr_use("gpt4o")
+#> 
+#> ── chattr
+#> • Provider: OpenAI - Chat Completions
+#> • Model: gpt-4o
+#> • Label: GPT 4 Omni (OpenAI)
+
+chattr(preview = TRUE)
+#> 
+#> ── chattr ──────────────────────────────────────────────────────────────────────
+#> 
+#> ── Preview for: Console
+#> • Provider: OpenAI - Chat Completions
+#> • Model: gpt-4o
+#> • Label: GPT 4 Omni (OpenAI)
+#> • temperature: 0.01
+#> • max_tokens: 1000
+#> • stream: TRUE
+#> 
+#> ── Prompt:
+```
+
+## Keyboard Shortcut
+
+The best way to access `chattr`’s app is by setting up a keyboard
+shortcut for it. This package includes an RStudio Addin that gives us
+direct access to the app, which in turn, allows a **keyboard shortcut**
+to be assigned to the addin. The name of the addin is: “Open Chat”. If
+you are not familiar with how to assign a keyboard shortcut see the next
+section.
+
+### How to setup the keyboard shortcut
+
+- Select *Tools* in the top menu, and then select *Modify Keyboard
+  Shortcuts*
+
+  ![Screenshot that shows where to find the option to modify the
+  keyboard shortcuts](reference/figures/readme/keyboard-shortcuts.png)
+
+  Screenshot that shows where to find the option to modify the keyboard
+  shortcuts
+
+- Search for the `chattr` adding by writing “open chat”, in the search
+  box
+
+  ![Screenshot that shows where to input the addin
+  search](reference/figures/readme/addin-find.png)
+
+  Screenshot that shows where to input the addin search
+
+- To select a key combination for your shortcut, click on the Shortcut
+  box and then type *press* the key combination in your keyboard. In my
+  case, I chose *Ctrl+Shift+C*
+
+  ![Screenshot that shows what the interface looks like when a shortcut
+  has been selected](reference/figures/readme/addin-assign.png)
+
+  Screenshot that shows what the interface looks like when a shortcut
+  has been selected
+
+# Package index
+
+## Start Up
+
+- [`chattr_use()`](https://mlverse.github.io/chattr/reference/chattr_use.md)
+  : Sets the LLM model to use in your session
+
+## Main functions
+
+- [`chattr_app()`](https://mlverse.github.io/chattr/reference/chattr_app.md)
+  : Starts a Shiny app interface to the LLM
+- [`chattr()`](https://mlverse.github.io/chattr/reference/chattr.md) :
+  Submits prompt to LLM
+
+## Session defaults
+
+- [`chattr_defaults()`](https://mlverse.github.io/chattr/reference/chattr_defaults.md)
+  : Default arguments to use when making requests to the LLM
+- [`chattr_defaults_save()`](https://mlverse.github.io/chattr/reference/chattr_defaults_save.md)
+  : Saves the current defaults in a yaml file that is compatible with
+  the config package
+
+## Utilities
+
+- [`ch_history()`](https://mlverse.github.io/chattr/reference/ch_history.md)
+  : Displays and sets the current session' chat history
+- [`chattr_test()`](https://mlverse.github.io/chattr/reference/chattr_test.md)
+  [`ch_test()`](https://mlverse.github.io/chattr/reference/chattr_test.md)
+  : Confirms connectivity to LLM interface
+
+# Articles
+
+### All vignettes
+
+- [Other
+  interfaces](https://mlverse.github.io/chattr/articles/other-interfaces.md):
+- [Modify prompt
+  enhancements](https://mlverse.github.io/chattr/articles/prompt_defaults.md):
