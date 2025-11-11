@@ -14,19 +14,27 @@
 
 # If all missing show error
 
-    No model setup found. Please use `?chattr_use` to get started
+    Code
+      ch_get_ymls(menu = FALSE)
+    Condition
+      Error:
+      ! No model setup found. Please use `?chattr_use` to get started
 
 # Invalid label returns expected error
 
-    'notexists' is not acceptable, it may be deprecated. Valid values are:
-    * databricks-dbrx
-    * databricks-meta-llama31-70b
-    * databricks-mixtral8x7b
-    * gpt41-mini
-    * gpt41-nano
-    * gpt41
-    * gpt4o
-    * ollama
+    Code
+      ch_package_file("notexists")
+    Condition
+      Error:
+      ! 'notexists' is not acceptable, it may be deprecated. Valid values are:
+      * databricks-dbrx
+      * databricks-meta-llama31-70b
+      * databricks-mixtral8x7b
+      * gpt41-mini
+      * gpt41-nano
+      * gpt41
+      * gpt4o
+      * ollama
 
 # Uses ellmer object
 

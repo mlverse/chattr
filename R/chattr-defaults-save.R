@@ -21,10 +21,10 @@ chattr_defaults_save <- function(path = "chattr.yml",
 
   other <- map(
     td[td_other],
-    ~ {
+    \(.x) {
       match <- imap_lgl(
         .x,
-        ~ {
+        \(.x, .y) {
           y <- td_default[[.y]]
           x <- .x
           if (!is.null(y) && !is.null(x)) {
@@ -35,7 +35,7 @@ chattr_defaults_save <- function(path = "chattr.yml",
               }
               x != y
             } else {
-              ma <- imap_lgl(x, ~ .x == y[[.y]])
+              ma <- imap_lgl(x, \(.x, .y) .x == y[[.y]])
               !all(ma)
             }
           } else {
@@ -45,8 +45,8 @@ chattr_defaults_save <- function(path = "chattr.yml",
       )
       .x[match]
     }
-  ) %>%
-    keep(~ length(.x) > 0)
+  ) |>
+    keep(\(.x) length(.x) > 0)
 
   td_all <- list(default = td_default)
   if (length(other) > 0) td_all <- c(td_all, other)

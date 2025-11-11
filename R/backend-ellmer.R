@@ -1,12 +1,13 @@
 #' @export
 ch_submit.ch_ellmer <- function(
-    defaults,
-    prompt = NULL,
-    stream = TRUE,
-    prompt_build = TRUE,
-    preview = FALSE,
-    shiny = FALSE,
-    ...) {
+  defaults,
+  prompt = NULL,
+  stream = TRUE,
+  prompt_build = TRUE,
+  preview = FALSE,
+  shiny = FALSE,
+  ...
+) {
   if (preview) {
     return(prompt)
   }
@@ -80,7 +81,7 @@ ch_ellmer_history <- function(x) {
   ) {
     new_history <- map(
       x,
-      ~ {
+      \(.x) {
         ellmer::Turn(
           role = .x$role,
           contents = list(ellmer::ContentText(.x$content)),

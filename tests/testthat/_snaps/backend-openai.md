@@ -1,8 +1,12 @@
 # Missing token returns error
 
-    No token found
-        - Add your key to the "OPENAI_API_KEY" environment variable
-        - or - Add  "openai-api-key" to a `config` YAML file
+    Code
+      ch_openai_token(d)
+    Condition
+      Error in `ch_openai_token()`:
+      ! No token found
+          - Add your key to the "OPENAI_API_KEY" environment variable
+          - or - Add  "openai-api-key" to a `config` YAML file
 
 # Init messages work
 

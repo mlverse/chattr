@@ -43,13 +43,14 @@ ch_test.ch_model <- function(defaults = NULL) {
 
 #' @export
 ch_submit.ch_test_backend <- function(
-    defaults,
-    prompt = NULL,
-    stream = TRUE,
-    prompt_build = TRUE,
-    preview = FALSE,
-    shiny = FALSE,
-    ...) {
+  defaults,
+  prompt = NULL,
+  stream = TRUE,
+  prompt_build = TRUE,
+  preview = FALSE,
+  shiny = FALSE,
+  ...
+) {
   if (stream) {
     ch_app_status("busy")
     for (i in seq_len(nchar(prompt))) {

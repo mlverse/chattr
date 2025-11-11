@@ -2,10 +2,8 @@ url: https://mlverse.github.io/chattr/
 template:
   bootstrap: 5
 reference:
-
 - title: Start Up
-  contents:
-  - chattr_use
+  contents: chattr_use
 - title: Main functions
   contents:
   - chattr_app

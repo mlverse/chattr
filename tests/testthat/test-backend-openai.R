@@ -1,7 +1,7 @@
 test_that("Missing token returns error", {
   withr::with_envvar(
     new = c("OPENAI_API_KEY" = NA),
-    expect_snapshot_error(ch_openai_token(d))
+    expect_snapshot(ch_openai_token(d), error = TRUE)
   )
 })
 

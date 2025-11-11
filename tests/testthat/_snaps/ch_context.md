@@ -1,7 +1,7 @@
 # Data frames context
 
     Code
-      .
+      cat(ch_context_data_frames())
     Output
       Data frames currently in R memory (and columns): 
       |--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species) 
@@ -10,7 +10,7 @@
 ---
 
     Code
-      .
+      cat(ch_context_data_frames(max = 1))
     Output
       Data frames currently in R memory (and columns): 
       |--  iris (Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species)
