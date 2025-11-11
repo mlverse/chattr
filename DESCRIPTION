@@ -2,48 +2,49 @@ Package: chattr
 Title: Interact with Large Language Models in 'RStudio'
 Version: 0.3.1
 Authors@R: c(
-  person("Edgar", "Ruiz", , "edgar@posit.co", role = c("aut", "cre")),
-  person("Posit Software, PBC", role = c("cph", "fnd"), comment = c(ROR = "03wc8by49"))
+    person("Edgar", "Ruiz", , "edgar@posit.co", role = c("aut", "cre")),
+    person("Posit Software, PBC", role = c("cph", "fnd"),
+           comment = c(ROR = "03wc8by49"))
   )
-Description: Enables user interactivity with large-language models ('LLM') inside
-    the 'RStudio' integrated development environment (IDE). The user can
-    interact with the model using the 'shiny' app included in this package, or
-    directly in the 'R' console. It comes with back-ends for 'OpenAI', 'GitHub'
-    'Copilot', and 'LlamaGPT'. 
-URL: https://github.com/mlverse/chattr,
-    https://mlverse.github.io/chattr/
-BugReports: https://github.com/mlverse/chattr/issues
+Description: Enables user interactivity with large-language models ('LLM')
+    inside the 'RStudio' integrated development environment (IDE). The
+    user can interact with the model using the 'shiny' app included in
+    this package, or directly in the 'R' console. It comes with back-ends
+    for 'OpenAI', 'GitHub' 'Copilot', and 'LlamaGPT'.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
-Imports: 
-    rstudioapi,
-    lifecycle,
-    processx,
-    config,
-    ellmer (>= 0.3.0),
-    purrr,
-    rlang,
-    bslib,
-    shiny,
-    clipr,
-    httr2 (>= 1.1.0),
-    yaml,
-    glue,
-    coro,
-    cli,
-    fs,
-    withr
+URL: https://github.com/mlverse/chattr, https://mlverse.github.io/chattr/
+BugReports: https://github.com/mlverse/chattr/issues
 Depends: 
     R (>= 4.1)
+Imports: 
+    bslib,
+    cli,
+    clipr,
+    config,
+    coro,
+    ellmer (>= 0.3.0),
+    fs,
+    glue,
+    httr2 (>= 1.1.0),
+    lifecycle,
+    processx,
+    purrr,
+    rlang,
+    rstudioapi,
+    shiny,
+    yaml
 Suggests: 
     covr,
     knitr,
+    withr,
     rmarkdown,
-    testthat (>= 3.0.0),
-    shinytest2
-Config/testthat/edition: 3
-VignetteBuilder: knitr
-Config/usethis/last-upkeep: 2025-11-11
+    shinytest2,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
 Config/Needs/website: tidyverse/tidytemplate
+Config/testthat/edition: 3
+Config/usethis/last-upkeep: 2025-11-11
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
