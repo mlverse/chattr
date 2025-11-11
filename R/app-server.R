@@ -131,7 +131,7 @@ app_add_assistant <- function(content, input) {
 
   walk(
     order(seq_along(ch), decreasing = TRUE),
-    ~ {
+    \(.x) {
       len <- len_hist + .x
       content <- ch[[.x]]$content
       prep_content <- prep_entry(content, !ui_current_markdown())
@@ -164,7 +164,7 @@ app_add_assistant <- function(content, input) {
 
   ch_env$content_hist <- c(
     ch_env$content_hist,
-    map_chr(ch, ~ .x$content)
+    map_chr(ch, \(.x) .x$content)
   )
 }
 
@@ -183,7 +183,7 @@ prep_entry <- function(x, remove) {
 app_split_content <- function(content) {
   split_content <- unlist(strsplit(content, "```"))
   map(
-    seq_along(split_content), ~ {
+    seq_along(split_content), \(.x) {
       is_code <- (.x / 2) == floor(.x / 2)
       content <- split_content[.x]
       code <- NULL

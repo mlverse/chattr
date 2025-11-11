@@ -78,9 +78,8 @@ ch_ellmer_history <- function(x) {
   if (defaults$mode %||% "" == "ellmer" &&
     inherits(x, c("list", "ch_history"))
   ) {
-    new_history <- map(
-      x,
-      ~ {
+    new_history <- map(x,
+      \(.x) {
         ellmer::Turn(
           role = .x$role,
           contents = list(ellmer::ContentText(.x$content)),
